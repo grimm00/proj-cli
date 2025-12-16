@@ -2,7 +2,7 @@
 
 **Purpose:** Feature-based planning and tracking using hub-and-spoke documentation  
 **Status:** ✅ Active  
-**Last Updated:** [Date]
+**Last Updated:** 2025-12-16
 
 ---
 
@@ -10,8 +10,7 @@
 
 ### Active Features
 
-- **[Feature Name 1](feature-name-1/README.md)** - [Brief description] (🟠 In Progress)
-- **[Feature Name 2](feature-name-2/README.md)** - [Brief description] (🟡 Planned)
+- **[proj-cli](proj-cli/README.md)** - Unified CLI tool for project and inventory management (🟠 In Progress)
 
 ### Feature Templates
 
@@ -91,21 +90,21 @@ features/
 
 ### ✅ Completed Features
 
-| Feature     | Status      | Duration | Result    |
-| ----------- | ----------- | -------- | --------- |
-| [Feature 1] | ✅ Complete | X days   | [Summary] |
+| Feature | Status | Duration | Result |
+|---------|--------|----------|--------|
+| - | - | - | - |
 
 ### 🟠 In Progress Features
 
-| Feature     | Current Phase | Progress | Next        |
-| ----------- | ------------- | -------- | ----------- |
-| [Feature 1] | Phase 2       | 60%      | [Next step] |
+| Feature | Current Phase | Progress | Next |
+|---------|---------------|----------|------|
+| proj-cli | Phase 1 Complete | 25% | Create PR, start Phase 2 |
 
 ### 🟡 Planned Features
 
-| Feature     | Priority | Estimated | Dependencies   |
-| ----------- | -------- | --------- | -------------- |
-| [Feature 1] | High     | X days    | [Dependencies] |
+| Feature | Priority | Estimated | Dependencies |
+|---------|----------|-----------|--------------|
+| - | - | - | - |
 
 ---
 
@@ -228,6 +227,6 @@ features/
 
 ---
 
-**Last Updated:** [Date]  
+**Last Updated:** 2025-12-16  
 **Status:** ✅ Active  
-**Next:** [Next feature planning task]
+**Next:** Complete Phase 1 PR, start Phase 2
