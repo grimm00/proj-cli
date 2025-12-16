@@ -117,9 +117,9 @@
 ## 📚 References
 
 - [Feature Hub](README.md)
-- [work-prod Feature Plan](../../../../../../work-prod/docs/maintainers/planning/features/proj-cli/feature-plan.md)
-- [work-prod Transition Plan](../../../../../../work-prod/docs/maintainers/planning/features/proj-cli/transition-plan.md)
-- [ADR-0007](../../../../../../work-prod/docs/maintainers/decisions/ADR-0007-inventory-system-cli-tool-architecture.md)
+- [Feature Plan](feature-plan.md)
+- [Transition Plan](transition-plan.md)
+- [ADR-0007](../../decisions/ADR-0007-unified-cli-architecture.md)
 
 ---
 

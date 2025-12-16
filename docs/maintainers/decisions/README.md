@@ -2,7 +2,7 @@
 
 **Purpose:** Central hub for documenting architectural decisions  
 **Status:** ✅ Active  
-**Last Updated:** [DATE]
+**Last Updated:** 2025-12-16
 
 ---
 
@@ -10,7 +10,7 @@
 
 ### Architecture Decision Records (ADRs)
 
-*No ADRs yet. Use `/decision [topic]` to create new ADRs.*
+- **[ADR-0007: Unified CLI Tool Architecture](ADR-0007-unified-cli-architecture.md)** - CLI architecture, framework, and repository decisions (✅ Accepted)
 
 ---
 

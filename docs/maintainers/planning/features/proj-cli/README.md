@@ -11,17 +11,17 @@
 
 ### Phase Documents
 
-- **[Phase 1: Repository Setup](../../../../../../work-prod/docs/maintainers/planning/features/proj-cli/phase-1.md)** - ✅ Complete (2025-12-16)
-- **[Phase 2: Migrate Project Commands](../../../../../../work-prod/docs/maintainers/planning/features/proj-cli/phase-2.md)** - 🔴 Not Started
-- **[Phase 3: Add Inventory Commands](../../../../../../work-prod/docs/maintainers/planning/features/proj-cli/phase-3.md)** - 🔴 Not Started
-- **[Phase 4: Polish & Cleanup](../../../../../../work-prod/docs/maintainers/planning/features/proj-cli/phase-4.md)** - 🔴 Not Started
+- **[Phase 1: Repository Setup](phase-1.md)** - ✅ Complete (2025-12-16)
+- **[Phase 2: Migrate Project Commands](phase-2.md)** - 🔴 Not Started
+- **[Phase 3: Add Inventory Commands](phase-3.md)** - 🔴 Not Started
+- **[Phase 4: Polish & Cleanup](phase-4.md)** - 🔴 Not Started
 
 ### Supporting Documents
 
-- **[Feature Plan](../../../../../../work-prod/docs/maintainers/planning/features/proj-cli/feature-plan.md)** - Requirements and success criteria
+- **[Feature Plan](feature-plan.md)** - Requirements and success criteria
 - **[Status & Next Steps](status-and-next-steps.md)** - Current progress tracking
-- **[Transition Plan](../../../../../../work-prod/docs/maintainers/planning/features/proj-cli/transition-plan.md)** - Migration strategy
-- **[ADR-0007](../../../../../../work-prod/docs/maintainers/decisions/ADR-0007-inventory-system-cli-tool-architecture.md)** - Architecture decision
+- **[Transition Plan](transition-plan.md)** - Migration strategy
+- **[ADR-0007](../../decisions/ADR-0007-unified-cli-architecture.md)** - Architecture decision
 
 ### Fix Documentation
 
