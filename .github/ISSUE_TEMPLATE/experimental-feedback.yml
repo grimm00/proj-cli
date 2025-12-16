@@ -1,0 +1,98 @@
+name: Experimental Feature Feedback
+description: Provide feedback on experimental/evolving commands and features
+title: "[Feedback]: "
+labels: ["feedback", "experimental"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Experimental Feature Feedback
+        
+        Thank you for taking the time to provide feedback on our experimental features!
+        Your input helps us improve and stabilize these features for graduation.
+        
+        **Note:** This template is for feedback on features marked with 🟠 Experimental status.
+
+  - type: dropdown
+    id: command
+    attributes:
+      label: Which experimental feature?
+      description: Select the experimental command or feature you're providing feedback on
+      options:
+        - /status (project status overview)
+        - Other experimental command
+        - Experimental template feature (non-command)
+    validations:
+      required: true
+
+  - type: input
+    id: other-command
+    attributes:
+      label: If "Other", specify the command or feature name
+      description: Only fill this if you selected "Other" above
+      placeholder: "/command-name or feature name"
+
+  - type: dropdown
+    id: feedback-type
+    attributes:
+      label: Type of feedback
+      description: What kind of feedback are you providing?
+      options:
+        - Works well - positive feedback
+        - Needs improvement - suggestion
+        - Bug or issue - something doesn't work
+        - Feature request - additional capability needed
+        - Documentation - unclear or missing docs
+    validations:
+      required: true
+
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Your feedback
+      description: Please describe your feedback in detail
+      placeholder: |
+        What happened? What did you expect?
+        What would make this feature better?
+        Any specific scenarios or use cases?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context and environment
+      description: Help us understand your use case
+      placeholder: |
+        - How are you using this feature?
+        - What project type (standard/experimental)?
+        - Any relevant version information?
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact on your workflow
+      description: How much does this affect your work?
+      options:
+        - Critical - blocks my work
+        - High - significant inconvenience
+        - Medium - noticeable but manageable
+        - Low - minor improvement would be nice
+
+  - type: checkboxes
+    id: graduation-vote
+    attributes:
+      label: Graduation readiness
+      description: Based on your experience, do you think this feature is ready to graduate to stable?
+      options:
+        - label: I would support this feature graduating to stable (🟠 → 🟢)
+        - label: This feature needs more work before graduation
+        - label: I'm not sure / need more time with it
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Anything else you'd like to share?
+      placeholder: Screenshots, logs, examples, related issues, etc.
+

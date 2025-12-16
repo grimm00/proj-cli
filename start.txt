@@ -1,0 +1,43 @@
+# Project Initialization Template
+
+## Problem Statement
+Project Management Client for managing projects and inventory
+
+## Project Type
+- [x] Experimental Project
+
+## Scope
+[Define the scope and boundaries of this project]
+
+## Project Structure Preferences
+- [x] Use hub-and-spoke documentation pattern
+- [x] Include admin/ directory for project management
+- [x] Feature-based planning under admin/planning/features/
+- [x] Include fix/ directories under features for troubleshooting
+- [x] Add research/ directory for decision-making
+
+## Version Control
+- [x] Use Git Flow (main/develop/feature branches)
+- [x] Use GitHub CLI for repo management
+- [x] Granular CI workflows based on branch types
+- [x] PR-based code changes (minimal diffs for rate limiting)
+
+## Tool Integrations
+- [ ] Sourcery AI for code review
+- [ ] Bugbot for bug detection
+- [ ] Dev-toolkit integration (cd ~/Projects/dev-toolkit)
+- [x] Cursor IDE with AI rules (.cursor/rules/main.mdc)
+
+## CI/CD Preferences
+- [x] Doc-heavy/chore branches can push directly to develop/main
+- [x] Code changes require PRs
+- [x] Automated testing on feature branches
+- [x] External reviews on release branches
+
+## Additional Notes
+Created by: grimm00
+Created on: 2025-12-16
+Template: Experimental Project
+
+---
+*This template can be customized for each new project. Remove unused sections and add project-specific details.*
