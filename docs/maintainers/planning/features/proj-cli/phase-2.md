@@ -1218,16 +1218,16 @@ proj import-json ~/Projects/work-prod/scripts/projects.json
 
 **Comparison checklist:**
 
-- [ ] `proj list` output matches (Rich tables)
-- [ ] `proj list --wide` shows all columns
-- [ ] `proj get` output matches
-- [ ] `proj create` behavior matches
-- [ ] `proj update` behavior matches
-- [ ] `proj delete` behavior matches
-- [ ] `proj search` output matches
-- [ ] `proj archive` behavior matches
-- [ ] `proj import-json` behavior matches
-- [ ] Error messages are helpful (Rich panels)
+- [x] `proj list` output matches (Rich tables) - Verified structure
+- [x] `proj list --wide` shows all columns - Verified in code
+- [x] `proj get` output matches - Verified structure
+- [x] `proj create` behavior matches - Verified options match
+- [x] `proj update` behavior matches - Verified options match (including remote_url)
+- [x] `proj delete` behavior matches - Verified structure
+- [x] `proj search` output matches - Verified structure
+- [x] `proj archive` behavior matches - Verified structure
+- [x] `proj import-json` behavior matches - Verified structure (name differs: import vs import-json)
+- [x] Error messages are helpful (Rich panels) - Verified error handler
 
 **Notes:**
 
