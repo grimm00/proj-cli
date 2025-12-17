@@ -74,6 +74,17 @@ def test_inv_export_api_exists():
     assert result.returncode == 0
 
 
+def test_inv_export_api_has_no_dedupe_option():
+    """Test that inv export api command has --no-dedupe option."""
+    result = subprocess.run(
+        [sys.executable, "-m", "proj", "inv", "export", "api", "--help"],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0
+    assert "--no-dedupe" in result.stdout
+
+
 def test_inv_status_exists():
     """Test that inv status command exists."""
     result = subprocess.run(

@@ -64,6 +64,17 @@ def test_search_command_exists():
     assert result.returncode == 0
 
 
+def test_search_command_has_wide_option():
+    """Test that search command has --wide option."""
+    result = subprocess.run(
+        [sys.executable, "-m", "proj", "search", "--help"],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0
+    assert "--wide" in result.stdout or "-w" in result.stdout
+
+
 def test_import_command_exists():
     """Test that import command exists."""
     result = subprocess.run(
