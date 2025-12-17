@@ -527,14 +527,81 @@ proj inv export api
 
 ---
 
+## PR #4: Quick Wins Fixes
+
+### Scenario F4.1: Format Option Validation
+
+**Test:** Verify that invalid format options are caught and show error
+
+**Prerequisites:**
+- CLI installed and working
+
+**CLI Test:**
+
+```bash
+# Test invalid format option
+proj list --format invalid
+# Expected: Error message about invalid choice
+
+proj get 1 --format invalid
+# Expected: Error message about invalid choice
+
+proj search "test" --format invalid
+# Expected: Error message about invalid choice
+```
+
+**Verification:**
+
+- [x] Invalid format option shows error (not silently ignored)
+- [x] Error message is clear and helpful
+- [x] Valid options (table, json) still work
+
+**Expected Result:** ✅ Invalid format options are caught with clear error messages
+
+---
+
+### Scenario F4.2: Corrupted Inventory JSON Handling
+
+**Test:** Verify that corrupted inventory.json shows warning instead of crashing
+
+**Prerequisites:**
+- Inventory data directory exists: `~/.local/share/proj/`
+- Ability to create corrupted JSON file
+
+**CLI Test:**
+
+```bash
+# Create corrupted inventory.json
+echo "invalid json { broken" > ~/.local/share/proj/inventory.json
+
+# Try to use inventory commands
+proj inv status
+# Expected: Warning message about corrupted file, empty inventory shown
+
+proj inv analyze
+# Expected: Works with empty inventory (no projects to analyze)
+```
+
+**Verification:**
+
+- [x] Corrupted JSON shows warning message
+- [x] CLI does not crash
+- [x] Commands continue with empty inventory
+- [x] Warning message is clear and helpful
+
+**Expected Result:** ✅ Corrupted inventory.json handled gracefully with warning
+
+---
+
 ## Change History
 
 | Date | Phase | Changes |
 |------|-------|---------|
+| 2025-12-17 | PR #4 | Quick wins fix scenarios added |
 | 2025-12-17 | Phase 2 | Initial Phase 2 test scenarios added |
 | 2025-12-16 | Phase 3 | Phase 3 inventory command tests added |
 
 ---
 
-**Last Updated:** 2025-12-16
+**Last Updated:** 2025-12-17
 

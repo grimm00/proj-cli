@@ -15,6 +15,13 @@ def test_package_has_version():
     assert len(version) > 0
 
 
+def test_version_matches_metadata():
+    """Test that __version__ matches installed package metadata."""
+    from proj import __version__
+    metadata_version = importlib.metadata.version("proj-cli")
+    assert __version__ == metadata_version
+
+
 def test_cli_module_exists():
     """Test that cli module exists."""
     from proj import cli

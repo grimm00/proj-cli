@@ -291,23 +291,23 @@ Total Individual Comments: 8 + Overall Comments
 
 ## Priority Matrix Assessment
 
-| Comment | Priority  | Impact    | Effort  | Action                                |
-| ------- | --------- | --------- | ------- | ------------------------------------- |
-| #1      | 🟠 HIGH   | 🟠 HIGH   | 🟢 LOW  | **Fix now** - Add timeout to requests |
-| #2      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Requires glob rewrite         |
-| #3      | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW  | Defer - Defensive coding              |
-| #4      | 🟠 HIGH   | 🟡 MEDIUM | 🟢 LOW  | **Fix now** - Use typer.Choice        |
-| #5      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                 |
-| #6      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                 |
-| #7      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                 |
-| #8      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                 |
+| Comment | Priority  | Impact    | Effort  | Action                                    |
+| ------- | --------- | --------- | ------- | ----------------------------------------- |
+| #1      | 🟠 HIGH   | 🟠 HIGH   | 🟢 LOW  | **Fix now** - Add timeout to requests     |
+| #2      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Requires glob rewrite             |
+| #3      | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW  | ✅ Fixed - Fixed in PR #4 (quick-wins-01) |
+| #4      | 🟠 HIGH   | 🟡 MEDIUM | 🟢 LOW  | **Fix now** - Use typer.Choice            |
+| #5      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                     |
+| #6      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                     |
+| #7      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                     |
+| #8      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                     |
 
 ### Overall Comments Assessment
 
-| Comment           | Priority | Impact | Effort | Action                      |
-| ----------------- | -------- | ------ | ------ | --------------------------- |
-| Dedupe logic docs | 🟢 LOW   | 🟢 LOW | 🟢 LOW | Defer - Doc alignment       |
-| Duplicate imports | 🟢 LOW   | 🟢 LOW | 🟢 LOW | **Fix now** - Quick cleanup |
+| Comment           | Priority | Impact | Effort | Action                                    |
+| ----------------- | -------- | ------ | ------ | ----------------------------------------- |
+| Dedupe logic docs | 🟢 LOW   | 🟢 LOW | 🟢 LOW | ✅ Fixed - Fixed in PR #4 (quick-wins-01) |
+| Duplicate imports | 🟢 LOW   | 🟢 LOW | 🟢 LOW | **Fix now** - Quick cleanup               |
 
 ### Summary
 
@@ -317,10 +317,14 @@ Total Individual Comments: 8 + Overall Comments
 - #4: Validate --format option with typer.Choice (bug risk)
 - Overall: Remove duplicate imports in export_api
 
-**Defer to Phase 4 (6 items):**
+**Defer to Phase 4 (5 items):**
 
-- #2, #3: Code quality improvements
+- #2: Code quality improvements
 - #5, #6, #7, #8: Test coverage improvements
+
+**Fixed in PR #4 (quick-wins-01):**
+
+- #3: Defensive JSON parsing for inventory.json
 - Overall: Dedupe documentation alignment
 
 ### Priority Levels

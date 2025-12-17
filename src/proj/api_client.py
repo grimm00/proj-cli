@@ -48,12 +48,21 @@ class APIClient:
             config: Config instance (uses Config.load() if not provided)
         """
         self.config = config or Config.load()
-        self.base_url = self.config.api_url.rstrip("/")
+        self.base_url = self._normalize_url(self.config.api_url)
         self.session = requests.Session()
         self.session.headers.update({
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         })
+
+    def _normalize_url(self, url: str) -> str:
+        """Normalize API URL, handling None, whitespace, and missing scheme."""
+        if not url or not url.strip():
+            return 'http://localhost:5000'
+        url = url.strip()
+        if not url.startswith('http://') and not url.startswith('https://'):
+            return 'http://localhost:5000'
+        return url.rstrip('/')
 
     def _url(self, path: str) -> str:
         """Build full URL for API path."""
