@@ -8,7 +8,9 @@ import requests
 import click
 import typer
 from rich.console import Console
-from rich.progress import Progress, SpinnerColumn, TextColumn
+from rich.progress import (
+    Progress, SpinnerColumn, TextColumn, BarColumn, TaskProgressColumn
+)
 from rich.table import Table
 
 from proj.config import Config, get_data_dir
@@ -112,6 +114,8 @@ def scan_github(
     with Progress(
         SpinnerColumn(),
         TextColumn("[progress.description]{task.description}"),
+        BarColumn(),
+        TaskProgressColumn(),
         console=console,
     ) as progress:
         task = progress.add_task(
@@ -217,6 +221,8 @@ def scan_local(
     with Progress(
         SpinnerColumn(),
         TextColumn("[progress.description]{task.description}"),
+        BarColumn(),
+        TaskProgressColumn(),
         console=console,
     ) as progress:
         task = progress.add_task("Scanning local projects...", total=None)
@@ -266,7 +272,10 @@ def scan_local(
                     if marker != ".git":
                         # Check if any parent directory has .git
                         check_dir = root.parent
-                        while check_dir != scan_dir and check_dir != check_dir.parent:
+                        while (
+                            check_dir != scan_dir
+                            and check_dir != check_dir.parent
+                        ):
                             if (check_dir / ".git").exists():
                                 is_subproject = True
                                 break
@@ -335,6 +344,8 @@ def analyze():
     with Progress(
         SpinnerColumn(),
         TextColumn("[progress.description]{task.description}"),
+        BarColumn(),
+        TaskProgressColumn(),
         console=console,
     ) as progress:
         task = progress.add_task("Analyzing projects...", total=len(inventory))

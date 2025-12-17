@@ -1,8 +1,8 @@
 # Manual Testing Guide - proj-cli
 
 **Feature:** proj-cli - Unified CLI Tool  
-**Phases Covered:** Phase 2, Phase 3  
-**Last Updated:** 2025-12-16  
+**Phases Covered:** Phase 2, Phase 3, Phase 4  
+**Last Updated:** 2025-12-17  
 **Status:** Active
 
 ---
@@ -593,10 +593,113 @@ proj inv analyze
 
 ---
 
+## Phase 4: Polish & Cleanup
+
+### Test 4.1: Init Command
+
+**Test:** Verify `proj init` first-run experience
+
+```bash
+# View help
+proj init --help
+
+# Run init (will prompt interactively)
+proj init
+
+# Force overwrite existing config
+proj init --force
+```
+
+**Expected:**
+- [ ] Welcome panel displayed with Rich formatting
+- [ ] Interactive prompts for API URL, GitHub username, local scan dirs
+- [ ] Config file created at `~/.config/proj/config.yaml`
+- [ ] Next steps guidance displayed
+- [ ] `--force` flag overwrites existing config
+
+---
+
+### Test 4.2: Status Emojis
+
+**Test:** Verify status emojis in list/get/search output
+
+```bash
+# List projects with various statuses
+proj list
+
+# Get individual project
+proj get 1
+
+# Search projects
+proj search "test"
+```
+
+**Expected:**
+- [ ] Active projects show 🟢 emoji
+- [ ] Inactive projects show ⚪ emoji
+- [ ] Archived projects show 📦 emoji
+- [ ] Completed projects show ✅ emoji
+
+---
+
+### Test 4.3: Enhanced Progress Bars
+
+**Test:** Verify enhanced progress bars in inventory commands
+
+```bash
+# Scan GitHub (observe progress bar)
+proj inv scan github --user yourusername
+
+# Scan local (observe progress bar)
+proj inv scan local --dir ~/Projects
+
+# Analyze (observe progress bar)
+proj inv analyze
+```
+
+**Expected:**
+- [ ] Progress bars show with BarColumn
+- [ ] Task progress percentage visible
+- [ ] Spinner animation working
+- [ ] Progress description clear
+
+---
+
+### Test 4.4: Table Styling
+
+**Test:** Verify enhanced table styling
+
+```bash
+# List projects
+proj list
+
+# Search projects
+proj search "test"
+```
+
+**Expected:**
+- [ ] Table headers have magenta style
+- [ ] Table borders have blue style
+- [ ] Column styles applied (cyan ID, green name, etc.)
+
+---
+
+### Phase 4: Acceptance Criteria
+
+- [ ] `proj init` creates config interactively
+- [ ] Status emojis display correctly
+- [ ] Progress bars enhanced
+- [ ] Table styling improved
+- [ ] Tests passing (69+)
+- [ ] Coverage improved from baseline
+
+---
+
 ## Change History
 
 | Date | Phase | Changes |
 |------|-------|---------|
+| 2025-12-17 | Phase 4 | Init command and UI enhancement scenarios added |
 | 2025-12-17 | PR #4 | Quick wins fix scenarios added |
 | 2025-12-17 | Phase 2 | Initial Phase 2 test scenarios added |
 | 2025-12-16 | Phase 3 | Phase 3 inventory command tests added |

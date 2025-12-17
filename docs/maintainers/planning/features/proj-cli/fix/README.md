@@ -14,6 +14,7 @@
 - **[PR #2](pr2/README.md)** - Phase 2: Migrate Project Commands (4 deferred issues)
 - **[PR #3](pr3/README.md)** - Phase 3: Add Inventory Commands (7 deferred + 3 enhancements)
 - **[PR #4](pr4/README.md)** - Fix: Quick Wins Batch (5 deferred issues)
+- **[PR #5](pr5/README.md)** - Phase 4: Polish & Cleanup (8 deferred issues)
 
 ### Cross-PR Batches
 
@@ -53,13 +54,13 @@ fix/
 
 | Category | Count |
 |----------|-------|
-| Total Issues | 29 |
+| Total Issues | 37 |
 | Resolved | 7 |
 | Pending | 0 |
-| Deferred | 19 |
+| Deferred | 27 |
 | Enhancements | 3 |
 
-**Note:** 7 issues resolved in PR #4 (quick-wins-01 batch)
+**Note:** 7 issues resolved in PR #4 (quick-wins-01 batch). 8 new issues from PR #5.
 
 ---
 

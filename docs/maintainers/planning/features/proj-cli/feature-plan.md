@@ -30,13 +30,13 @@ Build a unified CLI tool (`proj`) that consolidates project management commands 
 ## 🎯 Success Criteria
 
 - [x] `proj` command installable via `pip install .`
-- [ ] All existing `proj` commands work identically (list, get, create, update, delete, search, import)
-- [ ] New `proj inv` subcommands functional (scan, analyze, dedupe, export)
+- [x] All existing `proj` commands work identically (list, get, create, update, delete, search, import)
+- [x] New `proj inv` subcommands functional (scan, analyze, dedupe, export)
 - [x] Configuration via `~/.config/proj/config.yaml`
 - [x] XDG directory compliance
-- [ ] work-prod `scripts/project_cli/` removed
-- [ ] work-prod README references new CLI package
-- [x] Basic tests passing
+- [ ] work-prod `scripts/project_cli/` removed (Phase 4, Task 5 - separate PR)
+- [ ] work-prod README references new CLI package (Phase 4, Task 5 - separate PR)
+- [x] Basic tests passing (73 tests)
 
 ---
 
@@ -46,25 +46,26 @@ Build a unified CLI tool (`proj`) that consolidates project management commands 
 
 | Requirement | Command | Priority | Status |
 |-------------|---------|----------|--------|
-| List projects | `proj list` | 🔴 High | 🔴 Pending |
-| Get project details | `proj get <id>` | 🔴 High | 🔴 Pending |
-| Create project | `proj create` | 🔴 High | 🔴 Pending |
-| Update project | `proj update <id>` | 🔴 High | 🔴 Pending |
-| Delete project | `proj delete <id>` | 🔴 High | 🔴 Pending |
-| Search projects | `proj search` | 🔴 High | 🔴 Pending |
-| Import projects | `proj import-json` | 🔴 High | 🔴 Pending |
+| List projects | `proj list` | 🔴 High | ✅ Done |
+| Get project details | `proj get <id>` | 🔴 High | ✅ Done |
+| Create project | `proj create` | 🔴 High | ✅ Done |
+| Update project | `proj update <id>` | 🔴 High | ✅ Done |
+| Delete project | `proj delete <id>` | 🔴 High | ✅ Done |
+| Search projects | `proj search` | 🔴 High | ✅ Done |
+| Import projects | `proj import-json` | 🔴 High | ✅ Done |
+| Archive project | `proj archive <id>` | 🟡 Medium | ✅ Done |
 
 ### Inventory Commands (New)
 
 | Requirement | Command | Priority | Status |
 |-------------|---------|----------|--------|
-| Scan GitHub repos | `proj inv scan github` | 🔴 High | 🔴 Pending |
-| Scan local dirs | `proj inv scan local` | 🔴 High | 🔴 Pending |
-| Analyze tech stack | `proj inv analyze` | 🔴 High | 🔴 Pending |
-| Deduplicate | `proj inv dedupe` | 🟡 Medium | 🔴 Pending |
-| Export to JSON | `proj inv export json` | 🔴 High | 🔴 Pending |
-| Export to API | `proj inv export api` | 🔴 High | 🔴 Pending |
-| Show status | `proj inv status` | 🟡 Medium | 🔴 Pending |
+| Scan GitHub repos | `proj inv scan github` | 🔴 High | ✅ Done |
+| Scan local dirs | `proj inv scan local` | 🔴 High | ✅ Done |
+| Analyze tech stack | `proj inv analyze` | 🔴 High | ✅ Done |
+| Deduplicate | `proj inv dedupe` | 🟡 Medium | ✅ Done |
+| Export to JSON | `proj inv export json` | 🔴 High | ✅ Done |
+| Export to API | `proj inv export api` | 🔴 High | ✅ Done |
+| Show status | `proj inv status` | 🟡 Medium | ✅ Done |
 
 ### Configuration
 
@@ -73,7 +74,7 @@ Build a unified CLI tool (`proj`) that consolidates project management commands 
 | Config file | `~/.config/proj/config.yaml` | 🔴 High | ✅ Done |
 | Data directory | `~/.local/share/proj/` | 🔴 High | ✅ Done |
 | Env override | `PROJ_*` variables | 🔴 High | ✅ Done |
-| First-run setup | Create default config | 🟡 Medium | 🔴 Pending |
+| First-run setup | `proj init` command | 🟡 Medium | ✅ Done |
 
 ---
 
@@ -86,7 +87,7 @@ Build a unified CLI tool (`proj`) that consolidates project management commands 
 | **NFR-3** | Pydantic config validation | 🔴 High | ✅ Done |
 | **NFR-4** | XDG directory compliance | 🔴 High | ✅ Done |
 | **NFR-5** | Pip installable | 🔴 High | ✅ Done |
-| **NFR-6** | Error handling | 🔴 High | 🔴 Pending |
+| **NFR-6** | Error handling | 🔴 High | ✅ Done |
 | **NFR-7** | Python 3.10+ | 🔴 High | ✅ Done |
 
 ---
@@ -108,9 +109,11 @@ Build a unified CLI tool (`proj`) that consolidates project management commands 
 - Basic config loading
 - Repository structure ready
 
+**PR:** #1 (merged to develop)
+
 ---
 
-### Phase 2: Migrate Project Commands (~3-4 hours)
+### Phase 2: Migrate Project Commands (~3-4 hours) ✅ Complete
 
 **Goal:** Move existing `proj` commands to new CLI
 
@@ -120,13 +123,16 @@ Build a unified CLI tool (`proj`) that consolidates project management commands 
 - Test all existing commands
 
 **Deliverables:**
-- All `proj` commands working
+- All `proj` commands working (8 commands)
 - Feature parity with current CLI
 - API client migrated
+- Error handling implemented
+
+**PR:** #2 (merged to develop)
 
 ---
 
-### Phase 3: Add Inventory Commands (~3-4 hours)
+### Phase 3: Add Inventory Commands (~3-4 hours) ✅ Complete
 
 **Goal:** Add `proj inv` subcommand group
 
@@ -139,31 +145,55 @@ Build a unified CLI tool (`proj`) that consolidates project management commands 
 - `proj inv scan github/local` working
 - `proj inv analyze/dedupe` working
 - `proj inv export json/api` working
+- `proj inv status` working
+
+**PR:** #3 (merged to develop)
 
 ---
 
-### Phase 4: Polish & Cleanup (~2-3 hours)
+### Phase 4: Polish & Cleanup (~3-4 hours) 🟠 In Progress
 
 **Goal:** Testing, documentation, work-prod cleanup
 
-- Add tests
-- First-run config creation
+- Add comprehensive tests
+- First-run config creation (`proj init`)
 - Progress bars and colors
 - Remove `scripts/project_cli/` from work-prod
 - Update work-prod README
 
 **Deliverables:**
-- Tests passing
+- Tests passing (73 tests, 35% coverage)
 - Polish complete
-- work-prod cleaned up
+- work-prod cleaned up (separate PR)
+
+**PR:** #5 (in progress)
+
+---
+
+### Fix Batch: Quick Wins ✅ Complete
+
+**Goal:** Address deferred issues from Sourcery reviews
+
+- Explicit encoding for file operations
+- Brittle test assertions
+- Version metadata consistency
+- URL normalization
+- Format option validation
+- Defensive JSON parsing
+
+**PR:** #4 (merged to develop)
 
 ---
 
 ## 🚀 Next Steps
 
-1. Create PR for Phase 1
-2. Start Phase 2 implementation
-3. Begin API client migration
+1. ~~Create PR for Phase 1~~ ✅
+2. ~~Start Phase 2 implementation~~ ✅
+3. ~~Begin API client migration~~ ✅
+4. ~~Implement inventory commands~~ ✅
+5. ~~Address deferred fixes~~ ✅
+6. **Create PR for Phase 4** ← Current
+7. **Clean up work-prod** (separate PR after Phase 4)
 
 ---
 
@@ -173,8 +203,11 @@ Build a unified CLI tool (`proj`) that consolidates project management commands 
 - [Transition Plan](transition-plan.md)
 - [Phase 1: Repository Setup](phase-1.md)
 - [Phase 2: Migrate Project Commands](phase-2.md)
+- [Phase 3: Add Inventory Commands](phase-3.md)
+- [Phase 4: Polish & Cleanup](phase-4.md)
+- [Status and Next Steps](status-and-next-steps.md)
+- [Migration Reference](migration-reference.md)
 
 ---
 
-**Last Updated:** 2025-12-16
-
+**Last Updated:** 2025-12-17

@@ -62,9 +62,22 @@ def list_projects(
                 console.print("[yellow]No projects found.[/yellow]")
                 return
 
-            table = Table(title=f"Projects ({len(projects)})")
+            table = Table(
+                title=f"Projects ({len(projects)})",
+                show_header=True,
+                header_style="bold magenta",
+                border_style="blue",
+            )
             table.add_column("ID", style="cyan", justify="right")
             table.add_column("Name", style="green")
+
+            # Status emoji mapping
+            status_emoji = {
+                "active": "🟢",
+                "inactive": "⚪",
+                "archived": "📦",
+                "completed": "✅",
+            }
 
             if wide or status:
                 table.add_column("Status", style="yellow")
@@ -83,7 +96,12 @@ def list_projects(
             for p in projects:
                 row = [str(p.get("id", "")), p.get("name", "")]
                 if wide or status:
-                    row.append(p.get("status", ""))
+                    status_val = p.get("status", "")
+                    emoji = status_emoji.get(status_val, "")
+                    if emoji:
+                        row.append(f"{emoji} {status_val}")
+                    else:
+                        row.append(status_val)
                 if wide or organization:
                     row.append(p.get("organization", ""))
                 if wide or classification:
@@ -118,12 +136,28 @@ def get_project(
         if format == "json":
             console.print_json(json.dumps(project, indent=2))
         else:
-            table = Table(title=f"Project {project_id}")
+            table = Table(
+                title=f"Project {project_id}",
+                show_header=True,
+                header_style="bold magenta",
+                border_style="blue",
+            )
             table.add_column("Field", style="cyan")
             table.add_column("Value", style="green")
 
+            # Add status emoji if status field exists
+            status_emoji = {
+                "active": "🟢",
+                "inactive": "⚪",
+                "archived": "📦",
+                "completed": "✅",
+            }
+
             for key, value in project.items():
-                table.add_row(key, str(value) if value else "")
+                display_value = str(value) if value else ""
+                if key == "status" and value in status_emoji:
+                    display_value = f"{status_emoji[value]} {display_value}"
+                table.add_row(key, display_value)
 
             console.print(table)
     except (APIError, BackendConnectionError, TimeoutError) as e:
@@ -279,7 +313,12 @@ def search_projects(
                 console.print(msg)
                 return
 
-            table = Table(title=f"Search Results: {query}")
+            table = Table(
+                title=f"Search Results: {query}",
+                show_header=True,
+                header_style="bold magenta",
+                border_style="blue",
+            )
             table.add_column("ID", style="cyan", justify="right")
             table.add_column("Name", style="green")
             table.add_column("Status", style="yellow")
@@ -294,11 +333,26 @@ def search_projects(
             if wide:
                 table.add_column("Created", style="magenta")
 
+            # Status emoji mapping
+            status_emoji = {
+                "active": "🟢",
+                "inactive": "⚪",
+                "archived": "📦",
+                "completed": "✅",
+            }
+
             for p in projects:
+                status_val = p.get("status", "")
+                emoji = status_emoji.get(status_val, "")
+                if emoji:
+                    status_display = f"{emoji} {status_val}"
+                else:
+                    status_display = status_val
+
                 row = [
                     str(p.get("id", "")),
                     p.get("name", ""),
-                    p.get("status", ""),
+                    status_display,
                 ]
                 if wide:
                     row.append(p.get("organization", "") or "")
