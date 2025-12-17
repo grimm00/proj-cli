@@ -57,6 +57,20 @@
 
 **Merged via PR #3** (2025-12-17)
 
+### Fix Batch: Quick Wins ✅ (PR #4, 2025-12-17)
+
+- **7 quick wins** from PRs #1, #2, #3 fixed
+- Explicit encoding for config file (PR1-#1)
+- Brittle return code test fix (PR1-#3)
+- Version metadata test (PR1-#7)
+- API URL validation (PR2-OC1)
+- Format option validation with click.Choice (PR2-OC2)
+- Defensive JSON parsing for inventory.json (PR3-#3)
+- Dedupe logic docs alignment (PR3-Overall)
+- **Review:** 5 items deferred to Phase 4 (all MEDIUM/LOW)
+
+**Merged via PR #4** (2025-12-17)
+
 ---
 
 ## 🔜 Next Steps
@@ -80,27 +94,35 @@
 
 **From PR #1 (Phase 1):**
 See [PR #1 Sourcery Review](../../feedback/sourcery/pr1.md) for details:
-- #1: Add explicit encoding for config file
-- #3: Fix brittle return code test
+- ~~#1: Add explicit encoding for config file~~ ✅ Fixed in PR #4
+- ~~#3: Fix brittle return code test~~ ✅ Fixed in PR #4
 - #4-6: Test coverage improvements
-- #7: Version metadata test
+- ~~#7: Version metadata test~~ ✅ Fixed in PR #4
 
 **From PR #2 (Phase 2):**
 See [PR #2 Sourcery Review](../../feedback/sourcery/pr2.md) for details:
 - #2: Add CliRunner tests for actual command behavior
-- API URL validation in APIClient constructor
-- Format option validation with typer.Choice
+- ~~API URL validation in APIClient constructor~~ ✅ Fixed in PR #4
+- ~~Format option validation with typer.Choice~~ ✅ Fixed in PR #4
 - URL building helper extraction
 
 **From PR #3 (Phase 3):**
 See [PR #3 Sourcery Review](../../feedback/sourcery/pr3.md) for details:
 - #2: Depth-limited traversal for scan_local (performance)
-- #3: Defensive JSON parsing for inventory.json
+- ~~#3: Defensive JSON parsing for inventory.json~~ ✅ Fixed in PR #4
 - #5-8: Test coverage improvements for inventory commands
-- Dedupe logic documentation alignment
+- ~~Dedupe logic documentation alignment~~ ✅ Fixed in PR #4
 - Smart dedupe with field merging
 - Multi-directory scan config
 - Exclusion patterns for scan
+
+**From PR #4 (Fix Batch):**
+See [PR #4 Sourcery Review](../../feedback/sourcery/pr4.md) for details:
+- URL scheme case handling (edge case)
+- Delete corrupted file to avoid repeated warnings
+- Handle PackageNotFoundError in test
+- URL normalization type hint (Optional[str])
+- JSON error logging for debugging
 
 ---
 
