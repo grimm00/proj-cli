@@ -13,6 +13,7 @@
 
 - **[Phase 1](phase-1-learnings.md)** - Repository Setup (2025-12-17)
 - **[Phase 3](phase-3-learnings.md)** - Add Inventory Commands (2025-12-17)
+- **[Phase 4](phase-4-learnings.md)** - Polish & Cleanup (2025-12-17)
 
 ### Fix Batch Learnings
 
@@ -32,8 +33,8 @@ This directory contains learnings from proj-cli development that can inform:
 
 ## 📊 Summary
 
-**Total Learning Documents:** 3  
-**Phases Documented:** 2 of 4 (Phase 1, Phase 3)  
+**Total Learning Documents:** 4  
+**Phases Documented:** 3 of 4 (Phase 1, Phase 3, Phase 4)  
 **Fix Batches Documented:** 1 (quick-wins-01)  
 **Status:** ✅ Active
 
