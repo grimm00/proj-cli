@@ -16,7 +16,7 @@
 
 ### Cross-PR Batches
 
-None yet.
+- **[Cross-PR Batches](cross-pr/README.md)** - Batches from fix-review reports (1 batch, 7 issues)
 
 ---
 
