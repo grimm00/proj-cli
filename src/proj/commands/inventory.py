@@ -253,6 +253,20 @@ def scan_local(
                         # Path not relative (shouldn't happen)
                         continue
 
+                    # Skip if this is a subdirectory of an existing project
+                    # (e.g., frontend/ inside a repo that already has .git)
+                    is_subproject = False
+                    if marker != ".git":
+                        # Check if any parent directory has .git
+                        check_dir = root.parent
+                        while check_dir != scan_dir and check_dir != check_dir.parent:
+                            if (check_dir / ".git").exists():
+                                is_subproject = True
+                                break
+                            check_dir = check_dir.parent
+                    if is_subproject:
+                        continue
+
                     # Get git remote if available
                     remote_url = ""
                     git_dir = root / ".git"
