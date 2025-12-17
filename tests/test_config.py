@@ -1,6 +1,5 @@
 """Tests for configuration management."""
 import os
-from pathlib import Path
 from unittest.mock import patch
 
 
@@ -47,4 +46,3 @@ def test_config_env_override():
         # Force reload by creating new instance
         config = Config.load()
         assert config.api_url == "http://test:8000"
-
