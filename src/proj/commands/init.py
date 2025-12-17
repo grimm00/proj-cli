@@ -20,7 +20,9 @@ def init_command(
     config_file = get_config_file()
 
     if config_file.exists() and not force:
-        console.print(f"[yellow]Config already exists at {config_file}[/yellow]")
+        console.print(
+            f"[yellow]Config already exists at {config_file}[/yellow]"
+        )
         if not Confirm.ask("Overwrite?"):
             raise typer.Abort()
 
@@ -68,6 +70,7 @@ def init_command(
     console.print(f"\n[green]✓ Configuration saved to {config_file}[/green]")
     console.print("\n[bold]Next steps:[/bold]")
     console.print("  1. Run [cyan]proj list[/cyan] to see projects")
-    console.print("  2. Run [cyan]proj inv scan github[/cyan] to scan GitHub repos")
+    console.print(
+        "  2. Run [cyan]proj inv scan github[/cyan] to scan GitHub repos"
+    )
     console.print("  3. Run [cyan]proj --help[/cyan] for all commands")
-

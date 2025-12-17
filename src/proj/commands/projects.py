@@ -98,7 +98,10 @@ def list_projects(
                 if wide or status:
                     status_val = p.get("status", "")
                     emoji = status_emoji.get(status_val, "")
-                    row.append(f"{emoji} {status_val}" if emoji else status_val)
+                    if emoji:
+                        row.append(f"{emoji} {status_val}")
+                    else:
+                        row.append(status_val)
                 if wide or organization:
                     row.append(p.get("organization", ""))
                 if wide or classification:
@@ -341,7 +344,10 @@ def search_projects(
             for p in projects:
                 status_val = p.get("status", "")
                 emoji = status_emoji.get(status_val, "")
-                status_display = f"{emoji} {status_val}" if emoji else status_val
+                if emoji:
+                    status_display = f"{emoji} {status_val}"
+                else:
+                    status_display = status_val
 
                 row = [
                     str(p.get("id", "")),

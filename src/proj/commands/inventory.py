@@ -272,7 +272,10 @@ def scan_local(
                     if marker != ".git":
                         # Check if any parent directory has .git
                         check_dir = root.parent
-                        while check_dir != scan_dir and check_dir != check_dir.parent:
+                        while (
+                            check_dir != scan_dir
+                            and check_dir != check_dir.parent
+                        ):
                             if (check_dir / ".git").exists():
                                 is_subproject = True
                                 break
