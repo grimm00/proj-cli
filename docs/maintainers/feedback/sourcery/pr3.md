@@ -338,4 +338,75 @@ Total Individual Comments: 8 + Overall Comments
 - 🟠 **HIGH**: Complex refactoring
 - 🔴 **VERY_HIGH**: Major rewrites
 
+---
+
+## User Feedback (Manual Testing)
+
+**Tester:** User  
+**Date:** 2025-12-17
+
+### Issue U1: `--wide` option not available for `search` command
+
+**Severity:** 🟡 MEDIUM  
+**Command:** `proj search "query" --wide`
+
+**Description:** The `--wide` option that works for `proj list` is not available for the `proj search` command. Users expect consistent behavior across similar list-style commands.
+
+**Expected:** `proj search` should support `--wide` to show all columns like `proj list --wide`.
+
+**Action:** Add `--wide` option to `search_projects` command in Phase 4.
+
+---
+
+### Issue U2: Progress indicator shows after completion message
+
+**Severity:** 🟢 LOW  
+**Command:** `proj inv analyze`
+
+**Description:** The analyze command shows "✓ Analyzed 20 projects" followed by "Analyzing frontend..." - the progress message appears AFTER the completion message.
+
+**Terminal Output:**
+```
+proj inv analyze
+✓ Analyzed 20 projects
+  Analyzing frontend...
+```
+
+**Expected:** Progress messages should appear BEFORE the completion message, or the completion message should be the last output.
+
+**Root Cause:** The Rich Progress context manager may be printing the last progress update after the success message due to async rendering or context exit timing.
+
+**Action:** Fix progress indicator ordering in Phase 4.
+
+---
+
+### Issue U3: Duplicate/non-existent projects after `export api`
+
+**Severity:** 🟠 HIGH  
+**Command:** `proj inv export api`
+
+**Description:** After running `proj inv export api`, there are multiple instances of "frontend" and other projects that don't seem to exist. The deduplication or import process may not be working correctly.
+
+**Potential Causes:**
+- Inventory deduplication not running before export
+- API import creating duplicates despite existing entries
+- Multiple scan sources (github + local) creating duplicates that aren't properly merged
+
+**Expected:** Each unique project should appear only once after export.
+
+**Action:** Investigate and fix deduplication/import logic. Consider:
+1. Auto-run dedupe before export api
+2. Check API import endpoint for duplicate handling
+3. Improve inventory merge logic during scans
+
+---
+
+### User Feedback Summary
+
+| Issue | Severity | Component | Action |
+|-------|----------|-----------|--------|
+| U1 | 🟡 MEDIUM | `proj search` | Add `--wide` option |
+| U2 | 🟢 LOW | `proj inv analyze` | Fix progress ordering |
+| U3 | 🟠 HIGH | `proj inv export api` | Fix duplicate handling |
+
 
