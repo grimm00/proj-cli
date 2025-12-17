@@ -29,7 +29,7 @@ def main(
     ),
 ):
     """Unified CLI for project and inventory management.
-    
+
     Project commands manage projects in the work-prod API.
     Inventory commands scan and manage project inventory.
     """
@@ -38,4 +38,3 @@ def main(
 
 if __name__ == "__main__":
     app()
-
