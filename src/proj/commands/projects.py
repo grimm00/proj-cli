@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 from typing import Optional
 
+import click
 import typer
 from rich.console import Console
 from rich.table import Table
@@ -39,7 +40,9 @@ def list_projects(
         False, "--wide", "-w", help="Show all columns"
     ),
     format: str = typer.Option(
-        "table", "--format", "-f", help="Output format: table, json"
+        "table", "--format", "-f",
+        help="Output format: table, json",
+        click_type=click.Choice(["table", "json"], case_sensitive=False),
     ),
 ):
     """List all projects with optional filters."""
@@ -102,7 +105,9 @@ def list_projects(
 def get_project(
     project_id: int = typer.Argument(..., help="Project ID"),
     format: str = typer.Option(
-        "table", "--format", "-f", help="Output format: table, json"
+        "table", "--format", "-f",
+        help="Output format: table, json",
+        click_type=click.Choice(["table", "json"], case_sensitive=False),
     ),
 ):
     """Get a project by ID."""
@@ -256,7 +261,9 @@ def search_projects(
         False, "--wide", "-w", help="Show all columns"
     ),
     format: str = typer.Option(
-        "table", "--format", "-f", help="Output format: table, json"
+        "table", "--format", "-f",
+        help="Output format: table, json",
+        click_type=click.Choice(["table", "json"], case_sensitive=False),
     ),
 ):
     """Search projects by name or description."""
