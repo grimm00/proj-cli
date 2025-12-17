@@ -4,7 +4,7 @@ from typing import Optional
 
 import typer
 
-from proj.commands import projects
+from proj.commands import init, projects
 from proj.commands.inventory import inv_app
 
 app = typer.Typer(
@@ -38,6 +38,9 @@ def main(
     """
     pass
 
+
+# Register init command
+app.command(name="init")(init.init_command)
 
 # Register project commands (8 core commands)
 app.command(name="list")(projects.list_projects)
