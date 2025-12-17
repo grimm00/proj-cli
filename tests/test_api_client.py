@@ -79,4 +79,3 @@ def test_api_client_archive_project():
 
     client = APIClient()
     assert hasattr(client, 'archive_project')
-

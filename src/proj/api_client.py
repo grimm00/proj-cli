@@ -12,7 +12,11 @@ def _raise_api_error(
     error: requests.exceptions.RequestException,
     response=None
 ) -> None:
-    """Convert requests exceptions to APIError or re-raise connection errors."""
+    """Convert requests exceptions to APIError or re-raise connection errors.
+
+    Raises BackendConnectionError for connection errors, APIError for HTTP
+    errors, or re-raises the original exception.
+    """
     if isinstance(error, requests.exceptions.ConnectionError):
         raise BackendConnectionError(str(error)) from error
     elif isinstance(error, requests.exceptions.Timeout):
@@ -217,7 +221,9 @@ class APIClient:
             _raise_api_error(e, response)
 
     def archive_project(self, project_id: int) -> Dict:
-        """Archive a project by setting classification to 'archive' and status to 'completed'.
+        """Archive a project.
+
+        Sets classification to 'archive' and status to 'completed'.
 
         Args:
             project_id: ID of the project to archive
