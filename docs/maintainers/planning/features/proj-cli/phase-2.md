@@ -119,11 +119,11 @@ def test_handle_error_exists():
 
 **Steps:**
 
-- [ ] Read current error handler implementation
-- [ ] Copy to new location
-- [ ] Update imports (use new Pydantic Config)
-- [ ] Adapt Rich panel patterns
-- [ ] Run tests
+- [x] Read current error handler implementation
+- [x] Copy to new location
+- [x] Update imports (use new Pydantic Config)
+- [x] Adapt Rich panel patterns
+- [x] Run tests
 
 **File:** `src/proj/error_handler.py`
 
