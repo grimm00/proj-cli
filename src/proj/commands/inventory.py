@@ -103,4 +103,3 @@ def export_api():
 def status():
     """Show inventory status."""
     console.print("[yellow]Not implemented yet[/yellow]")
-

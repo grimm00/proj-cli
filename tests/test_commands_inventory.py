@@ -82,4 +82,3 @@ def test_inv_status_exists():
         text=True,
     )
     assert result.returncode == 0
-
