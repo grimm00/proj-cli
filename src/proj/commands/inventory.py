@@ -554,7 +554,9 @@ def status():
         if all_langs:
             from collections import Counter
             lang_counts = Counter(all_langs).most_common(5)
-            langs_str = ", ".join(f"{l}({c})" for l, c in lang_counts)
+            langs_str = ", ".join(
+                f"{lang}({count})" for lang, count in lang_counts
+            )
             table.add_row("Top Languages", langs_str)
 
     console.print(table)
