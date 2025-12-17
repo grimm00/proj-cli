@@ -14,15 +14,15 @@
 
 ## Issues in This Batch
 
-| Issue | PR | Priority | Impact | Effort | Description |
-|-------|-----|----------|--------|--------|-------------|
-| PR1-#1 | #1 | 🟡 MEDIUM | 🟢 LOW | 🟢 LOW | Add explicit encoding for config file |
-| PR1-#3 | #1 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Fix brittle return code test |
-| PR1-#7 | #1 | 🟢 LOW | 🟢 LOW | 🟢 LOW | Add test for __version__ matching metadata |
-| PR2-OC1 | #2 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | API URL validation in APIClient constructor |
-| PR2-OC2 | #2 | 🟢 LOW | 🟢 LOW | 🟢 LOW | Format option validation with typer.Choice |
-| PR3-#3 | #3 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Defensive JSON parsing for inventory.json |
-| PR3-Overall | #3 | 🟢 LOW | 🟢 LOW | 🟢 LOW | Dedupe logic docs alignment |
+| Issue       | PR  | Priority  | Impact    | Effort | Description                                 |
+| ----------- | --- | --------- | --------- | ------ | ------------------------------------------- |
+| PR1-#1      | #1  | 🟡 MEDIUM | 🟢 LOW    | 🟢 LOW | Add explicit encoding for config file       |
+| PR1-#3      | #1  | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Fix brittle return code test                |
+| PR1-#7      | #1  | 🟢 LOW    | 🟢 LOW    | 🟢 LOW | Add test for **version** matching metadata  |
+| PR2-OC1     | #2  | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | API URL validation in APIClient constructor |
+| PR2-OC2     | #2  | 🟢 LOW    | 🟢 LOW    | 🟢 LOW | Format option validation with typer.Choice  |
+| PR3-#3      | #3  | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Defensive JSON parsing for inventory.json   |
+| PR3-Overall | #3  | 🟢 LOW    | 🟢 LOW    | 🟢 LOW | Dedupe logic docs alignment                 |
 
 ---
 
@@ -32,6 +32,7 @@ This batch contains 7 LOW effort issues from 3 PRs. These are quick wins that ca
 
 **Estimated Time:** ~1-1.5 hours  
 **Files Affected:**
+
 - `src/proj/config.py`
 - `src/proj/api_client.py`
 - `src/proj/commands/inventory.py`
@@ -41,6 +42,7 @@ This batch contains 7 LOW effort issues from 3 PRs. These are quick wins that ca
 - `docs/maintainers/planning/features/proj-cli/phase-3.md`
 
 **Source PRs:**
+
 - PR #1: Phase 1 - Repository Setup
 - PR #2: Phase 2 - Migrate Project Commands
 - PR #3: Phase 3 - Add Inventory Commands
@@ -60,6 +62,7 @@ This batch contains 7 LOW effort issues from 3 PRs. These are quick wins that ca
 Using `config_file.open(encoding="utf-8")` avoids platform-dependent default encodings and makes the intended charset explicit.
 
 **Current Code:**
+
 ```python
 if config_file.exists():
     with open(config_file) as f:
@@ -67,6 +70,7 @@ if config_file.exists():
 ```
 
 **Proposed Solution:**
+
 ```python
 if config_file.exists():
     with open(config_file, encoding="utf-8") as f:
@@ -74,6 +78,7 @@ if config_file.exists():
 ```
 
 Also update `save()` method to use explicit encoding:
+
 ```python
 with open(config_file, "w", encoding="utf-8") as f:
     yaml.safe_dump(...)
@@ -92,6 +97,7 @@ with open(config_file, "w", encoding="utf-8") as f:
 With `no_args_is_help=True`, the conventional behavior is to print help with exit code 0, while 2 is typically for usage errors. Asserting a fixed code of 2 is brittle.
 
 **Current Code:**
+
 ```python
 # no_args_is_help=True means it shows help (Typer exits with code 2 but shows help)
 assert result.returncode == 2  # Typer exits with 2 when no args provided
@@ -99,6 +105,7 @@ assert "Usage" in result.stdout or "usage" in result.stdout.lower()
 ```
 
 **Proposed Solution:**
+
 ```python
 # no_args_is_help=True shows help; exit code may vary by Typer version
 assert result.returncode in (0, 2)  # Accept both codes
@@ -107,7 +114,7 @@ assert "Usage" in result.stdout or "usage" in result.stdout.lower()
 
 ---
 
-### Issue PR1-#7: Add test for __version__ matching metadata
+### Issue PR1-#7: Add test for **version** matching metadata
 
 **Source PR:** #1 - Phase 1: Repository Setup  
 **Location:** `tests/test_package.py:11-15`  
@@ -118,6 +125,7 @@ assert "Usage" in result.stdout or "usage" in result.stdout.lower()
 Add a test that imports `proj.__version__` and asserts it equals `importlib.metadata.version("proj-cli")`.
 
 **Current Code:**
+
 ```python
 def test_package_has_version():
     """Test that package has version metadata."""
@@ -128,6 +136,7 @@ def test_package_has_version():
 
 **Proposed Solution:**
 Add new test after existing version test:
+
 ```python
 def test_version_matches_metadata():
     """Test that __version__ matches installed package metadata."""
@@ -149,6 +158,7 @@ def test_version_matches_metadata():
 In `APIClient.__init__`, normalize/validate `Config.api_url` similarly to `_get_health_url` (handling `None`, whitespace, and missing scheme) so the client behaves predictably when the config is unset or malformed.
 
 **Current Code:**
+
 ```python
 def __init__(self, config: Config = None):
     self.config = config or Config.load()
@@ -157,6 +167,7 @@ def __init__(self, config: Config = None):
 ```
 
 **Proposed Solution:**
+
 ```python
 def __init__(self, config: Config = None):
     self.config = config or Config.load()
@@ -186,22 +197,25 @@ def _normalize_url(self, url: str) -> str:
 For project commands that take a `format` option, use `click.Choice(['table', 'json'])` to avoid silently ignoring unexpected values.
 
 **Current Code:**
+
 ```python
 format: str = typer.Option("table", "--format", "-f", help="Output format: table, json"),
 ```
 
 **Proposed Solution:**
+
 ```python
 import click
 
 format: str = typer.Option(
-    "table", "--format", "-f", 
+    "table", "--format", "-f",
     help="Output format: table, json",
     click_type=click.Choice(["table", "json"], case_sensitive=False),
 ),
 ```
 
 **Commands to update:**
+
 - `list_projects`
 - `get_project`
 - `search_projects`
@@ -219,6 +233,7 @@ format: str = typer.Option(
 If `inventory.json` is partially written or corrupted, `json.load` will raise and crash the CLI. Catch `json.JSONDecodeError` and treat it as an empty inventory with a warning.
 
 **Current Code:**
+
 ```python
 def load_inventory() -> list[dict]:
     """Load inventory from data file."""
@@ -230,6 +245,7 @@ def load_inventory() -> list[dict]:
 ```
 
 **Proposed Solution:**
+
 ```python
 def load_inventory() -> list[dict]:
     """Load inventory from data file."""
@@ -260,14 +276,17 @@ def load_inventory() -> list[dict]:
 The dedupe logic only uses `remote_url` and `local_path` as keys, whereas the phase plan mentions `name+local_path` as a secondary key. Align the documentation with the implementation.
 
 **Current Documentation (phase-3.md lines ~559-586):**
+
 ```markdown
 # Dedupe by remote_url (primary) or name+local_path (secondary)
 ```
 
 **Proposed Solution:**
 Update documentation to reflect actual implementation:
+
 ```markdown
 # Dedupe by remote_url (primary) or local_path (secondary)
+
 # Note: name is not used as a key because it may not be unique
 ```
 
@@ -276,35 +295,42 @@ Update documentation to reflect actual implementation:
 ## Implementation Steps
 
 ### 1. PR1-#1: Explicit encoding
+
 - [ ] Update `Config.load()` to use `encoding="utf-8"`
 - [ ] Update `Config.save()` to use `encoding="utf-8"`
 - [ ] Run tests to verify
 
 ### 2. PR1-#3: Brittle return code
+
 - [ ] Update test to accept both exit codes 0 and 2
 - [ ] Add comment explaining why
 
 ### 3. PR1-#7: Version metadata test
+
 - [ ] Add `test_version_matches_metadata()` function
 - [ ] Run test to verify
 
 ### 4. PR2-OC1: API URL validation
+
 - [ ] Add `_normalize_url()` method to `APIClient`
 - [ ] Update constructor to use it
 - [ ] Add test for URL normalization
 
 ### 5. PR2-OC2: Format option validation
+
 - [ ] Add `import click` to `projects.py`
 - [ ] Update `list_projects` format option with `click.Choice`
 - [ ] Update `get_project` format option with `click.Choice`
 - [ ] Update `search_projects` format option with `click.Choice`
 
 ### 6. PR3-#3: Defensive JSON parsing
+
 - [ ] Add try/except for `json.JSONDecodeError` in `load_inventory()`
 - [ ] Add warning message output
 - [ ] Run tests to verify
 
 ### 7. PR3-Overall: Docs alignment
+
 - [ ] Update phase-3.md dedupe documentation
 - [ ] Verify docs match implementation
 
@@ -326,15 +352,15 @@ Update documentation to reflect actual implementation:
 
 ## Files to Modify
 
-| File | Changes |
-|------|---------|
-| `src/proj/config.py` | Add `encoding="utf-8"` to open calls |
-| `src/proj/api_client.py` | Add `_normalize_url()` method |
-| `src/proj/commands/projects.py` | Add `click.Choice` for format options |
-| `src/proj/commands/inventory.py` | Add `json.JSONDecodeError` handling |
-| `tests/test_cli.py` | Update return code assertion |
-| `tests/test_package.py` | Add version metadata test |
-| `docs/.../phase-3.md` | Update dedupe documentation |
+| File                             | Changes                               |
+| -------------------------------- | ------------------------------------- |
+| `src/proj/config.py`             | Add `encoding="utf-8"` to open calls  |
+| `src/proj/api_client.py`         | Add `_normalize_url()` method         |
+| `src/proj/commands/projects.py`  | Add `click.Choice` for format options |
+| `src/proj/commands/inventory.py` | Add `json.JSONDecodeError` handling   |
+| `tests/test_cli.py`              | Update return code assertion          |
+| `tests/test_package.py`          | Add version metadata test             |
+| `docs/.../phase-3.md`            | Update dedupe documentation           |
 
 ---
 
@@ -351,6 +377,7 @@ Update documentation to reflect actual implementation:
 
 **Batch Rationale:**
 This batch was created from fix-review report recommendations. These issues are batched together because they:
+
 - All have LOW effort (~10-15 minutes each)
 - Are low-risk improvements
 - Can be implemented independently
@@ -359,4 +386,3 @@ This batch was created from fix-review report recommendations. These issues are 
 ---
 
 **Last Updated:** 2025-12-17
-
