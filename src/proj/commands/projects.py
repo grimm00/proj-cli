@@ -191,6 +191,9 @@ def update_project(
     path: Optional[str] = typer.Option(
         None, "--path", "-p", help="New local path"
     ),
+    remote_url: Optional[str] = typer.Option(
+        None, "--url", "-u", help="New remote URL"
+    ),
 ):
     """Update a project."""
     try:
@@ -207,6 +210,8 @@ def update_project(
             data["classification"] = classification
         if path:
             data["path"] = path
+        if remote_url:
+            data["remote_url"] = remote_url
 
         if not data:
             console.print("[yellow]No updates provided.[/yellow]")
