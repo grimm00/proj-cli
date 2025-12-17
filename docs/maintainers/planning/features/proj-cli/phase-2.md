@@ -1293,13 +1293,13 @@ proj import-json ~/Projects/work-prod/scripts/projects.json
 
 ### Project Commands (TDD)
 
-- [ ] Tests written (RED)
-- [ ] Commands implemented (GREEN)
-- [ ] Tests passing
+- [x] Tests written (RED)
+- [x] Commands implemented (GREEN)
+- [x] Tests passing
 
 ### Integration
 
-- [ ] Commands registered
+- [x] Commands registered
 - [ ] Integration tests passing
 - [ ] Feature parity verified
 
