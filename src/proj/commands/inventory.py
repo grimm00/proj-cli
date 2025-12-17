@@ -223,7 +223,8 @@ def scan_local(
 
             # Find projects by looking for markers
             markers = [
-                ".git", "package.json", "pyproject.toml", "Cargo.toml", "go.mod"
+                ".git", "package.json", "pyproject.toml",
+                "Cargo.toml", "go.mod"
             ]
 
             for marker in markers:
