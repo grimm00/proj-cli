@@ -12,6 +12,7 @@
 ### Phase Learnings
 
 - **[Phase 1](phase-1-learnings.md)** - Repository Setup (2025-12-17)
+- **[Phase 3](phase-3-learnings.md)** - Add Inventory Commands (2025-12-17)
 
 ---
 
@@ -27,8 +28,8 @@ This directory contains learnings from proj-cli development that can inform:
 
 ## 📊 Summary
 
-**Total Learning Documents:** 1  
-**Phases Documented:** 1 of 4  
+**Total Learning Documents:** 2  
+**Phases Documented:** 2 of 4 (Phase 1, Phase 3)  
 **Status:** ✅ Active
 
 ---
