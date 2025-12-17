@@ -96,8 +96,8 @@ Total Individual Comments: 2 + Overall Comments
 
 | Comment | Priority | Action | Notes |
 |---------|----------|--------|-------|
-| API URL validation | 🟡 MEDIUM | Defer to Phase 4 | Normalize URL in APIClient constructor |
-| Format option validation | 🟢 LOW | Defer to Phase 4 | Use typer.Choice for format options |
+| API URL validation | 🟡 MEDIUM | ✅ Fixed | Fixed in PR #4 (quick-wins-01) |
+| Format option validation | 🟢 LOW | ✅ Fixed | Fixed in PR #4 (quick-wins-01) |
 | URL building duplication | 🟢 LOW | Defer to Phase 4 | Extract shared helper for URL normalization |
 
 ### Summary
@@ -105,11 +105,13 @@ Total Individual Comments: 2 + Overall Comments
 **Fix Now (1 item):**
 - **#1:** Timeout errors bypass CLI error handling - convert to CLI-handled error
 
-**Defer to Phase 4 (4 items):**
+**Defer to Phase 4 (2 items):**
 - **#2:** Add CliRunner tests for actual command behavior
+- URL building helper extraction
+
+**Fixed in PR #4 (quick-wins-01):**
 - API URL validation in APIClient constructor
 - Format option validation with typer.Choice
-- URL building helper extraction
 
 ### Priority Levels
 - 🔴 **CRITICAL**: Security, stability, or core functionality issues

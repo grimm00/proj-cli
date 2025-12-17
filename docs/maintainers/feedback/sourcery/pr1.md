@@ -325,13 +325,13 @@ def test_config_xdg_data_path_env_override(tmp_path):
 
 | Comment | Priority | Impact | Effort | Action | Notes |
 |---------|----------|--------|--------|--------|-------|
-| #1 | 🟡 MEDIUM | 🟢 LOW | 🟢 LOW | Defer to Phase 4 | Add explicit encoding for cross-platform safety |
+| #1 | 🟡 MEDIUM | 🟢 LOW | 🟢 LOW | ✅ Fixed | Fixed in PR #4 (quick-wins-01) |
 | #2 | 🟠 HIGH | 🟡 MEDIUM | 🟢 LOW | **Fix now** | Coverage regex is incorrect, won't match |
-| #3 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Defer to Phase 4 | Test is brittle, but works |
+| #3 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | ✅ Fixed | Fixed in PR #4 (quick-wins-01) |
 | #4 | 🟢 LOW | 🟢 LOW | 🟡 MEDIUM | Defer to Phase 4 | Test coverage improvement |
 | #5 | 🟢 LOW | 🟢 LOW | 🟡 MEDIUM | Defer to Phase 4 | Test coverage improvement |
 | #6 | 🟢 LOW | 🟢 LOW | 🟡 MEDIUM | Defer to Phase 4 | Test coverage improvement |
-| #7 | 🟢 LOW | 🟢 LOW | 🟢 LOW | Defer to Phase 4 | Test quality improvement |
+| #7 | 🟢 LOW | 🟢 LOW | 🟢 LOW | ✅ Fixed | Fixed in PR #4 (quick-wins-01) |
 | #8 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | **Fix now** | Documentation inconsistency |
 
 ### Summary
