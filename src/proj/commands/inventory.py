@@ -8,6 +8,7 @@ import requests
 import typer
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn
+from rich.table import Table
 
 from proj.config import Config, get_data_dir
 from proj.error_handler import (
@@ -520,4 +521,40 @@ def export_api(
 @inv_app.command(name="status")
 def status():
     """Show inventory status."""
-    console.print("[yellow]Not implemented yet[/yellow]")
+    inventory = load_inventory()
+    inv_file = get_inventory_file()
+
+    table = Table(title="Inventory Status")
+    table.add_column("Metric", style="cyan")
+    table.add_column("Value", style="green")
+
+    table.add_row("Total Projects", str(len(inventory)))
+    table.add_row("Data File", str(inv_file))
+    file_exists = "Yes" if inv_file.exists() else "No"
+    table.add_row("File Exists", file_exists)
+
+    if inventory:
+        # Count by source
+        github_count = sum(
+            1 for p in inventory if p.get("scan_source") == "github"
+        )
+        local_count = sum(
+            1 for p in inventory if p.get("scan_source") == "local"
+        )
+        analyzed_count = sum(1 for p in inventory if p.get("analyzed"))
+
+        table.add_row("GitHub Projects", str(github_count))
+        table.add_row("Local Projects", str(local_count))
+        table.add_row("Analyzed", str(analyzed_count))
+
+        # Languages
+        all_langs = []
+        for p in inventory:
+            all_langs.extend(p.get("languages", []))
+        if all_langs:
+            from collections import Counter
+            lang_counts = Counter(all_langs).most_common(5)
+            langs_str = ", ".join(f"{l}({c})" for l, c in lang_counts)
+            table.add_row("Top Languages", langs_str)
+
+    console.print(table)
