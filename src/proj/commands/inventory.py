@@ -126,7 +126,8 @@ def scan_github(
                 url = response.links.get("next", {}).get("url")
                 params = {}  # Clear params for subsequent requests
 
-            progress.update(task, description=f"Found {len(repos)} repositories")
+            repo_count = len(repos)
+            progress.update(task, description=f"Found {repo_count} repositories")
 
             # Transform to inventory format
             inventory_items = []
@@ -174,7 +175,9 @@ def scan_github(
             elif isinstance(e, requests.exceptions.Timeout):
                 handle_error(TimeoutError(str(e)), console)
             elif isinstance(e, requests.exceptions.HTTPError):
-                status_code = e.response.status_code if e.response else None
+                status_code = None
+                if e.response:
+                    status_code = e.response.status_code
                 handle_error(APIError(str(e), status_code=status_code), console)
             else:
                 console.print(f"[red]Error: GitHub API error: {e}[/red]")
