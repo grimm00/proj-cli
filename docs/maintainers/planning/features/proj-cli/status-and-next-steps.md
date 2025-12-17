@@ -2,7 +2,7 @@
 
 **Feature:** Unified CLI Tool  
 **Status:** 🟠 In Progress  
-**Current Phase:** Phase 2 - Migrate Project Commands (PR #2 Open)  
+**Current Phase:** Phase 2 Complete - Ready for Phase 3  
 **Last Updated:** 2025-12-17
 
 ---
@@ -12,7 +12,7 @@
 | Phase | Focus | Effort | Status |
 |-------|-------|--------|--------|
 | 1 | Repository Setup | ~2-3 hrs | ✅ Complete (PR #1) |
-| 2 | Migrate Project Commands | ~4-5 hrs | ✅ Complete (PR #2 Open) |
+| 2 | Migrate Project Commands | ~4-5 hrs | ✅ Complete (PR #2) |
 | 3 | Add Inventory Commands | ~3-4 hrs | 🔴 Not Started |
 | 4 | Polish & Cleanup | ~2-3 hrs | 🔴 Not Started |
 | **Total** | | **~10-14 hrs** | **50%** |
@@ -33,18 +33,15 @@
 
 **Merged via PR #1** (2025-12-17)
 
----
-
-## 🟠 In Progress
-
-### Phase 2: Migrate Project Commands ✅ (PR #2 Open, 2025-12-17)
+### Phase 2: Migrate Project Commands ✅ (PR #2, 2025-12-17)
 
 - **Error handler:** `src/proj/error_handler.py` migrated
 - **API client:** `src/proj/api_client.py` migrated
 - **Project commands:** 8 commands implemented (list, get, create, update, delete, search, import-json, archive)
 - **Tests:** 38 tests passing
 - **Review:** Sourcery review completed, 1 HIGH item fixed, 4 items deferred to Phase 4
-- **PR #2:** Open, targeting `develop`
+
+**Merged via PR #2** (2025-12-17)
 
 ---
 
@@ -52,11 +49,7 @@
 
 ### Immediate
 
-1. **Merge PR #2:**
-   - Approve and merge PR #2 to `develop`
-   - Run `/post-pr 2 --phase 2` after merge
-
-2. **Start Phase 3:**
+1. **Start Phase 3:**
    ```
    /pre-phase-review 3
    /task-phase 3 1

@@ -11,6 +11,7 @@
 ### By PR
 
 - **[PR #1](pr1/README.md)** - Phase 1: Repository Setup (6 deferred issues)
+- **[PR #2](pr2/README.md)** - Phase 2: Migrate Project Commands (4 deferred issues)
 
 ### Cross-PR Batches
 
@@ -50,10 +51,10 @@ fix/
 
 | Category | Count |
 |----------|-------|
-| Total Issues | 8 |
-| Resolved | 2 |
+| Total Issues | 13 |
+| Resolved | 3 |
 | Pending | 0 |
-| Deferred | 6 |
+| Deferred | 10 |
 
 ---
 
