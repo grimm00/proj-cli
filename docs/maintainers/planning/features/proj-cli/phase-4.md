@@ -1,9 +1,11 @@
 # proj-cli - Phase 4: Polish & Cleanup
 
 **Phase:** 4 of 4  
-**Duration:** ~2-3 hours  
+**Duration:** ~3-4 hours (adjusted based on review)  
 **Status:** 🔴 Not Started  
-**Prerequisites:** Phase 3 complete
+**Prerequisites:** Phase 3 complete, PR #4 merged  
+**Coverage Baseline:** 14% (as of 2025-12-17)  
+**Coverage Target:** ~50% (realistic incremental improvement)
 
 ---
 
@@ -30,9 +32,15 @@ Final phase for testing, documentation, UI polish, and cleaning up work-prod. Th
 
 ## 📝 Tasks
 
-### Task 1: Write Comprehensive Tests
+### Task 1: Write Comprehensive Tests (~1.5 hours)
 
-**Goal:** Achieve good test coverage for all modules
+**Goal:** Achieve ~50% test coverage (from 14% baseline)
+
+**Includes Deferred Issues:**
+- PR #2 #2: Add CliRunner tests for actual command behavior (HIGH value)
+- PR #1 #4-6: Test coverage improvements
+- PR #3 #5-8: Test coverage improvements for inventory commands
+- PR #4: Handle PackageNotFoundError in test
 
 **Files to create/update:**
 
@@ -449,9 +457,11 @@ MIT
 
 ---
 
-### Task 5: Clean Up work-prod
+### Task 5: Clean Up work-prod (SEPARATE PR in work-prod repo)
 
 **Goal:** Remove old CLI code from work-prod
+
+> ⚠️ **Note:** This task creates a **separate PR in the work-prod repository**, not part of the proj-cli PR #5. Execute this **after** proj-cli PR #5 is merged.
 
 **Steps:**
 
@@ -545,15 +555,27 @@ ls scripts/  # Should NOT show project_cli/
 
 ---
 
+### Task 7: Update Feature Plan Status
+
+**Goal:** Update feature-plan.md to reflect actual completion status
+
+**Updates:**
+1. Mark completed requirements as "✅ Done"
+2. Update phase status indicators
+3. Update Last Updated date
+
+---
+
 ## ✅ Completion Criteria
 
 - [ ] Comprehensive tests written
-- [ ] Test coverage >80%
+- [ ] Test coverage ~50% (from 14% baseline)
 - [ ] Rich UI enhancements added
 - [ ] First-run experience implemented
 - [ ] README complete with examples
-- [ ] work-prod `scripts/project_cli/` removed
-- [ ] work-prod README updated
+- [ ] Feature plan status updated
+- [ ] work-prod `scripts/project_cli/` removed (separate PR)
+- [ ] work-prod README updated (separate PR)
 - [ ] All tests passing
 - [ ] Final verification complete
 
@@ -561,11 +583,12 @@ ls scripts/  # Should NOT show project_cli/
 
 ## 📦 Deliverables
 
-1. **Comprehensive tests** - Good coverage for all modules
+1. **Comprehensive tests** - ~50% coverage (from 14% baseline)
 2. **Rich UI** - Enhanced tables, progress bars, colors
 3. **First-run experience** - `proj init` command
 4. **Documentation** - Complete README with examples
-5. **work-prod cleanup** - CLI code removed, docs updated
+5. **Feature plan update** - Status updated to reflect completion
+6. **work-prod cleanup** - CLI code removed, docs updated (separate PR)
 
 ---
 
@@ -573,8 +596,9 @@ ls scripts/  # Should NOT show project_cli/
 
 ### Prerequisites
 
-- Phase 3 complete
-- All commands functional
+- Phase 3 complete ✅ (PR #3)
+- Fix batch complete ✅ (PR #4)
+- All commands functional ✅
 
 ### External Dependencies
 
@@ -595,7 +619,7 @@ ls scripts/  # Should NOT show project_cli/
 - [ ] API client tests written
 - [ ] Command tests written
 - [ ] Integration tests written
-- [ ] Coverage >80%
+- [ ] Coverage ~50%
 
 ### UI Polish
 
@@ -642,18 +666,23 @@ pytest -m "not integration"
 pytest
 ```
 
-### Coverage Goals
+### Coverage Goals (Adjusted)
+
+**Baseline:** 14% (as of 2025-12-17)  
+**Target:** ~50% (realistic incremental improvement)
 
 ```
 src/proj/
-├── __init__.py        # 100%
-├── cli.py             # >90%
-├── config.py          # >90%
-├── api_client.py      # >80%
+├── __init__.py        # 100% (current: 100%)
+├── cli.py             # ~80% (current: 71%)
+├── config.py          # ~80% (current: 76%)
+├── api_client.py      # ~40% (current: 21%)
 └── commands/
-    ├── projects.py    # >80%
-    └── inventory.py   # >80%
+    ├── projects.py    # ~30% (current: 7%)
+    └── inventory.py   # ~30% (current: 8%)
 ```
+
+**Note:** Command modules have low coverage because they require mocking API calls. Focus on CliRunner tests for actual CLI behavior.
 
 ---
 
@@ -666,5 +695,5 @@ src/proj/
 
 ---
 
-**Last Updated:** 2025-12-16
+**Last Updated:** 2025-12-17
 
