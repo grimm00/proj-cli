@@ -59,7 +59,14 @@ def load_inventory() -> list[dict]:
     inv_file = get_inventory_file()
     if inv_file.exists():
         with open(inv_file, encoding="utf-8") as f:
-            return json.load(f)
+            try:
+                return json.load(f)
+            except json.JSONDecodeError:
+                console.print(
+                    "[yellow]Warning: inventory.json is corrupted. "
+                    "Starting with empty inventory.[/yellow]"
+                )
+                return []
     return []
 
 
