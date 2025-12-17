@@ -427,4 +427,71 @@ proj inv analyze
 | U3 | 🟠 HIGH | `proj inv export api` | ✅ **FIXED** - Added auto-dedupe with `--no-dedupe` flag |
 | U4 | 🟠 HIGH | `proj inv scan local` | ✅ **FIXED** - Skip subdirs inside git repos |
 
+---
+
+## Deferred Enhancements (Future Work)
+
+### D1: Smart Dedupe with Field Merging
+
+**Priority:** 🟡 MEDIUM  
+**Component:** `proj inv dedupe`
+
+**Description:** When dedupe finds duplicates (same project from GitHub + local scan), it should intelligently merge the records instead of just dropping one. For example:
+- GitHub scan provides: `remote_url`, `description`, `language`
+- Local scan provides: `local_path`, `marker`
+- Merged record should have ALL fields
+
+**Current Behavior:** Keeps first occurrence, drops duplicates entirely.
+
+**Desired Behavior:** Merge fields from matching records:
+```python
+# If matching by remote_url, combine:
+merged = {
+    "name": github_record["name"],
+    "remote_url": github_record["remote_url"],
+    "local_path": local_record["local_path"],  # from local scan
+    "description": github_record.get("description"),
+    "languages": local_record.get("languages"),  # from analyze
+    ...
+}
+```
+
+**Effort:** 🟡 MEDIUM - Requires reworking dedupe logic
+
+---
+
+### D2: Multiple Scan Directory Configuration
+
+**Priority:** 🟢 LOW  
+**Component:** `proj inv scan local`
+
+**Description:** Support scanning multiple directories (e.g., `~/Projects`, `~/Learning`, `~/Work`) with different depth settings per directory.
+
+**Current Behavior:** Single `--dir` option or default from config.
+
+**Desired Behavior:** Config-driven multi-directory scanning:
+```yaml
+# config.yaml
+scan_directories:
+  - path: ~/Projects
+    depth: 1
+  - path: ~/Learning
+    depth: 2
+  - path: ~/Work
+    depth: 1
+```
+
+**Effort:** 🟡 MEDIUM - Config schema change + scan logic update
+
+---
+
+### D3: Exclusion Patterns for Scan
+
+**Priority:** 🟢 LOW  
+**Component:** `proj inv scan local`
+
+**Description:** Allow excluding directories by pattern (e.g., `test*`, `*-backup`, `archive/`).
+
+**Effort:** 🟢 LOW - Add `--exclude` option
+
 
