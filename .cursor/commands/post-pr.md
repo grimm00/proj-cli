@@ -53,12 +53,13 @@ This command supports multiple project organization patterns, matching `/task-ph
 
 ## Usage
 
-**Command:** `/post-pr [pr-number] [--phase|--fix|--release] [identifier] [options]`
+**Command:** `/post-pr [pr-number|--direct] [--phase|--fix|--release] [identifier] [options]`
 
 **Examples:**
 
 - `/post-pr 10 --phase 3` - Update docs after PR #10 (Phase 3) merge
 - `/post-pr 11 --phase 4` - Update docs after PR #11 (Phase 4) merge
+- `/post-pr --direct --phase 3` - Update docs after docs-only phase direct merge (no PR)
 - `/post-pr 12 --fix pr12-batch-medium-low-01` - Update docs after fix PR merge
 - `/post-pr 36 --release v0.1.0` - Update docs after release PR merge
 - `/post-pr 10 --phase 3 --feature my-feature` - Specify feature name
@@ -66,6 +67,7 @@ This command supports multiple project organization patterns, matching `/task-ph
 **Options:**
 
 - `--feature [name]` - Specify feature name (overrides auto-detection)
+- `--direct` - Direct merge mode (no PR number) - Use for docs-only phases merged directly to develop
 
 ---
 
@@ -78,13 +80,14 @@ This command supports multiple project organization patterns, matching `/task-ph
 - `--phase` flag → Phase mode (default for backward compatibility)
 - `--fix` flag → Fix mode
 - `--release` flag → Release mode
+- `--direct` flag → Direct merge mode (no PR number, for docs-only phases)
 - No flag with old format `[pr-number] [phase-number]` → Phase mode (backward compatibility)
 
 **Checklist:**
 
 - [ ] Mode determined
 - [ ] Identifier provided (phase number, batch name, or version)
-- [ ] PR number provided
+- [ ] PR number provided (unless `--direct` mode)
 
 ---
 
@@ -92,10 +95,11 @@ This command supports multiple project organization patterns, matching `/task-ph
 
 **Check before proceeding:**
 
-- [ ] PR number is valid (check GitHub)
+- [ ] PR number is valid (check GitHub) - **Skip if `--direct` mode**
 - [ ] Identifier is valid (phase document, fix plan, or release transition plan exists)
-- [ ] PR is merged to `develop` (or user confirms it will be merged)
+- [ ] PR is merged to `develop` (or user confirms it will be merged) - **Skip if `--direct` mode**
 - [ ] Current branch is `develop` (or can switch to it)
+- [ ] Direct merge confirmed (if `--direct` mode) - Feature branch was merged directly to develop
 
 **Validation commands:**
 
@@ -103,8 +107,11 @@ This command supports multiple project organization patterns, matching `/task-ph
 # Check current branch
 git branch --show-current
 
-# Verify PR is merged (check GitHub or git log)
+# Verify PR is merged (check GitHub or git log) - Skip if --direct mode
 gh pr view [pr-number] --json merged
+
+# For --direct mode: Verify feature branch was merged
+git log develop --oneline | grep "feat/phase-N"
 ```
 
 ---
@@ -113,13 +120,15 @@ gh pr view [pr-number] --json merged
 
 **Branch naming:**
 
-- Phase mode: `docs/post-pr##-phase##-complete`
+- Phase mode (with PR): `docs/post-pr##-phase##-complete`
+- Phase mode (direct merge): `docs/post-direct-phase##-complete`
 - Fix mode: `docs/post-pr##-fix-[batch-name]-complete`
 - Release mode: `docs/post-pr##-release-[version]-complete`
 
 **Examples:**
 
-- `docs/post-pr10-phase3-complete` (Phase mode)
+- `docs/post-pr10-phase3-complete` (Phase mode with PR)
+- `docs/post-direct-phase3-complete` (Phase mode, direct merge)
 - `docs/post-pr12-fix-pr12-batch-medium-low-01-complete` (Fix mode)
 - `docs/post-pr36-release-v0.1.0-complete` (Release mode)
 
@@ -131,13 +140,17 @@ git checkout develop
 git pull origin develop
 
 # Create docs branch
+# For PR mode:
 git checkout -b docs/post-pr[##]-phase[##]-complete
+
+# For direct merge mode:
+git checkout -b docs/post-direct-phase[##]-complete
 ```
 
 **Checklist:**
 
 - [ ] Branch created from `develop`
-- [ ] Branch name follows convention
+- [ ] Branch name follows convention (includes `--direct` indicator if applicable)
 - [ ] Local `develop` is up-to-date with remote
 
 ---
@@ -169,20 +182,35 @@ git checkout -b docs/post-pr[##]-phase[##]-complete
    - Format: `**Completed:** YYYY-MM-DD`
    - Use today's date
 
-3. **Verify Tasks**
-   - Check all task checkboxes are marked: `- [x]`
-   - If any are incomplete, note them (shouldn't happen if PR merged)
+3. **Merge Reference (if PR mode)**
+   - Add merge reference: `**Merged:** PR #N (YYYY-MM-DD)`
+   - Skip if `--direct` mode
 
-4. **Last Updated**
+4. **Verify Tasks**
+   - Check all task checkboxes are marked: `- [x]`
+   - If any are incomplete, note them (shouldn't happen if merged)
+
+5. **Last Updated**
    - Update `**Last Updated:**` field to today's date
 
 **Example updates:**
 
+**With PR:**
 ```markdown
 **Phase:** 3 - Projects API - Delete & Archive (Backend + CLI)  
 **Duration:** 1 day  
 **Status:** ✅ Complete  
 **Completed:** 2025-12-04
+**Merged:** PR #10 (2025-12-04)
+**Prerequisites:** Phase 2 complete
+```
+
+**Direct merge (docs-only):**
+```markdown
+**Phase:** 3 - Exploration/Research/Decision Workflows  
+**Duration:** 1-2 hours (Actual: ~30 minutes)  
+**Status:** ✅ Complete  
+**Completed:** 2025-12-08
 **Prerequisites:** Phase 2 complete
 ```
 
@@ -192,6 +220,7 @@ git checkout -b docs/post-pr[##]-phase[##]-complete
 - [ ] Phase document found
 - [ ] Status marked as complete
 - [ ] Completion date added
+- [ ] Merge reference added (if PR mode)
 - [ ] All tasks verified complete
 - [ ] Last Updated date refreshed
 
@@ -239,7 +268,7 @@ git checkout -b docs/post-pr[##]-phase[##]-complete
 7. **Last Updated**
    - Update to today's date
 
-**Example milestone entry:**
+**Example milestone entry (with PR):**
 
 ```markdown
 - ✅ **Phase 3: Delete & Archive Complete** (2025-12-04)
@@ -248,6 +277,16 @@ git checkout -b docs/post-pr[##]-phase[##]-complete
   - CLI `proj delete` and `proj archive` commands added
   - 49 tests passing with 92% coverage
   - Merged via PR #10
+```
+
+**Example milestone entry (direct merge):**
+
+```markdown
+- ✅ **Phase 3: Exploration/Research/Decision Workflows Complete** (2025-12-08)
+  - Created exploration/research/decision hub directories
+  - Created hub README.md files
+  - Documented workflow in template READMEs
+  - Merged directly to develop (docs-only phase)
 ```
 
 **Checklist:**
@@ -265,6 +304,8 @@ git checkout -b docs/post-pr[##]-phase[##]-complete
 
 **IMPORTANT:** Always check for deferred issues, even if none exist. This ensures tracking is complete.
 
+**Note:** Skip this step if `--direct` mode (docs-only phases don't have PR reviews).
+
 **Detect feature name:**
 
 - Use same feature detection as phase document update
@@ -275,6 +316,7 @@ git checkout -b docs/post-pr[##]-phase[##]-complete
    - Location: `docs/maintainers/feedback/sourcery/pr##.md`
    - Review priority matrix for all comments
    - Identify MEDIUM/LOW priority issues that were deferred
+   - **Skip if `--direct` mode** (no PR = no review file)
 
 2. **Create/Update PR Directory**
    - Create PR directory if it doesn't exist:
@@ -283,6 +325,7 @@ git checkout -b docs/post-pr[##]-phase[##]-complete
    - Create or update PR hub:
      - Feature-specific: `docs/maintainers/planning/features/[feature-name]/fix/pr##/README.md`
      - Project-wide: `docs/maintainers/planning/fix/pr##/README.md`
+   - **Skip if `--direct` mode** (no PR number)
 
 3. **If Deferred Issues Exist:**
    - Add deferred issues section to PR hub README.md
@@ -298,6 +341,10 @@ git checkout -b docs/post-pr[##]-phase[##]-complete
    - Note in PR hub that review was checked
    - All issues were CRITICAL/HIGH and addressed, or no issues found
    - Update main fix tracking README.md
+
+5. **If `--direct` mode:**
+   - Skip deferred issues tracking (no PR review)
+   - Note in commit message that phase was docs-only (no review)
 
 **PR Hub Entry (with deferred issues):**
 
@@ -429,7 +476,7 @@ Add PR to active PRs section (if not already there):
 
 **Commit message format:**
 
-**Phase Mode:**
+**Phase Mode (with PR):**
 
 ```
 docs(phase-N): update post-merge documentation
@@ -442,6 +489,21 @@ Post-PR #N documentation updates:
 - Document deferred issues (if any)
 
 Related: PR #N
+```
+
+**Phase Mode (direct merge):**
+
+```
+docs(phase-N): update post-merge documentation
+
+Post-direct-merge documentation updates:
+- Mark Phase N as complete with date
+- Update feature status milestones
+- Update progress to X/[total] phases (XX%)
+- Update next steps to Phase N+1
+- Phase merged directly to develop (docs-only)
+
+Related: Direct merge (docs-only phase)
 ```
 
 **Fix Mode:**
@@ -534,37 +596,46 @@ git push origin --delete docs/post-pr[##]-phase[##]-complete
 
 **IMPORTANT:** Clean up the merged PR branch (both local and remote) to keep repository clean.
 
+**Note:** For `--direct` mode, the feature branch should already be cleaned up during direct merge. Verify cleanup.
+
 **Process:**
 
-1. **Verify PR is merged:**
+1. **Verify PR is merged (skip if `--direct` mode):**
    ```bash
    gh pr view [pr-number] --json state,mergedAt
    ```
    - Should show `state: "MERGED"` and `mergedAt` timestamp
 
-2. **Check if branch exists locally:**
+2. **For `--direct` mode: Verify feature branch was merged:**
+   ```bash
+   # Check if feature branch exists
+   git branch --list feat/phase-N-*
+   git branch -r --list origin/feat/phase-N-*
+   ```
+
+3. **Check if branch exists locally:**
    ```bash
    git branch --list [branch-name]
    ```
 
-3. **Check if branch exists remotely:**
+4. **Check if branch exists remotely:**
    ```bash
    git branch -r --list origin/[branch-name]
    ```
 
-4. **Delete local branch (if exists):**
+5. **Delete local branch (if exists):**
    ```bash
    # Try normal delete first (only works if merged locally)
    git branch -d [branch-name]
    
    # If that fails (branch merged via GitHub, not locally), force delete
-   # This is safe if PR is confirmed merged on GitHub
+   # This is safe if PR is confirmed merged on GitHub or direct merge confirmed
    git branch -D [branch-name]
    ```
    
-   **Note:** If branch was merged via GitHub PR (not locally), `git branch -d` may fail even though the branch is merged. Use `git branch -D` in this case, but only after confirming PR is merged on GitHub.
+   **Note:** If branch was merged via GitHub PR (not locally), `git branch -d` may fail even though the branch is merged. Use `git branch -D` in this case, but only after confirming PR is merged on GitHub or direct merge is confirmed.
 
-5. **Delete remote branch (if exists):**
+6. **Delete remote branch (if exists):**
    ```bash
    git push origin --delete [branch-name]
    ```
@@ -582,6 +653,10 @@ git push origin --delete docs/post-pr[##]-phase[##]-complete
 git branch -d feat/phase-4-search-filter
 git push origin --delete feat/phase-4-search-filter
 
+# For direct merge (feat/phase-3-exploration-research-decision)
+git branch -d feat/phase-3-exploration-research-decision
+git push origin --delete feat/phase-3-exploration-research-decision
+
 # For PR #13 (fix/pr12-batch-medium-medium-01)
 git branch -d fix/pr12-batch-medium-medium-01
 git push origin --delete fix/pr12-batch-medium-medium-01
@@ -590,13 +665,13 @@ git push origin --delete fix/pr12-batch-medium-medium-01
 **Safety checks:**
 
 - Only delete branches that are merged
-- Verify branch name matches PR head branch
+- Verify branch name matches PR head branch (or direct merge branch)
 - Check that branch is not currently checked out
 - Confirm deletion before proceeding
 
 **Checklist:**
 
-- [ ] PR verified as merged
+- [ ] PR verified as merged (or direct merge confirmed)
 - [ ] Local branch deleted (if existed)
 - [ ] Remote branch deleted (if existed)
 - [ ] No errors during cleanup
@@ -941,7 +1016,6 @@ git push origin --delete fix/pr12-batch-medium-medium-01
 
 ---
 
-**Last Updated:** 2025-12-07  
+**Last Updated:** 2025-12-17  
 **Status:** ✅ Active  
-**Next:** Use after each PR merge to keep documentation current (supports phase, fix, and release modes, feature-specific and project-wide structures)
-
+**Next:** Use after each PR merge to keep documentation current (supports phase, fix, and release modes, feature-specific and project-wide structures, includes `--direct` mode for docs-only phases)

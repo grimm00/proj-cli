@@ -49,12 +49,14 @@ This command supports dev-infra's opportunity structure:
 - `/int-opp inventory-tools --new-project` - Create new project directory and discover project info
 - `/int-opp dev-infra --command-adaptation` - Document command adaptations for dev-infra
 - `/int-opp [project] --phase N` - Capture phase-specific learnings
+- `/int-opp [project] --phase N --feature [feature-name]` - Capture phase learnings grouped by feature
 
 **Options:**
 
 - `--new-project` - Create directory for new project and discover project information
 - `--command-adaptation` - Document command adaptations for dev-infra (use with dev-infra project)
-- `--phase N` - Capture learnings for specific phase
+- `--phase N` - Capture learnings for specific phase (auto-detects feature if in feature branch/context)
+- `--feature [name]` - Group phase learnings by feature name (creates `learnings/[feature-name]/` subdirectory)
 - `--type TYPE` - Type of opportunity (`learnings`, `improvements`, `command-adaptation`)
 - `--dry-run` - Show what would be created without creating files
 
@@ -189,20 +191,71 @@ admin/planning/opportunities/internal/[project-name]/
 
 - **[Learning Document 1]([topic]-learnings.md)** - [Description]
 
+### Feature-Specific Learnings
+
+- **[Feature Name Learnings]([feature-name]/README.md)** - Learnings from [feature name] ([N] phases)
+
 ---
 
 ## 🎯 Purpose
 
 This directory contains learnings from [project name] that can inform:
+
 - Dev-infra template improvements
 - Future project patterns
 - Best practices documentation
+
+**Organization:**
+
+- Phase learnings grouped by feature: `[feature-name]/phase-N-learnings.md`
+- General learnings in root: `[topic]-learnings.md`
 
 ---
 
 ## 📊 Summary
 
 **Total Learning Documents:** [N]  
+**Feature-Specific Learnings:** [M] features  
+**Status:** ✅ Active
+
+---
+
+**Last Updated:** YYYY-MM-DD
+```
+
+**Create feature learnings hub (if feature grouping used):**
+
+**File:** `admin/planning/opportunities/internal/[project-name]/learnings/[feature-name]/README.md`
+
+```markdown
+# [Feature Name] Learnings
+
+**Purpose:** Phase learnings from [feature name] implementation  
+**Target:** Inform dev-infra template and other projects  
+**Status:** ✅ Active  
+**Last Updated:** YYYY-MM-DD
+
+---
+
+## 📋 Quick Links
+
+### Phase Learnings
+
+- **[Phase 1](phase-1-learnings.md)** - [Phase description]
+- **[Phase 2](phase-2-learnings.md)** - [Phase description]
+- **[Phase N](phase-N-learnings.md)** - [Phase description]
+
+---
+
+## 🎯 Purpose
+
+This directory contains phase-specific learnings from [feature name] implementation.
+
+---
+
+## 📊 Summary
+
+**Total Phase Learnings:** [N]  
 **Status:** ✅ Active
 
 ---
@@ -258,7 +311,41 @@ This directory contains actionable improvement checklists based on learnings fro
 
 ---
 
-### 3. Determine Opportunity Type
+### 3. Detect Feature Name (if --phase specified)
+
+**When `--phase N` is used:**
+
+1. **Auto-detect feature name:**
+
+   - Check git branch name (e.g., `feat/templates-enhancement-phase-5` → `templates-enhancement`)
+   - Check current directory context (if in `admin/planning/features/[feature-name]/`)
+   - Check recent commits for feature name
+   - Check phase document location (if exists)
+
+2. **If `--feature [name]` provided:**
+
+   - Use provided feature name
+   - Validate feature name format (kebab-case recommended)
+
+3. **If feature not detected:**
+   - Ask user for feature name
+   - Suggest feature name based on context
+   - Confirm feature name before proceeding
+
+**Feature grouping:**
+
+- Phase learnings grouped by feature: `learnings/[feature-name]/phase-N-learnings.md`
+- Non-phase learnings remain in root: `learnings/[topic]-learnings.md`
+
+**Checklist:**
+
+- [ ] Feature name detected or provided
+- [ ] Feature name validated
+- [ ] Feature subdirectory structure determined
+
+---
+
+### 4. Determine Opportunity Type
 
 **Types:**
 
@@ -292,15 +379,24 @@ This directory contains actionable improvement checklists based on learnings fro
 
 ---
 
-### 4. Create Opportunity Documents
+### 5. Create Opportunity Documents
 
 #### For Learnings (Default)
 
 **Location:** `admin/planning/opportunities/internal/[project]/learnings/`
 
 **File naming:**
-- Format: `[topic]-learnings.md` (e.g., `phase-N-learnings.md`, `fix-management-learnings.md`)
-- Or: `[project]-learnings-[date].md` for general learnings
+
+- **Phase learnings with feature:** `[feature-name]/phase-N-learnings.md` (e.g., `templates-enhancement/phase-5-learnings.md`)
+- **Phase learnings without feature:** `phase-N-learnings.md` (legacy format, still supported)
+- **General learnings:** `[topic]-learnings.md` (e.g., `fix-management-learnings.md`)
+- **General learnings with date:** `[project]-learnings-[date].md`
+
+**Feature grouping:**
+
+- When `--phase N` and feature detected/provided, create feature subdirectory
+- Structure: `learnings/[feature-name]/phase-N-learnings.md`
+- Keeps learnings organized by feature, preventing crowding in root directory
 
 **Learnings Template:**
 
@@ -549,7 +645,7 @@ This directory contains actionable improvement checklists based on learnings fro
 
 ---
 
-### 5. Update Project Hubs
+### 6. Update Project Hubs
 
 **Update project hub:**
 
@@ -557,22 +653,30 @@ This directory contains actionable improvement checklists based on learnings fro
 - Update summary statistics
 - Update "Last Updated" date
 
-**Update learnings/improvements hub:**
+**Update learnings hub:**
 
-- Add document link
-- Update summary
+- If feature grouping: Add link to feature learnings hub (if first phase for feature)
+- If no feature grouping: Add document link directly
+- Update summary statistics
+- Update "Last Updated" date
+
+**Update feature learnings hub (if feature grouping):**
+
+- Add phase learnings link
+- Update phase count
 - Update "Last Updated" date
 
 **Checklist:**
 
 - [ ] Project hub updated
-- [ ] Learnings/improvements hub updated
+- [ ] Learnings hub updated
+- [ ] Feature learnings hub updated (if feature grouping)
 - [ ] Quick links added
 - [ ] Summary statistics updated
 
 ---
 
-### 6. Update Main Internal Opportunities Hub
+### 7. Update Main Internal Opportunities Hub
 
 **File:** `admin/planning/opportunities/internal/README.md`
 
@@ -602,6 +706,126 @@ This directory contains actionable improvement checklists based on learnings fro
 - [ ] Completion tracking updated
 - [ ] Quick links updated
 - [ ] "Last Updated" date updated
+
+---
+
+### 8. Commit and Push Changes
+
+**IMPORTANT:** Always commit work before completing command.
+
+**Reference:** [Commit Workflow](../../docs/COMMIT-WORKFLOW.md) - Central commit workflow documentation, especially [Documentation/Chore Branches](../../docs/COMMIT-WORKFLOW.md#documentationchore-branches) section
+
+**Since learnings/improvements are documentation-only, use docs-only workflow:**
+
+**Branch naming:**
+
+- Format: `docs/int-opp-[project]-[topic]` (e.g., `docs/int-opp-dev-infra-phase-4`)
+- Or: `docs/int-opp-[project]-learnings` (for general learnings)
+
+**Steps:**
+
+1. **Check current branch:**
+
+   ```bash
+   git branch --show-current
+   ```
+
+2. **Create docs branch (if not already on one):**
+
+   ```bash
+   git checkout -b docs/int-opp-[project]-[topic]
+   ```
+
+3. **Stage all changes:**
+
+   ```bash
+   git add admin/planning/opportunities/internal/
+   ```
+
+4. **Commit with proper message:**
+
+   ```bash
+   git commit -m "docs(learnings): capture [project] learnings - [topic]
+
+   Created learnings document:
+   - [Brief summary of learnings]
+   - Updated project hub
+   - Updated learnings hub
+   - Updated main opportunities hub
+
+   Related: [Phase N or topic]"
+   ```
+
+5. **Push branch:**
+
+   ```bash
+   git push origin docs/int-opp-[project]-[topic]
+   ```
+
+6. **Merge directly to develop (docs-only, no PR needed):**
+
+   ```bash
+   git checkout develop
+   git pull origin develop
+   git merge docs/int-opp-[project]-[topic] --no-edit
+   git push origin develop
+   ```
+
+7. **Clean up branch:**
+
+   ```bash
+   git branch -d docs/int-opp-[project]-[topic]
+   git push origin --delete docs/int-opp-[project]-[topic]
+   ```
+
+8. **Verify no uncommitted changes:**
+   ```bash
+   git status --short
+   ```
+
+**Commit message examples:**
+
+**For phase learnings:**
+
+```bash
+git commit -m "docs(learnings): capture dev-infra learnings - Phase 4
+
+Created learnings document for Phase 4:
+- What worked well: Requirements template pattern replication
+- What needs improvement: Template generation testing
+- Unexpected discoveries: Commands already support template structure
+- Time analysis: ~20 minutes (faster than estimated)
+
+Updated learnings hub with new document link.
+
+Related: Phase 4"
+```
+
+**For general learnings:**
+
+```bash
+git commit -m "docs(learnings): capture work-prod learnings - Fix Management
+
+Created learnings document:
+- What worked well: Batch-based fix planning
+- What needs improvement: Priority assessment timing
+- Unexpected discoveries: Automated fix detection patterns
+
+Updated project hub and learnings hub.
+
+Related: Fix Management Workflow"
+```
+
+**Checklist:**
+
+- [ ] Docs branch created
+- [ ] All changes staged
+- [ ] Commit message follows conventional format
+- [ ] Branch pushed to remote
+- [ ] Merged directly to develop
+- [ ] Branch cleaned up (local and remote)
+
+**Note:** Learnings/improvements are documentation-only, so they can be merged directly to `develop` without a PR, following Git Flow pattern for `docs/*` branches.
 
 ---
 
@@ -795,13 +1019,17 @@ This directory contains actionable improvement checklists based on learnings fro
 
 ### Scenario 1: Capture Phase Learnings
 
-**Command:** `/int-opp [project] --phase N`
+**Command:** `/int-opp [project] --phase N` or `/int-opp [project] --phase N --feature [feature-name]`
 
 **Process:**
+
 1. Identify project
-2. Create phase learnings document
-3. Use phase learnings template
-4. Update project hub
+2. Detect feature name (from git branch, context, or `--feature` flag)
+3. Create feature subdirectory if needed: `learnings/[feature-name]/`
+4. Create phase learnings document: `learnings/[feature-name]/phase-N-learnings.md`
+5. Create/update feature learnings hub: `learnings/[feature-name]/README.md`
+6. Update main learnings hub
+7. Update project hub
 
 ---
 
@@ -873,7 +1101,25 @@ This directory contains actionable improvement checklists based on learnings fro
 
 ---
 
-**Last Updated:** 2025-12-07  
-**Status:** ✅ Active  
-**Next:** Use to capture learnings, create project directories, or document command adaptations (supports any project with automatic discovery)
+## 📊 Log Usage (Final Step)
 
+**After successful command completion, update the usage tracker:**
+
+1. **Update:** `admin/planning/commands/usage-tracker.md`
+2. **Add entry to "Recent Usage" table:**
+   ```markdown
+   | YYYY-MM-DD | `/int-opp` | [Context] | ✅ Success | [Evidence] |
+   ```
+3. **Increment usage count** in summary table
+4. **Commit with message:**
+   ```
+   docs(commands): update usage tracker - /int-opp
+   ```
+
+**Why:** Tracks command maturity for graduation decisions per [ADR-004](../admin/decisions/dev-infra-identity-and-focus/adr-004-graduation-process.md).
+
+---
+
+**Last Updated:** 2025-12-17  
+**Status:** ✅ Active  
+**Next:** Use to capture learnings, create project directories, or document command adaptations (supports any project with automatic discovery, feature-grouped phase learnings)
