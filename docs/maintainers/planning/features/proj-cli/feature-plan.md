@@ -52,7 +52,7 @@ Build a unified CLI tool (`proj`) that consolidates project management commands 
 | Update project | `proj update <id>` | 🔴 High | 🔴 Pending |
 | Delete project | `proj delete <id>` | 🔴 High | 🔴 Pending |
 | Search projects | `proj search` | 🔴 High | 🔴 Pending |
-| Import projects | `proj import` | 🔴 High | 🔴 Pending |
+| Import projects | `proj import-json` | 🔴 High | 🔴 Pending |
 
 ### Inventory Commands (New)
 
