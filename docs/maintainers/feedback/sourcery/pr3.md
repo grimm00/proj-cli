@@ -291,23 +291,23 @@ Total Individual Comments: 8 + Overall Comments
 
 ## Priority Matrix Assessment
 
-| Comment | Priority  | Impact    | Effort  | Action                                |
-| ------- | --------- | --------- | ------- | ------------------------------------- |
-| #1      | 🟠 HIGH   | 🟠 HIGH   | 🟢 LOW  | **Fix now** - Add timeout to requests |
-| #2      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Requires glob rewrite         |
+| Comment | Priority  | Impact    | Effort  | Action                                    |
+| ------- | --------- | --------- | ------- | ----------------------------------------- |
+| #1      | 🟠 HIGH   | 🟠 HIGH   | 🟢 LOW  | **Fix now** - Add timeout to requests     |
+| #2      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Requires glob rewrite             |
 | #3      | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW  | ✅ Fixed - Fixed in PR #4 (quick-wins-01) |
-| #4      | 🟠 HIGH   | 🟡 MEDIUM | 🟢 LOW  | **Fix now** - Use typer.Choice        |
-| #5      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                 |
-| #6      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                 |
-| #7      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                 |
-| #8      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                 |
+| #4      | 🟠 HIGH   | 🟡 MEDIUM | 🟢 LOW  | **Fix now** - Use typer.Choice            |
+| #5      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                     |
+| #6      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                     |
+| #7      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                     |
+| #8      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                     |
 
 ### Overall Comments Assessment
 
-| Comment           | Priority | Impact | Effort | Action                      |
-| ----------------- | -------- | ------ | ------ | --------------------------- |
+| Comment           | Priority | Impact | Effort | Action                                    |
+| ----------------- | -------- | ------ | ------ | ----------------------------------------- |
 | Dedupe logic docs | 🟢 LOW   | 🟢 LOW | 🟢 LOW | ✅ Fixed - Fixed in PR #4 (quick-wins-01) |
-| Duplicate imports | 🟢 LOW   | 🟢 LOW | 🟢 LOW | **Fix now** - Quick cleanup |
+| Duplicate imports | 🟢 LOW   | 🟢 LOW | 🟢 LOW | **Fix now** - Quick cleanup               |
 
 ### Summary
 
