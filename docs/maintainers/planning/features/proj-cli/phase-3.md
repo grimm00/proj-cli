@@ -587,7 +587,7 @@ def dedupe():
 
 ---
 
-### Task 7: Implement Export Commands
+### Task 7: Implement Export Commands ✅
 
 **Goal:** Implement export json and export api commands
 
