@@ -649,9 +649,9 @@ ls scripts/  # Should NOT show project_cli/
 
 ### Verification
 
-- [ ] All tests passing
-- [ ] CLI working end-to-end
-- [ ] work-prod verified clean
+- [x] All tests passing ✅ (73 passed, 1 skipped)
+- [x] CLI working end-to-end ✅ (version, help, init verified)
+- [ ] work-prod verified clean (Task 5 - separate PR)
 
 ---
 
