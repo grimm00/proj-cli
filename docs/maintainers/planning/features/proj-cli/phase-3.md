@@ -466,7 +466,7 @@ def scan_local(
 
 ---
 
-### Task 6: Implement Analysis Commands
+### Task 6: Implement Analysis Commands ✅
 
 **Goal:** Implement analyze and dedupe commands
 
