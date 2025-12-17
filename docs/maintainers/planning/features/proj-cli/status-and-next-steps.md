@@ -2,7 +2,7 @@
 
 **Feature:** Unified CLI Tool  
 **Status:** 🟠 In Progress  
-**Current Phase:** Phase 2 - Migrate Project Commands (In Progress)  
+**Current Phase:** Phase 2 - Migrate Project Commands (PR #2 Open)  
 **Last Updated:** 2025-12-17
 
 ---
@@ -11,11 +11,11 @@
 
 | Phase | Focus | Effort | Status |
 |-------|-------|--------|--------|
-| 1 | Repository Setup | ~2-3 hrs | ✅ Complete |
-| 2 | Migrate Project Commands | ~4-5 hrs | 🟠 In Progress |
+| 1 | Repository Setup | ~2-3 hrs | ✅ Complete (PR #1) |
+| 2 | Migrate Project Commands | ~4-5 hrs | ✅ Complete (PR #2 Open) |
 | 3 | Add Inventory Commands | ~3-4 hrs | 🔴 Not Started |
 | 4 | Polish & Cleanup | ~2-3 hrs | 🔴 Not Started |
-| **Total** | | **~10-14 hrs** | **25%** |
+| **Total** | | **~10-14 hrs** | **50%** |
 
 ---
 
@@ -37,8 +37,14 @@
 
 ## 🟠 In Progress
 
-- **Phase 1 Complete:** PR #1 merged to main (2025-12-17)
-- **Ready for Phase 2:** Migrate Project Commands from work-prod
+### Phase 2: Migrate Project Commands ✅ (PR #2 Open, 2025-12-17)
+
+- **Error handler:** `src/proj/error_handler.py` migrated
+- **API client:** `src/proj/api_client.py` migrated
+- **Project commands:** 8 commands implemented (list, get, create, update, delete, search, import-json, archive)
+- **Tests:** 38 tests passing
+- **Review:** Sourcery review completed, 1 HIGH item fixed, 4 items deferred to Phase 4
+- **PR #2:** Open, targeting `develop`
 
 ---
 
@@ -46,31 +52,39 @@
 
 ### Immediate
 
-1. **Pre-Phase Review:**
+1. **Merge PR #2:**
+   - Approve and merge PR #2 to `develop`
+   - Run `/post-pr 2 --phase 2` after merge
+
+2. **Start Phase 3:**
    ```
-   /pre-phase-review 2
+   /pre-phase-review 3
+   /task-phase 3 1
    ```
 
-2. **Start Phase 2:**
-   ```
-   /task-phase 2 1
-   ```
+### Phase 3 Key Tasks
 
-### Phase 2 Key Tasks
+1. Create inventory commands (`src/proj/commands/inventory.py`)
+2. Implement scan command for GitHub repos
+3. Implement scan command for local directories
+4. Add export functionality
+5. Write tests for inventory commands
 
-1. Create error handler (`src/proj/error_handler.py`)
-2. Create API client (`src/proj/api_client.py`)
-3. Add project commands (`src/proj/commands/projects.py`)
-4. Write tests for API client and commands
-5. Verify all commands work with work-prod backend
+### Deferred from Phase 1 & 2 (to Phase 4)
 
-### Deferred from Phase 1 (to Phase 4)
-
+**From PR #1 (Phase 1):**
 See [PR #1 Sourcery Review](../../feedback/sourcery/pr1.md) for details:
 - #1: Add explicit encoding for config file
 - #3: Fix brittle return code test
 - #4-6: Test coverage improvements
 - #7: Version metadata test
+
+**From PR #2 (Phase 2):**
+See [PR #2 Sourcery Review](../../feedback/sourcery/pr2.md) for details:
+- #2: Add CliRunner tests for actual command behavior
+- API URL validation in APIClient constructor
+- Format option validation with typer.Choice
+- URL building helper extraction
 
 ---
 
@@ -81,7 +95,7 @@ See [PR #1 Sourcery Review](../../feedback/sourcery/pr1.md) for details:
 | ID | Requirement | Priority | Status |
 |----|-------------|----------|--------|
 | FR-1 | Single entry point (`proj`) | 🔴 High | ✅ Done |
-| FR-2 | Project commands (list, get, create, etc.) | 🔴 High | 🔴 Pending |
+| FR-2 | Project commands (list, get, create, etc.) | 🔴 High | ✅ Done |
 | FR-3 | Scan commands | 🔴 High | 🔴 Pending |
 | FR-4 | Export commands | 🔴 High | 🔴 Pending |
 | FR-5 | Config file support | 🔴 High | ✅ Done |
@@ -96,14 +110,14 @@ See [PR #1 Sourcery Review](../../feedback/sourcery/pr1.md) for details:
 | NFR-3 | Pydantic validation | 🔴 High | ✅ Done |
 | NFR-4 | XDG compliance | 🔴 High | ✅ Done |
 | NFR-5 | Pip installable | 🔴 High | ✅ Done |
-| NFR-6 | Error handling | 🔴 High | 🔴 Pending |
+| NFR-6 | Error handling | 🔴 High | ✅ Done |
 
 ---
 
 ## 🎯 Success Criteria
 
 - [x] `proj` command installable via `pip install .`
-- [ ] All existing `proj` commands work (list, get, create, update, delete, search, import)
+- [x] All existing `proj` commands work (list, get, create, update, delete, search, import-json, archive)
 - [ ] New `proj inv` subcommands functional
 - [x] Configuration via `~/.config/proj/config.yaml`
 - [x] XDG directory compliance
