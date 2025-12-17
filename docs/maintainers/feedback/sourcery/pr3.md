@@ -1,4 +1,5 @@
 # Sourcery Review Analysis
+
 **PR**: #3
 **Repository**: grimm00/proj-cli
 **Generated**: Wed Dec 17 11:50:56 CST 2025
@@ -290,49 +291,54 @@ Total Individual Comments: 8 + Overall Comments
 
 ## Priority Matrix Assessment
 
-| Comment | Priority | Impact | Effort | Action |
-|---------|----------|--------|--------|--------|
-| #1 | 🟠 HIGH | 🟠 HIGH | 🟢 LOW | **Fix now** - Add timeout to requests |
-| #2 | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Requires glob rewrite |
-| #3 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Defer - Defensive coding |
-| #4 | 🟠 HIGH | 🟡 MEDIUM | 🟢 LOW | **Fix now** - Use typer.Choice |
-| #5 | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage |
-| #6 | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage |
-| #7 | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage |
-| #8 | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage |
+| Comment | Priority  | Impact    | Effort  | Action                                |
+| ------- | --------- | --------- | ------- | ------------------------------------- |
+| #1      | 🟠 HIGH   | 🟠 HIGH   | 🟢 LOW  | **Fix now** - Add timeout to requests |
+| #2      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Requires glob rewrite         |
+| #3      | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW  | Defer - Defensive coding              |
+| #4      | 🟠 HIGH   | 🟡 MEDIUM | 🟢 LOW  | **Fix now** - Use typer.Choice        |
+| #5      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                 |
+| #6      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                 |
+| #7      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                 |
+| #8      | 🟡 MEDIUM | 🟡 MEDIUM | 🟠 HIGH | Defer - Test coverage                 |
 
 ### Overall Comments Assessment
 
-| Comment | Priority | Impact | Effort | Action |
-|---------|----------|--------|--------|--------|
-| Dedupe logic docs | 🟢 LOW | 🟢 LOW | 🟢 LOW | Defer - Doc alignment |
-| Duplicate imports | 🟢 LOW | 🟢 LOW | 🟢 LOW | **Fix now** - Quick cleanup |
+| Comment           | Priority | Impact | Effort | Action                      |
+| ----------------- | -------- | ------ | ------ | --------------------------- |
+| Dedupe logic docs | 🟢 LOW   | 🟢 LOW | 🟢 LOW | Defer - Doc alignment       |
+| Duplicate imports | 🟢 LOW   | 🟢 LOW | 🟢 LOW | **Fix now** - Quick cleanup |
 
 ### Summary
 
 **Fix now (2 HIGH + 1 LOW):**
+
 - #1: Add timeout to GitHub API requests (bug risk)
 - #4: Validate --format option with typer.Choice (bug risk)
 - Overall: Remove duplicate imports in export_api
 
 **Defer to Phase 4 (6 items):**
+
 - #2, #3: Code quality improvements
 - #5, #6, #7, #8: Test coverage improvements
 - Overall: Dedupe documentation alignment
 
 ### Priority Levels
+
 - 🔴 **CRITICAL**: Security, stability, or core functionality issues
 - 🟠 **HIGH**: Bug risks or significant maintainability issues
 - 🟡 **MEDIUM**: Code quality and maintainability improvements
 - 🟢 **LOW**: Nice-to-have improvements
 
 ### Impact Levels
+
 - 🔴 **CRITICAL**: Affects core functionality
 - 🟠 **HIGH**: User-facing or significant changes
 - 🟡 **MEDIUM**: Developer experience improvements
 - 🟢 **LOW**: Minor improvements
 
 ### Effort Levels
+
 - 🟢 **LOW**: Simple, quick changes
 - 🟡 **MEDIUM**: Moderate complexity
 - 🟠 **HIGH**: Complex refactoring
@@ -366,6 +372,7 @@ Total Individual Comments: 8 + Overall Comments
 **Description:** The analyze command shows "✓ Analyzed 20 projects" followed by "Analyzing frontend..." - the progress message appears AFTER the completion message.
 
 **Terminal Output:**
+
 ```
 proj inv analyze
 ✓ Analyzed 20 projects
@@ -388,6 +395,7 @@ proj inv analyze
 **Description:** After running `proj inv export api`, there are multiple instances of "frontend" and other projects that don't seem to exist. The deduplication or import process may not be working correctly.
 
 **Potential Causes:**
+
 - Inventory deduplication not running before export
 - API import creating duplicates despite existing entries
 - Multiple scan sources (github + local) creating duplicates that aren't properly merged
@@ -395,6 +403,7 @@ proj inv analyze
 **Expected:** Each unique project should appear only once after export.
 
 **Action:** Investigate and fix deduplication/import logic. Consider:
+
 1. Auto-run dedupe before export api
 2. Check API import endpoint for duplicate handling
 3. Improve inventory merge logic during scans
@@ -409,6 +418,7 @@ proj inv analyze
 **Description:** Subdirectories like `frontend/` inside a project (e.g., `~/Projects/pokedex/frontend`) were being added as separate projects because they have their own `package.json`, even though the parent directory already has `.git`.
 
 **Example:**
+
 - `~/Projects/pokedex` has `.git` → added as project ✓
 - `~/Projects/pokedex/frontend` has `package.json` → incorrectly added as separate project
 
@@ -420,12 +430,12 @@ proj inv analyze
 
 ### User Feedback Summary
 
-| Issue | Severity | Component | Status |
-|-------|----------|-----------|--------|
-| U1 | 🟡 MEDIUM | `proj search` | ✅ **FIXED** - Added `--wide` option |
-| U2 | 🟢 LOW | `proj inv analyze` | ✅ **FIXED** - Moved output outside Progress context |
-| U3 | 🟠 HIGH | `proj inv export api` | ✅ **FIXED** - Added auto-dedupe with `--no-dedupe` flag |
-| U4 | 🟠 HIGH | `proj inv scan local` | ✅ **FIXED** - Skip subdirs inside git repos |
+| Issue | Severity  | Component             | Status                                                   |
+| ----- | --------- | --------------------- | -------------------------------------------------------- |
+| U1    | 🟡 MEDIUM | `proj search`         | ✅ **FIXED** - Added `--wide` option                     |
+| U2    | 🟢 LOW    | `proj inv analyze`    | ✅ **FIXED** - Moved output outside Progress context     |
+| U3    | 🟠 HIGH   | `proj inv export api` | ✅ **FIXED** - Added auto-dedupe with `--no-dedupe` flag |
+| U4    | 🟠 HIGH   | `proj inv scan local` | ✅ **FIXED** - Skip subdirs inside git repos             |
 
 ---
 
@@ -437,6 +447,7 @@ proj inv analyze
 **Component:** `proj inv dedupe`
 
 **Description:** When dedupe finds duplicates (same project from GitHub + local scan), it should intelligently merge the records instead of just dropping one. For example:
+
 - GitHub scan provides: `remote_url`, `description`, `language`
 - Local scan provides: `local_path`, `marker`
 - Merged record should have ALL fields
@@ -444,6 +455,7 @@ proj inv analyze
 **Current Behavior:** Keeps first occurrence, drops duplicates entirely.
 
 **Desired Behavior:** Merge fields from matching records:
+
 ```python
 # If matching by remote_url, combine:
 merged = {
@@ -470,6 +482,7 @@ merged = {
 **Current Behavior:** Single `--dir` option or default from config.
 
 **Desired Behavior:** Config-driven multi-directory scanning:
+
 ```yaml
 # config.yaml
 scan_directories:
@@ -493,5 +506,3 @@ scan_directories:
 **Description:** Allow excluding directories by pattern (e.g., `test*`, `*-backup`, `archive/`).
 
 **Effort:** 🟢 LOW - Add `--exclude` option
-
-

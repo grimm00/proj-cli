@@ -12,6 +12,7 @@
 
 - **[PR #1](pr1/README.md)** - Phase 1: Repository Setup (6 deferred issues)
 - **[PR #2](pr2/README.md)** - Phase 2: Migrate Project Commands (4 deferred issues)
+- **[PR #3](pr3/README.md)** - Phase 3: Add Inventory Commands (7 deferred + 3 enhancements)
 
 ### Cross-PR Batches
 
@@ -51,10 +52,11 @@ fix/
 
 | Category | Count |
 |----------|-------|
-| Total Issues | 13 |
-| Resolved | 3 |
+| Total Issues | 24 |
+| Resolved | 10 |
 | Pending | 0 |
-| Deferred | 10 |
+| Deferred | 14 |
+| Enhancements | 3 |
 
 ---
 

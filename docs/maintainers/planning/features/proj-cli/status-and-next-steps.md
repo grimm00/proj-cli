@@ -2,8 +2,8 @@
 
 **Feature:** Unified CLI Tool  
 **Status:** 🟠 In Progress  
-**Current Phase:** Phase 4 - Polish & Cleanup (Next)  
-**Last Updated:** 2025-12-16
+**Current Phase:** Phase 3 Complete - Phase 4 Next  
+**Last Updated:** 2025-12-17
 
 ---
 
@@ -13,7 +13,7 @@
 |-------|-------|--------|--------|
 | 1 | Repository Setup | ~2-3 hrs | ✅ Complete (PR #1) |
 | 2 | Migrate Project Commands | ~4-5 hrs | ✅ Complete (PR #2) |
-| 3 | Add Inventory Commands | ~3-4 hrs | ✅ Complete |
+| 3 | Add Inventory Commands | ~3-4 hrs | ✅ Complete (PR #3) |
 | 4 | Polish & Cleanup | ~2-3 hrs | 🔴 Not Started |
 | **Total** | | **~10-14 hrs** | **75%** |
 
@@ -43,17 +43,19 @@
 
 **Merged via PR #2** (2025-12-17)
 
-### Phase 3: Add Inventory Commands ✅ (2025-12-16)
+### Phase 3: Add Inventory Commands ✅ (PR #3, 2025-12-17)
 
 - **Inventory commands:** `src/proj/commands/inventory.py` implemented
 - **Scan commands:** GitHub and local directory scanning
 - **Analysis commands:** Tech stack analysis and deduplication
 - **Export commands:** JSON and API export functionality
 - **Status command:** Inventory statistics display
-- **Tests:** 8 inventory command tests passing
+- **Tests:** 9 inventory command tests passing
 - **Manual testing:** Complete workflow tested
+- **Review:** Sourcery review completed, 3 HIGH items fixed, 7 items deferred to Phase 4
+- **User feedback:** 4 issues reported, all fixed in PR #3
 
-**Ready for PR** (2025-12-16)
+**Merged via PR #3** (2025-12-17)
 
 ---
 
@@ -61,18 +63,20 @@
 
 ### Immediate
 
-1. **Create PR for Phase 3:**
+1. **Start Phase 4:**
    ```
-   /pr --phase 3
+   /pre-phase-review 4
+   /task-phase 4 1
    ```
 
 ### Phase 4 Key Tasks
 
 1. Polish and cleanup
-2. Address deferred fixes from PR reviews
+2. Address deferred fixes from PR #1, #2, #3 reviews
 3. Final testing and documentation
+4. Remove work-prod `scripts/project_cli/`
 
-### Deferred from Phase 1 & 2 (to Phase 4)
+### Deferred from Phases 1-3 (to Phase 4)
 
 **From PR #1 (Phase 1):**
 See [PR #1 Sourcery Review](../../feedback/sourcery/pr1.md) for details:
@@ -88,6 +92,16 @@ See [PR #2 Sourcery Review](../../feedback/sourcery/pr2.md) for details:
 - Format option validation with typer.Choice
 - URL building helper extraction
 
+**From PR #3 (Phase 3):**
+See [PR #3 Sourcery Review](../../feedback/sourcery/pr3.md) for details:
+- #2: Depth-limited traversal for scan_local (performance)
+- #3: Defensive JSON parsing for inventory.json
+- #5-8: Test coverage improvements for inventory commands
+- Dedupe logic documentation alignment
+- Smart dedupe with field merging
+- Multi-directory scan config
+- Exclusion patterns for scan
+
 ---
 
 ## 📋 Requirements Checklist
@@ -98,8 +112,8 @@ See [PR #2 Sourcery Review](../../feedback/sourcery/pr2.md) for details:
 |----|-------------|----------|--------|
 | FR-1 | Single entry point (`proj`) | 🔴 High | ✅ Done |
 | FR-2 | Project commands (list, get, create, etc.) | 🔴 High | ✅ Done |
-| FR-3 | Scan commands | 🔴 High | 🔴 Pending |
-| FR-4 | Export commands | 🔴 High | 🔴 Pending |
+| FR-3 | Scan commands | 🔴 High | ✅ Done |
+| FR-4 | Export commands | 🔴 High | ✅ Done |
 | FR-5 | Config file support | 🔴 High | ✅ Done |
 | FR-6 | Environment overrides | 🔴 High | ✅ Done |
 
@@ -120,7 +134,7 @@ See [PR #2 Sourcery Review](../../feedback/sourcery/pr2.md) for details:
 
 - [x] `proj` command installable via `pip install .`
 - [x] All existing `proj` commands work (list, get, create, update, delete, search, import-json, archive)
-- [ ] New `proj inv` subcommands functional
+- [x] New `proj inv` subcommands functional
 - [x] Configuration via `~/.config/proj/config.yaml`
 - [x] XDG directory compliance
 - [ ] work-prod `scripts/project_cli/` removed
@@ -137,5 +151,5 @@ See [PR #2 Sourcery Review](../../feedback/sourcery/pr2.md) for details:
 
 ---
 
-**Last Updated:** 2025-12-16
+**Last Updated:** 2025-12-17
 
