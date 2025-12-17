@@ -25,4 +25,3 @@ def test_config_module_exists():
     """Test that config module exists."""
     from proj import config
     assert config is not None
-
