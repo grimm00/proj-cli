@@ -1,30 +1,32 @@
 # Documentation
 
-**Purpose:** Project documentation and guides  
-**Status:** 🔴 Not Started  
-**Last Updated:** {{CURRENT_DATE}}
+**Purpose:** proj-cli documentation and guides  
+**Status:** 🟡 Planned  
+**Last Updated:** 2025-12-16
 
 ---
 
 ## 📋 Quick Links
 
 ### Documentation Sections
-- **[API Documentation](api/README.md)** - API reference and examples
-- **[User Guide](user-guide/README.md)** - End-user documentation
-- **[Developer Guide](developer-guide/README.md)** - Development documentation
-- **[Deployment Guide](deployment/README.md)** - Deployment instructions
+- **[Usage Guide](usage/README.md)** - CLI commands and examples
+- **[Configuration](configuration/README.md)** - Configuration reference
+- **[Development Guide](development/README.md)** - Development setup and contribution
+
+### Maintainer Documentation
+- **[Maintainers Hub](maintainers/README.md)** - Project planning and decisions
 
 ---
 
 ## 🎯 Overview
 
-The docs directory contains comprehensive documentation for users, developers, and deployment.
+The docs directory contains documentation for users, developers, and maintainers of the `proj` CLI tool.
 
 ### Documentation Types
-1. **API Documentation** - API reference and examples
-2. **User Guide** - End-user instructions
-3. **Developer Guide** - Development setup and guidelines
-4. **Deployment Guide** - Deployment and operations
+1. **Usage Guide** - Command reference and examples
+2. **Configuration** - Config file and environment variables
+3. **Development Guide** - Setup, testing, and contribution guidelines
+4. **Maintainers** - Planning, decisions, and project management
 
 ---
 
@@ -32,14 +34,18 @@ The docs directory contains comprehensive documentation for users, developers, a
 
 ```
 docs/
-├── api/             # API documentation
-├── user-guide/      # User documentation
-├── developer-guide/ # Developer documentation
-└── deployment/      # Deployment documentation
+├── README.md            # 📍 HUB - This file
+├── usage/               # CLI usage documentation
+├── configuration/       # Configuration reference
+├── development/         # Development guide
+└── maintainers/         # Project planning and decisions
+    ├── planning/        # Feature planning
+    ├── decisions/       # Architecture decisions (ADRs)
+    └── ...
 ```
 
 ---
 
-**Last Updated:** {{CURRENT_DATE}}  
-**Status:** 🔴 Not Started  
-**Next:** [API Documentation](api/README.md)
+**Last Updated:** 2025-12-16  
+**Status:** 🟡 Planned  
+**Next:** [Usage Guide](usage/README.md)
