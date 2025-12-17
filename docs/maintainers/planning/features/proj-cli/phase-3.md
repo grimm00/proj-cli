@@ -287,48 +287,48 @@ def scan_github(
 ):
     """Scan GitHub repositories for a user."""
     config = get_config()
-    
+
     # Get username from option or config
     gh_user = username or config.github_username
     if not gh_user:
         console.print("[red]Error: GitHub username required. Use --user or set in config.[/red]")
         raise typer.Exit(1)
-    
+
     # Check for GitHub token
     gh_token = config.github_token
     if not gh_token:
         console.print("[yellow]Warning: No GitHub token set. Rate limits may apply.[/yellow]")
-    
+
     with Progress(
         SpinnerColumn(),
         TextColumn("[progress.description]{task.description}"),
         console=console,
     ) as progress:
         task = progress.add_task(f"Scanning GitHub repos for {gh_user}...", total=None)
-        
+
         try:
             # Use GitHub API directly
             import requests
-            
+
             url = f"https://api.github.com/users/{gh_user}/repos"
             headers = {}
             if gh_token:
                 headers["Authorization"] = f"token {gh_token}"
-            
+
             params = {"per_page": 100, "sort": "updated"}
             repos = []
-            
+
             while url:
                 response = requests.get(url, headers=headers, params=params)
                 response.raise_for_status()
                 repos.extend(response.json())
-                
+
                 # Check for pagination
                 url = response.links.get("next", {}).get("url")
                 params = {}  # Clear params for subsequent requests
-            
+
             progress.update(task, description=f"Found {len(repos)} repositories")
-            
+
             # Transform to inventory format
             inventory_items = []
             for repo in repos:
@@ -341,7 +341,7 @@ def scan_github(
                     "updated_at": repo.get("updated_at", ""),
                 }
                 inventory_items.append(item)
-            
+
             # Save to file or inventory
             if output:
                 with open(output, "w") as f:
@@ -353,12 +353,12 @@ def scan_github(
                 # Add source tag
                 for item in inventory_items:
                     item["scan_source"] = "github"
-                
+
                 # Simple merge (will be deduped later)
                 combined = existing + inventory_items
                 save_inventory(combined)
                 console.print(f"[green]✓ Added {len(inventory_items)} GitHub repos to inventory[/green]")
-                
+
         except requests.RequestException as e:
             console.print(f"[red]Error: GitHub API error: {e}[/red]")
             raise typer.Exit(1)
@@ -382,50 +382,50 @@ def scan_local(
 ):
     """Scan local directories for projects."""
     config = get_config()
-    
+
     # Get directories to scan
     if directory:
         scan_dirs = [directory]
     else:
         scan_dirs = [Path(d) for d in config.local_scan_dirs]
-    
+
     with Progress(
         SpinnerColumn(),
         TextColumn("[progress.description]{task.description}"),
         console=console,
     ) as progress:
         task = progress.add_task("Scanning local projects...", total=None)
-        
+
         projects = []
-        
+
         for scan_dir in scan_dirs:
             if not scan_dir.exists():
                 console.print(f"[yellow]Warning: {scan_dir} does not exist[/yellow]")
                 continue
-            
+
             progress.update(task, description=f"Scanning {scan_dir}...")
-            
+
             # Find projects by looking for markers
             markers = [".git", "package.json", "pyproject.toml", "Cargo.toml", "go.mod"]
-            
+
             for marker in markers:
                 for project_dir in scan_dir.glob(f"**/{marker}"):
                     if project_dir.parts.count("node_modules") > 0:
                         continue
                     if project_dir.parts.count(".git") > 1:
                         continue
-                    
+
                     # Get project root
                     if marker == ".git":
                         root = project_dir.parent
                     else:
                         root = project_dir.parent
-                    
+
                     # Check depth
                     rel_depth = len(root.relative_to(scan_dir).parts)
                     if rel_depth > depth:
                         continue
-                    
+
                     # Get git remote if available
                     remote_url = ""
                     git_dir = root / ".git"
@@ -440,7 +440,7 @@ def scan_local(
                                 remote_url = result.stdout.strip()
                         except Exception:
                             pass
-                    
+
                     # Add to projects if not already added
                     if not any(p["local_path"] == str(root) for p in projects):
                         projects.append({
@@ -450,17 +450,17 @@ def scan_local(
                             "source": "local",
                             "marker": marker,
                         })
-        
+
         progress.update(task, description=f"Found {len(projects)} local projects")
-        
+
         # Merge with existing inventory
         existing = load_inventory()
         for item in projects:
             item["scan_source"] = "local"
-        
+
         combined = existing + projects
         save_inventory(combined)
-        
+
         console.print(f"[green]✓ Added {len(projects)} local projects to inventory[/green]")
 ```
 
@@ -471,6 +471,7 @@ def scan_local(
 **Goal:** Implement analyze and dedupe commands
 
 **Source scripts:**
+
 - `work-prod/scripts/inventory/analyze-tech-stack.py`
 - `work-prod/scripts/inventory/deduplicate-projects.py`
 
@@ -481,31 +482,31 @@ def scan_local(
 def analyze():
     """Analyze tech stack of inventory projects."""
     inventory = load_inventory()
-    
+
     if not inventory:
         console.print("[yellow]No projects in inventory. Run scan first.[/yellow]")
         raise typer.Exit(1)
-    
+
     with Progress(
         SpinnerColumn(),
         TextColumn("[progress.description]{task.description}"),
         console=console,
     ) as progress:
         task = progress.add_task("Analyzing projects...", total=len(inventory))
-        
+
         for i, project in enumerate(inventory):
             progress.update(task, advance=1, description=f"Analyzing {project.get('name', 'unknown')}...")
-            
+
             local_path = project.get("local_path")
             if not local_path or not Path(local_path).exists():
                 continue
-            
+
             root = Path(local_path)
-            
+
             # Detect languages/frameworks
             languages = []
             frameworks = []
-            
+
             if (root / "package.json").exists():
                 languages.append("JavaScript")
                 try:
@@ -520,25 +521,25 @@ def analyze():
                             frameworks.append("Express")
                 except Exception:
                     pass
-            
+
             if (root / "pyproject.toml").exists() or (root / "setup.py").exists():
                 languages.append("Python")
-            
+
             if (root / "Cargo.toml").exists():
                 languages.append("Rust")
-            
+
             if (root / "go.mod").exists():
                 languages.append("Go")
-            
+
             # Update project
             if languages:
                 project["languages"] = languages
             if frameworks:
                 project["frameworks"] = frameworks
             project["analyzed"] = True
-        
+
         save_inventory(inventory)
-        
+
         analyzed_count = sum(1 for p in inventory if p.get("analyzed"))
         console.print(f"[green]✓ Analyzed {analyzed_count} projects[/green]")
 
@@ -547,23 +548,23 @@ def analyze():
 def dedupe():
     """Deduplicate inventory entries."""
     inventory = load_inventory()
-    
+
     if not inventory:
         console.print("[yellow]No projects in inventory.[/yellow]")
         raise typer.Exit(1)
-    
+
     original_count = len(inventory)
-    
+
     # Dedupe by remote_url (primary) or name+local_path (secondary)
     seen_urls = set()
     seen_paths = set()
     unique = []
-    
+
     for project in inventory:
         remote_url = project.get("remote_url", "").strip()
         local_path = project.get("local_path", "").strip()
         name = project.get("name", "")
-        
+
         # Primary key: remote_url if available
         if remote_url:
             if remote_url not in seen_urls:
@@ -577,10 +578,10 @@ def dedupe():
         # Fallback: name (may have duplicates)
         else:
             unique.append(project)
-    
+
     removed = original_count - len(unique)
     save_inventory(unique)
-    
+
     console.print(f"[green]✓ Removed {removed} duplicates ({len(unique)} remaining)[/green]")
 ```
 
@@ -602,11 +603,11 @@ def export_json(
 ):
     """Export inventory to JSON file."""
     inventory = load_inventory()
-    
+
     if not inventory:
         console.print("[yellow]No projects in inventory.[/yellow]")
         raise typer.Exit(1)
-    
+
     if format == "projects":
         # Transform to work-prod project format
         projects = []
@@ -621,14 +622,14 @@ def export_json(
             if item.get("languages"):
                 project["languages"] = item["languages"]
             projects.append(project)
-        
+
         data = {"projects": projects}
     else:
         data = inventory
-    
+
     with open(output, "w") as f:
         json.dump(data, f, indent=2)
-    
+
     console.print(f"[green]✓ Exported {len(inventory)} items to {output}[/green]")
 
 
@@ -638,13 +639,13 @@ def export_api(
 ):
     """Push inventory to work-prod API."""
     from proj.api_client import APIClient, APIError
-    
+
     inventory = load_inventory()
-    
+
     if not inventory:
         console.print("[yellow]No projects in inventory.[/yellow]")
         raise typer.Exit(1)
-    
+
     # Transform to project format
     projects = []
     for item in inventory:
@@ -656,7 +657,7 @@ def export_api(
             "status": "active",
         }
         projects.append(project)
-    
+
     if dry_run:
         console.print(f"[yellow]Dry run: Would import {len(projects)} projects[/yellow]")
         for p in projects[:5]:
@@ -664,11 +665,11 @@ def export_api(
         if len(projects) > 5:
             console.print(f"  ... and {len(projects) - 5} more")
         return
-    
+
     try:
         client = APIClient()
         result = client.import_projects(projects)
-        
+
         console.print(f"[green]✓ Imported: {result.get('imported', 0)}[/green]")
         console.print(f"[yellow]  Skipped: {result.get('skipped', 0)}[/yellow]")
         if result.get("errors"):
@@ -692,25 +693,25 @@ def status():
     """Show inventory status."""
     inventory = load_inventory()
     inv_file = get_inventory_file()
-    
+
     table = Table(title="Inventory Status")
     table.add_column("Metric", style="cyan")
     table.add_column("Value", style="green")
-    
+
     table.add_row("Total Projects", str(len(inventory)))
     table.add_row("Data File", str(inv_file))
     table.add_row("File Exists", "Yes" if inv_file.exists() else "No")
-    
+
     if inventory:
         # Count by source
         github_count = sum(1 for p in inventory if p.get("scan_source") == "github")
         local_count = sum(1 for p in inventory if p.get("scan_source") == "local")
         analyzed_count = sum(1 for p in inventory if p.get("analyzed"))
-        
+
         table.add_row("GitHub Projects", str(github_count))
         table.add_row("Local Projects", str(local_count))
         table.add_row("Analyzed", str(analyzed_count))
-        
+
         # Languages
         all_langs = []
         for p in inventory:
@@ -720,7 +721,7 @@ def status():
             lang_counts = Counter(all_langs).most_common(5)
             langs_str = ", ".join(f"{l}({c})" for l, c in lang_counts)
             table.add_row("Top Languages", langs_str)
-    
+
     console.print(table)
 ```
 
@@ -841,4 +842,3 @@ proj inv export api
 ---
 
 **Last Updated:** 2025-12-16
-

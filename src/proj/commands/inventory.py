@@ -1,11 +1,17 @@
 """Inventory management commands."""
 import json
 from pathlib import Path
+from typing import Optional
 
+import requests
 import typer
 from rich.console import Console
+from rich.progress import Progress, SpinnerColumn, TextColumn
 
 from proj.config import Config, get_data_dir
+from proj.error_handler import (
+    handle_error, APIError, BackendConnectionError, TimeoutError
+)
 
 console = Console()
 
@@ -62,11 +68,117 @@ def save_inventory(data: list[dict]) -> None:
         json.dump(data, f, indent=2)
 
 
-# Placeholder commands - will be implemented in subsequent tasks
 @scan_app.command(name="github")
-def scan_github():
-    """Scan GitHub repositories."""
-    console.print("[yellow]Not implemented yet[/yellow]")
+def scan_github(
+    username: Optional[str] = typer.Option(
+        None, "--user", "-u", help="GitHub username"
+    ),
+    output: Optional[Path] = typer.Option(
+        None, "--output", "-o", help="Output file"
+    ),
+):
+    """Scan GitHub repositories for a user."""
+    config = get_config()
+
+    # Get username from option or config
+    gh_user = username or config.github_username
+    if not gh_user:
+        msg = (
+            "[red]Error: GitHub username required. "
+            "Use --user or set in config.[/red]"
+        )
+        console.print(msg)
+        raise typer.Exit(1)
+
+    # Check for GitHub token
+    gh_token = config.github_token
+    if not gh_token:
+        msg = (
+            "[yellow]Warning: No GitHub token set. "
+            "Rate limits may apply.[/yellow]"
+        )
+        console.print(msg)
+
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        console=console,
+    ) as progress:
+        task = progress.add_task(
+            f"Scanning GitHub repos for {gh_user}...", total=None
+        )
+
+        try:
+            url = f"https://api.github.com/users/{gh_user}/repos"
+            headers = {}
+            if gh_token:
+                headers["Authorization"] = f"token {gh_token}"
+
+            params = {"per_page": 100, "sort": "updated"}
+            repos = []
+
+            while url:
+                response = requests.get(url, headers=headers, params=params)
+                response.raise_for_status()
+                repos.extend(response.json())
+
+                # Check for pagination
+                url = response.links.get("next", {}).get("url")
+                params = {}  # Clear params for subsequent requests
+
+            progress.update(task, description=f"Found {len(repos)} repositories")
+
+            # Transform to inventory format
+            inventory_items = []
+            for repo in repos:
+                item = {
+                    "name": repo["name"],
+                    "remote_url": repo["html_url"],
+                    "description": repo.get("description", ""),
+                    "source": "github",
+                    "language": repo.get("language", ""),
+                    "updated_at": repo.get("updated_at", ""),
+                }
+                inventory_items.append(item)
+
+            # Save to file or inventory
+            if output:
+                with open(output, "w", encoding="utf-8") as f:
+                    json.dump(inventory_items, f, indent=2)
+                msg = (
+                    f"[green]✓ Saved {len(inventory_items)} repos "
+                    f"to {output}[/green]"
+                )
+                console.print(msg)
+            else:
+                # Merge with existing inventory
+                existing = load_inventory()
+                # Add source tag
+                for item in inventory_items:
+                    item["scan_source"] = "github"
+
+                # Simple merge (will be deduped later)
+                combined = existing + inventory_items
+                save_inventory(combined)
+                count = len(inventory_items)
+                msg = (
+                    f"[green]✓ Added {count} GitHub repos "
+                    f"to inventory[/green]"
+                )
+                console.print(msg)
+
+        except requests.RequestException as e:
+            # Handle GitHub API errors
+            if isinstance(e, requests.exceptions.ConnectionError):
+                handle_error(BackendConnectionError(str(e)), console)
+            elif isinstance(e, requests.exceptions.Timeout):
+                handle_error(TimeoutError(str(e)), console)
+            elif isinstance(e, requests.exceptions.HTTPError):
+                status_code = e.response.status_code if e.response else None
+                handle_error(APIError(str(e), status_code=status_code), console)
+            else:
+                console.print(f"[red]Error: GitHub API error: {e}[/red]")
+            raise typer.Exit(1)
 
 
 @scan_app.command(name="local")
