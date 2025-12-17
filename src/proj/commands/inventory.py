@@ -419,15 +419,100 @@ def dedupe():
 
 
 @export_app.command(name="json")
-def export_json():
+def export_json(
+    output: Path = typer.Argument(..., help="Output file path"),
+    format: str = typer.Option(
+        "projects", "--format", "-f", help="Format: projects, raw"
+    ),
+):
     """Export inventory to JSON file."""
-    console.print("[yellow]Not implemented yet[/yellow]")
+    inventory = load_inventory()
+
+    if not inventory:
+        console.print("[yellow]No projects in inventory.[/yellow]")
+        raise typer.Exit(1)
+
+    if format == "projects":
+        # Transform to work-prod project format
+        projects = []
+        for item in inventory:
+            project = {
+                "name": item.get("name", ""),
+                "description": item.get("description", ""),
+                "remote_url": item.get("remote_url", ""),
+                "local_path": item.get("local_path", ""),
+                "status": "active",
+            }
+            if item.get("languages"):
+                project["languages"] = item["languages"]
+            projects.append(project)
+
+        data = {"projects": projects}
+    else:
+        data = inventory
+
+    with open(output, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
+
+    count = len(inventory)
+    msg = f"[green]✓ Exported {count} items to {output}[/green]"
+    console.print(msg)
 
 
 @export_app.command(name="api")
-def export_api():
+def export_api(
+    dry_run: bool = typer.Option(
+        False, "--dry-run", "-n",
+        help="Show what would be imported"
+    ),
+):
     """Push inventory to work-prod API."""
-    console.print("[yellow]Not implemented yet[/yellow]")
+    from proj.api_client import APIClient
+    from proj.error_handler import APIError, BackendConnectionError, TimeoutError
+
+    inventory = load_inventory()
+
+    if not inventory:
+        console.print("[yellow]No projects in inventory.[/yellow]")
+        raise typer.Exit(1)
+
+    # Transform to project format
+    projects = []
+    for item in inventory:
+        project = {
+            "name": item.get("name", ""),
+            "description": item.get("description", ""),
+            "remote_url": item.get("remote_url", ""),
+            "local_path": item.get("local_path", ""),
+            "status": "active",
+        }
+        projects.append(project)
+
+    if dry_run:
+        count = len(projects)
+        msg = f"[yellow]Dry run: Would import {count} projects[/yellow]"
+        console.print(msg)
+        for p in projects[:5]:
+            console.print(f"  - {p['name']}")
+        if len(projects) > 5:
+            remaining = len(projects) - 5
+            console.print(f"  ... and {remaining} more")
+        return
+
+    try:
+        client = APIClient()
+        result = client.import_projects(projects)
+
+        imported = result.get('imported', 0)
+        skipped = result.get('skipped', 0)
+        console.print(f"[green]✓ Imported: {imported}[/green]")
+        console.print(f"[yellow]  Skipped: {skipped}[/yellow]")
+        if result.get("errors"):
+            error_count = len(result.get('errors', []))
+            console.print(f"[red]  Errors: {error_count}[/red]")
+    except (APIError, BackendConnectionError, TimeoutError) as e:
+        handle_error(e, console)
+        raise typer.Exit(1)
 
 
 @inv_app.command(name="status")
