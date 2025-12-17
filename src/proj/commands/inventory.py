@@ -370,11 +370,12 @@ def analyze():
                 project["frameworks"] = frameworks
             project["analyzed"] = True
 
-        save_inventory(inventory)
+    # Save and print success message OUTSIDE progress context
+    save_inventory(inventory)
 
-        analyzed_count = sum(1 for p in inventory if p.get("analyzed"))
-        msg = f"[green]✓ Analyzed {analyzed_count} projects[/green]"
-        console.print(msg)
+    analyzed_count = sum(1 for p in inventory if p.get("analyzed"))
+    msg = f"[green]✓ Analyzed {analyzed_count} projects[/green]"
+    console.print(msg)
 
 
 @inv_app.command(name="dedupe")
@@ -471,6 +472,10 @@ def export_api(
         False, "--dry-run", "-n",
         help="Show what would be imported"
     ),
+    no_dedupe: bool = typer.Option(
+        False, "--no-dedupe",
+        help="Skip automatic deduplication before export"
+    ),
 ):
     """Push inventory to work-prod API."""
     from proj.api_client import APIClient
@@ -480,6 +485,34 @@ def export_api(
     if not inventory:
         console.print("[yellow]No projects in inventory.[/yellow]")
         raise typer.Exit(1)
+
+    # Auto-dedupe before export (unless --no-dedupe)
+    if not no_dedupe:
+        original_count = len(inventory)
+        seen_urls = set()
+        seen_paths = set()
+        unique = []
+
+        for item in inventory:
+            remote_url = item.get("remote_url", "").strip()
+            local_path = item.get("local_path", "").strip()
+
+            if remote_url:
+                if remote_url not in seen_urls:
+                    seen_urls.add(remote_url)
+                    unique.append(item)
+            elif local_path:
+                if local_path not in seen_paths:
+                    seen_paths.add(local_path)
+                    unique.append(item)
+            else:
+                unique.append(item)
+
+        removed = original_count - len(unique)
+        if removed > 0:
+            msg = f"[dim]Auto-deduped: removed {removed} duplicates[/dim]"
+            console.print(msg)
+        inventory = unique
 
     # Transform to project format
     projects = []
