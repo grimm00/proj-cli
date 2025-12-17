@@ -5,6 +5,7 @@ from typing import Optional
 import typer
 
 from proj.commands import projects
+from proj.commands.inventory import inv_app
 
 app = typer.Typer(
     name="proj",
@@ -47,6 +48,9 @@ app.command(name="delete")(projects.delete_project)
 app.command(name="search")(projects.search_projects)
 app.command(name="import-json")(projects.import_json)
 app.command(name="archive")(projects.archive_project)
+
+# Register inventory command group
+app.add_typer(inv_app, name="inv")
 
 
 if __name__ == "__main__":
