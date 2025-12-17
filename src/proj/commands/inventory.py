@@ -127,7 +127,8 @@ def scan_github(
                 params = {}  # Clear params for subsequent requests
 
             repo_count = len(repos)
-            progress.update(task, description=f"Found {repo_count} repositories")
+            desc = f"Found {repo_count} repositories"
+            progress.update(task, description=desc)
 
             # Transform to inventory format
             inventory_items = []
@@ -178,7 +179,8 @@ def scan_github(
                 status_code = None
                 if e.response:
                     status_code = e.response.status_code
-                handle_error(APIError(str(e), status_code=status_code), console)
+                error = APIError(str(e), status_code=status_code)
+                handle_error(error, console)
             else:
                 console.print(f"[red]Error: GitHub API error: {e}[/red]")
             raise typer.Exit(1)
