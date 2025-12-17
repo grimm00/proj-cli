@@ -4,6 +4,7 @@
 **Duration:** ~2-3 hours  
 **Status:** ✅ Complete  
 **Completed:** 2025-12-16  
+**Merged:** PR #1 (2025-12-17)  
 **Prerequisites:** Repository created at https://github.com/grimm00/proj-cli
 
 ---

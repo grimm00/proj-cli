@@ -2,8 +2,8 @@
 
 **Feature:** Unified CLI Tool  
 **Status:** 🟠 In Progress  
-**Current Phase:** Phase 1 Complete → Ready for Phase 2  
-**Last Updated:** 2025-12-16
+**Current Phase:** Phase 1 Merged → Ready for Phase 2  
+**Last Updated:** 2025-12-17
 
 ---
 
@@ -21,26 +21,23 @@
 
 ## ✅ Completed
 
-### Phase 1: Repository Setup (2025-12-16)
+### Phase 1: Repository Setup ✅ (PR #1, 2025-12-17)
 
 - **Package structure:** `src/proj/` layout
 - **CLI framework:** Typer with Rich output
 - **Configuration:** Pydantic + XDG compliance
 - **Tests:** 13 tests passing (package, config, CLI)
 - **Commands:** `proj --version`, `proj --help`
+- **Documentation:** Clean up template, migration reference doc
+- **Review:** Sourcery review completed, 2 HIGH items fixed, 6 items deferred to Phase 4
 
-**Commits on `feat/phase-1-cli-setup`:**
-1. `feat(phase-1): restructure repository for CLI-only package`
-2. `docs(cursor-rules): add project-specific AI rules`
-3. `test(phase-1): add package structure tests`
-4. `test(phase-1): add configuration tests`
-5. `test(phase-1): add CLI integration tests`
+**Merged via PR #1** (2025-12-17)
 
 ---
 
 ## 🟠 In Progress
 
-- **Ready for PR:** Create PR to merge `feat/phase-1-cli-setup` to `main`
+- **Phase 1 Complete:** PR #1 merged to main (2025-12-17)
 - **Ready for Phase 2:** Migrate Project Commands from work-prod
 
 ---
@@ -49,30 +46,31 @@
 
 ### Immediate
 
-1. **Create Phase 1 PR:**
-   ```bash
-   cd ~/Projects/proj-cli
-   gh pr create --base main --head feat/phase-1-cli-setup \
-     --title "feat: Phase 1 Repository Setup" \
-     --body "Phase 1 deliverables: package structure, Typer CLI, Pydantic config, 13 tests"
-   ```
-
-2. **Pre-Phase Review:**
+1. **Pre-Phase Review:**
    ```
    /pre-phase-review 2
    ```
 
-3. **Start Phase 2:**
+2. **Start Phase 2:**
    ```
    /task-phase 2 1
    ```
 
 ### Phase 2 Key Tasks
 
-1. Create API client (`src/proj/api_client.py`)
-2. Add project commands (`src/proj/commands/project.py`)
-3. Write tests for API client and commands
-4. Verify all commands work with work-prod backend
+1. Create error handler (`src/proj/error_handler.py`)
+2. Create API client (`src/proj/api_client.py`)
+3. Add project commands (`src/proj/commands/projects.py`)
+4. Write tests for API client and commands
+5. Verify all commands work with work-prod backend
+
+### Deferred from Phase 1 (to Phase 4)
+
+See [PR #1 Sourcery Review](../../feedback/sourcery/pr1.md) for details:
+- #1: Add explicit encoding for config file
+- #3: Fix brittle return code test
+- #4-6: Test coverage improvements
+- #7: Version metadata test
 
 ---
 

@@ -2,7 +2,7 @@
 
 **Purpose:** Track and document fixes for the proj-cli feature  
 **Status:** ✅ Active  
-**Last Updated:** 2025-12-16
+**Last Updated:** 2025-12-17
 
 ---
 
@@ -10,7 +10,7 @@
 
 ### By PR
 
-No PRs yet - Phase 1 PR pending.
+- **[PR #1](pr1/README.md)** - Phase 1: Repository Setup (6 deferred issues)
 
 ### Cross-PR Batches
 
@@ -23,6 +23,8 @@ None yet.
 ```
 fix/
 ├── README.md                    # This hub file
+├── pr1/                         # PR #1 fixes
+│   └── README.md                # PR #1 hub
 ├── pr##/                        # PR-specific fixes
 │   ├── README.md                # PR hub
 │   └── issue-N-description.md   # Individual issue
@@ -48,12 +50,12 @@ fix/
 
 | Category | Count |
 |----------|-------|
-| Total Issues | 0 |
-| Resolved | 0 |
+| Total Issues | 8 |
+| Resolved | 2 |
 | Pending | 0 |
-| Deferred | 0 |
+| Deferred | 6 |
 
 ---
 
-**Last Updated:** 2025-12-16
+**Last Updated:** 2025-12-17
 
