@@ -126,7 +126,7 @@ def test_inv_status_exists():
 
 ---
 
-### Task 2: Create Inventory Command Group Structure (GREEN)
+### Task 2: Create Inventory Command Group Structure (GREEN) ✅
 
 **Goal:** Create Typer subcommand groups for inventory
 
@@ -246,7 +246,7 @@ def status():
 
 ---
 
-### Task 3: Register Inventory Commands in Main CLI
+### Task 3: Register Inventory Commands in Main CLI ✅
 
 **Goal:** Add inv command group to main CLI
 
