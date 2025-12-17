@@ -299,14 +299,123 @@ def scan_local(
 
 @inv_app.command(name="analyze")
 def analyze():
-    """Analyze tech stack of scanned projects."""
-    console.print("[yellow]Not implemented yet[/yellow]")
+    """Analyze tech stack of inventory projects."""
+    inventory = load_inventory()
+
+    if not inventory:
+        msg = "[yellow]No projects in inventory. Run scan first.[/yellow]"
+        console.print(msg)
+        raise typer.Exit(1)
+
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        console=console,
+    ) as progress:
+        task = progress.add_task("Analyzing projects...", total=len(inventory))
+
+        for project in inventory:
+            name = project.get('name', 'unknown')
+            desc = f"Analyzing {name}..."
+            progress.update(task, advance=1, description=desc)
+
+            local_path = project.get("local_path")
+            if not local_path or not Path(local_path).exists():
+                continue
+
+            root = Path(local_path)
+
+            # Detect languages/frameworks
+            languages = []
+            frameworks = []
+
+            if (root / "package.json").exists():
+                languages.append("JavaScript")
+                try:
+                    pkg_path = root / "package.json"
+                    with open(pkg_path, encoding="utf-8") as f:
+                        pkg = json.load(f)
+                        deps = {
+                            **pkg.get("dependencies", {}),
+                            **pkg.get("devDependencies", {})
+                        }
+                        if "react" in deps:
+                            frameworks.append("React")
+                        if "vue" in deps:
+                            frameworks.append("Vue")
+                        if "express" in deps:
+                            frameworks.append("Express")
+                except Exception:
+                    pass
+
+            pyproject_exists = (root / "pyproject.toml").exists()
+            setup_exists = (root / "setup.py").exists()
+            if pyproject_exists or setup_exists:
+                languages.append("Python")
+
+            if (root / "Cargo.toml").exists():
+                languages.append("Rust")
+
+            if (root / "go.mod").exists():
+                languages.append("Go")
+
+            # Update project
+            if languages:
+                project["languages"] = languages
+            if frameworks:
+                project["frameworks"] = frameworks
+            project["analyzed"] = True
+
+        save_inventory(inventory)
+
+        analyzed_count = sum(1 for p in inventory if p.get("analyzed"))
+        msg = f"[green]✓ Analyzed {analyzed_count} projects[/green]"
+        console.print(msg)
 
 
 @inv_app.command(name="dedupe")
 def dedupe():
     """Deduplicate inventory entries."""
-    console.print("[yellow]Not implemented yet[/yellow]")
+    inventory = load_inventory()
+
+    if not inventory:
+        console.print("[yellow]No projects in inventory.[/yellow]")
+        raise typer.Exit(1)
+
+    original_count = len(inventory)
+
+    # Dedupe by remote_url (primary) or name+local_path (secondary)
+    seen_urls = set()
+    seen_paths = set()
+    unique = []
+
+    for project in inventory:
+        remote_url = project.get("remote_url", "").strip()
+        local_path = project.get("local_path", "").strip()
+
+        # Primary key: remote_url if available
+        if remote_url:
+            if remote_url not in seen_urls:
+                seen_urls.add(remote_url)
+                unique.append(project)
+        # Secondary key: local_path
+        elif local_path:
+            if local_path not in seen_paths:
+                seen_paths.add(local_path)
+                unique.append(project)
+        # Fallback: name (may have duplicates)
+        else:
+            unique.append(project)
+
+    removed = original_count - len(unique)
+    save_inventory(unique)
+
+    remaining = len(unique)
+    msg = (
+        f"[green]✓ Removed {removed} duplicates "
+        f"({remaining} remaining)[/green]"
+    )
+    console.print(msg)
 
 
 @export_app.command(name="json")
