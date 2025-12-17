@@ -32,9 +32,9 @@ This command supports multiple project organization patterns, matching `/pr` and
 
 **Sourcery Review:**
 
-- Review tool: `dt-review` (if available from dev-toolkit)
+- Review tool: `dt-review` (REQUIRED - always run this tool)
 - Review output: `docs/maintainers/feedback/sourcery/pr##.md`
-- **Note:** Missing reviews are acceptable - workflow continues without review
+- **IMPORTANT:** Always run `dt-review` explicitly - do NOT assume GitHub's Sourcery integration check is sufficient
 
 ---
 
@@ -64,8 +64,10 @@ This command supports multiple project organization patterns, matching `/pr` and
 **Options:**
 
 - `--feature [name]` - Specify feature name (overrides auto-detection)
-- `--skip-manual-testing` - Skip manual testing (not recommended)
-- `--skip-review` - Skip Sourcery review (if review not available)
+- `--skip-manual-testing` - Skip manual testing (auto-detected for non-feature PRs)
+- `--force-manual-testing` - Force manual testing even for non-feature PRs
+
+**Note:** There is no `--skip-review` option. Sourcery review via `dt-review` is REQUIRED.
 
 ---
 
@@ -233,54 +235,237 @@ gh pr view [pr-number] --json state,title,headRefName
 
 ---
 
-### 2. Update Manual Testing Guide (MANDATORY)
+### 1c. Check GitHub Actions/CI-CD Status (NEW)
 
-**Detect feature name:**
+**Purpose:** Verify that all GitHub Actions workflows and CI/CD jobs are passing before proceeding with PR validation.
 
-- Use `--feature` option if provided
-- Otherwise, auto-detect from PR branch or phase number:
-  - Check if `docs/maintainers/planning/features/` exists
-  - If single feature exists, use that feature name
-  - If multiple features exist, search for manual testing guide
-  - If no features exist, use project-wide structure
+**Process:**
 
-**File:**
+1. **Check GitHub Actions status for PR:**
+
+   ```bash
+   gh pr checks [pr-number]
+   ```
+
+2. **Get detailed check information:**
+
+   ```bash
+   gh pr checks [pr-number] --json name,state,url
+   ```
+
+3. **Check required checks:**
+
+   ```bash
+   gh pr view [pr-number] --json mergeable,mergeStateStatus
+   ```
+
+**CI/CD Status Validation:**
+
+- [ ] All GitHub Actions checks passing
+- [ ] No failed CI/CD jobs
+- [ ] Required checks passing
+
+**If checks are failing:**
+
+- ⚠️ **Warning:** Some CI/CD checks are failing
+- ⚠️ **Recommendation:** Address failing checks before merge
+- Document the warning in the summary report
+- List failed checks and their URLs
+
+---
+
+### 1d. Determine Manual Testing Applicability (NEW)
+
+**Purpose:** Automatically determine if this PR requires manual testing based on PR type, branch name, and file changes.
+
+**When manual testing IS required:**
+
+| PR Type | Branch Pattern | Requires Manual Testing |
+|---------|----------------|------------------------|
+| Feature (new functionality) | `feat/*` | ✅ Yes |
+| Feature (phase work) | `feat/*-phase-*` | ✅ Yes |
+| Fix (user-facing) | `fix/*` with UI/API changes | ✅ Yes |
+| Script/Command changes | Any with `scripts/` changes | ✅ Yes |
+
+**When manual testing is NOT required:**
+
+| PR Type | Branch Pattern | Requires Manual Testing |
+|---------|----------------|------------------------|
+| Documentation only | `docs/*` | ❌ No |
+| Chore/maintenance | `chore/*` | ❌ No |
+| CI/CD changes | `ci/*` | ❌ No |
+| Refactoring | `refactor/*` | ❌ No |
+
+**Detection Process:**
+
+1. **Extract branch type from PR head branch:**
+   ```bash
+   gh pr view [pr-number] --json headRefName --jq '.headRefName'
+   ```
+
+2. **Identify branch type:**
+   - `feat/*` → Feature PR (requires testing)
+   - `fix/*` → Fix PR (check file changes)
+   - `docs/*` → Documentation PR (skip testing)
+   - `chore/*` → Chore PR (skip testing)
+   - `ci/*` → CI/CD PR (skip testing)
+
+3. **Make determination:**
+   - **Requires manual testing:** Proceed to Step 2
+   - **Does NOT require manual testing:** Skip to Step 4 (Sourcery Review)
+
+**Checklist:**
+
+- [ ] Branch type identified
+- [ ] File changes analyzed (if feat/fix)
+- [ ] Manual testing determination made
+- [ ] User informed of determination
+
+---
+
+### 2. Update Manual Testing Guide (CONDITIONAL)
+
+**Applicability:** This step is **conditional** based on Step 1d determination.
+
+- **If manual testing required:** Proceed with this step
+- **If manual testing NOT required:** Skip to Step 4 (Sourcery Review)
+- **If `--force-manual-testing` provided:** Proceed regardless
+- **If `--skip-manual-testing` provided:** Skip to Step 4
+
+---
+
+#### ⚠️ IMPORTANT: Manual Testing Guides Are for HUMAN Users
+
+**Manual testing guides are written for HUMAN team members to follow, NOT for the AI agent to run tests locally.**
+
+**Purpose of manual testing guides:**
+- 📖 **Documentation for humans** - Step-by-step instructions anyone can follow
+- 🔍 **User verification** - Allows humans to manually verify features work as expected
+- 📝 **Reference material** - Persists in the repo as a testing reference
+- 🎓 **Knowledge transfer** - New team members can understand how to test
+
+**Manual testing guides are NOT:**
+- ❌ Tests the AI agent runs during PR validation
+- ❌ A checklist only the AI uses internally
+- ❌ Automated test scripts (those go in `tests/`)
+
+---
+
+#### 2a. Check if Manual Testing Guide Exists
+
+**File locations:**
 
 - Feature-specific: `docs/maintainers/planning/features/[feature-name]/manual-testing.md`
 - Project-wide: `docs/maintainers/planning/manual-testing.md` (if exists)
 
-**IMPORTANT:** This step is MANDATORY for all PRs. Always check and update the manual testing guide, even if scenarios already exist.
+**Check if guide exists:**
+
+```bash
+ls docs/maintainers/planning/features/[feature-name]/manual-testing.md
+```
+
+**If guide does NOT exist:**
+
+1. **STOP and create the guide first** - A feature PR with user-facing changes MUST have a manual testing guide
+2. **Create the guide using the template below** (Section 2b)
+3. **Add scenarios for ALL phases completed so far**
+4. **Commit the guide to the feature branch** before proceeding
+
+**If guide exists:**
+
+- Proceed to Section 2c (Add scenarios for current phase)
+
+---
+
+#### 2b. Create Manual Testing Guide (If Missing)
+
+**When to create:** When manual testing is required but no guide exists.
+
+**Template:**
+
+```markdown
+# Manual Testing Guide - [Feature Name]
+
+**Feature:** [Feature Name]  
+**Phases Covered:** [List phases]  
+**Last Updated:** [YYYY-MM-DD]  
+**Status:** ✅ Active
+
+---
+
+## 📋 Overview
+
+This guide provides step-by-step instructions for manually verifying the [feature name] feature.
+
+**Purpose:**
+- Verify user-facing functionality works as expected
+- Test edge cases and error handling
+- Validate documentation and user experience
+
+**Prerequisites:**
+- [List prerequisites]
+
+---
+
+## 🧪 Phase N: [Phase Name]
+
+### Scenario N.1: [Scenario Name]
+
+**Objective:** [What this test verifies]
+
+**Steps:**
+
+1. [Step 1]
+2. [Step 2]
+
+**Expected Result:** ✅ [What success looks like]
+
+---
+
+## ✅ Acceptance Criteria Checklist
+
+- [ ] Scenario N.1 passes
+- [ ] Scenario N.2 passes
+
+---
+
+**Last Updated:** [YYYY-MM-DD]
+```
+
+**Key principles for the guide:**
+
+1. **Write for humans** - Clear, step-by-step instructions
+2. **Include context** - Explain what each scenario verifies
+3. **Provide cleanup** - Show how to reset after testing
+4. **Cover all phases** - Include scenarios for ALL completed phases
+5. **Be specific** - Include exact commands and expected outputs
+
+---
+
+#### 2c. Add Scenarios for Current Phase
 
 **Process:**
 
 1. **Review PR changes to identify new features:**
    - Check what endpoints/commands were added/modified
    - Identify all user-facing functionality
-   - Note any validation or error handling changes
 
 2. **Check if scenarios exist:**
    - Search manual testing guide for relevant scenarios
    - Check if all new features are covered
-   - Verify scenarios match current implementation
 
 3. **Add missing scenarios:**
-   - If scenarios are missing, add them using the template below
+   - Use the scenario template below
    - For phase PRs: Add scenarios for all new functionality
-   - For fix PRs: Add scenarios if validation/error handling changed
-   - Use consistent format and numbering
+   - For fix PRs: Add scenarios if behavior changed
 
-4. **Update header if needed:**
-   - Add PR number to header if not already listed
+4. **Update header:**
    - Update "Last Updated" date
-   - Note which scenarios were added for this PR
-
-5. **Update acceptance criteria:**
-   - Add checkboxes for new functionality
-   - Ensure all new features are covered
+   - Note which scenarios were added
 
 **Scenario Template:**
 
-```markdown
+````markdown
 ### Scenario N: [Feature Name] - [Test Type]
 
 **Test:** [Brief description]
@@ -288,54 +473,37 @@ gh pr view [pr-number] --json state,title,headRefName
 **Prerequisites:** [Any setup needed]
 
 **[API/CLI] Test:**
+
 ```bash
 [Command or curl example]
 # Expected: [Expected result]
 ```
 
 **Verification:**
+
 ```bash
 [Verification command]
 # Expected: [What to verify]
 ```
 
 **Expected Result:** ✅ [Success criteria]
-```
-
-**Common scenarios to add:**
-
-**For Filtering Features:**
-- Filter by each filter type
-- Multiple filters combined
-- Invalid filter values
-- Empty results
-- CLI filter flags
-
-**For Search Features:**
-- Search by various fields
-- Case-insensitive search
-- Partial match
-- No results found
-- Combined with filters
-- CLI search flag
-
-**For New Endpoints:**
-- Basic functionality (happy path)
-- Error cases (404, 400, validation)
-- Edge cases
-- CLI equivalent (if applicable)
+````
 
 **After updating:**
 
 - [ ] Scenarios added for all new functionality
-- [ ] Header updated with PR number
+- [ ] Header updated with date
 - [ ] Acceptance criteria updated
 - [ ] Scenarios committed to PR branch
-- [ ] Note which scenarios were added
 
 ---
 
-### 3. Run Manual Testing Scenarios
+### 3. Run Manual Testing Scenarios (CONDITIONAL)
+
+**Applicability:** This step is **conditional** - only runs if Step 2 was executed.
+
+- **If manual testing required:** Proceed with this step
+- **If manual testing NOT required:** Skip to Step 4 (Sourcery Review)
 
 **Location:**
 
@@ -411,72 +579,72 @@ gh pr view [pr-number] --json state,title,headRefName
 
 ---
 
-### 4. Run Sourcery Review (dt-review)
+### 4. Run Sourcery Review (dt-review) - REQUIRED
 
-**Important:** 
-- Run from the project directory to ensure review is for the correct repository
-- Use the path parameter to save directly to the project's documentation structure
-- **Note:** If review is not available or fails, that's okay - continue without review
+**IMPORTANT:** This step is REQUIRED. Always run `dt-review` explicitly.
+
+- Do NOT assume GitHub's Sourcery integration check is sufficient
+- The GitHub check only indicates if Sourcery found issues, it does NOT generate the review file
+- You MUST run `dt-review` to create the review file and fill out the priority matrix
 
 **Process:**
 
 1. **Navigate to project directory:**
+
    ```bash
    cd [project-directory]
    ```
 
 2. **Ensure output directory exists:**
+
    ```bash
    mkdir -p docs/maintainers/feedback/sourcery
    ```
 
-3. **Run review with custom path:**
+3. **Run review with custom path (ALWAYS RUN THIS):**
+
    ```bash
    dt-review [pr-number] docs/maintainers/feedback/sourcery/pr##.md
    ```
 
    **Example:**
+
    ```bash
    dt-review 19 docs/maintainers/feedback/sourcery/pr19.md
    ```
 
    **Note:** The `dt-review` command should be available in PATH. If not found, check if dev-toolkit is installed.
 
-   **If review fails or is not available:**
-   - This is acceptable - some PRs may not have reviews available
-   - Continue with validation workflow
-   - Note in summary that review was skipped
-   - Can run review manually later if needed
-
 4. **Review will be saved directly to:**
    `docs/maintainers/feedback/sourcery/pr##.md`
 
 **Expected:**
 
-- Review file created/updated (if available)
-- Contains Sourcery comments and suggestions (if review succeeded)
+- Review file created/updated
+- Contains Sourcery comments and suggestions
 - Organized by file/line number
-- **If review not available:** Continue without review - this is acceptable
+- Ready for priority matrix assessment
+
+**If `dt-review` fails:**
+
+- Check if dev-toolkit is installed: `which dt-review`
+- Verify PR number is correct
+- Check network connectivity
+- Document the failure and investigate before proceeding
 
 **Checklist:**
 
-- [ ] Review attempted (if dt-review available)
-- [ ] Review file created (if review succeeded)
-- [ ] Review skipped noted (if review not available)
+- [ ] `dt-review` command executed (REQUIRED)
+- [ ] Review file created
+- [ ] Review file committed to PR branch (if on PR branch)
 
 ---
 
-### 5. Fill Out Priority Matrix (If Review Available)
+### 5. Fill Out Priority Matrix - REQUIRED
 
 **File:** `docs/maintainers/feedback/sourcery/pr##.md`
 
-**Skip this step if:**
-
-- Sourcery review file doesn't exist
-- Review failed to generate
-- No comments in review file
-
-**If review is available:**
+**IMPORTANT:** This step is REQUIRED after running `dt-review`. Fill out the priority matrix for all comments.
 
 **For each Sourcery comment:**
 
@@ -515,17 +683,12 @@ Add priority assessment after the comment:
 - Minor readability improvements
 - Optional enhancements
 
-**After priority matrix (if review available):**
+**After priority matrix:**
 
 - [ ] All comments assessed
 - [ ] CRITICAL/HIGH items identified
 - [ ] Action plan documented
 - [ ] Matrix committed to PR branch
-
-**If review not available:**
-
-- [ ] Note in summary that review was skipped
-- [ ] Continue with validation workflow
 
 ---
 
@@ -605,19 +768,30 @@ Update PR description to include:
 ## PR Validation Complete
 
 **PR:** #[pr-number] - [PR Title]
+**PR Type:** [feat/fix/docs/chore/ci]
+**Branch:** [branch-name]
 
 ### Manual Testing
+
+[If manual testing was required:]
 - ✅ Scenarios tested: [N]
 - ✅ All scenarios passed
 - ✅ Checkboxes checked off for passing scenarios
 - ✅ Expected Result lines marked with ✅
 - ⚠️ Issues found: [None / List]
 
-### Code Review
-- ✅ Sourcery review complete (or ⚠️ Review not available - skipped)
-- ✅ Priority matrix filled out (or ⚠️ Skipped - no review)
-- ⚠️ Critical issues: [N] (all addressed) or [None - no review]
-- ⚠️ Deferred issues: [N] or [None - no review]
+[If manual testing was NOT required:]
+- ⏭️ Skipped - No new user-facing functionality
+- **PR Type:** [docs/chore/ci/refactor]
+- **Reason:** [explanation from Step 1d]
+- **To test manually:** Re-run with `--force-manual-testing`
+
+### Code Review (Sourcery - REQUIRED)
+- ✅ `dt-review` executed
+- ✅ Review file created: `docs/maintainers/feedback/sourcery/pr##.md`
+- ✅ Priority matrix filled out
+- ⚠️ Critical/High issues: [N] (all addressed)
+- ⚠️ Deferred issues (Medium/Low): [N]
 
 ### Status Validation
 - ✅ Status documents validated (or ⚠️ Status warnings documented)
@@ -699,21 +873,27 @@ Verify with health check (project-specific):
 **Before running command:**
 
 - [ ] PR is open and accessible
-- [ ] Backend server is running (if applicable)
-- [ ] Manual testing guide exists (or will be created)
-- [ ] dev-toolkit is available (optional, for Sourcery review)
+- [ ] GitHub Actions checks reviewed (NEW)
+- [ ] Backend server is running (if applicable, for feat/fix PRs)
+- [ ] dev-toolkit is available (REQUIRED for Sourcery review - `which dt-review`)
 - [ ] Status documents are current (checked during validation)
 
 **During execution:**
 
-- [ ] Status documents validated (NEW)
+- [ ] GitHub Actions/CI-CD status checked (NEW)
+- [ ] Failed checks identified and documented (if any)
+- [ ] Status documents validated
 - [ ] Status warnings documented (if status outdated)
-- [ ] Manual testing guide updated with scenarios (MANDATORY)
-- [ ] All scenarios tested and passed
-- [ ] Checkboxes checked off (`- [ ]` → `- [x]`) for passing scenarios
-- [ ] Expected Result lines marked with ✅ for passing scenarios
-- [ ] Sourcery review completed (if available)
-- [ ] Priority matrix filled out (if review available)
+- [ ] **Manual testing applicability determined (NEW)**
+  - [ ] Branch type identified (feat/fix/docs/chore/ci)
+  - [ ] File changes analyzed
+  - [ ] Determination: Required / Not Required / Skipped
+- [ ] Manual testing guide updated with scenarios (IF REQUIRED)
+- [ ] All scenarios tested and passed (IF REQUIRED)
+- [ ] Checkboxes checked off (`- [ ]` → `- [x]`) for passing scenarios (IF REQUIRED)
+- [ ] Expected Result lines marked with ✅ for passing scenarios (IF REQUIRED)
+- [ ] `dt-review` executed (REQUIRED)
+- [ ] Priority matrix filled out (REQUIRED)
 - [ ] Critical issues addressed (if any)
 
 **After execution:**
@@ -734,9 +914,10 @@ Verify with health check (project-specific):
 - Take screenshots if helpful
 - Note any unexpected behavior
 
-**Code Review:**
+**Code Review (Sourcery - REQUIRED):**
 
-- Be thorough with priority assessment (if review available)
+- ALWAYS run `dt-review` - do NOT assume GitHub's Sourcery check is sufficient
+- Be thorough with priority assessment for all comments
 - Don't skip LOW priority items (document them)
 - Address CRITICAL items before merge
 - Document deferred items clearly
@@ -774,7 +955,7 @@ Verify with health check (project-specific):
 
 ---
 
-**Last Updated:** 2025-12-07  
+**Last Updated:** 2025-12-16  
 **Status:** ✅ Active  
-**Next:** Use when PR is open to validate features, run reviews, and update documentation (supports feature-specific and project-wide structures)
+**Next:** Use when PR is open to validate features, run reviews, and update documentation (supports conditional manual testing based on PR type, enforces manual testing guide creation for human users)
 

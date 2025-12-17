@@ -1,0 +1,299 @@
+---
+alwaysApply: true
+---
+
+# proj-cli - Cursor AI Rules
+
+**Purpose:** Guide AI assistance for the unified CLI tool project  
+**Last Updated:** 2025-12-16  
+**Status:** 🟠 In Development
+
+---
+
+## 📋 Quick Links
+
+- **[work-prod ADR-0007](../work-prod/docs/maintainers/decisions/ADR-0007-inventory-system-cli-tool-architecture.md)** - Architecture decision for this CLI
+- **[work-prod Feature Plan](../work-prod/docs/maintainers/planning/features/proj-cli/)** - Planning hub for this project
+
+---
+
+## 🎯 Project Overview
+
+This is a **CLI-only Python package** that provides:
+
+- **Project Management:** Commands to interact with the work-prod API
+- **Inventory Scanning:** Commands to scan GitHub repos and local directories
+- **Unified Interface:** Single `proj` command for all functionality
+
+### Technology Stack
+
+**CLI Framework:**
+
+- Typer (modern CLI with type hints)
+- Rich (terminal output formatting)
+
+**Configuration:**
+
+- Pydantic Settings (validation)
+- YAML configuration file
+- XDG Base Directory compliance
+
+**Dependencies:**
+
+- `requests` (API client)
+- `pyyaml` (config file)
+- `pydantic-settings` (settings management)
+
+---
+
+## 🏗️ Project Structure
+
+```
+proj-cli/
+├── pyproject.toml           # Package configuration with entry point
+├── requirements.txt         # Production dependencies
+├── requirements-dev.txt     # Development dependencies
+├── README.md               # Project documentation
+├── src/
+│   └── proj/               # Main package
+│       ├── __init__.py     # Package version
+│       ├── __main__.py     # Entry point (python -m proj)
+│       ├── cli.py          # Main Typer app
+│       ├── config.py       # Pydantic configuration
+│       ├── api_client.py   # work-prod API client
+│       └── commands/       # Command modules
+│           ├── __init__.py
+│           ├── projects.py # proj list/get/create/update/delete
+│           └── inventory.py # proj inv scan/analyze/export
+├── tests/
+│   ├── test_package.py     # Package structure tests
+│   ├── test_config.py      # Configuration tests
+│   └── test_cli.py         # CLI integration tests
+└── docs/
+    └── maintainers/        # Project management docs
+```
+
+---
+
+## 🎨 Code Standards
+
+### Typer Patterns
+
+**Main app structure:**
+
+```python
+import typer
+from rich.console import Console
+
+app = typer.Typer(
+    name="proj",
+    help="Unified CLI for project and inventory management.",
+    no_args_is_help=True,
+)
+console = Console()
+
+# Subcommand group
+inv_app = typer.Typer(name="inv", help="Inventory commands.")
+app.add_typer(inv_app, name="inv")
+```
+
+**Command with options:**
+
+```python
+@app.command()
+def list(
+    format: str = typer.Option("table", "--format", "-f", help="Output format"),
+    limit: int = typer.Option(50, "--limit", "-l", help="Max results"),
+):
+    """List all projects."""
+    pass
+```
+
+**Error handling:**
+
+```python
+from rich.console import Console
+
+console = Console()
+
+try:
+    result = api_client.get_projects()
+except ConnectionError:
+    console.print("[red]Error:[/red] Cannot connect to API")
+    raise typer.Exit(1)
+```
+
+### Pydantic Configuration Pattern
+
+**XDG-compliant configuration:**
+
+```python
+from pathlib import Path
+from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+def get_xdg_config_home() -> Path:
+    return Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config"))
+
+class Config(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_prefix="PROJ_",
+        env_file=".env",
+        extra="ignore",
+    )
+    
+    api_url: str = Field(
+        default="http://localhost:5000",
+        description="URL of the work-prod API",
+    )
+```
+
+### Testing Standards
+
+- **Test coverage target:** >80%
+- **TDD workflow:** RED → GREEN → REFACTOR
+- **Test files:** Mirror source structure in `tests/`
+
+**Test patterns:**
+
+```python
+def test_cli_version():
+    """Test that proj --version works."""
+    result = subprocess.run(
+        [sys.executable, "-m", "proj", "--version"],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0
+    assert "0.1.0" in result.stdout
+```
+
+---
+
+## 📁 Documentation Standards
+
+### Hub-and-Spoke Pattern
+
+Same as work-prod - use README.md files as hubs, link to spoke documents.
+
+### Status Indicators
+
+- 🔴 **Not Started** - Planning stage only
+- 🟡 **Planned** - Approved but not yet begun  
+- 🟠 **In Progress** - Active development
+- ✅ **Active/Complete** - Operational or finished
+
+### Date Format
+
+Always use: `YYYY-MM-DD` format
+
+---
+
+## 🔄 Workflow
+
+### Git Flow
+
+- `main` - Production releases (protected)
+- `develop` - Ongoing development (protected)
+- `feat/*` - Feature branches
+- `fix/*` - Bug fixes
+- `docs/*` - Documentation (can push directly)
+
+### Commit Format
+
+```
+type(scope): brief description
+
+type: feat, fix, docs, chore, test, refactor
+scope: cli, config, api, inv, etc.
+```
+
+### Phase Implementation
+
+This project is planned in `work-prod/docs/maintainers/planning/features/proj-cli/`:
+
+1. **Phase 1:** Repository Setup (~2-3 hrs) 🟠 In Progress
+2. **Phase 2:** Migrate Project Commands (~3-4 hrs)
+3. **Phase 3:** Add Inventory Commands (~3-4 hrs)
+4. **Phase 4:** Polish & Cleanup (~2-3 hrs)
+
+---
+
+## 🎯 AI Assistant Guidelines
+
+### When Writing Commands
+
+1. Use Typer patterns consistently
+2. Add `--help` descriptions for all options
+3. Use Rich for formatted output (tables, colors)
+4. Handle errors gracefully with clear messages
+5. Follow command naming: `proj [command]` or `proj inv [command]`
+
+### When Modifying Configuration
+
+1. Use Pydantic for validation
+2. Support environment variable overrides (`PROJ_*`)
+3. Use XDG paths for config/data directories
+4. Default to work-prod localhost API
+
+### When Testing
+
+1. Write tests before implementation (TDD)
+2. Test CLI with subprocess for integration tests
+3. Mock API calls in unit tests
+4. Verify XDG path behavior
+
+### Context: Migration from work-prod
+
+This CLI is being migrated from `work-prod/scripts/project_cli/`. Key considerations:
+
+- **Preserve behavior:** Commands should work identically
+- **Typer conversion:** argparse → Typer
+- **Config migration:** Environment vars → Pydantic + YAML
+- **API client:** Migrate and improve error handling
+
+After migration, `work-prod/scripts/project_cli/` will be removed.
+
+---
+
+## 🚧 Current State
+
+**Version:** 0.1.0  
+**Phase:** 1 of 4 (Repository Setup)  
+**Status:** 🟠 In Progress
+
+### Completed
+
+- [x] Repository created
+- [x] Package structure (`src/proj/`)
+- [x] `pyproject.toml` with entry point
+- [x] Pydantic config with XDG paths
+- [x] Basic Typer app
+- [x] `proj --version` works
+- [x] `proj --help` works
+
+### Remaining in Phase 1
+
+- [ ] Write package structure tests
+- [ ] Write configuration tests
+- [ ] Write CLI integration tests
+
+### Next Phase
+
+Phase 2: Migrate Project Commands from work-prod
+
+---
+
+## 📞 Maintenance
+
+### Updating These Rules
+
+1. Update this file when patterns change
+2. Commit: `docs(cursor-rules): [description]`
+3. Push to develop (docs can push directly)
+
+---
+
+**Last Updated:** 2025-12-16  
+**Status:** 🟠 In Development  
+**Next:** Complete Phase 1 tests, begin Phase 2
