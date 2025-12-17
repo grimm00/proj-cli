@@ -557,7 +557,8 @@ def dedupe():
 
     original_count = len(inventory)
 
-    # Dedupe by remote_url (primary) or name+local_path (secondary)
+    # Dedupe by remote_url (primary) or local_path (secondary)
+    # Note: name is not used as a key because it may not be unique
     seen_urls = set()
     seen_paths = set()
     unique = []
