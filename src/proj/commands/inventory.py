@@ -468,7 +468,9 @@ def export_api(
 ):
     """Push inventory to work-prod API."""
     from proj.api_client import APIClient
-    from proj.error_handler import APIError, BackendConnectionError, TimeoutError
+    from proj.error_handler import (
+        APIError, BackendConnectionError, TimeoutError
+    )
 
     inventory = load_inventory()
 
