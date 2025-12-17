@@ -10,7 +10,9 @@ from rich.table import Table
 
 from proj.api_client import APIClient
 from proj.config import Config
-from proj.error_handler import handle_error, APIError, BackendConnectionError
+from proj.error_handler import (
+    handle_error, APIError, BackendConnectionError, TimeoutError
+)
 
 console = Console()
 
@@ -92,7 +94,7 @@ def list_projects(
                 table.add_row(*row)
 
             console.print(table)
-    except (APIError, BackendConnectionError) as e:
+    except (APIError, BackendConnectionError, TimeoutError) as e:
         handle_error(e, console)
         raise typer.Exit(1)
 
@@ -119,7 +121,7 @@ def get_project(
                 table.add_row(key, str(value) if value else "")
 
             console.print(table)
-    except (APIError, BackendConnectionError) as e:
+    except (APIError, BackendConnectionError, TimeoutError) as e:
         handle_error(e, console)
         raise typer.Exit(1)
 
@@ -166,7 +168,7 @@ def create_project(
             f"[green]✓ Created project {project_id}: "
             f"{project_name}[/green]"
         )
-    except (APIError, BackendConnectionError) as e:
+    except (APIError, BackendConnectionError, TimeoutError) as e:
         handle_error(e, console)
         raise typer.Exit(1)
 
@@ -221,7 +223,7 @@ def update_project(
         client.update_project(project_id, data)
 
         console.print(f"[green]✓ Updated project {project_id}[/green]")
-    except (APIError, BackendConnectionError) as e:
+    except (APIError, BackendConnectionError, TimeoutError) as e:
         handle_error(e, console)
         raise typer.Exit(1)
 
@@ -243,7 +245,7 @@ def delete_project(
         client.delete_project(project_id)
 
         console.print(f"[green]✓ Deleted project {project_id}[/green]")
-    except (APIError, BackendConnectionError) as e:
+    except (APIError, BackendConnectionError, TimeoutError) as e:
         handle_error(e, console)
         raise typer.Exit(1)
 
@@ -282,7 +284,7 @@ def search_projects(
                 )
 
             console.print(table)
-    except (APIError, BackendConnectionError) as e:
+    except (APIError, BackendConnectionError, TimeoutError) as e:
         handle_error(e, console)
         raise typer.Exit(1)
 
@@ -323,7 +325,7 @@ def import_json(
     except json.JSONDecodeError as e:
         console.print(f"[red]Error: Invalid JSON: {e}[/red]")
         raise typer.Exit(1)
-    except (APIError, BackendConnectionError) as e:
+    except (APIError, BackendConnectionError, TimeoutError) as e:
         handle_error(e, console)
         raise typer.Exit(1)
 
@@ -352,6 +354,6 @@ def archive_project(
             f"[green]✓ Archived project {project_id}: "
             f"{project_name}[/green]"
         )
-    except (APIError, BackendConnectionError) as e:
+    except (APIError, BackendConnectionError, TimeoutError) as e:
         handle_error(e, console)
         raise typer.Exit(1)

@@ -33,6 +33,13 @@ def test_backend_connection_error_exists():
     assert BackendConnectionError is not None
 
 
+def test_timeout_error_exists():
+    """Test that TimeoutError exception exists."""
+    from proj.error_handler import TimeoutError
+    assert TimeoutError is not None
+    assert issubclass(TimeoutError, Exception)
+
+
 def test_handle_error_exists():
     """Test that handle_error function exists."""
     from proj.error_handler import handle_error

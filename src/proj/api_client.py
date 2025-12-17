@@ -5,7 +5,7 @@ from typing import Dict, List, Optional
 import requests
 
 from proj.config import Config
-from proj.error_handler import APIError, BackendConnectionError
+from proj.error_handler import APIError, BackendConnectionError, TimeoutError
 
 
 def _raise_api_error(
@@ -20,7 +20,7 @@ def _raise_api_error(
     if isinstance(error, requests.exceptions.ConnectionError):
         raise BackendConnectionError(str(error)) from error
     elif isinstance(error, requests.exceptions.Timeout):
-        raise error
+        raise TimeoutError(str(error)) from error
     elif isinstance(error, requests.exceptions.HTTPError):
         error_msg = str(error)
         if response is not None:

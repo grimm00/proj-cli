@@ -20,6 +20,11 @@ class BackendConnectionError(CLIError):
     pass
 
 
+class TimeoutError(CLIError):
+    """Raised when a request times out."""
+    pass
+
+
 class APIError(CLIError):
     """Raised when API returns an error response."""
 
