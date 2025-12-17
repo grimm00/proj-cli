@@ -401,6 +401,23 @@ proj inv analyze
 
 ---
 
+### Issue U4: Subdirectories scanned as separate projects
+
+**Severity:** 🟠 HIGH  
+**Command:** `proj inv scan local`
+
+**Description:** Subdirectories like `frontend/` inside a project (e.g., `~/Projects/pokedex/frontend`) were being added as separate projects because they have their own `package.json`, even though the parent directory already has `.git`.
+
+**Example:**
+- `~/Projects/pokedex` has `.git` → added as project ✓
+- `~/Projects/pokedex/frontend` has `package.json` → incorrectly added as separate project
+
+**Root Cause:** The scan logic checked depth but didn't check if a subdirectory was inside an existing git repository.
+
+**Fix:** When scanning for non-.git markers (package.json, pyproject.toml, etc.), check if any parent directory already has `.git`. If so, skip the subdirectory since it's part of the parent project.
+
+---
+
 ### User Feedback Summary
 
 | Issue | Severity | Component | Status |
@@ -408,5 +425,6 @@ proj inv analyze
 | U1 | 🟡 MEDIUM | `proj search` | ✅ **FIXED** - Added `--wide` option |
 | U2 | 🟢 LOW | `proj inv analyze` | ✅ **FIXED** - Moved output outside Progress context |
 | U3 | 🟠 HIGH | `proj inv export api` | ✅ **FIXED** - Added auto-dedupe with `--no-dedupe` flag |
+| U4 | 🟠 HIGH | `proj inv scan local` | ✅ **FIXED** - Skip subdirs inside git repos |
 
 
