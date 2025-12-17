@@ -1,33 +1,365 @@
 # proj-cli - Phase 2: Migrate Project Commands
 
 **Phase:** 2 of 4  
-**Duration:** ~3-4 hours  
+**Duration:** ~4-5 hours  
 **Status:** 🔴 Not Started  
-**Prerequisites:** Phase 1 complete
+**Prerequisites:** Phase 1 complete ✅ (PR #1 merged 2025-12-17)  
+**Test Coverage Goal:** ≥70% for new code
 
 ---
 
 ## 📋 Overview
 
-Migrate existing `proj` commands from work-prod (`scripts/project_cli/`) to the new `proj-cli` repository. Convert from argparse to Typer while maintaining feature parity.
+Migrate existing `proj` commands from work-prod (`scripts/project_cli/`) to the new `proj-cli` repository. Convert from Click to Typer while maintaining feature parity.
 
-**Success Definition:** All existing `proj` commands work identically in the new CLI, with the same output format and behavior.
+**Success Definition:** All 8 core `proj` commands work identically in the new CLI, with the same output format and behavior.
 
 ---
 
 ## 🎯 Goals
 
-1. Migrate API client from work-prod to proj-cli
-2. Convert all project commands from argparse to Typer
-3. Maintain feature parity with current CLI
-4. Integrate config for API URL
-5. Test all commands against work-prod API
+1. Migrate error handler from work-prod to proj-cli
+2. Migrate API client from work-prod to proj-cli
+3. Convert 8 core project commands from Click to Typer
+4. Maintain feature parity with current CLI
+5. Integrate config for API URL
+6. Test all commands against work-prod API
+
+---
+
+## 📋 Command Scope
+
+**Phase 2 Commands (8 total):**
+
+| Command | Priority | Status | Notes |
+|---------|----------|--------|-------|
+| `list` | 🔴 High | 🔴 Pending | Core CRUD |
+| `get` | 🔴 High | 🔴 Pending | Core CRUD |
+| `create` | 🔴 High | 🔴 Pending | Core CRUD |
+| `update` | 🔴 High | 🔴 Pending | Core CRUD |
+| `delete` | 🔴 High | 🔴 Pending | Core CRUD |
+| `search` | 🔴 High | 🔴 Pending | Core functionality |
+| `import-json` | 🔴 High | 🔴 Pending | Core functionality |
+| `archive` | 🟡 Medium | 🔴 Pending | Uses API, straightforward |
+
+**Deferred to Phase 3 or Phase 4:**
+
+| Command | Reason |
+|---------|--------|
+| `config` | Uses Pydantic config, lower priority |
+| `stats` | Convenience command |
+| `recent` | Convenience command |
+| `active` | Convenience command |
+| `mine` | Requires GitHub user integration |
 
 ---
 
 ## 📝 Tasks
 
-### Task 1: Write Tests for API Client (RED)
+### Task 1: Write Tests for Error Handler (RED) (~15 min)
+
+**Goal:** Define expected error handler behavior
+
+**File:** `tests/test_error_handler.py`
+
+```python
+# tests/test_error_handler.py
+"""Tests for error handler."""
+import pytest
+
+
+def test_error_handler_module_exists():
+    """Test that error_handler module exists."""
+    from proj import error_handler
+    assert error_handler is not None
+
+
+def test_cli_error_exists():
+    """Test that CLIError exception exists."""
+    from proj.error_handler import CLIError
+    assert CLIError is not None
+    assert issubclass(CLIError, Exception)
+
+
+def test_api_error_exists():
+    """Test that APIError exception exists."""
+    from proj.error_handler import APIError
+    assert APIError is not None
+
+
+def test_api_error_has_status_code():
+    """Test that APIError stores status code."""
+    from proj.error_handler import APIError
+    error = APIError("Test error", status_code=404)
+    assert error.status_code == 404
+
+
+def test_backend_connection_error_exists():
+    """Test that BackendConnectionError exception exists."""
+    from proj.error_handler import BackendConnectionError
+    assert BackendConnectionError is not None
+
+
+def test_handle_error_exists():
+    """Test that handle_error function exists."""
+    from proj.error_handler import handle_error
+    assert callable(handle_error)
+```
+
+**Expected Result:** Tests fail (RED)
+
+---
+
+### Task 2: Migrate Error Handler (GREEN) (~30 min)
+
+**Goal:** Copy and adapt error handler from work-prod
+
+**Source:** `work-prod/scripts/project_cli/error_handler.py`  
+**Destination:** `proj-cli/src/proj/error_handler.py`
+
+**Steps:**
+
+- [ ] Read current error handler implementation
+- [ ] Copy to new location
+- [ ] Update imports (use new Pydantic Config)
+- [ ] Adapt Rich panel patterns
+- [ ] Run tests
+
+**File:** `src/proj/error_handler.py`
+
+```python
+"""Error handling utilities for CLI commands.
+
+Provides friendly error messages and suggestions for common issues.
+"""
+
+import requests
+from rich.console import Console
+from rich.panel import Panel
+
+from proj.config import Config
+
+
+class CLIError(Exception):
+    """Base exception for CLI errors."""
+    pass
+
+
+class BackendConnectionError(CLIError):
+    """Raised when backend is not reachable."""
+    pass
+
+
+class APIError(CLIError):
+    """Raised when API returns an error response."""
+    
+    def __init__(self, message: str, status_code: int = None, response_data: dict = None):
+        super().__init__(message)
+        self.status_code = status_code
+        self.response_data = response_data
+
+
+def handle_error(error: Exception, console: Console = None) -> None:
+    """Handle errors and display friendly messages with suggestions.
+    
+    Args:
+        error: The exception that occurred
+        console: Rich Console instance (creates new one if not provided)
+    """
+    if console is None:
+        console = Console()
+    
+    if isinstance(error, requests.exceptions.ConnectionError):
+        _handle_connection_error(error, console)
+    elif isinstance(error, requests.exceptions.Timeout):
+        _handle_timeout_error(error, console)
+    elif isinstance(error, requests.exceptions.HTTPError):
+        _handle_http_error(error, console)
+    elif isinstance(error, BackendConnectionError):
+        _handle_connection_error(error, console)
+    elif isinstance(error, APIError):
+        _handle_api_error(error, console)
+    else:
+        _handle_generic_error(error, console)
+
+
+def _get_health_url() -> str:
+    """Get the health check URL from configured API base URL."""
+    config = Config.load()
+    base_url = config.api_url
+    
+    if not base_url or not base_url.strip():
+        base_url = 'http://localhost:5000'
+    else:
+        base_url = base_url.strip()
+    
+    if not base_url.startswith('http://') and not base_url.startswith('https://'):
+        base_url = 'http://localhost:5000'
+    
+    base = base_url.rstrip('/')
+    return f"{base}/api/health"
+
+
+def _handle_connection_error(error: Exception, console: Console) -> None:
+    """Handle connection refused/network errors."""
+    health_url = _get_health_url()
+    
+    message = (
+        "[bold red]Cannot connect to backend API[/bold red]\n\n"
+        "The backend server appears to be offline or unreachable.\n\n"
+        "[bold]To fix this:[/bold]\n"
+        "1. Start the backend server:\n"
+        "   [cyan]cd ~/Projects/work-prod/backend && flask run[/cyan]\n\n"
+        "2. Verify the server is running:\n"
+        f"   [cyan]curl {health_url}[/cyan]\n\n"
+        "3. Check your API URL configuration:\n"
+        "   [cyan]PROJ_API_URL environment variable[/cyan]"
+    )
+    
+    console.print(Panel(message, title="Connection Error", border_style="red"))
+    console.print(f"\n[dim]Technical details: {error}[/dim]")
+
+
+def _handle_timeout_error(error: Exception, console: Console) -> None:
+    """Handle timeout errors."""
+    health_url = _get_health_url()
+    
+    message = (
+        "[bold red]Request timed out[/bold red]\n\n"
+        "The backend server took too long to respond.\n\n"
+        "[bold]Possible causes:[/bold]\n"
+        "• Backend server is overloaded\n"
+        "• Network connectivity issues\n"
+        "• Backend server may be unresponsive\n\n"
+        "[bold]Try:[/bold]\n"
+        f"• Check if backend is running: [cyan]curl {health_url}[/cyan]\n"
+        "• Restart the backend server"
+    )
+    
+    console.print(Panel(message, title="Timeout Error", border_style="yellow"))
+    console.print(f"\n[dim]Technical details: {error}[/dim]")
+
+
+def _handle_http_error(error: requests.exceptions.HTTPError, console: Console) -> None:
+    """Handle HTTP error responses."""
+    response = getattr(error, 'response', None)
+    
+    error_msg = None
+    if response is not None:
+        try:
+            error_data = response.json()
+            if isinstance(error_data, dict) and 'error' in error_data:
+                error_msg = error_data['error']
+        except Exception:
+            pass
+    
+    status_code = response.status_code if response else None
+    
+    if status_code == 404:
+        title = "Not Found"
+        border = "yellow"
+        message = f"[bold yellow]Resource not found[/bold yellow]\n\n"
+        if error_msg:
+            message += f"{error_msg}\n\n"
+        message += "The requested resource does not exist."
+    elif status_code == 400:
+        title = "Bad Request"
+        border = "yellow"
+        message = f"[bold yellow]Invalid request[/bold yellow]\n\n"
+        if error_msg:
+            message += f"{error_msg}\n\n"
+        message += "Please check your input and try again."
+    elif status_code == 409:
+        title = "Conflict"
+        border = "yellow"
+        message = f"[bold yellow]Conflict detected[/bold yellow]\n\n"
+        if error_msg:
+            message += f"{error_msg}\n\n"
+        message += "The operation conflicts with existing data."
+    elif status_code == 500:
+        title = "Server Error"
+        border = "red"
+        message = f"[bold red]Backend server error[/bold red]\n\n"
+        message += "The backend encountered an internal error.\n\n"
+        message += "[bold]Try:[/bold]\n"
+        message += "• Check backend server logs\n"
+        message += "• Restart the backend server\n"
+        message += "• Report this issue if it persists"
+    else:
+        title = "HTTP Error"
+        border = "red"
+        message = f"[bold red]HTTP {status_code} Error[/bold red]\n\n"
+        if error_msg:
+            message += f"{error_msg}\n"
+    
+    console.print(Panel(message, title=title, border_style=border))
+    if status_code:
+        console.print(f"\n[dim]HTTP Status: {status_code}[/dim]")
+
+
+def _handle_api_error(error: APIError, console: Console) -> None:
+    """Handle API-specific errors."""
+    message = f"[bold red]API Error[/bold red]\n\n"
+    message += f"{error}\n"
+    
+    if error.status_code:
+        message += f"\n[dim]HTTP Status: {error.status_code}[/dim]"
+    
+    console.print(Panel(message, title="API Error", border_style="red"))
+
+
+def _handle_generic_error(error: Exception, console: Console) -> None:
+    """Handle generic/unexpected errors."""
+    health_url = _get_health_url()
+    
+    message = "[bold red]An unexpected error occurred[/bold red]\n\n"
+    message += f"{error}\n\n"
+    message += "[bold]Try:[/bold]\n"
+    message += f"• Check if backend is running: [cyan]curl {health_url}[/cyan]\n"
+    message += "• Verify your configuration\n"
+    message += "• Check the error message above for details"
+    
+    console.print(Panel(message, title="Error", border_style="red"))
+    console.print(f"\n[dim]Technical details: {type(error).__name__}: {error}[/dim]")
+
+
+def check_backend_health(base_url: str) -> bool:
+    """Check if backend is running and healthy.
+    
+    Args:
+        base_url: Base API URL
+        
+    Returns:
+        True if backend is healthy, False otherwise
+    """
+    try:
+        if not base_url or not base_url.strip():
+            base_url = 'http://localhost:5000'
+        else:
+            base_url = base_url.strip()
+        
+        if not base_url.startswith('http://') and not base_url.startswith('https://'):
+            base_url = 'http://localhost:5000'
+        
+        base = base_url.rstrip('/')
+        health_url = f"{base}/api/health"
+        response = requests.get(health_url, timeout=2)
+        return response.status_code == 200
+    except Exception:
+        return False
+```
+
+**Run tests:**
+
+```bash
+pytest tests/test_error_handler.py -v
+```
+
+**Expected Result:** Tests pass (GREEN)
+
+---
+
+### Task 3: Write Tests for API Client (RED) (~15 min)
 
 **Goal:** Define expected API client behavior
 
@@ -110,13 +442,21 @@ def test_api_client_import_projects():
     
     client = APIClient()
     assert hasattr(client, 'import_projects')
+
+
+def test_api_client_archive_project():
+    """Test archive_project method exists."""
+    from proj.api_client import APIClient
+    
+    client = APIClient()
+    assert hasattr(client, 'archive_project')
 ```
 
 **Expected Result:** Tests fail (RED)
 
 ---
 
-### Task 2: Migrate API Client (GREEN)
+### Task 4: Migrate API Client (GREEN) (~30 min)
 
 **Goal:** Copy and adapt API client from work-prod
 
@@ -127,57 +467,83 @@ def test_api_client_import_projects():
 
 - [ ] Read current API client implementation
 - [ ] Copy to new location
-- [ ] Update imports
+- [ ] Update imports (use error_handler)
 - [ ] Add config integration
+- [ ] Include archive_project method
 - [ ] Run tests
 
 **File:** `src/proj/api_client.py`
 
 ```python
 """API client for work-prod backend."""
-import json
-from typing import Any, Optional
-from urllib.parse import urljoin
+
+from typing import Dict, List, Optional
 
 import requests
 
 from proj.config import Config
+from proj.error_handler import APIError, BackendConnectionError
+
+
+def _raise_api_error(error: requests.exceptions.RequestException, response=None) -> None:
+    """Convert requests exceptions to APIError or re-raise connection errors."""
+    if isinstance(error, requests.exceptions.ConnectionError):
+        raise BackendConnectionError(str(error)) from error
+    elif isinstance(error, requests.exceptions.Timeout):
+        raise error
+    elif isinstance(error, requests.exceptions.HTTPError):
+        error_msg = str(error)
+        if response is not None:
+            try:
+                error_data = response.json()
+                if isinstance(error_data, dict) and 'error' in error_data:
+                    error_msg = error_data['error']
+            except Exception:
+                pass
+        raise APIError(error_msg, status_code=response.status_code if response else None) from error
+    else:
+        raise error
 
 
 class APIClient:
     """Client for interacting with work-prod API."""
     
     def __init__(self, config: Optional[Config] = None):
-        """Initialize client with config."""
+        """Initialize client with config.
+        
+        Args:
+            config: Config instance (uses Config.load() if not provided)
+        """
         self.config = config or Config.load()
         self.base_url = self.config.api_url.rstrip("/")
+        self.session = requests.Session()
+        self.session.headers.update({
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        })
     
     def _url(self, path: str) -> str:
         """Build full URL for API path."""
         return f"{self.base_url}/api{path}"
-    
-    def _handle_response(self, response: requests.Response) -> dict:
-        """Handle API response, raising on errors."""
-        if response.status_code >= 400:
-            try:
-                error = response.json().get("error", response.text)
-            except json.JSONDecodeError:
-                error = response.text
-            raise APIError(f"API error ({response.status_code}): {error}")
-        
-        if response.status_code == 204:
-            return {}
-        
-        return response.json()
     
     def list_projects(
         self,
         status: Optional[str] = None,
         organization: Optional[str] = None,
         classification: Optional[str] = None,
-        limit: Optional[int] = None,
-    ) -> list[dict]:
-        """List all projects with optional filters."""
+        search: Optional[str] = None,
+    ) -> List[Dict]:
+        """List all projects with optional filters.
+        
+        Args:
+            status: Filter by status (active, paused, completed, cancelled)
+            organization: Filter by organization name
+            classification: Filter by classification
+            search: Search term for name and description
+        
+        Returns:
+            List of project dictionaries
+        """
         params = {}
         if status:
             params["status"] = status
@@ -185,61 +551,140 @@ class APIClient:
             params["organization"] = organization
         if classification:
             params["classification"] = classification
-        if limit:
-            params["limit"] = limit
+        if search:
+            params["search"] = search
         
-        response = requests.get(self._url("/projects"), params=params)
-        return self._handle_response(response)
+        try:
+            response = self.session.get(self._url("/projects"), params=params, timeout=10)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
     
-    def get_project(self, project_id: int) -> dict:
-        """Get a single project by ID."""
-        response = requests.get(self._url(f"/projects/{project_id}"))
-        return self._handle_response(response)
+    def get_project(self, project_id: int) -> Dict:
+        """Get a single project by ID.
+        
+        Args:
+            project_id: ID of the project to retrieve
+            
+        Returns:
+            Project dictionary
+        """
+        try:
+            response = self.session.get(self._url(f"/projects/{project_id}"), timeout=10)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
     
-    def create_project(self, data: dict) -> dict:
-        """Create a new project."""
-        response = requests.post(
-            self._url("/projects"),
-            json=data,
-            headers={"Content-Type": "application/json"},
-        )
-        return self._handle_response(response)
+    def create_project(self, data: Dict) -> Dict:
+        """Create a new project.
+        
+        Args:
+            data: Project data dictionary
+            
+        Returns:
+            Created project dictionary
+        """
+        try:
+            response = self.session.post(self._url("/projects"), json=data, timeout=10)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
     
-    def update_project(self, project_id: int, data: dict) -> dict:
-        """Update an existing project."""
-        response = requests.patch(
-            self._url(f"/projects/{project_id}"),
-            json=data,
-            headers={"Content-Type": "application/json"},
-        )
-        return self._handle_response(response)
+    def update_project(self, project_id: int, data: Dict) -> Dict:
+        """Update an existing project.
+        
+        Args:
+            project_id: ID of the project to update
+            data: Fields to update
+            
+        Returns:
+            Updated project dictionary
+        """
+        try:
+            response = self.session.patch(self._url(f"/projects/{project_id}"), json=data, timeout=10)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
     
-    def delete_project(self, project_id: int) -> dict:
-        """Delete a project."""
-        response = requests.delete(self._url(f"/projects/{project_id}"))
-        return self._handle_response(response)
+    def delete_project(self, project_id: int) -> None:
+        """Delete a project permanently.
+        
+        Args:
+            project_id: ID of the project to delete
+        """
+        try:
+            response = self.session.delete(self._url(f"/projects/{project_id}"), timeout=10)
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
     
-    def search_projects(self, query: str) -> list[dict]:
-        """Search projects by query."""
-        response = requests.get(
-            self._url("/projects/search"),
-            params={"q": query},
-        )
-        return self._handle_response(response)
+    def search_projects(self, query: str) -> List[Dict]:
+        """Search projects by query.
+        
+        Args:
+            query: Search query string
+            
+        Returns:
+            List of matching projects
+        """
+        try:
+            response = self.session.get(
+                self._url("/projects"),
+                params={"search": query},
+                timeout=10
+            )
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
     
-    def import_projects(self, projects: list[dict]) -> dict:
-        """Import multiple projects."""
-        response = requests.post(
+    def import_projects(self, projects: List[Dict]) -> Dict:
+        """Import multiple projects from JSON data.
+        
+        Args:
+            projects: List of project data dictionaries
+            
+        Returns:
+            Dictionary with import statistics: imported, skipped, errors
+        """
+        try:
+            response = self.session.post(
             self._url("/projects/import"),
             json={"projects": projects},
-            headers={"Content-Type": "application/json"},
-        )
-        return self._handle_response(response)
-
-
-class APIError(Exception):
-    """API error exception."""
-    pass
+                timeout=30
+            )
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
+    
+    def archive_project(self, project_id: int) -> Dict:
+        """Archive a project by setting classification to 'archive' and status to 'completed'.
+        
+        Args:
+            project_id: ID of the project to archive
+            
+        Returns:
+            Archived project dictionary
+        """
+        try:
+            response = self.session.put(self._url(f"/projects/{project_id}/archive"), timeout=10)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
 ```
 
 **Run tests:**
@@ -252,7 +697,7 @@ pytest tests/test_api_client.py -v
 
 ---
 
-### Task 3: Write Tests for Project Commands (RED)
+### Task 5: Write Tests for Project Commands (RED) (~15 min)
 
 **Goal:** Define expected command behavior
 
@@ -328,9 +773,18 @@ def test_search_command_exists():
 
 def test_import_command_exists():
     """Test that import command exists."""
-    # Note: 'import' is a Python keyword, so command might be named 'import-json' or similar
     result = subprocess.run(
         [sys.executable, "-m", "proj", "import-json", "--help"],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0
+
+
+def test_archive_command_exists():
+    """Test that archive command exists."""
+    result = subprocess.run(
+        [sys.executable, "-m", "proj", "archive", "--help"],
         capture_output=True,
         text=True,
     )
@@ -341,7 +795,7 @@ def test_import_command_exists():
 
 ---
 
-### Task 4: Implement Project Commands (GREEN)
+### Task 6: Implement Project Commands (GREEN) (~1-1.5 hours)
 
 **Goal:** Create project commands using Typer
 
@@ -349,8 +803,8 @@ def test_import_command_exists():
 
 ```python
 """Project management commands."""
+
 import json
-import sys
 from pathlib import Path
 from typing import Optional
 
@@ -358,11 +812,10 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from proj.api_client import APIClient, APIError
+from proj.api_client import APIClient
 from proj.config import Config
+from proj.error_handler import handle_error, APIError, BackendConnectionError
 
-# Create Typer app for project commands
-# Note: These will be added to main app, not as a subcommand group
 console = Console()
 
 
@@ -375,17 +828,18 @@ def list_projects(
     status: Optional[str] = typer.Option(None, "--status", "-s", help="Filter by status"),
     organization: Optional[str] = typer.Option(None, "--org", "-o", help="Filter by organization"),
     classification: Optional[str] = typer.Option(None, "--class", "-c", help="Filter by classification"),
-    limit: Optional[int] = typer.Option(None, "--limit", "-l", help="Limit number of results"),
+    search: Optional[str] = typer.Option(None, "--search", help="Search in names and descriptions"),
+    wide: bool = typer.Option(False, "--wide", "-w", help="Show all columns"),
     format: str = typer.Option("table", "--format", "-f", help="Output format: table, json"),
 ):
-    """List all projects."""
+    """List all projects with optional filters."""
     try:
         client = get_client()
         projects = client.list_projects(
             status=status,
             organization=organization,
             classification=classification,
-            limit=limit,
+            search=search,
         )
         
         if format == "json":
@@ -395,25 +849,41 @@ def list_projects(
                 console.print("[yellow]No projects found.[/yellow]")
                 return
             
-            table = Table(title="Projects")
-            table.add_column("ID", style="cyan")
+            table = Table(title=f"Projects ({len(projects)})")
+            table.add_column("ID", style="cyan", justify="right")
             table.add_column("Name", style="green")
-            table.add_column("Status")
-            table.add_column("Organization")
-            table.add_column("Classification")
+            
+            if wide or status:
+                table.add_column("Status", style="yellow")
+            if wide or organization:
+                table.add_column("Org", style="blue")
+            if wide or classification:
+                table.add_column("Classification", style="magenta")
+            
+            table.add_column("Path", style="blue")
+            
+            if wide or search:
+                table.add_column("Description", style="dim")
+            
+            table.add_column("Created", style="magenta")
             
             for p in projects:
-                table.add_row(
-                    str(p.get("id", "")),
-                    p.get("name", ""),
-                    p.get("status", ""),
-                    p.get("organization", ""),
-                    p.get("classification", ""),
-                )
+                row = [str(p.get("id", "")), p.get("name", "")]
+                if wide or status:
+                    row.append(p.get("status", ""))
+                if wide or organization:
+                    row.append(p.get("organization", ""))
+                if wide or classification:
+                    row.append(p.get("classification", ""))
+                row.append(p.get("path", "") or "")
+                if wide or search:
+                    row.append(p.get("description", "") or "")
+                row.append(p.get("created_at", "")[:10] if p.get("created_at") else "")
+                table.add_row(*row)
             
             console.print(table)
-    except APIError as e:
-        console.print(f"[red]Error: {e}[/red]")
+    except (APIError, BackendConnectionError) as e:
+        handle_error(e, console)
         raise typer.Exit(1)
 
 
@@ -437,8 +907,8 @@ def get_project(
                 table.add_row(key, str(value) if value else "")
             
             console.print(table)
-    except APIError as e:
-        console.print(f"[red]Error: {e}[/red]")
+    except (APIError, BackendConnectionError) as e:
+        handle_error(e, console)
         raise typer.Exit(1)
 
 
@@ -448,6 +918,7 @@ def create_project(
     status: str = typer.Option("active", "--status", "-s", help="Status"),
     organization: Optional[str] = typer.Option(None, "--org", "-o", help="Organization"),
     classification: Optional[str] = typer.Option(None, "--class", "-c", help="Classification"),
+    path: Optional[str] = typer.Option(None, "--path", "-p", help="Local path"),
     remote_url: Optional[str] = typer.Option(None, "--url", "-u", help="Remote URL"),
 ):
     """Create a new project."""
@@ -459,6 +930,8 @@ def create_project(
             data["organization"] = organization
         if classification:
             data["classification"] = classification
+        if path:
+            data["path"] = path
         if remote_url:
             data["remote_url"] = remote_url
         
@@ -466,8 +939,8 @@ def create_project(
         project = client.create_project(data)
         
         console.print(f"[green]✓ Created project {project.get('id')}: {project.get('name')}[/green]")
-    except APIError as e:
-        console.print(f"[red]Error: {e}[/red]")
+    except (APIError, BackendConnectionError) as e:
+        handle_error(e, console)
         raise typer.Exit(1)
 
 
@@ -478,6 +951,7 @@ def update_project(
     status: Optional[str] = typer.Option(None, "--status", "-s", help="New status"),
     organization: Optional[str] = typer.Option(None, "--org", "-o", help="New organization"),
     classification: Optional[str] = typer.Option(None, "--class", "-c", help="New classification"),
+    path: Optional[str] = typer.Option(None, "--path", "-p", help="New local path"),
 ):
     """Update a project."""
     try:
@@ -492,17 +966,19 @@ def update_project(
             data["organization"] = organization
         if classification:
             data["classification"] = classification
+        if path:
+            data["path"] = path
         
         if not data:
             console.print("[yellow]No updates provided.[/yellow]")
             raise typer.Exit(1)
         
         client = get_client()
-        project = client.update_project(project_id, data)
+        client.update_project(project_id, data)
         
         console.print(f"[green]✓ Updated project {project_id}[/green]")
-    except APIError as e:
-        console.print(f"[red]Error: {e}[/red]")
+    except (APIError, BackendConnectionError) as e:
+        handle_error(e, console)
         raise typer.Exit(1)
 
 
@@ -510,7 +986,7 @@ def delete_project(
     project_id: int = typer.Argument(..., help="Project ID"),
     force: bool = typer.Option(False, "--force", "-f", help="Skip confirmation"),
 ):
-    """Delete a project."""
+    """Delete a project permanently."""
     try:
         if not force:
             confirm = typer.confirm(f"Delete project {project_id}?")
@@ -521,8 +997,8 @@ def delete_project(
         client.delete_project(project_id)
         
         console.print(f"[green]✓ Deleted project {project_id}[/green]")
-    except APIError as e:
-        console.print(f"[red]Error: {e}[/red]")
+    except (APIError, BackendConnectionError) as e:
+        handle_error(e, console)
         raise typer.Exit(1)
 
 
@@ -530,7 +1006,7 @@ def search_projects(
     query: str = typer.Argument(..., help="Search query"),
     format: str = typer.Option("table", "--format", "-f", help="Output format: table, json"),
 ):
-    """Search projects."""
+    """Search projects by name or description."""
     try:
         client = get_client()
         projects = client.search_projects(query)
@@ -543,20 +1019,22 @@ def search_projects(
                 return
             
             table = Table(title=f"Search Results: {query}")
-            table.add_column("ID", style="cyan")
+            table.add_column("ID", style="cyan", justify="right")
             table.add_column("Name", style="green")
-            table.add_column("Status")
+            table.add_column("Status", style="yellow")
+            table.add_column("Description", style="dim")
             
             for p in projects:
                 table.add_row(
                     str(p.get("id", "")),
                     p.get("name", ""),
                     p.get("status", ""),
+                    (p.get("description", "") or "")[:50],
                 )
             
             console.print(table)
-    except APIError as e:
-        console.print(f"[red]Error: {e}[/red]")
+    except (APIError, BackendConnectionError) as e:
+        handle_error(e, console)
         raise typer.Exit(1)
 
 
@@ -565,10 +1043,9 @@ def import_json(
 ):
     """Import projects from JSON file."""
     try:
-        with open(file) as f:
+        with open(file, encoding="utf-8") as f:
             data = json.load(f)
         
-        # Handle both {projects: [...]} and [...] formats
         if isinstance(data, list):
             projects = data
         elif isinstance(data, dict) and "projects" in data:
@@ -587,14 +1064,34 @@ def import_json(
     except json.JSONDecodeError as e:
         console.print(f"[red]Error: Invalid JSON: {e}[/red]")
         raise typer.Exit(1)
-    except APIError as e:
-        console.print(f"[red]Error: {e}[/red]")
+    except (APIError, BackendConnectionError) as e:
+        handle_error(e, console)
+        raise typer.Exit(1)
+
+
+def archive_project(
+    project_id: int = typer.Argument(..., help="Project ID"),
+    force: bool = typer.Option(False, "--force", "-f", help="Skip confirmation"),
+):
+    """Archive a project (sets status to completed, classification to archive)."""
+    try:
+        if not force:
+            confirm = typer.confirm(f"Archive project {project_id}?")
+            if not confirm:
+                raise typer.Abort()
+        
+        client = get_client()
+        project = client.archive_project(project_id)
+        
+        console.print(f"[green]✓ Archived project {project_id}: {project.get('name')}[/green]")
+    except (APIError, BackendConnectionError) as e:
+        handle_error(e, console)
         raise typer.Exit(1)
 ```
 
 ---
 
-### Task 5: Register Commands in Main CLI (GREEN)
+### Task 7: Register Commands in Main CLI (GREEN) (~15 min)
 
 **Goal:** Add project commands to main CLI
 
@@ -602,8 +1099,10 @@ def import_json(
 
 ```python
 """Main CLI application using Typer."""
-import typer
+
 from typing import Optional
+
+import typer
 
 from proj.commands import projects
 
@@ -631,11 +1130,15 @@ def main(
         help="Show version and exit.",
     ),
 ):
-    """Unified CLI for project and inventory management."""
+    """Unified CLI for project and inventory management.
+
+    Project commands manage projects in the work-prod API.
+    Inventory commands scan and manage project inventory.
+    """
     pass
 
 
-# Register project commands
+# Register project commands (8 core commands)
 app.command(name="list")(projects.list_projects)
 app.command(name="get")(projects.get_project)
 app.command(name="create")(projects.create_project)
@@ -643,6 +1146,7 @@ app.command(name="update")(projects.update_project)
 app.command(name="delete")(projects.delete_project)
 app.command(name="search")(projects.search_projects)
 app.command(name="import-json")(projects.import_json)
+app.command(name="archive")(projects.archive_project)
 
 
 if __name__ == "__main__":
@@ -659,7 +1163,7 @@ pytest tests/test_commands_projects.py -v
 
 ---
 
-### Task 6: Integration Testing
+### Task 8: Integration Testing (~30 min)
 
 **Goal:** Test all commands against running work-prod API
 
@@ -681,6 +1185,7 @@ cd ~/Projects/proj-cli
 proj list
 proj list --format json
 proj list --status active
+proj list --wide
 
 # Test get
 proj get 1
@@ -690,13 +1195,16 @@ proj get 1 --format json
 proj create "Test Project" --desc "Testing new CLI"
 
 # Test update
-proj update <id> --status archived
+proj update <id> --status paused
 
 # Test search
 proj search "test"
 
+# Test archive
+proj archive <id>
+
 # Test delete
-proj delete <id>
+proj delete <id> --force
 
 # Test import
 proj import-json ~/Projects/work-prod/scripts/projects.json
@@ -704,34 +1212,38 @@ proj import-json ~/Projects/work-prod/scripts/projects.json
 
 ---
 
-### Task 7: Verify Feature Parity (REFACTOR)
+### Task 9: Verify Feature Parity (REFACTOR) (~15 min)
 
 **Goal:** Ensure new CLI matches old CLI behavior
 
 **Comparison checklist:**
 
-- [ ] `proj list` output matches
+- [ ] `proj list` output matches (Rich tables)
+- [ ] `proj list --wide` shows all columns
 - [ ] `proj get` output matches
 - [ ] `proj create` behavior matches
 - [ ] `proj update` behavior matches
 - [ ] `proj delete` behavior matches
 - [ ] `proj search` output matches
-- [ ] Import behavior matches
+- [ ] `proj archive` behavior matches
+- [ ] `proj import-json` behavior matches
+- [ ] Error messages are helpful (Rich panels)
 
 **Notes:**
 
-- Output format may differ (Rich tables vs plain text)
-- Help text will be auto-generated by Typer
-- Error messages may differ
+- Output format uses Rich tables (same as work-prod)
+- Help text auto-generated by Typer
+- Error handling uses Rich panels (same as work-prod)
 
 ---
 
 ## ✅ Completion Criteria
 
+- [ ] Error handler migrated and tested
 - [ ] API client migrated and tested
-- [ ] All 7 project commands implemented
+- [ ] All 8 project commands implemented
 - [ ] Commands registered in main CLI
-- [ ] Unit tests passing
+- [ ] Unit tests passing (≥70% coverage for new code)
 - [ ] Integration tests with work-prod API passing
 - [ ] Feature parity verified
 
@@ -739,10 +1251,11 @@ proj import-json ~/Projects/work-prod/scripts/projects.json
 
 ## 📦 Deliverables
 
-1. **API client** - `src/proj/api_client.py`
-2. **Project commands** - `src/proj/commands/projects.py`
-3. **Updated CLI** - Commands registered in main app
-4. **Tests** - API client and command tests
+1. **Error handler** - `src/proj/error_handler.py`
+2. **API client** - `src/proj/api_client.py`
+3. **Project commands** - `src/proj/commands/projects.py`
+4. **Updated CLI** - 8 commands registered in main app
+5. **Tests** - Error handler, API client, and command tests
 
 ---
 
@@ -750,13 +1263,13 @@ proj import-json ~/Projects/work-prod/scripts/projects.json
 
 ### Prerequisites
 
-- Phase 1 complete
-- work-prod API available
+- Phase 1 complete ✅ (PR #1 merged 2025-12-17)
+- work-prod API available (for integration testing)
 
 ### External Dependencies
 
-- requests library (for API calls)
-- work-prod backend running
+- `requests` library (for API calls)
+- work-prod backend running (for integration tests)
 
 ### Blocks
 
@@ -765,6 +1278,12 @@ proj import-json ~/Projects/work-prod/scripts/projects.json
 ---
 
 ## 📊 Progress Tracking
+
+### Error Handler (TDD)
+
+- [ ] Tests written (RED)
+- [ ] Handler migrated (GREEN)
+- [ ] Tests passing
 
 ### API Client (TDD)
 
@@ -787,6 +1306,21 @@ proj import-json ~/Projects/work-prod/scripts/projects.json
 ---
 
 ## 📝 Implementation Notes
+
+### Task Effort Estimates
+
+| Task | Effort | Cumulative |
+|------|--------|------------|
+| Task 1: Error Handler Tests | ~15 min | 15 min |
+| Task 2: Error Handler | ~30 min | 45 min |
+| Task 3: API Client Tests | ~15 min | 1 hr |
+| Task 4: API Client | ~30 min | 1.5 hr |
+| Task 5: Command Tests | ~15 min | 1.75 hr |
+| Task 6: Commands | ~1-1.5 hr | 3-3.25 hr |
+| Task 7: Register | ~15 min | 3.25-3.5 hr |
+| Task 8: Integration | ~30 min | 3.75-4 hr |
+| Task 9: Feature Parity | ~15 min | 4-4.25 hr |
+| **Total** | **~4-5 hours** | |
 
 ### Typer Command Patterns
 
@@ -815,6 +1349,7 @@ def list(
 ```python
 from rich.console import Console
 from rich.table import Table
+from rich.panel import Panel
 
 console = Console()
 
@@ -827,9 +1362,8 @@ console.print(table)
 # JSON output
 console.print_json(data)
 
-# Colored messages
-console.print("[green]Success![/green]")
-console.print("[red]Error![/red]")
+# Error panel
+console.print(Panel(message, title="Error", border_style="red"))
 ```
 
 ---
@@ -838,10 +1372,11 @@ console.print("[red]Error![/red]")
 
 - [Feature Hub](README.md)
 - [Phase 1: Repository Setup](phase-1.md)
+- [Phase 2 Review](phase-2-review.md)
 - [Phase 3: Add Inventory Commands](phase-3.md)
+- [Migration Reference](migration-reference.md)
 - [ADR-0007](../../decisions/ADR-0007-unified-cli-architecture.md)
 
 ---
 
-**Last Updated:** 2025-12-16
-
+**Last Updated:** 2025-12-17
