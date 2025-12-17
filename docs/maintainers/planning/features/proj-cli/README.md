@@ -27,6 +27,10 @@
 
 - **[Fix Hub](fix/README.md)** - Troubleshooting and issue tracking
 
+### Learnings
+
+- **[Learnings Hub](learnings/README.md)** - Phase learnings and retrospectives
+
 ---
 
 ## 🎯 Overview
@@ -103,9 +107,8 @@ $ python -c "from proj.config import get_config_dir, get_data_dir; print(get_con
 
 ## 🚀 Next Steps
 
-1. **Create PR for Phase 1:** Merge `feat/phase-1-cli-setup` to `main`
-2. **Run `/pre-phase-review 2`:** Review Phase 2 before starting
-3. **Start Phase 2:** `/task-phase 2 1` - Begin API client implementation
+1. **Run `/pre-phase-review 2`:** Review Phase 2 before starting
+2. **Start Phase 2:** `/task-phase 2 1` - Begin API client implementation
 
 ---
 
@@ -126,6 +129,6 @@ The `proj-cli` is being extracted from `work-prod`, which will become API-only a
 
 ---
 
-**Last Updated:** 2025-12-16  
-**Branch:** `feat/phase-1-cli-setup`
+**Last Updated:** 2025-12-17  
+**Status:** Phase 1 Merged (PR #1)
 
