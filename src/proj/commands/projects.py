@@ -252,6 +252,9 @@ def delete_project(
 
 def search_projects(
     query: str = typer.Argument(..., help="Search query"),
+    wide: bool = typer.Option(
+        False, "--wide", "-w", help="Show all columns"
+    ),
     format: str = typer.Option(
         "table", "--format", "-f", help="Output format: table, json"
     ),
@@ -273,15 +276,32 @@ def search_projects(
             table.add_column("ID", style="cyan", justify="right")
             table.add_column("Name", style="green")
             table.add_column("Status", style="yellow")
+
+            if wide:
+                table.add_column("Org", style="blue")
+                table.add_column("Classification", style="magenta")
+                table.add_column("Path", style="blue")
+
             table.add_column("Description", style="dim")
 
+            if wide:
+                table.add_column("Created", style="magenta")
+
             for p in projects:
-                table.add_row(
+                row = [
                     str(p.get("id", "")),
                     p.get("name", ""),
                     p.get("status", ""),
-                    (p.get("description", "") or "")[:50],
-                )
+                ]
+                if wide:
+                    row.append(p.get("organization", "") or "")
+                    row.append(p.get("classification", "") or "")
+                    row.append(p.get("path", "") or "")
+                row.append((p.get("description", "") or "")[:50])
+                if wide:
+                    created = p.get("created_at", "")
+                    row.append(created[:10] if created else "")
+                table.add_row(*row)
 
             console.print(table)
     except (APIError, BackendConnectionError, TimeoutError) as e:
