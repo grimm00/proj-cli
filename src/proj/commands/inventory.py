@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Optional
 
 import requests
+import click
 import typer
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn
@@ -120,7 +121,9 @@ def scan_github(
             repos = []
 
             while url:
-                response = requests.get(url, headers=headers, params=params)
+                response = requests.get(
+                    url, headers=headers, params=params, timeout=15
+                )
                 response.raise_for_status()
                 repos.extend(response.json())
 
@@ -423,7 +426,9 @@ def dedupe():
 def export_json(
     output: Path = typer.Argument(..., help="Output file path"),
     format: str = typer.Option(
-        "projects", "--format", "-f", help="Format: projects, raw"
+        "projects", "--format", "-f",
+        help="Format: projects, raw",
+        click_type=click.Choice(["projects", "raw"], case_sensitive=False),
     ),
 ):
     """Export inventory to JSON file."""
@@ -469,9 +474,6 @@ def export_api(
 ):
     """Push inventory to work-prod API."""
     from proj.api_client import APIClient
-    from proj.error_handler import (
-        APIError, BackendConnectionError, TimeoutError
-    )
 
     inventory = load_inventory()
 
