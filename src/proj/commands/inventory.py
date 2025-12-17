@@ -1,13 +1,9 @@
 """Inventory management commands."""
 import json
-import subprocess
 from pathlib import Path
-from typing import Optional
 
 import typer
 from rich.console import Console
-from rich.table import Table
-from rich.progress import Progress, SpinnerColumn, TextColumn
 
 from proj.config import Config, get_data_dir
 
