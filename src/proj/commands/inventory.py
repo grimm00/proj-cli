@@ -1,5 +1,6 @@
 """Inventory management commands."""
 import json
+import subprocess
 from pathlib import Path
 from typing import Optional
 
@@ -187,9 +188,112 @@ def scan_github(
 
 
 @scan_app.command(name="local")
-def scan_local():
-    """Scan local project directories."""
-    console.print("[yellow]Not implemented yet[/yellow]")
+def scan_local(
+    directory: Optional[Path] = typer.Option(
+        None, "--dir", "-d", help="Directory to scan"
+    ),
+    depth: int = typer.Option(2, "--depth", help="Max depth to scan"),
+):
+    """Scan local directories for projects."""
+    config = get_config()
+
+    # Get directories to scan
+    if directory:
+        scan_dirs = [directory]
+    else:
+        scan_dirs = [Path(d) for d in config.local_scan_dirs]
+
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        console=console,
+    ) as progress:
+        task = progress.add_task("Scanning local projects...", total=None)
+
+        projects = []
+
+        for scan_dir in scan_dirs:
+            if not scan_dir.exists():
+                msg = f"[yellow]Warning: {scan_dir} does not exist[/yellow]"
+                console.print(msg)
+                continue
+
+            desc = f"Scanning {scan_dir}..."
+            progress.update(task, description=desc)
+
+            # Find projects by looking for markers
+            markers = [
+                ".git", "package.json", "pyproject.toml", "Cargo.toml", "go.mod"
+            ]
+
+            for marker in markers:
+                pattern = f"**/{marker}"
+                for project_dir in scan_dir.glob(pattern):
+                    # Skip node_modules and nested .git
+                    if project_dir.parts.count("node_modules") > 0:
+                        continue
+                    if project_dir.parts.count(".git") > 1:
+                        continue
+
+                    # Get project root
+                    root = project_dir.parent
+
+                    # Check depth
+                    try:
+                        rel_path = root.relative_to(scan_dir)
+                        rel_depth = len(rel_path.parts)
+                        if rel_depth > depth:
+                            continue
+                    except ValueError:
+                        # Path not relative (shouldn't happen)
+                        continue
+
+                    # Get git remote if available
+                    remote_url = ""
+                    git_dir = root / ".git"
+                    if git_dir.exists():
+                        try:
+                            result = subprocess.run(
+                                [
+                                    "git", "-C", str(root),
+                                    "remote", "get-url", "origin"
+                                ],
+                                capture_output=True,
+                                text=True,
+                            )
+                            if result.returncode == 0:
+                                remote_url = result.stdout.strip()
+                        except Exception:
+                            pass
+
+                    # Add to projects if not already added
+                    path_str = str(root)
+                    if not any(p["local_path"] == path_str for p in projects):
+                        projects.append({
+                            "name": root.name,
+                            "local_path": str(root),
+                            "remote_url": remote_url,
+                            "source": "local",
+                            "marker": marker,
+                        })
+
+        project_count = len(projects)
+        desc = f"Found {project_count} local projects"
+        progress.update(task, description=desc)
+
+        # Merge with existing inventory
+        existing = load_inventory()
+        for item in projects:
+            item["scan_source"] = "local"
+
+        combined = existing + projects
+        save_inventory(combined)
+
+        msg = (
+            f"[green]✓ Added {project_count} local projects "
+            f"to inventory[/green]"
+        )
+        console.print(msg)
 
 
 @inv_app.command(name="analyze")
