@@ -403,10 +403,10 @@ proj inv analyze
 
 ### User Feedback Summary
 
-| Issue | Severity | Component | Action |
+| Issue | Severity | Component | Status |
 |-------|----------|-----------|--------|
-| U1 | 🟡 MEDIUM | `proj search` | Add `--wide` option |
-| U2 | 🟢 LOW | `proj inv analyze` | Fix progress ordering |
-| U3 | 🟠 HIGH | `proj inv export api` | Fix duplicate handling |
+| U1 | 🟡 MEDIUM | `proj search` | ✅ **FIXED** - Added `--wide` option |
+| U2 | 🟢 LOW | `proj inv analyze` | ✅ **FIXED** - Moved output outside Progress context |
+| U3 | 🟠 HIGH | `proj inv export api` | ✅ **FIXED** - Added auto-dedupe with `--no-dedupe` flag |
 
 
