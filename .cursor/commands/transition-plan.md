@@ -606,11 +606,21 @@ Reference: `docs/PHASE-DOCUMENT-TEMPLATE.md`
 - **Header:** Extract from transition plan phase header
 - **Overview:** Expand phase goal into detailed overview with success definition
 - **Goals:** Extract and expand phase goals
-- **Tasks:** Expand transition plan tasks into detailed TDD flow:
+- **Tasks:** Expand transition plan tasks into detailed TDD flow with proper ordering:
+  - **TDD Task Ordering (IMPORTANT):** Order tasks following RED → GREEN → REFACTOR:
+    1. **Tests first (RED):** Write tests before implementation code
+    2. **Implementation second (GREEN):** Write minimum code to pass tests
+    3. **Refactor/documentation last:** Clean up and document
   - Group tasks into RED/GREEN pairs where applicable
   - Add detailed sub-tasks with checkboxes
   - Include code examples where applicable
   - Add testing commands and manual testing steps
+  - **Example TDD Task Order:**
+    - Task 1: Write tests for feature X (RED)
+    - Task 2: Implement feature X (GREEN)
+    - Task 3: Write tests for feature Y (RED)
+    - Task 4: Implement feature Y (GREEN)
+    - Task 5: Documentation and cleanup
 - **Completion Criteria:** Extract from transition plan "Definition of Done"
 - **Deliverables:** Extract from transition plan deliverables
 - **Dependencies:** Extract prerequisites, add external dependencies if known
@@ -629,10 +639,28 @@ Reference: `docs/PHASE-DOCUMENT-TEMPLATE.md`
 - [ ] Related documents linked
 - [ ] Phase documents are detailed (~200-300+ lines)
 
+**Task Ordering Patterns:**
+
+Depending on the phase type, use the appropriate task ordering pattern:
+
+| Phase Type | Task Order | Example |
+|------------|------------|---------|
+| **Code + Tests (TDD)** | Tests → Implementation → Docs | Write tests, implement code, document |
+| **Scripts (TDD)** | Tests → Script → Integration | Write bats tests, create script, integrate |
+| **Documentation Only** | Create → Link → Verify | Create docs, add links, verify links work |
+| **Configuration** | Plan → Implement → Validate | Define config, apply changes, verify |
+
+**When ordering tasks, ask:** "What needs to exist first for TDD to work?"
+
+- **If tests can be written:** Put test tasks BEFORE implementation tasks
+- **If no tests apply:** Put validation/verification tasks LAST
+- **If documentation phase:** Put doc creation before linking/integration
+
 **Note:**
 
-- **Feature transitions:** Phase documents should be comprehensive and actionable, following work-prod's phase document structure with TDD flow. They serve as the primary implementation guide for each phase. Use `/task-phase` command to implement.
+- **Feature transitions:** Phase documents should be comprehensive and actionable, following work-prod's phase document structure with TDD flow. **Tasks should be ordered with tests before implementation.** They serve as the primary implementation guide for each phase. Use `/task-phase` command to implement.
 - **CI/CD transitions:** Phase documents should be comprehensive and actionable, following the phase document template structure. Tasks may focus on documentation, process improvements, and workflow integration rather than TDD. They serve as the primary implementation guide for each improvement step. Use `/task-improvement` command to implement (not `/task-phase`).
+- **Documentation phases:** For phases that are primarily documentation (like creating markdown files), order tasks so that: (1) content is created first, (2) linking/integration is done second, (3) verification is done last.
 
 ---
 

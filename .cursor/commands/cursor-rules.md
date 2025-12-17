@@ -427,6 +427,27 @@ alwaysApply: [true/false]
 - `template.mdc` - Template standards
 - `[custom].mdc` - Custom domain rules
 
+---
+
+## 📊 Log Usage (Final Step)
+
+**After successful command completion, update the usage tracker:**
+
+1. **Update:** `docs/maintainers/planning/commands/usage-tracker.md` (if using command tracking)
+2. **Add entry to "Recent Usage" table:**
+   ```markdown
+   | YYYY-MM-DD | `/cursor-rules` | [Context] | ✅ Success | [Evidence] |
+   ```
+3. **Increment usage count** in summary table
+4. **Commit with message:**
+   ```
+   docs(commands): update usage tracker - /cursor-rules
+   ```
+
+**Why:** Tracks command maturity for improvement decisions and validates command effectiveness.
+
+---
+
 **Learning Sources:**
 
 - Feature-specific: `docs/maintainers/planning/features/[feature-name]/learnings/` (if exists)

@@ -73,6 +73,10 @@ This command supports multiple fix organization patterns, matching `/fix-plan` a
 - `--quick-wins` - Find LOW effort issues that can be fixed quickly
 - `--by-pr` - Group issues by PR number
 - `--by-file` - Group issues by affected file
+- `--known-issues [path]` - Consider known CI/CD issues when reviewing (NEW)
+  - Default: `docs/maintainers/planning/infrastructure/known-issues.md` (project-specific)
+  - Checks if fixes depend on known issues
+  - Prioritizes fixes that address known issues
 
 ---
 

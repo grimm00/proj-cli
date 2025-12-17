@@ -80,6 +80,11 @@ This command supports multiple fix organization patterns. It will auto-detect th
 - `--quick-wins` - Create only Quick Wins batch from report
 - `--review-old` - Review old deferred issues (see "Reviewing Old Issues" section)
 - `--archive-completed` - Archive completed fix plans to `fix/archived/`
+- `--known-issues [path]` - Consider known CI/CD issues when planning (NEW)
+  - Default: `docs/maintainers/planning/infrastructure/known-issues.md` (project-specific)
+  - Checks if fixes depend on known issues
+  - Adds warnings for fixes blocked by known issues
+  - Prioritizes fixes that address known issues
 
 ---
 

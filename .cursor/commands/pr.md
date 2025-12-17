@@ -81,10 +81,85 @@ This command supports multiple project organization patterns, matching `/task-ph
 - `--no-push` - Create PR description but don't push branch or create PR
 - `--body-file [path]` - Use custom body file instead of generating
 - `--title [title]` - Override default PR title
+- `--force` - (Release mode only) Override blocking readiness checks with justification
 
 ---
 
 ## Step-by-Step Process
+
+### Pre-Command Branch Validation (BLOCKING)
+
+**CRITICAL:** This validation MUST pass before any PR work begins.
+
+#### 1. Detect Expected Branch
+
+**For Phase PRs (`--phase N`):**
+- Expected pattern: `feat/[feature-name]-phase-N-*` or `feat/phase-N-*`
+- Example: `feat/release-readiness-phase-3-assessment-structure`
+
+**For Fix PRs (`--fix [batch-name]`):**
+- Expected pattern: `fix/[batch-name]`
+- Example: `fix/pr32-batch-high-low-01`
+
+**For Release PRs (`--release [version]`):**
+- Expected pattern: `release/[version]`
+- Example: `release/v1.4.0`
+
+#### 2. Check Current Branch
+
+```bash
+git branch --show-current
+```
+
+#### 3. Branch Mismatch Handling
+
+**If on wrong branch (e.g., `develop`, `main`, or different feature):**
+
+1. **Check for worktree with correct branch:**
+   ```bash
+   git worktree list | grep [expected-branch-pattern]
+   ```
+
+2. **If worktree exists:**
+   ```
+   ⚠️ BRANCH MISMATCH: Currently on 'develop', expected 'feat/[feature]-phase-N-*'
+   
+   Found worktree with expected branch:
+   → /path/to/worktree [feat/feature-phase-3-name]
+   
+   Resolution:
+   1. Switch to worktree: cd /path/to/worktree
+   2. Then re-run: /pr --phase N --feature [feature]
+   ```
+
+3. **If no worktree but branch exists:**
+   ```bash
+   git checkout [expected-branch]
+   ```
+
+4. **If branch doesn't exist:**
+   ```
+   ❌ BLOCKING: Expected branch not found
+   
+   Resolution:
+   1. Create branch from develop: git checkout -b feat/[feature]-phase-N-[desc]
+   2. Ensure phase work is committed to this branch
+   3. Then re-run: /pr --phase N
+   ```
+
+#### 4. Auto-Detection Logic
+
+**Branch pattern matching:**
+- Phase PRs: Search for `feat/*phase-N*` or `feat/*[feature]*phase-N*`
+- Fix PRs: Search for `fix/[batch-name]`
+- Release PRs: Search for `release/[version]`
+
+**Worktree awareness:**
+- Check `git worktree list` for active worktrees
+- If correct branch is in a worktree, direct user to that worktree
+- Do NOT checkout branch that's in use by another worktree
+
+---
 
 ### Mode Selection
 
@@ -868,6 +943,86 @@ gh pr create --title "fix: [Batch Description] ([batch-name])" \
 
 ---
 
+### 1a. Validate Release Readiness (NEW)
+
+**Purpose:** Ensure release is ready before creating PR. Critical checks must pass or be explicitly overridden.
+
+**Run readiness check:**
+
+```bash
+# Run the readiness check script (if exists)
+./scripts/check-release-readiness.sh [version]
+
+# Example:
+./scripts/check-release-readiness.sh v1.4.0
+```
+
+**Evaluate results:**
+
+The script reports:
+- ✅ Passed checks (release branch exists, version format, etc.)
+- ❌ Failed checks (blocking criteria)
+- ⚠️ Warnings (non-blocking issues)
+
+**Blocking Criteria:**
+
+If any of these fail, **do NOT create PR** (unless overridden):
+- Release branch exists
+- CHANGELOG has version entry
+- Release notes file exists
+- No critical open issues blocking release (if configured)
+
+**Non-Blocking Criteria:**
+
+These generate warnings but don't block PR creation:
+- CI status (if temporarily failing)
+- Documentation gaps (if minor)
+
+**If blocking criteria fail:**
+
+```
+⚠️ RELEASE NOT READY - PR creation blocked
+
+Blocking failures:
+- ❌ [Failure 1]
+- ❌ [Failure 2]
+
+To proceed anyway, use: /pr --release [version] --force
+```
+
+**If all checks pass:**
+
+```
+✅ RELEASE READY - Proceeding with PR creation
+
+All blocking criteria passed:
+- ✅ Release branch exists
+- ✅ CHANGELOG has version entry
+- ✅ Release notes file exists
+```
+
+**Override option:**
+
+- `--force` flag allows PR creation despite blocking failures
+- Use with caution - document why override is acceptable
+- Add override justification to PR description
+
+**Generate assessment for PR:**
+
+```bash
+# Generate assessment to include in PR
+./scripts/check-release-readiness.sh [version] --generate > /tmp/readiness-assessment.md
+```
+
+**Checklist:**
+
+- [ ] Readiness check executed
+- [ ] Results evaluated
+- [ ] Blocking criteria passed (or override justified)
+- [ ] Ready to create PR
+
+---
+
 ### 2. Generate PR Description (Release)
 
 **PR Title:**
@@ -1058,7 +1213,6 @@ git branch --show-current
 - **After Merge:** Status automatically updated by `/post-pr` command
 
 **See Also:**
-- [PR Status Update Requirements](../../docs/PR-STATUS-UPDATE-REQUIREMENTS.md) - Complete PR status update guide
 - [Status Update Workflow](../../docs/STATUS-UPDATE-WORKFLOW.md) - Complete status update guide
 - [Status Update Checklist](../../docs/STATUS-UPDATE-CHECKLIST.md) - Checklist for status updates
 
@@ -1165,6 +1319,22 @@ git branch --show-current
 - Custom titles
 - Special formatting
 - Consistency requirements
+
+---
+
+### `--force`
+
+**Behavior:**
+
+- (Release mode only) Override blocking readiness checks
+- Requires justification documented in PR description
+- Use with caution
+
+**Use case:**
+
+- Urgent releases with minor blocking issues
+- Known issues that don't affect release quality
+- Time-sensitive deployments
 
 ---
 
@@ -1285,7 +1455,6 @@ git branch --show-current
 
 ---
 
-**Last Updated:** 2025-12-07  
+**Last Updated:** 2025-12-16  
 **Status:** ✅ Active  
-**Next:** Use to create PRs for phases, fixes, and releases (supports feature-specific and project-wide structures)
-
+**Next:** Use to create PRs for phases, fixes, and releases (includes readiness validation for release PRs)

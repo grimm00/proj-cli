@@ -72,7 +72,8 @@ This command supports multiple project organization patterns:
 - `--scope SCOPE` - Focus area (phase, workflow, code-quality, documentation, technical-debt)
 - `--feature [name]` - Specify feature name (overrides auto-detection)
 - `--include-fixes` - Include deferred fixes in analysis
-- `--include-learnings` - Reference phase learnings
+- `--include-learnings` - Reference phase learnings (single phase or latest)
+- `--include-learnings all` - Include learnings from all phases, identify common patterns
 - `--actionable-only` - Only show actionable suggestions
 
 ---
@@ -100,15 +101,39 @@ This command supports multiple project organization patterns:
    - Review next steps
 
 4. **Recent learnings:**
-   - Check latest phase learnings document (if exists)
+   - If `--include-learnings` (single): Check latest phase learnings document (if exists)
+   - If `--include-learnings all`: Read all phase learnings for feature (if feature detected)
    - Review improvement documents (if exists)
+
+**When `--include-learnings all` is used:**
+
+1. **Detect feature name:**
+
+   - From `--feature` flag (if provided)
+   - From git branch name
+   - From current directory context
+   - From feature status document
+
+2. **Find all phase learnings:**
+
+   - Check `docs/maintainers/planning/features/[feature-name]/learnings/` (feature-grouped)
+   - Check `docs/maintainers/planning/notes/learnings/` for `[feature-name]-phase-*-learnings.md` (legacy)
+   - Read all phase learnings documents
+
+3. **Identify common patterns:**
+   - Group similar "What Worked Well" observations
+   - Group similar "What Needs Improvement" observations
+   - Group similar "Unexpected Discoveries"
+   - Identify recurring issues across phases
+   - Note patterns that appear in multiple phases
 
 **Checklist:**
 
 - [ ] Recent commits analyzed
 - [ ] Recent PRs reviewed
 - [ ] Current phase/feature status checked
-- [ ] Learnings reviewed (if available)
+- [ ] Learnings reviewed (single or all phases, if requested)
+- [ ] Common patterns identified (if `--include-learnings all`)
 
 ---
 

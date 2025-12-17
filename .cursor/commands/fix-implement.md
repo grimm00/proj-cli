@@ -172,30 +172,158 @@ This command supports multiple fix organization patterns, matching `/fix-plan`:
 
 ---
 
-### 2. Create Fix Branch
+### 1a. Check Source PR Status (Critical Workflow Fix)
 
-**Branch naming:**
+**For PR-Specific Batches Only:**
+
+**Purpose:** Determine if fixes should be pushed to an existing open PR or create a new PR based on PR status and fix priority.
+
+**Critical Issue:** Previously, `/fix-implement` always created new PRs, even when the source PR was still open. This caused workflow fragmentation where HIGH priority fixes that should be included in the original PR were split into separate PRs.
+
+**Correct Workflow:**
+- **HIGH/CRITICAL priority + PR OPEN** → Push to existing PR branch (fixes included before merge)
+- **MEDIUM/LOW priority OR PR MERGED** → Create new PR (post-merge fixes)
+
+**Determine if source PR is still open:**
+
+1. **Extract source PR number from batch name:**
+   - Example: `pr32-batch-high-low-01` → PR #32
+   - Skip this step for cross-PR batches (they don't have a single source PR)
+
+2. **Check PR status:**
+   ```bash
+   gh pr view [pr-number] --json state,headRefName
+   ```
+
+3. **Read priority from fix plan:**
+   ```bash
+   # Extract priority from fix plan file
+   PRIORITY=$(grep "^**Priority:**" "$FIX_PLAN_FILE" | sed 's/.*: //' | sed 's/ .*//')
+   ```
+
+4. **Determine action based on status and priority:**
+
+   **If PR is OPEN and priority is HIGH/CRITICAL:**
+   - **Action:** Push fixes to PR's branch (pre-merge fixes)
+   - **Branch:** Use PR's existing branch (from `headRefName`)
+   - **No new PR:** Fixes update existing PR
+   - **Rationale:** HIGH/CRITICAL issues should be fixed before merge
+   - **Example:** PR #32 (OPEN) + HIGH priority → Push to `feat/release-readiness-phase-2` branch
+
+   **If PR is MERGED or priority is MEDIUM/LOW:**
+   - **Action:** Create new branch and PR (post-merge fixes)
+   - **Branch:** Create new `fix/[batch-name]` branch
+   - **New PR:** Separate PR for deferred fixes
+   - **Rationale:** MEDIUM/LOW issues can be addressed after merge
+   - **Example:** PR #32 (MERGED) OR MEDIUM priority → Create new `fix/pr32-batch-medium-low-01` branch
+
+**Implementation:**
+
+```bash
+# Initialize variables
+PUSH_TO_EXISTING_PR=false
+TARGET_BRANCH=""
+
+# Extract PR number from batch name (PR-specific batches only)
+if [[ "$BATCH_NAME" =~ ^pr([0-9]+)-batch- ]]; then
+    SOURCE_PR="${BASH_REMATCH[1]}"
+    
+    echo "Detected PR-specific batch for PR #$SOURCE_PR"
+    
+    # Check if PR is open
+    PR_INFO=$(gh pr view "$SOURCE_PR" --json state,headRefName 2>/dev/null)
+    
+    if [ $? -eq 0 ]; then
+        PR_STATE=$(echo "$PR_INFO" | jq -r '.state')
+        PR_BRANCH=$(echo "$PR_INFO" | jq -r '.headRefName')
+        
+        # Check priority from fix plan
+        PRIORITY=$(grep "^**Priority:**" "$FIX_PLAN_FILE" | sed 's/.*: //' | sed 's/ .*//')
+        
+        echo "PR State: $PR_STATE"
+        echo "Priority: $PRIORITY"
+        
+        if [[ "$PR_STATE" == "OPEN" ]] && [[ "$PRIORITY" =~ (CRITICAL|HIGH) ]]; then
+            echo "✅ Source PR #$SOURCE_PR is OPEN and priority is $PRIORITY"
+            echo "📋 Action: Push fixes to PR's branch ($PR_BRANCH)"
+            echo "⚠️  This ensures HIGH priority fixes are included before merge"
+            PUSH_TO_EXISTING_PR=true
+            TARGET_BRANCH="$PR_BRANCH"
+        else
+            echo "ℹ️  Source PR #$SOURCE_PR is $PR_STATE or priority is $PRIORITY"
+            echo "📋 Action: Create new branch and PR"
+            PUSH_TO_EXISTING_PR=false
+            TARGET_BRANCH="fix/$BATCH_NAME"
+        fi
+    else
+        echo "⚠️  Could not check PR status (gh CLI not available or PR not found)"
+        echo "📋 Action: Create new branch and PR (default behavior)"
+        PUSH_TO_EXISTING_PR=false
+        TARGET_BRANCH="fix/$BATCH_NAME"
+    fi
+else
+    # Cross-PR batch - always create new branch
+    echo "Detected cross-PR batch"
+    PUSH_TO_EXISTING_PR=false
+    TARGET_BRANCH="fix/$BATCH_NAME"
+fi
+```
+
+**Checklist:**
+
+- [ ] Source PR number extracted (if PR-specific batch)
+- [ ] PR status checked (OPEN/MERGED/CLOSED)
+- [ ] Priority level checked (CRITICAL/HIGH vs MEDIUM/LOW)
+- [ ] Action determined (push to existing vs create new)
+- [ ] Target branch identified
+- [ ] Variables set: `PUSH_TO_EXISTING_PR`, `TARGET_BRANCH`
+
+---
+
+### 2. Checkout Target Branch
+
+**Branch strategy depends on action from Step 1a:**
+
+**If pushing to existing PR (pre-merge fixes):**
+
+```bash
+# Ensure develop is up-to-date
+git checkout develop
+git pull origin develop
+
+# Checkout PR's branch
+git checkout $TARGET_BRANCH
+git pull origin $TARGET_BRANCH
+
+echo "✅ Checked out existing PR branch: $TARGET_BRANCH"
+echo "⚠️  Commits will update the existing PR"
+```
+
+**If creating new PR (post-merge fixes):**
+
+```bash
+# Ensure develop is up-to-date
+git checkout develop
+git pull origin develop
+
+# Create new fix branch
+git checkout -b $TARGET_BRANCH
+
+echo "✅ Created new branch: $TARGET_BRANCH"
+```
+
+**Branch naming (for new branches):**
 
 - Format: `fix/[batch-name]` (keep full batch name)
 - PR-Specific Example: `fix/pr12-batch-medium-low-01`
 - Cross-PR Example: `fix/quick-wins-low-low-01`
 
-**Steps:**
-
-```bash
-# Ensure on develop
-git checkout develop
-git pull origin develop
-
-# Create fix branch
-git checkout -b fix/[batch-name]
-```
-
 **Checklist:**
 
-- [ ] Branch created from develop
-- [ ] Branch name follows convention
+- [ ] Correct branch checked out (existing PR branch OR new fix branch)
+- [ ] Branch is up-to-date with remote
 - [ ] Local develop is up-to-date
+- [ ] Ready for implementation
 
 ---
 
@@ -525,9 +653,64 @@ Source PRs: PR #1, PR #2, PR #12"
 
 ---
 
-### 8. Create PR
+### 8. Create or Update PR
 
-**PR Title Format:**
+**Action depends on Step 1a determination:**
+
+**If pushing to existing PR (pre-merge fixes):**
+
+```bash
+# Push commits to PR's branch
+git push origin $TARGET_BRANCH
+
+echo "✅ Pushed fixes to existing PR branch: $TARGET_BRANCH"
+echo "📋 Updating PR description to include fixes..."
+
+# Update PR description
+gh pr edit $SOURCE_PR --body "$(cat /tmp/pr-update-description.md)"
+
+echo "✅ PR #$SOURCE_PR updated with fix information"
+echo "🔗 PR Link: $(gh pr view $SOURCE_PR --json url --jq '.url')"
+```
+
+**PR Description Update (append to existing description):**
+
+```markdown
+---
+
+## Fixes Included (from Sourcery Review)
+
+### [batch-name]: [Brief Description]
+
+**Fixes:**
+- **PR##-#N:** [Description] ([Priority], [Effort]) - ✅ Fixed
+- **PR##-#M:** [Description] ([Priority], [Effort]) - ✅ Fixed
+
+**Status:** ✅ HIGH priority fixes addressed before merge
+
+---
+```
+
+**If creating new PR (post-merge fixes):**
+
+```bash
+# Push new branch
+git push origin $TARGET_BRANCH
+
+echo "✅ Pushed new branch: $TARGET_BRANCH"
+echo "📋 Creating PR..."
+
+# Create PR
+gh pr create \
+  --title "[PR Title]" \
+  --body-file /tmp/pr-description.md \
+  --base develop \
+  --head $TARGET_BRANCH
+
+echo "✅ PR created"
+```
+
+**PR Title Format (for new PRs):**
 
 **For PR-Specific Batches:**
 
@@ -546,6 +729,7 @@ fix: [Batch Description] ([batch-name], cross-PR batch)
 ```
 fix: CLI validation and test improvements (pr12-batch-medium-low-01)
 fix: Quick wins - test improvements and error handling (quick-wins-low-low-01, cross-PR batch)
+fix: gh CLI skipped check bug (pr32-batch-high-low-01)
 ```
 
 **PR Description Template:**
@@ -801,7 +985,7 @@ gh pr create --title "fix: [Batch Description] ([batch-name])" \
 
 ---
 
-**Last Updated:** 2025-12-07  
+**Last Updated:** 2025-12-16  
 **Status:** ✅ Active  
 **Next:** Use after `/fix-plan` to implement batches (supports both PR-specific and cross-PR batches, feature-specific and project-wide)
 
