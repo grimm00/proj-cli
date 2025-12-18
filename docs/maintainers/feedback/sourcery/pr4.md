@@ -125,15 +125,15 @@ Use this template to assess each comment:
 | Comment | Priority | Impact | Effort | Notes |
 |---------|----------|--------|--------|-------|
 | #1 | 🟡 MEDIUM | 🟢 LOW | 🟡 MEDIUM | URL scheme case handling - edge case, can defer |
-| #2 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Delete corrupted file to avoid repeated warnings - UX improvement |
-| #3 | 🟡 MEDIUM | 🟢 LOW | 🟢 LOW | Handle PackageNotFoundError in test - test robustness |
+| #2 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | ✅ Fixed in PR #6 (quick-wins-02) |
+| #3 | 🟡 MEDIUM | 🟢 LOW | 🟢 LOW | ✅ Fixed in PR #6 (quick-wins-02) - already in place |
 
 ### Overall Comments Assessment
 
 | Comment | Priority | Impact | Effort | Notes |
 |---------|----------|--------|--------|-------|
 | URL normalization type hint | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Accept Optional[str], preserve host without scheme - can defer |
-| JSON error logging | 🟢 LOW | 🟢 LOW | 🟢 LOW | Add debug logging for exception message - nice to have |
+| JSON error logging | 🟢 LOW | 🟢 LOW | 🟢 LOW | ✅ Fixed in PR #6 (quick-wins-02) |
 
 ### Summary
 
