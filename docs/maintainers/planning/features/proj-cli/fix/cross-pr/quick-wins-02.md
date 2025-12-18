@@ -341,80 +341,80 @@ except json.JSONDecodeError as e:
 
 ### 1. PR5-#3: Fix broad exception handling (HIGH PRIORITY)
 
-- [ ] Open `tests/test_api_client_integration.py`
-- [ ] Import `requests` module
-- [ ] Change `except Exception` to `except (requests.ConnectionError, requests.Timeout)`
-- [ ] Move assertions outside try/except block
-- [ ] Apply to all integration test functions
-- [ ] Run tests to verify
+- [x] Open `tests/test_api_client_integration.py`
+- [x] Import `requests` module
+- [x] Change `except Exception` to `except (requests.ConnectionError, requests.Timeout)`
+- [x] Move assertions outside try/except block
+- [x] Apply to all integration test functions
+- [x] Run tests to verify
 
 ### 2. PR5-#1: Centralize status_emoji
 
-- [ ] Open `src/proj/commands/projects.py`
-- [ ] Add `STATUS_EMOJI` constant at module level (after imports)
-- [ ] Remove local `status_emoji` dict from `list_projects`
-- [ ] Remove local `status_emoji` dict from `get_project`
-- [ ] Remove local `status_emoji` dict from `search_projects`
-- [ ] Update all references to use `STATUS_EMOJI`
-- [ ] Run tests to verify
+- [x] Open `src/proj/commands/projects.py`
+- [x] Add `STATUS_EMOJI` constant at module level (after imports)
+- [x] Remove local `status_emoji` dict from `list_projects`
+- [x] Remove local `status_emoji` dict from `get_project`
+- [x] Remove local `status_emoji` dict from `search_projects`
+- [x] Update all references to use `STATUS_EMOJI`
+- [x] Run tests to verify
 
 ### 3. PR4-#2: Delete corrupted inventory file
 
-- [ ] Open `src/proj/commands/inventory.py`
-- [ ] Update `load_inventory()` JSONDecodeError handler
-- [ ] Rename corrupted file to `.json.corrupt` backup
-- [ ] Update warning message
-- [ ] Run tests to verify
+- [x] Open `src/proj/commands/inventory.py`
+- [x] Update `load_inventory()` JSONDecodeError handler
+- [x] Rename corrupted file to `.json.corrupt` backup
+- [x] Update warning message
+- [x] Run tests to verify
 
 ### 4. PR4-#3: Verify PackageNotFoundError handling
 
-- [ ] Open `tests/test_package.py`
-- [ ] Verify `test_version_matches_metadata` has proper skip
-- [ ] Run test in environment without package metadata
-- [ ] Confirm skip works correctly
+- [x] Open `tests/test_package.py`
+- [x] Verify `test_version_matches_metadata` has proper skip
+- [x] Run test in environment without package metadata
+- [x] Confirm skip works correctly
 
 ### 5. PR5-#4: Add exit code assertion
 
-- [ ] Open `tests/test_cli_integration.py`
-- [ ] Add `assert result.exit_code == 0` to `test_cli_no_args_shows_help`
-- [ ] Run tests to verify
+- [x] Open `tests/test_cli_integration.py`
+- [x] Add `assert result.exit_code == 0` to `test_cli_no_args_shows_help`
+- [x] Run tests to verify
 
 ### 6. PR5-#6: Assert config file created (if applicable)
 
-- [ ] Check if `Config.load()` creates file on first run
-- [ ] If yes, add assertion to `test_config_creates_default_on_first_run`
-- [ ] If no, skip this issue (not applicable)
-- [ ] Run tests to verify
+- [x] Check if `Config.load()` creates file on first run
+- [x] If yes, add assertion to `test_config_creates_default_on_first_run`
+- [x] If no, skip this issue (not applicable)
+- [x] Run tests to verify
 
 ### 7. PR5-#8: Fix typo in docs
 
-- [ ] Open `docs/maintainers/planning/features/proj-cli/phase-4.md`
-- [ ] Change `PR #2 #2` to `PR #2-#2`
-- [ ] Check for similar typos
+- [x] Open `docs/maintainers/planning/features/proj-cli/phase-4.md`
+- [x] Change `PR #2 #2` to `PR #2-#2`
+- [x] Check for similar typos
 
 ### 8. PR5-OC2: Fix URL consistency
 
-- [ ] Search for `yourusername` in all documentation
-- [ ] Replace with `grimm00`
-- [ ] Verify links work
+- [x] Search for `yourusername` in all documentation
+- [x] Replace with `grimm00`
+- [x] Verify links work
 
 ### 9. PR4-OC2: Add JSON error logging
 
-- [ ] Open `src/proj/commands/inventory.py`
-- [ ] Add `import logging` and `logger = logging.getLogger(__name__)`
-- [ ] Add `logger.debug()` call in JSONDecodeError handler
-- [ ] Run tests to verify
+- [x] Open `src/proj/commands/inventory.py`
+- [x] Add `import logging` and `logger = logging.getLogger(__name__)`
+- [x] Add `logger.debug()` call in JSONDecodeError handler
+- [x] Run tests to verify
 
 ---
 
 ## Testing
 
-- [ ] All existing tests pass (49+ tests)
-- [ ] Integration tests properly skip when API unavailable
-- [ ] Integration tests properly fail on assertion errors
-- [ ] Status emoji displays correctly
-- [ ] Corrupted inventory file is backed up
-- [ ] No regressions introduced
+- [x] All existing tests pass (49+ tests)
+- [x] Integration tests properly skip when API unavailable
+- [x] Integration tests properly fail on assertion errors
+- [x] Status emoji displays correctly
+- [x] Corrupted inventory file is backed up
+- [x] No regressions introduced
 
 ---
 
@@ -455,4 +455,3 @@ This batch was created from fix-review-report-2025-12-18.md. These issues are ba
 ---
 
 **Last Updated:** 2025-12-18
-
