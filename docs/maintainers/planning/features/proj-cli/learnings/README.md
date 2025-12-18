@@ -18,6 +18,7 @@
 ### Fix Batch Learnings
 
 - **[Quick Wins 01](quick-wins-01-learnings.md)** - Cross-PR Fix Batch (2025-12-17)
+- **[Quick Wins 02](quick-wins-02-learnings.md)** - Cross-PR Fix Batch (2025-12-18)
 
 ---
 
@@ -33,12 +34,12 @@ This directory contains learnings from proj-cli development that can inform:
 
 ## 📊 Summary
 
-**Total Learning Documents:** 4  
+**Total Learning Documents:** 5  
 **Phases Documented:** 3 of 4 (Phase 1, Phase 3, Phase 4)  
-**Fix Batches Documented:** 1 (quick-wins-01)  
+**Fix Batches Documented:** 2 (quick-wins-01, quick-wins-02)  
 **Status:** ✅ Active
 
 ---
 
-**Last Updated:** 2025-12-17
+**Last Updated:** 2025-12-18
 
