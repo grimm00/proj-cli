@@ -87,12 +87,13 @@
 
 ## 🔜 Next Steps
 
-### Immediate
+### ✅ Completed
 
-1. **Clean up work-prod** (separate PR in work-prod repo):
-   - Remove `scripts/project_cli/` directory
-   - Update work-prod README with proj-cli reference
-   - This is Task 5 from Phase 4, done as separate PR
+1. **Clean up work-prod** ✅ (work-prod PR #38):
+   - ✅ Removed `scripts/project_cli/` directory
+   - ✅ Removed `scripts/inventory/` directory  
+   - ✅ Updated work-prod README with proj-cli reference
+   - This was Task 5 from Phase 4, done as separate PR
 
 ### Post-Feature Tasks
 
@@ -170,7 +171,8 @@ See [PR #4 Sourcery Review](../../feedback/sourcery/pr4.md) for details:
 - [x] New `proj inv` subcommands functional
 - [x] Configuration via `~/.config/proj/config.yaml`
 - [x] XDG directory compliance
-- [ ] work-prod `scripts/project_cli/` removed
+- [x] work-prod `scripts/project_cli/` removed ✅ (PR #38)
+- [x] work-prod `scripts/inventory/` removed ✅ (PR #38)
 - [x] Basic tests passing
 
 ---

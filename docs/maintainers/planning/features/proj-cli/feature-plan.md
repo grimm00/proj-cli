@@ -34,8 +34,9 @@ Build a unified CLI tool (`proj`) that consolidates project management commands 
 - [x] New `proj inv` subcommands functional (scan, analyze, dedupe, export)
 - [x] Configuration via `~/.config/proj/config.yaml`
 - [x] XDG directory compliance
-- [ ] work-prod `scripts/project_cli/` removed (Phase 4, Task 5 - separate PR)
-- [ ] work-prod README references new CLI package (Phase 4, Task 5 - separate PR)
+- [x] work-prod `scripts/project_cli/` removed ✅ (work-prod PR #38)
+- [x] work-prod `scripts/inventory/` removed ✅ (work-prod PR #38)
+- [x] work-prod README references new CLI package ✅ (work-prod PR #38)
 - [x] Basic tests passing (73 tests)
 
 ---
@@ -211,3 +212,4 @@ Build a unified CLI tool (`proj`) that consolidates project management commands 
 ---
 
 **Last Updated:** 2025-12-17
+
