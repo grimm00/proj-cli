@@ -1,7 +1,7 @@
 # Release v0.1.0 - Initial Release
 
 **Version:** v0.1.0  
-**Status:** ✅ Ready for Release  
+**Status:** ✅ Released  
 **Release Date:** 2025-12-18  
 **Created:** 2025-12-18  
 **Source:** proj-cli feature development  
@@ -21,7 +21,7 @@
 
 **Version:** v0.1.0 - Initial Release  
 **Release Date:** 2025-12-18  
-**Status:** ✅ Ready for Release
+**Status:** ✅ Released
 
 **Key Features:**
 - Unified CLI tool (`proj`) for project and inventory management

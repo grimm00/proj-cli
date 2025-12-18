@@ -10,7 +10,7 @@
 
 ### Current Release
 
-- **[v0.1.0](v0.1.0/README.md)** - Initial Release (✅ Ready for Release)
+- **[v0.1.0](v0.1.0/README.md)** - Initial Release (✅ Released 2025-12-18)
 
 ### Release Documents
 
@@ -22,7 +22,7 @@
 
 | Version | Status | Date | Type | Description |
 |---------|--------|------|------|-------------|
-| v0.1.0 | ✅ Ready | 2025-12-18 | Initial | Full CLI tool with project and inventory commands |
+| v0.1.0 | ✅ Released | 2025-12-18 | Initial | Full CLI tool with project and inventory commands |
 
 ---
 
