@@ -28,7 +28,7 @@ proj get 1
 proj create "My New Project" --desc "Description here"
 
 # Scan GitHub repos
-proj inv scan github --user yourusername
+proj inv scan github --user grimm00
 
 # Scan local projects
 proj inv scan local --dir ~/Projects
@@ -73,7 +73,7 @@ Configuration is stored at `~/.config/proj/config.yaml`:
 
 ```yaml
 api_url: http://localhost:5000
-github_username: yourusername
+github_username: grimm00
 github_token: null # Set via PROJ_GITHUB_TOKEN env var
 local_scan_dirs:
   - /home/user/Projects
