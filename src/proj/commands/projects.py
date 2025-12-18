@@ -17,6 +17,14 @@ from proj.error_handler import (
 
 console = Console()
 
+# Status emoji mapping (shared constant)
+STATUS_EMOJI = {
+    "active": "🟢",
+    "inactive": "⚪",
+    "archived": "📦",
+    "completed": "✅",
+}
+
 
 def get_client() -> APIClient:
     """Get configured API client."""
@@ -71,14 +79,6 @@ def list_projects(
             table.add_column("ID", style="cyan", justify="right")
             table.add_column("Name", style="green")
 
-            # Status emoji mapping
-            status_emoji = {
-                "active": "🟢",
-                "inactive": "⚪",
-                "archived": "📦",
-                "completed": "✅",
-            }
-
             if wide or status:
                 table.add_column("Status", style="yellow")
             if wide or organization:
@@ -97,7 +97,7 @@ def list_projects(
                 row = [str(p.get("id", "")), p.get("name", "")]
                 if wide or status:
                     status_val = p.get("status", "")
-                    emoji = status_emoji.get(status_val, "")
+                    emoji = STATUS_EMOJI.get(status_val, "")
                     if emoji:
                         row.append(f"{emoji} {status_val}")
                     else:
@@ -145,18 +145,10 @@ def get_project(
             table.add_column("Field", style="cyan")
             table.add_column("Value", style="green")
 
-            # Add status emoji if status field exists
-            status_emoji = {
-                "active": "🟢",
-                "inactive": "⚪",
-                "archived": "📦",
-                "completed": "✅",
-            }
-
             for key, value in project.items():
                 display_value = str(value) if value else ""
-                if key == "status" and value in status_emoji:
-                    display_value = f"{status_emoji[value]} {display_value}"
+                if key == "status" and value in STATUS_EMOJI:
+                    display_value = f"{STATUS_EMOJI[value]} {display_value}"
                 table.add_row(key, display_value)
 
             console.print(table)
@@ -333,17 +325,9 @@ def search_projects(
             if wide:
                 table.add_column("Created", style="magenta")
 
-            # Status emoji mapping
-            status_emoji = {
-                "active": "🟢",
-                "inactive": "⚪",
-                "archived": "📦",
-                "completed": "✅",
-            }
-
             for p in projects:
                 status_val = p.get("status", "")
-                emoji = status_emoji.get(status_val, "")
+                emoji = STATUS_EMOJI.get(status_val, "")
                 if emoji:
                     status_display = f"{emoji} {status_val}"
                 else:
