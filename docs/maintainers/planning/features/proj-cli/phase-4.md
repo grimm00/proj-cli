@@ -40,7 +40,7 @@ Final phase for testing, documentation, UI polish, and cleaning up work-prod. Th
 
 **Includes Deferred Issues:**
 
-- PR #2 #2: Add CliRunner tests for actual command behavior (HIGH value)
+- PR #2-#2: Add CliRunner tests for actual command behavior (HIGH value)
 - PR #1 #4-6: Test coverage improvements
 - PR #3 #5-8: Test coverage improvements for inventory commands
 - PR #4: Handle PackageNotFoundError in test
