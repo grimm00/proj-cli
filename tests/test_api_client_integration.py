@@ -1,5 +1,6 @@
 """Integration tests for API client (requires running API)."""
 import pytest
+import requests
 
 
 @pytest.mark.integration
@@ -10,9 +11,11 @@ def test_list_projects_integration():
     client = APIClient()
     try:
         projects = client.list_projects()
-        assert isinstance(projects, list)
-    except Exception as e:
+    except (requests.ConnectionError, requests.Timeout) as e:
         pytest.skip(f"API not available: {e}")
+    
+    # Assertions are outside try/except so failures are caught
+    assert isinstance(projects, list)
 
 
 @pytest.mark.integration
@@ -21,18 +24,21 @@ def test_create_and_delete_project_integration():
     from proj.api_client import APIClient
 
     client = APIClient()
+    project = None
     try:
         # Create
         project = client.create_project({
             "name": "Test Project from proj-cli",
             "status": "active",
         })
-        assert "id" in project
-
         # Delete
         client.delete_project(project["id"])
-    except Exception as e:
+    except (requests.ConnectionError, requests.Timeout) as e:
         pytest.skip(f"API not available: {e}")
+    
+    # Assertions are outside try/except so failures are caught
+    assert project is not None
+    assert "id" in project
 
 
 @pytest.mark.integration
@@ -51,13 +57,15 @@ def test_get_project_integration():
 
         # Get the project
         retrieved = client.get_project(project_id)
-        assert retrieved["id"] == project_id
-        assert retrieved["name"] == "Test Get Project"
 
         # Cleanup
         client.delete_project(project_id)
-    except Exception as e:
+    except (requests.ConnectionError, requests.Timeout) as e:
         pytest.skip(f"API not available: {e}")
+    
+    # Assertions are outside try/except so failures are caught
+    assert retrieved["id"] == project_id
+    assert retrieved["name"] == "Test Get Project"
 
 
 @pytest.mark.integration
@@ -79,13 +87,15 @@ def test_update_project_integration():
             "name": "Updated Name",
             "status": "inactive",
         })
-        assert updated["name"] == "Updated Name"
-        assert updated["status"] == "inactive"
 
         # Cleanup
         client.delete_project(project_id)
-    except Exception as e:
+    except (requests.ConnectionError, requests.Timeout) as e:
         pytest.skip(f"API not available: {e}")
+    
+    # Assertions are outside try/except so failures are caught
+    assert updated["name"] == "Updated Name"
+    assert updated["status"] == "inactive"
 
 
 @pytest.mark.integration
@@ -104,12 +114,14 @@ def test_search_projects_integration():
 
         # Search for it
         results = client.search_projects("Search Test")
-        assert isinstance(results, list)
-        assert len(results) > 0
-        assert any(p["id"] == project_id for p in results)
 
         # Cleanup
         client.delete_project(project_id)
-    except Exception as e:
+    except (requests.ConnectionError, requests.Timeout) as e:
         pytest.skip(f"API not available: {e}")
+    
+    # Assertions are outside try/except so failures are caught
+    assert isinstance(results, list)
+    assert len(results) > 0
+    assert any(p["id"] == project_id for p in results)
 
