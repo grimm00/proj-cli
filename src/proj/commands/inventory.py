@@ -1,0 +1,635 @@
+"""Inventory management commands."""
+import json
+import logging
+import subprocess
+from pathlib import Path
+from typing import Optional
+
+import requests
+import click
+import typer
+from rich.console import Console
+from rich.progress import (
+    Progress, SpinnerColumn, TextColumn, BarColumn, TaskProgressColumn
+)
+from rich.table import Table
+
+from proj.config import Config, get_data_dir
+from proj.error_handler import (
+    handle_error, APIError, BackendConnectionError, TimeoutError
+)
+
+console = Console()
+logger = logging.getLogger(__name__)
+
+# Main inventory command group
+inv_app = typer.Typer(
+    name="inv",
+    help="Inventory management commands.",
+    no_args_is_help=True,
+)
+
+# Scan subcommand group
+scan_app = typer.Typer(
+    name="scan",
+    help="Scan commands for discovering projects.",
+    no_args_is_help=True,
+)
+
+# Export subcommand group
+export_app = typer.Typer(
+    name="export",
+    help="Export commands for inventory data.",
+    no_args_is_help=True,
+)
+
+# Add subgroups to main inv app
+inv_app.add_typer(scan_app, name="scan")
+inv_app.add_typer(export_app, name="export")
+
+
+def get_config() -> Config:
+    """Get loaded config."""
+    return Config.load()
+
+
+def get_inventory_file() -> Path:
+    """Get path to inventory data file."""
+    return get_data_dir() / "inventory.json"
+
+
+def load_inventory() -> list[dict]:
+    """Load inventory from data file."""
+    inv_file = get_inventory_file()
+    if inv_file.exists():
+        with open(inv_file, encoding="utf-8") as f:
+            try:
+                return json.load(f)
+            except json.JSONDecodeError as e:
+                # Backup corrupted file
+                backup_file = inv_file.with_suffix('.json.corrupt')
+                inv_file.rename(backup_file)
+                logger.debug(f"Failed to parse inventory.json: {e}")
+                console.print(
+                    f"[yellow]Warning: inventory.json was corrupted. "
+                    f"Backed up to {backup_file.name}. Starting fresh.[/yellow]"
+                )
+                return []
+    return []
+
+
+def save_inventory(data: list[dict]) -> None:
+    """Save inventory to data file."""
+    inv_file = get_inventory_file()
+    inv_file.parent.mkdir(parents=True, exist_ok=True)
+    with open(inv_file, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
+
+
+@scan_app.command(name="github")
+def scan_github(
+    username: Optional[str] = typer.Option(
+        None, "--user", "-u", help="GitHub username"
+    ),
+    output: Optional[Path] = typer.Option(
+        None, "--output", "-o", help="Output file"
+    ),
+):
+    """Scan GitHub repositories for a user."""
+    config = get_config()
+
+    # Get username from option or config
+    gh_user = username or config.github_username
+    if not gh_user:
+        msg = (
+            "[red]Error: GitHub username required. "
+            "Use --user or set in config.[/red]"
+        )
+        console.print(msg)
+        raise typer.Exit(1)
+
+    # Check for GitHub token
+    gh_token = config.github_token
+    if not gh_token:
+        msg = (
+            "[yellow]Warning: No GitHub token set. "
+            "Rate limits may apply.[/yellow]"
+        )
+        console.print(msg)
+
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        BarColumn(),
+        TaskProgressColumn(),
+        console=console,
+    ) as progress:
+        task = progress.add_task(
+            f"Scanning GitHub repos for {gh_user}...", total=None
+        )
+
+        try:
+            url = f"https://api.github.com/users/{gh_user}/repos"
+            headers = {}
+            if gh_token:
+                headers["Authorization"] = f"token {gh_token}"
+
+            params = {"per_page": 100, "sort": "updated"}
+            repos = []
+
+            while url:
+                response = requests.get(
+                    url, headers=headers, params=params, timeout=15
+                )
+                response.raise_for_status()
+                repos.extend(response.json())
+
+                # Check for pagination
+                url = response.links.get("next", {}).get("url")
+                params = {}  # Clear params for subsequent requests
+
+            repo_count = len(repos)
+            desc = f"Found {repo_count} repositories"
+            progress.update(task, description=desc)
+
+            # Transform to inventory format
+            inventory_items = []
+            for repo in repos:
+                item = {
+                    "name": repo["name"],
+                    "remote_url": repo["html_url"],
+                    "description": repo.get("description", ""),
+                    "source": "github",
+                    "language": repo.get("language", ""),
+                    "updated_at": repo.get("updated_at", ""),
+                }
+                inventory_items.append(item)
+
+            # Save to file or inventory
+            if output:
+                with open(output, "w", encoding="utf-8") as f:
+                    json.dump(inventory_items, f, indent=2)
+                msg = (
+                    f"[green]✓ Saved {len(inventory_items)} repos "
+                    f"to {output}[/green]"
+                )
+                console.print(msg)
+            else:
+                # Merge with existing inventory
+                existing = load_inventory()
+                # Add source tag
+                for item in inventory_items:
+                    item["scan_source"] = "github"
+
+                # Simple merge (will be deduped later)
+                combined = existing + inventory_items
+                save_inventory(combined)
+                count = len(inventory_items)
+                msg = (
+                    f"[green]✓ Added {count} GitHub repos "
+                    f"to inventory[/green]"
+                )
+                console.print(msg)
+
+        except requests.RequestException as e:
+            # Handle GitHub API errors
+            if isinstance(e, requests.exceptions.ConnectionError):
+                handle_error(BackendConnectionError(str(e)), console)
+            elif isinstance(e, requests.exceptions.Timeout):
+                handle_error(TimeoutError(str(e)), console)
+            elif isinstance(e, requests.exceptions.HTTPError):
+                status_code = None
+                if e.response:
+                    status_code = e.response.status_code
+                error = APIError(str(e), status_code=status_code)
+                handle_error(error, console)
+            else:
+                console.print(f"[red]Error: GitHub API error: {e}[/red]")
+            raise typer.Exit(1)
+
+
+@scan_app.command(name="local")
+def scan_local(
+    directory: Optional[Path] = typer.Option(
+        None, "--dir", "-d", help="Directory to scan"
+    ),
+    depth: int = typer.Option(2, "--depth", help="Max depth to scan"),
+):
+    """Scan local directories for projects."""
+    config = get_config()
+
+    # Get directories to scan
+    if directory:
+        scan_dirs = [directory]
+    else:
+        scan_dirs = [Path(d) for d in config.local_scan_dirs]
+
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        BarColumn(),
+        TaskProgressColumn(),
+        console=console,
+    ) as progress:
+        task = progress.add_task("Scanning local projects...", total=None)
+
+        projects = []
+
+        for scan_dir in scan_dirs:
+            if not scan_dir.exists():
+                msg = f"[yellow]Warning: {scan_dir} does not exist[/yellow]"
+                console.print(msg)
+                continue
+
+            desc = f"Scanning {scan_dir}..."
+            progress.update(task, description=desc)
+
+            # Find projects by looking for markers
+            markers = [
+                ".git", "package.json", "pyproject.toml",
+                "Cargo.toml", "go.mod"
+            ]
+
+            for marker in markers:
+                pattern = f"**/{marker}"
+                for project_dir in scan_dir.glob(pattern):
+                    # Skip node_modules and nested .git
+                    if project_dir.parts.count("node_modules") > 0:
+                        continue
+                    if project_dir.parts.count(".git") > 1:
+                        continue
+
+                    # Get project root
+                    root = project_dir.parent
+
+                    # Check depth
+                    try:
+                        rel_path = root.relative_to(scan_dir)
+                        rel_depth = len(rel_path.parts)
+                        if rel_depth > depth:
+                            continue
+                    except ValueError:
+                        # Path not relative (shouldn't happen)
+                        continue
+
+                    # Skip if this is a subdirectory of an existing project
+                    # (e.g., frontend/ inside a repo that already has .git)
+                    is_subproject = False
+                    if marker != ".git":
+                        # Check if any parent directory has .git
+                        check_dir = root.parent
+                        while (
+                            check_dir != scan_dir
+                            and check_dir != check_dir.parent
+                        ):
+                            if (check_dir / ".git").exists():
+                                is_subproject = True
+                                break
+                            check_dir = check_dir.parent
+                    if is_subproject:
+                        continue
+
+                    # Get git remote if available
+                    remote_url = ""
+                    git_dir = root / ".git"
+                    if git_dir.exists():
+                        try:
+                            result = subprocess.run(
+                                [
+                                    "git", "-C", str(root),
+                                    "remote", "get-url", "origin"
+                                ],
+                                capture_output=True,
+                                text=True,
+                            )
+                            if result.returncode == 0:
+                                remote_url = result.stdout.strip()
+                        except Exception:
+                            pass
+
+                    # Add to projects if not already added
+                    path_str = str(root)
+                    if not any(p["local_path"] == path_str for p in projects):
+                        projects.append({
+                            "name": root.name,
+                            "local_path": str(root),
+                            "remote_url": remote_url,
+                            "source": "local",
+                            "marker": marker,
+                        })
+
+        project_count = len(projects)
+        desc = f"Found {project_count} local projects"
+        progress.update(task, description=desc)
+
+        # Merge with existing inventory
+        existing = load_inventory()
+        for item in projects:
+            item["scan_source"] = "local"
+
+        combined = existing + projects
+        save_inventory(combined)
+
+        msg = (
+            f"[green]✓ Added {project_count} local projects "
+            f"to inventory[/green]"
+        )
+        console.print(msg)
+
+
+@inv_app.command(name="analyze")
+def analyze():
+    """Analyze tech stack of inventory projects."""
+    inventory = load_inventory()
+
+    if not inventory:
+        msg = "[yellow]No projects in inventory. Run scan first.[/yellow]"
+        console.print(msg)
+        raise typer.Exit(1)
+
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        BarColumn(),
+        TaskProgressColumn(),
+        console=console,
+    ) as progress:
+        task = progress.add_task("Analyzing projects...", total=len(inventory))
+
+        for project in inventory:
+            name = project.get('name', 'unknown')
+            desc = f"Analyzing {name}..."
+            progress.update(task, advance=1, description=desc)
+
+            local_path = project.get("local_path")
+            if not local_path or not Path(local_path).exists():
+                continue
+
+            root = Path(local_path)
+
+            # Detect languages/frameworks
+            languages = []
+            frameworks = []
+
+            if (root / "package.json").exists():
+                languages.append("JavaScript")
+                try:
+                    pkg_path = root / "package.json"
+                    with open(pkg_path, encoding="utf-8") as f:
+                        pkg = json.load(f)
+                        deps = {
+                            **pkg.get("dependencies", {}),
+                            **pkg.get("devDependencies", {})
+                        }
+                        if "react" in deps:
+                            frameworks.append("React")
+                        if "vue" in deps:
+                            frameworks.append("Vue")
+                        if "express" in deps:
+                            frameworks.append("Express")
+                except Exception:
+                    pass
+
+            pyproject_exists = (root / "pyproject.toml").exists()
+            setup_exists = (root / "setup.py").exists()
+            if pyproject_exists or setup_exists:
+                languages.append("Python")
+
+            if (root / "Cargo.toml").exists():
+                languages.append("Rust")
+
+            if (root / "go.mod").exists():
+                languages.append("Go")
+
+            # Update project
+            if languages:
+                project["languages"] = languages
+            if frameworks:
+                project["frameworks"] = frameworks
+            project["analyzed"] = True
+
+    # Save and print success message OUTSIDE progress context
+    save_inventory(inventory)
+
+    analyzed_count = sum(1 for p in inventory if p.get("analyzed"))
+    msg = f"[green]✓ Analyzed {analyzed_count} projects[/green]"
+    console.print(msg)
+
+
+@inv_app.command(name="dedupe")
+def dedupe():
+    """Deduplicate inventory entries."""
+    inventory = load_inventory()
+
+    if not inventory:
+        console.print("[yellow]No projects in inventory.[/yellow]")
+        raise typer.Exit(1)
+
+    original_count = len(inventory)
+
+    # Dedupe by remote_url (primary) or name+local_path (secondary)
+    seen_urls = set()
+    seen_paths = set()
+    unique = []
+
+    for project in inventory:
+        remote_url = project.get("remote_url", "").strip()
+        local_path = project.get("local_path", "").strip()
+
+        # Primary key: remote_url if available
+        if remote_url:
+            if remote_url not in seen_urls:
+                seen_urls.add(remote_url)
+                unique.append(project)
+        # Secondary key: local_path
+        elif local_path:
+            if local_path not in seen_paths:
+                seen_paths.add(local_path)
+                unique.append(project)
+        # Fallback: name (may have duplicates)
+        else:
+            unique.append(project)
+
+    removed = original_count - len(unique)
+    save_inventory(unique)
+
+    remaining = len(unique)
+    msg = (
+        f"[green]✓ Removed {removed} duplicates "
+        f"({remaining} remaining)[/green]"
+    )
+    console.print(msg)
+
+
+@export_app.command(name="json")
+def export_json(
+    output: Path = typer.Argument(..., help="Output file path"),
+    format: str = typer.Option(
+        "projects", "--format", "-f",
+        help="Format: projects, raw",
+        click_type=click.Choice(["projects", "raw"], case_sensitive=False),
+    ),
+):
+    """Export inventory to JSON file."""
+    inventory = load_inventory()
+
+    if not inventory:
+        console.print("[yellow]No projects in inventory.[/yellow]")
+        raise typer.Exit(1)
+
+    if format == "projects":
+        # Transform to work-prod project format
+        projects = []
+        for item in inventory:
+            project = {
+                "name": item.get("name", ""),
+                "description": item.get("description", ""),
+                "remote_url": item.get("remote_url", ""),
+                "local_path": item.get("local_path", ""),
+                "status": "active",
+            }
+            if item.get("languages"):
+                project["languages"] = item["languages"]
+            projects.append(project)
+
+        data = {"projects": projects}
+    else:
+        data = inventory
+
+    with open(output, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
+
+    count = len(inventory)
+    msg = f"[green]✓ Exported {count} items to {output}[/green]"
+    console.print(msg)
+
+
+@export_app.command(name="api")
+def export_api(
+    dry_run: bool = typer.Option(
+        False, "--dry-run", "-n",
+        help="Show what would be imported"
+    ),
+    no_dedupe: bool = typer.Option(
+        False, "--no-dedupe",
+        help="Skip automatic deduplication before export"
+    ),
+):
+    """Push inventory to work-prod API."""
+    from proj.api_client import APIClient
+
+    inventory = load_inventory()
+
+    if not inventory:
+        console.print("[yellow]No projects in inventory.[/yellow]")
+        raise typer.Exit(1)
+
+    # Auto-dedupe before export (unless --no-dedupe)
+    if not no_dedupe:
+        original_count = len(inventory)
+        seen_urls = set()
+        seen_paths = set()
+        unique = []
+
+        for item in inventory:
+            remote_url = item.get("remote_url", "").strip()
+            local_path = item.get("local_path", "").strip()
+
+            if remote_url:
+                if remote_url not in seen_urls:
+                    seen_urls.add(remote_url)
+                    unique.append(item)
+            elif local_path:
+                if local_path not in seen_paths:
+                    seen_paths.add(local_path)
+                    unique.append(item)
+            else:
+                unique.append(item)
+
+        removed = original_count - len(unique)
+        if removed > 0:
+            msg = f"[dim]Auto-deduped: removed {removed} duplicates[/dim]"
+            console.print(msg)
+        inventory = unique
+
+    # Transform to project format
+    projects = []
+    for item in inventory:
+        project = {
+            "name": item.get("name", ""),
+            "description": item.get("description", ""),
+            "remote_url": item.get("remote_url", ""),
+            "local_path": item.get("local_path", ""),
+            "status": "active",
+        }
+        projects.append(project)
+
+    if dry_run:
+        count = len(projects)
+        msg = f"[yellow]Dry run: Would import {count} projects[/yellow]"
+        console.print(msg)
+        for p in projects[:5]:
+            console.print(f"  - {p['name']}")
+        if len(projects) > 5:
+            remaining = len(projects) - 5
+            console.print(f"  ... and {remaining} more")
+        return
+
+    try:
+        client = APIClient()
+        result = client.import_projects(projects)
+
+        imported = result.get('imported', 0)
+        skipped = result.get('skipped', 0)
+        console.print(f"[green]✓ Imported: {imported}[/green]")
+        console.print(f"[yellow]  Skipped: {skipped}[/yellow]")
+        if result.get("errors"):
+            error_count = len(result.get('errors', []))
+            console.print(f"[red]  Errors: {error_count}[/red]")
+    except (APIError, BackendConnectionError, TimeoutError) as e:
+        handle_error(e, console)
+        raise typer.Exit(1)
+
+
+@inv_app.command(name="status")
+def status():
+    """Show inventory status."""
+    inventory = load_inventory()
+    inv_file = get_inventory_file()
+
+    table = Table(title="Inventory Status")
+    table.add_column("Metric", style="cyan")
+    table.add_column("Value", style="green")
+
+    table.add_row("Total Projects", str(len(inventory)))
+    table.add_row("Data File", str(inv_file))
+    file_exists = "Yes" if inv_file.exists() else "No"
+    table.add_row("File Exists", file_exists)
+
+    if inventory:
+        # Count by source
+        github_count = sum(
+            1 for p in inventory if p.get("scan_source") == "github"
+        )
+        local_count = sum(
+            1 for p in inventory if p.get("scan_source") == "local"
+        )
+        analyzed_count = sum(1 for p in inventory if p.get("analyzed"))
+
+        table.add_row("GitHub Projects", str(github_count))
+        table.add_row("Local Projects", str(local_count))
+        table.add_row("Analyzed", str(analyzed_count))
+
+        # Languages
+        all_langs = []
+        for p in inventory:
+            all_langs.extend(p.get("languages", []))
+        if all_langs:
+            from collections import Counter
+            lang_counts = Counter(all_langs).most_common(5)
+            langs_str = ", ".join(
+                f"{lang}({count})" for lang, count in lang_counts
+            )
+            table.add_row("Top Languages", langs_str)
+
+    console.print(table)

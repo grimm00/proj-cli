@@ -1,6 +1,8 @@
 """Tests for package structure and metadata."""
 import importlib.metadata
 
+import pytest
+
 
 def test_package_importable():
     """Test that proj package can be imported."""
@@ -15,6 +17,18 @@ def test_package_has_version():
     assert len(version) > 0
 
 
+def test_version_matches_metadata():
+    """Test that __version__ matches installed package metadata."""
+    from proj import __version__
+    try:
+        metadata_version = importlib.metadata.version("proj-cli")
+        assert __version__ == metadata_version
+    except importlib.metadata.PackageNotFoundError:
+        # Package metadata not available (editable install, partial env)
+        # Skip this assertion when metadata unavailable
+        pytest.skip("Package metadata not available")
+
+
 def test_cli_module_exists():
     """Test that cli module exists."""
     from proj import cli
@@ -25,4 +39,3 @@ def test_config_module_exists():
     """Test that config module exists."""
     from proj import config
     assert config is not None
-

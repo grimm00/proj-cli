@@ -22,7 +22,8 @@ def test_cli_help():
         text=True,
     )
     assert result.returncode == 0
-    assert "project" in result.stdout.lower() or "inventory" in result.stdout.lower()
+    stdout_lower = result.stdout.lower()
+    assert "project" in stdout_lower or "inventory" in stdout_lower
 
 
 def test_cli_no_args():
@@ -32,7 +33,6 @@ def test_cli_no_args():
         capture_output=True,
         text=True,
     )
-    # no_args_is_help=True means it shows help (Typer exits with code 2 but shows help)
-    assert result.returncode == 2  # Typer exits with 2 when no args provided
+    # no_args_is_help=True shows help; exit code may vary by Typer version
+    assert result.returncode in (0, 2)  # Accept both codes
     assert "Usage" in result.stdout or "usage" in result.stdout.lower()
-

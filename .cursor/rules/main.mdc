@@ -5,7 +5,7 @@ alwaysApply: true
 # proj-cli - Cursor AI Rules
 
 **Purpose:** Guide AI assistance for the unified CLI tool project  
-**Last Updated:** 2025-12-16  
+**Last Updated:** 2025-12-17  
 **Status:** 🟠 In Development
 
 ---
@@ -219,6 +219,34 @@ This project is planned in `work-prod/docs/maintainers/planning/features/proj-cl
 
 ---
 
+## 🤖 Cursor Commands
+
+### Philosophy: Commands as Guides
+
+Commands in `.cursor/commands/` are **AI guides**, not CLI tools. They:
+- Guide AI assistant behavior through markdown instructions
+- Are available to all internal projects regardless of maturity
+- Can be adapted and evolved based on project needs
+
+### Available Commands (19 Workflow Commands)
+
+| Category | Commands |
+|----------|----------|
+| **Task Implementation** | `/task-phase`, `/task-improvement`, `/task-release` |
+| **PR Workflow** | `/pr`, `/pr-validation`, `/post-pr` |
+| **Fix Management** | `/fix-review`, `/fix-plan`, `/fix-implement` |
+| **Planning** | `/pre-phase-review`, `/address-review`, `/transition-plan` |
+| **Research & Reflection** | `/research`, `/explore`, `/reflect`, `/reflection-artifacts` |
+| **Documentation** | `/decision`, `/cursor-rules`, `/int-opp` |
+| **Status** | `/status` |
+
+### Project-Specific Commands (Optional)
+
+These are dev-infra internal commands, available but may not apply:
+- `/release-prep`, `/release-finalize`, `/post-release` - Template release automation
+
+---
+
 ## 🎯 AI Assistant Guidelines
 
 ### When Writing Commands
@@ -294,6 +322,6 @@ Phase 2: Migrate Project Commands from work-prod
 
 ---
 
-**Last Updated:** 2025-12-16  
+**Last Updated:** 2025-12-17  
 **Status:** 🟠 In Development  
 **Next:** Complete Phase 1 tests, begin Phase 2

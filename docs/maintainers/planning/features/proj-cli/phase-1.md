@@ -457,8 +457,8 @@ dev = [
 proj = "proj.cli:app"
 
 [project.urls]
-"Homepage" = "https://github.com/yourusername/proj-cli"
-"Bug Tracker" = "https://github.com/yourusername/proj-cli/issues"
+"Homepage" = "https://github.com/grimm00/proj-cli"
+"Bug Tracker" = "https://github.com/grimm00/proj-cli/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
