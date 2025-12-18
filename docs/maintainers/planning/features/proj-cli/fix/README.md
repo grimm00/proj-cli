@@ -18,7 +18,9 @@
 
 ### Cross-PR Batches
 
-- **[Cross-PR Batches](cross-pr/README.md)** - Batches from fix-review reports (1 batch, 7 issues)
+- **[Cross-PR Batches](cross-pr/README.md)** - Batches from fix-review reports (2 batches, 16 issues)
+  - ✅ quick-wins-01: 7 issues (PR #4)
+  - 🔴 quick-wins-02: 9 issues (pending)
 
 ---
 

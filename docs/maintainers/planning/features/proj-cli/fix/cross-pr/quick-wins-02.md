@@ -3,8 +3,10 @@
 **Batch:** quick-wins-02  
 **Priority:** 🟠 HIGH / 🟡 MEDIUM / 🟢 LOW  
 **Effort:** 🟢 LOW  
-**Status:** 🔴 Not Started  
+**Status:** ✅ Complete  
 **Created:** 2025-12-18  
+**Completed:** 2025-12-18  
+**PR:** #6  
 **Source:** fix-review-report-2025-12-18.md  
 **Issues:** 9 issues from 2 PRs
 
@@ -188,6 +190,19 @@ except json.JSONDecodeError:
 **Description:**
 Test assumes metadata is installed. Skip gracefully when not available.
 
+**Current Code:**
+
+```python
+def test_version_matches_metadata():
+    """Test that __version__ matches installed package metadata."""
+    try:
+        from proj import __version__
+        metadata_version = importlib.metadata.version("proj-cli")
+        assert __version__ == metadata_version
+    except importlib.metadata.PackageNotFoundError:
+        pytest.skip("Package metadata not available")
+```
+
 **Note:** This was partially addressed in Phase 4. Verify the skip is in place and test works correctly.
 
 ---
@@ -201,6 +216,16 @@ Test assumes metadata is installed. Skip gracefully when not available.
 
 **Description:**
 `test_cli_no_args_shows_help` only asserts on stdout. Add exit code assertion.
+
+**Current Code:**
+
+```python
+def test_cli_no_args_shows_help():
+    """Test that no args shows help."""
+    result = runner.invoke(app, [])
+    # Typer with no_args_is_help=True shows help
+    assert "Usage" in result.stdout or "usage" in result.stdout.lower()
+```
 
 **Proposed Solution:**
 
@@ -225,6 +250,25 @@ def test_cli_no_args_shows_help():
 **Description:**
 Test should verify config file is created on disk after `Config.load()`.
 
+**Proposed Solution:**
+Add assertion at end of test:
+
+```python
+def test_config_creates_default_on_first_run(mock_xdg_dirs):
+    """Test that default config is created on first run."""
+    from proj.config import Config, get_config_file
+    
+    config_file = get_config_file()
+    assert not config_file.exists()
+    
+    config = Config.load()
+    assert config.api_url == "http://localhost:5000"
+    
+    # After loading, config file should exist
+    # Note: This depends on Config.load() behavior - verify if it creates file
+    # If Config.load() doesn't create file, this assertion may not apply
+```
+
 **Note:** Verify if `Config.load()` actually creates the file on first run. If it only loads defaults without writing, this may not be applicable.
 
 ---
@@ -239,6 +283,18 @@ Test should verify config file is created on disk after `Config.load()`.
 **Description:**
 The `PR #2 #2` formatting is confusing. Fix to `PR #2-#2` or `PR #2 Issue #2`.
 
+**Current Code:**
+
+```markdown
+- PR #2 #2: Add CliRunner tests for actual command behavior (HIGH value)
+```
+
+**Proposed Solution:**
+
+```markdown
+- PR #2-#2: Add CliRunner tests for actual command behavior (HIGH value)
+```
+
 ---
 
 ### Issue PR5-OC2: Fix URL consistency in docs
@@ -249,7 +305,10 @@ The `PR #2 #2` formatting is confusing. Fix to `PR #2-#2` or `PR #2 Issue #2`.
 **Priority:** 🟢 LOW | **Impact:** 🟢 LOW | **Effort:** 🟢 LOW
 
 **Description:**
-Repository references mix `grimm00` and `yourusername` in GitHub URLs. Replace `yourusername` with `grimm00`.
+Repository references mix `grimm00` and `yourusername` in GitHub URLs.
+
+**Proposed Solution:**
+Search and replace `yourusername` with `grimm00` throughout documentation.
 
 ---
 
@@ -282,75 +341,116 @@ except json.JSONDecodeError as e:
 
 ### 1. PR5-#3: Fix broad exception handling (HIGH PRIORITY)
 
-- [ ] Open `tests/test_api_client_integration.py`
-- [ ] Import `requests` module
-- [ ] Change `except Exception` to `except (requests.ConnectionError, requests.Timeout)`
-- [ ] Move assertions outside try/except block
-- [ ] Apply to all integration test functions
-- [ ] Run tests to verify
+- [x] Open `tests/test_api_client_integration.py`
+- [x] Import `requests` module
+- [x] Change `except Exception` to `except (requests.ConnectionError, requests.Timeout)`
+- [x] Move assertions outside try/except block
+- [x] Apply to all integration test functions
+- [x] Run tests to verify
 
 ### 2. PR5-#1: Centralize status_emoji
 
-- [ ] Open `src/proj/commands/projects.py`
-- [ ] Add `STATUS_EMOJI` constant at module level
-- [ ] Remove local `status_emoji` dict from all 3 functions
-- [ ] Update references to use `STATUS_EMOJI`
-- [ ] Run tests to verify
+- [x] Open `src/proj/commands/projects.py`
+- [x] Add `STATUS_EMOJI` constant at module level (after imports)
+- [x] Remove local `status_emoji` dict from `list_projects`
+- [x] Remove local `status_emoji` dict from `get_project`
+- [x] Remove local `status_emoji` dict from `search_projects`
+- [x] Update all references to use `STATUS_EMOJI`
+- [x] Run tests to verify
 
 ### 3. PR4-#2: Delete corrupted inventory file
 
-- [ ] Open `src/proj/commands/inventory.py`
-- [ ] Update JSONDecodeError handler to backup corrupted file
-- [ ] Run tests to verify
+- [x] Open `src/proj/commands/inventory.py`
+- [x] Update `load_inventory()` JSONDecodeError handler
+- [x] Rename corrupted file to `.json.corrupt` backup
+- [x] Update warning message
+- [x] Run tests to verify
 
 ### 4. PR4-#3: Verify PackageNotFoundError handling
 
-- [ ] Open `tests/test_package.py`
-- [ ] Verify skip is in place
-- [ ] Run test to confirm
+- [x] Open `tests/test_package.py`
+- [x] Verify `test_version_matches_metadata` has proper skip
+- [x] Run test in environment without package metadata
+- [x] Confirm skip works correctly
 
 ### 5. PR5-#4: Add exit code assertion
 
-- [ ] Open `tests/test_cli_integration.py`
-- [ ] Add `assert result.exit_code == 0` to test
-- [ ] Run tests to verify
+- [x] Open `tests/test_cli_integration.py`
+- [x] Add `assert result.exit_code == 0` to `test_cli_no_args_shows_help`
+- [x] Run tests to verify
 
 ### 6. PR5-#6: Assert config file created (if applicable)
 
-- [ ] Check if `Config.load()` creates file
-- [ ] Add assertion if applicable
-- [ ] Run tests to verify
+- [x] Check if `Config.load()` creates file on first run
+- [x] If yes, add assertion to `test_config_creates_default_on_first_run`
+- [x] If no, skip this issue (not applicable)
+- [x] Run tests to verify
 
 ### 7. PR5-#8: Fix typo in docs
 
-- [ ] Update phase-4.md PR reference
+- [x] Open `docs/maintainers/planning/features/proj-cli/phase-4.md`
+- [x] Change `PR #2 #2` to `PR #2-#2`
+- [x] Check for similar typos
 
 ### 8. PR5-OC2: Fix URL consistency
 
-- [ ] Replace `yourusername` with `grimm00` in docs
+- [x] Search for `yourusername` in all documentation
+- [x] Replace with `grimm00`
+- [x] Verify links work
 
 ### 9. PR4-OC2: Add JSON error logging
 
-- [ ] Add logging to inventory.py
-- [ ] Run tests to verify
+- [x] Open `src/proj/commands/inventory.py`
+- [x] Add `import logging` and `logger = logging.getLogger(__name__)`
+- [x] Add `logger.debug()` call in JSONDecodeError handler
+- [x] Run tests to verify
 
 ---
 
 ## Testing
 
-- [ ] All existing tests pass
-- [ ] Integration tests properly skip when API unavailable
-- [ ] Integration tests properly fail on assertion errors
-- [ ] No regressions introduced
+- [x] All existing tests pass (49+ tests)
+- [x] Integration tests properly skip when API unavailable
+- [x] Integration tests properly fail on assertion errors
+- [x] Status emoji displays correctly
+- [x] Corrupted inventory file is backed up
+- [x] No regressions introduced
+
+---
+
+## Files to Modify
+
+| File | Changes |
+|------|---------|
+| `tests/test_api_client_integration.py` | Catch specific exceptions only |
+| `src/proj/commands/projects.py` | Centralize STATUS_EMOJI constant |
+| `src/proj/commands/inventory.py` | Backup corrupted file, add logging |
+| `tests/test_package.py` | Verify PackageNotFoundError handling |
+| `tests/test_cli_integration.py` | Add exit code assertion |
+| `tests/test_config_integration.py` | Assert config file created (if applicable) |
+| `docs/.../phase-4.md` | Fix PR reference typo |
+| `README.md` | Fix URL consistency |
 
 ---
 
 ## Definition of Done
 
-- [ ] All 9 issues addressed (or documented as N/A)
-- [ ] Tests passing
-- [ ] Linting clean
-- [ ] Ready for PR
+- [x] All 9 issues addressed (8 fixed, 1 N/A - PR5-#6)
+- [x] Tests passing
+- [x] Linting clean
+- [x] Code reviewed
+- [x] Ready for PR
+
+**Note:** PR5-#6 (Assert config file created) is not applicable - `Config.load()` does not create files, only `Config.save()` does.
+
+---
+
+**Batch Rationale:**
+This batch was created from fix-review-report-2025-12-18.md. These issues are batched together because they:
+- Include 1 HIGH priority test reliability issue
+- Are all LOW effort (~10-15 minutes each)
+- Focus on technical improvements (tests, code quality, docs)
+- Can be implemented together efficiently (~1.5-2 hours)
 
 ---
 

@@ -28,7 +28,8 @@ def test_cli_help_command():
 def test_cli_no_args_shows_help():
     """Test that no args shows help."""
     result = runner.invoke(app, [])
-    # Typer with no_args_is_help=True shows help
+    # Typer with no_args_is_help=True shows help and exits 0
+    assert result.exit_code == 0
     assert "Usage" in result.stdout or "usage" in result.stdout.lower()
 
 

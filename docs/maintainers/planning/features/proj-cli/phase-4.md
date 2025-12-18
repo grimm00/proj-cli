@@ -40,7 +40,7 @@ Final phase for testing, documentation, UI polish, and cleaning up work-prod. Th
 
 **Includes Deferred Issues:**
 
-- PR #2 #2: Add CliRunner tests for actual command behavior (HIGH value)
+- PR #2-#2: Add CliRunner tests for actual command behavior (HIGH value)
 - PR #1 #4-6: Test coverage improvements
 - PR #3 #5-8: Test coverage improvements for inventory commands
 - PR #4: Handle PackageNotFoundError in test
@@ -360,7 +360,7 @@ Unified CLI for project and inventory management.
 pip install -e .
 
 # From GitHub
-pip install git+https://github.com/yourusername/proj-cli.git
+pip install git+https://github.com/grimm00/proj-cli.git
 ```
 ````
 
@@ -484,12 +484,12 @@ Add section about proj-cli:
 ````markdown
 ## CLI Tool
 
-The `proj` CLI tool has been moved to a separate repository: [proj-cli](https://github.com/yourusername/proj-cli)
+The `proj` CLI tool has been moved to a separate repository: [proj-cli](https://github.com/grimm00/proj-cli)
 
 ### Installation
 
 ```bash
-pip install git+https://github.com/yourusername/proj-cli.git
+pip install git+https://github.com/grimm00/proj-cli.git
 ```
 ````
 
@@ -502,7 +502,7 @@ proj create "Name"   # Create project
 proj inv scan github # Scan GitHub repos
 ```
 
-See [proj-cli README](https://github.com/yourusername/proj-cli#readme) for full documentation.
+See [proj-cli README](https://github.com/grimm00/proj-cli#readme) for full documentation.
 
 ````
 
@@ -517,7 +517,7 @@ git commit -m "chore: remove CLI code migrated to proj-cli
 The proj CLI tool has been moved to the proj-cli repository.
 work-prod is now API-only.
 
-Migration: https://github.com/yourusername/proj-cli
+Migration: https://github.com/grimm00/proj-cli
 
 Removed:
 - scripts/project_cli/ directory

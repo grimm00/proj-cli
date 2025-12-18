@@ -1,5 +1,6 @@
 """Inventory management commands."""
 import json
+import logging
 import subprocess
 from pathlib import Path
 from typing import Optional
@@ -19,6 +20,7 @@ from proj.error_handler import (
 )
 
 console = Console()
+logger = logging.getLogger(__name__)
 
 # Main inventory command group
 inv_app = typer.Typer(
@@ -63,10 +65,14 @@ def load_inventory() -> list[dict]:
         with open(inv_file, encoding="utf-8") as f:
             try:
                 return json.load(f)
-            except json.JSONDecodeError:
+            except json.JSONDecodeError as e:
+                # Backup corrupted file
+                backup_file = inv_file.with_suffix('.json.corrupt')
+                inv_file.rename(backup_file)
+                logger.debug(f"Failed to parse inventory.json: {e}")
                 console.print(
-                    "[yellow]Warning: inventory.json is corrupted. "
-                    "Starting with empty inventory.[/yellow]"
+                    f"[yellow]Warning: inventory.json was corrupted. "
+                    f"Backed up to {backup_file.name}. Starting fresh.[/yellow]"
                 )
                 return []
     return []
