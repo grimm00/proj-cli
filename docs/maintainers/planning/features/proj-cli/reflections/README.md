@@ -14,6 +14,12 @@
 |------------|------|-------|--------|
 | [Feature Complete](reflection-feature-complete-2025-12-18.md) | 2025-12-18 | Full feature development | ✅ Complete |
 
+### Artifacts Summaries
+
+| Summary | Date | Source Reflection | Artifacts Created |
+|---------|------|-------------------|-------------------|
+| [Artifacts Summary](artifacts-summary-2025-12-18.md) | 2025-12-18 | Feature Complete | 0 (mapped to existing) |
+
 ---
 
 ## 🎯 Purpose
