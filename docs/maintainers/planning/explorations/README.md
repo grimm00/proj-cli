@@ -2,7 +2,7 @@
 
 **Purpose:** Active explorations and proof of concepts  
 **Status:** ✅ Active  
-**Last Updated:** [DATE]
+**Last Updated:** 2025-12-22
 
 ---
 
@@ -10,7 +10,7 @@
 
 ### Active Explorations
 
-*No active explorations yet. Use `/explore [topic]` to start a new exploration.*
+- **[proj-cli-architecture](proj-cli-architecture/README.md)** - Explore adding dev-infra template generation to proj-cli (🔴 Exploration)
 
 ---
 
@@ -72,6 +72,6 @@ This creates:
 
 ---
 
-**Last Updated:** [DATE]  
+**Last Updated:** 2025-12-22  
 **Status:** ✅ Active
 
