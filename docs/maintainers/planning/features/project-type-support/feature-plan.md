@@ -1,10 +1,11 @@
 # Project Type Support - Feature Plan
 
 **Feature:** Add `project_type` parameter support  
-**Status:** 🔴 Not Started  
+**Status:** 🟡 Ready to Start  
 **Created:** 2025-12-23  
-**Last Updated:** 2025-12-23  
-**Owner:** proj-cli
+**Last Updated:** 2025-12-29  
+**Owner:** proj-cli  
+**Dependency:** ✅ Satisfied (work-prod PR #42, 2025-12-29)
 
 ---
 
@@ -78,12 +79,15 @@ Add `--type` option to `proj list` command that passes `project_type` parameter 
 
 ---
 
-## ⚠️ Dependencies
+## ✅ Dependencies
 
-**Blocking Dependency:**
-- work-prod `project-type-field` Phase 3 must be complete before this feature can be implemented
+**Blocking Dependency:** ✅ **SATISFIED**
+- ~~work-prod `project-type-field` Phase 3 must be complete~~ ✅ Complete (PR #42, 2025-12-29)
 
-**Reason:** The API must support the `project_type` query parameter before proj-cli can use it.
+**API Ready:**
+- `GET /api/projects?project_type=Work` filtering works
+- Invalid values return 400 error
+- OpenAPI spec updated
 
 ---
 
@@ -91,7 +95,7 @@ Add `--type` option to `proj list` command that passes `project_type` parameter 
 
 | Risk | Impact | Mitigation |
 |------|--------|------------|
-| work-prod API not ready | Cannot test | Wait for work-prod Phase 3 |
+| ~~work-prod API not ready~~ | ~~Cannot test~~ | ✅ work-prod complete |
 | API contract changes | Breaking changes | Follow OpenAPI spec |
 
 ---
@@ -105,5 +109,5 @@ Add `--type` option to `proj list` command that passes `project_type` parameter 
 
 ---
 
-**Last Updated:** 2025-12-23
+**Last Updated:** 2025-12-29
 
