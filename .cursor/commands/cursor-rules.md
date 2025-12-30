@@ -172,8 +172,8 @@ alwaysApply: [true/false]
 
 # [Rule Name] - Cursor AI Rules
 
-**Purpose:** [One-line description]  
-**Last Updated:** [YYYY-MM-DD]  
+**Purpose:** [One-line description]
+**Last Updated:** [YYYY-MM-DD]
 **Status:** ✅ Active
 
 ---
@@ -202,8 +202,8 @@ alwaysApply: [true/false]
 
 ---
 
-**Last Updated:** [YYYY-MM-DD]  
-**Status:** ✅ Active  
+**Last Updated:** [YYYY-MM-DD]
+**Status:** ✅ Active
 **Next:** [Next action or milestone]
 ```
 
@@ -462,7 +462,7 @@ alwaysApply: [true/false]
 
 ---
 
-**Last Updated:** 2025-12-07  
-**Status:** ✅ Active  
+**Last Updated:** 2025-12-07
+**Status:** ✅ Active
 **Next:** Use to maintain cursor rules based on project learnings and evolution
 

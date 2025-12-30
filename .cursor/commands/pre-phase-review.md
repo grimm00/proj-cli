@@ -256,9 +256,9 @@ ls docs/maintainers/planning/phases/phase-N.md
 ```markdown
 # Phase N Review - [Phase Name]
 
-**Phase:** Phase N  
+**Phase:** Phase N
 **Feature:** [Feature Name] (if applicable)
-**Status:** 🔴 Not Ready / 🟡 Needs Work / ✅ Ready  
+**Status:** 🔴 Not Ready / 🟡 Needs Work / ✅ Ready
 **Reviewed:** YYYY-MM-DD
 
 ---
@@ -530,7 +530,7 @@ ls docs/maintainers/planning/phases/phase-N.md
 
 ---
 
-**Last Updated:** 2025-12-07  
-**Status:** ✅ Active  
+**Last Updated:** 2025-12-07
+**Status:** ✅ Active
 **Next:** Use before starting phase implementation to ensure readiness (supports feature-specific and project-wide structures)
 

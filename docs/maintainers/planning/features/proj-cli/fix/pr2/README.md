@@ -1,15 +1,15 @@
 # PR #2 - Deferred Issues
 
-**PR:** #2 - feat: Migrate Project Commands (Phase 2)  
-**Merged:** 2025-12-17  
+**PR:** #2 - feat: Migrate Project Commands (Phase 2)
+**Merged:** 2025-12-17
 **Status:** 🟡 Deferred to Phase 4
 
 ---
 
 ## 📋 Deferred Issues
 
-**Date:** 2025-12-17  
-**Review:** PR #2 (Phase 2) Sourcery feedback  
+**Date:** 2025-12-17
+**Review:** PR #2 (Phase 2) Sourcery feedback
 **Status:** 🟡 **DEFERRED** - All MEDIUM/LOW priority, can be handled in Phase 4
 
 ### Individual Comments

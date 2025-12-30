@@ -117,7 +117,7 @@ This command supports multiple fix organization patterns. It will auto-detect th
    ```bash
    # Check if features directory exists
    ls docs/maintainers/planning/features/ 2>/dev/null
-   
+
    # If exists, list features
    ls docs/maintainers/planning/features/
    ```
@@ -320,12 +320,12 @@ ls docs/maintainers/feedback/sourcery/pr##.md
 ````markdown
 # Fix Plan: PR ## Batch [Priority] [Effort] - Batch [Number]
 
-**PR:** ##  
-**Batch:** [priority]-[effort]-[batch-number]  
-**Priority:** [Priority Level]  
-**Effort:** [Effort Level]  
-**Status:** 🔴 Not Started  
-**Created:** YYYY-MM-DD  
+**PR:** ##
+**Batch:** [priority]-[effort]-[batch-number]
+**Priority:** [Priority Level]
+**Effort:** [Effort Level]
+**Status:** 🔴 Not Started
+**Created:** YYYY-MM-DD
 **Issues:** [N] issues
 
 ---
@@ -342,7 +342,7 @@ ls docs/maintainers/feedback/sourcery/pr##.md
 
 This batch contains [N] [priority] priority issues with [effort] effort. These issues are related to [common theme if applicable].
 
-**Estimated Time:** [X] hours  
+**Estimated Time:** [X] hours
 **Files Affected:** [list of files]
 
 ---
@@ -351,8 +351,8 @@ This batch contains [N] [priority] priority issues with [effort] effort. These i
 
 ### Issue PR##-#N: [Short Description]
 
-**Location:** `[file]:[line]`  
-**Sourcery Comment:** Comment #N  
+**Location:** `[file]:[line]`
+**Sourcery Comment:** Comment #N
 **Priority:** [Priority] | **Impact:** [Impact] | **Effort:** [Effort]
 
 **Description:**
@@ -666,12 +666,12 @@ These issues are batched together because they:
 ````markdown
 # Fix Plan: Cross-PR Batch [Batch Name] - [Priority] [Effort]
 
-**Batch:** [batch-name]-[priority]-[effort]-[batch-number]  
-**Priority:** [Priority Level]  
-**Effort:** [Effort Level]  
-**Status:** 🔴 Not Started  
-**Created:** YYYY-MM-DD  
-**Source:** fix-review-report-YYYY-MM-DD.md  
+**Batch:** [batch-name]-[priority]-[effort]-[batch-number]
+**Priority:** [Priority Level]
+**Effort:** [Effort Level]
+**Status:** 🔴 Not Started
+**Created:** YYYY-MM-DD
+**Source:** fix-review-report-YYYY-MM-DD.md
 **Issues:** [N] issues from [M] PRs
 
 ---
@@ -688,7 +688,7 @@ These issues are batched together because they:
 
 This batch contains [N] [priority] priority issues with [effort] effort from [M] PRs. These issues are related to [common theme].
 
-**Estimated Time:** [X] hours  
+**Estimated Time:** [X] hours
 **Files Affected:** [list of files from all PRs]
 
 **Source PRs:**
@@ -702,9 +702,9 @@ This batch contains [N] [priority] priority issues with [effort] effort from [M]
 
 ### Issue PR##-#N: [Short Description]
 
-**Source PR:** ## - [PR Title]  
-**Location:** `[file]:[line]`  
-**Sourcery Comment:** Comment #N  
+**Source PR:** ## - [PR Title]
+**Location:** `[file]:[line]`
+**Sourcery Comment:** Comment #N
 **Priority:** [Priority] | **Impact:** [Impact] | **Effort:** [Effort]
 
 **Description:**
@@ -795,8 +795,8 @@ This batch was created from fix-review report recommendations. These issues are 
 ```markdown
 # Cross-PR Fix Batches
 
-**Purpose:** Fix batches created from fix-review reports across multiple PRs  
-**Status:** ✅ Active  
+**Purpose:** Fix batches created from fix-review reports across multiple PRs
+**Status:** ✅ Active
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -812,8 +812,8 @@ This batch was created from fix-review report recommendations. These issues are 
 
 ## 📊 Summary
 
-**Total Batches:** [N]  
-**Total Issues:** [M]  
+**Total Batches:** [N]
+**Total Issues:** [M]
 **Source PRs:** [List of PR numbers]
 
 **Priority Breakdown:**
@@ -1041,7 +1041,7 @@ This batch was created from fix-review report recommendations. These issues are 
 
 ---
 
-**Last Updated:** 2025-12-07  
-**Status:** ✅ Active  
+**Last Updated:** 2025-12-07
+**Status:** ✅ Active
 **Next:** Use `/fix-implement` to implement batches, `/fix-review` to review old issues, or `--from-review-report` to create batches from review reports
 

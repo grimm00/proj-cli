@@ -1,8 +1,8 @@
 # Fix Tracking - PR #5
 
-**PR:** #5 - feat: Polish & Cleanup (Phase 4)  
-**Sourcery Review:** `docs/maintainers/feedback/sourcery/pr5.md`  
-**Status:** Deferred  
+**PR:** #5 - feat: Polish & Cleanup (Phase 4)
+**Sourcery Review:** `docs/maintainers/feedback/sourcery/pr5.md`
+**Status:** Deferred
 **Created:** 2025-12-17
 
 ---

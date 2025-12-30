@@ -1,7 +1,7 @@
 # Feature Planning Hub
 
-**Purpose:** Feature-based planning and tracking using hub-and-spoke documentation  
-**Status:** ✅ Active  
+**Purpose:** Feature-based planning and tracking using hub-and-spoke documentation
+**Status:** ✅ Active
 **Last Updated:** 2025-12-16
 
 ---
@@ -227,6 +227,6 @@ features/
 
 ---
 
-**Last Updated:** 2025-12-16  
-**Status:** ✅ Active  
+**Last Updated:** 2025-12-16
+**Status:** ✅ Active
 **Next:** Complete Phase 1 PR, start Phase 2

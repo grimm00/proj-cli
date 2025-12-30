@@ -1,7 +1,7 @@
 # Workflow Overview
 
-**Purpose:** Comprehensive guide to all available workflows in this project  
-**Status:** ✅ Active  
+**Purpose:** Comprehensive guide to all available workflows in this project
+**Status:** ✅ Active
 **Last Updated:** [Date]
 
 ---
@@ -214,7 +214,7 @@ All workflows integrate with Cursor commands for automation:
 
 ---
 
-**Last Updated:** [Date]  
-**Status:** ✅ Active  
+**Last Updated:** [Date]
+**Status:** ✅ Active
 **Next:** Choose a workflow guide to get started
 

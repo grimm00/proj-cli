@@ -13,7 +13,7 @@ def test_list_projects_integration():
         projects = client.list_projects()
     except (requests.ConnectionError, requests.Timeout) as e:
         pytest.skip(f"API not available: {e}")
-    
+
     # Assertions are outside try/except so failures are caught
     assert isinstance(projects, list)
 
@@ -35,7 +35,7 @@ def test_create_and_delete_project_integration():
         client.delete_project(project["id"])
     except (requests.ConnectionError, requests.Timeout) as e:
         pytest.skip(f"API not available: {e}")
-    
+
     # Assertions are outside try/except so failures are caught
     assert project is not None
     assert "id" in project
@@ -62,7 +62,7 @@ def test_get_project_integration():
         client.delete_project(project_id)
     except (requests.ConnectionError, requests.Timeout) as e:
         pytest.skip(f"API not available: {e}")
-    
+
     # Assertions are outside try/except so failures are caught
     assert retrieved["id"] == project_id
     assert retrieved["name"] == "Test Get Project"
@@ -92,7 +92,7 @@ def test_update_project_integration():
         client.delete_project(project_id)
     except (requests.ConnectionError, requests.Timeout) as e:
         pytest.skip(f"API not available: {e}")
-    
+
     # Assertions are outside try/except so failures are caught
     assert updated["name"] == "Updated Name"
     assert updated["status"] == "inactive"
@@ -119,7 +119,7 @@ def test_search_projects_integration():
         client.delete_project(project_id)
     except (requests.ConnectionError, requests.Timeout) as e:
         pytest.skip(f"API not available: {e}")
-    
+
     # Assertions are outside try/except so failures are caught
     assert isinstance(results, list)
     assert len(results) > 0

@@ -1,9 +1,9 @@
 # proj-cli Learnings - Phase 1: Repository Setup
 
-**Project:** proj-cli  
-**Phase:** 1 - Repository Setup  
-**Date:** 2025-12-17  
-**Status:** ✅ Complete  
+**Project:** proj-cli
+**Phase:** 1 - Repository Setup
+**Date:** 2025-12-17
+**Status:** ✅ Complete
 **Last Updated:** 2025-12-17
 
 ---

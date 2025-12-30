@@ -1,8 +1,8 @@
 # Research Topics - proj-cli Architecture
 
-**Purpose:** List of research topics/questions to investigate  
-**Status:** 🔴 Pending Research  
-**Created:** 2025-12-22  
+**Purpose:** List of research topics/questions to investigate
+**Status:** 🔴 Pending Research
+**Created:** 2025-12-22
 **Last Updated:** 2025-12-22
 
 ---

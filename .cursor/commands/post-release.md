@@ -519,6 +519,6 @@ git branch -d release/vX.Y.Z
 
 ---
 
-**Last Updated:** 2025-12-18  
-**Status:** ✅ Active  
+**Last Updated:** 2025-12-18
+**Status:** ✅ Active
 **Next:** Use after merging release PR to main

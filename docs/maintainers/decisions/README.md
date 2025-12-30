@@ -1,7 +1,7 @@
 # Architecture Decisions Hub
 
-**Purpose:** Central hub for documenting architectural decisions  
-**Status:** ✅ Active  
+**Purpose:** Central hub for documenting architectural decisions
+**Status:** ✅ Active
 **Last Updated:** 2025-12-16
 
 ---
@@ -72,6 +72,6 @@ This creates:
 
 ---
 
-**Last Updated:** [DATE]  
+**Last Updated:** [DATE]
 **Status:** ✅ Active
 

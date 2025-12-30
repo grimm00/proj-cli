@@ -1,9 +1,9 @@
 # proj-cli Learnings - Quick Wins 02 Fix Batch
 
-**Project:** proj-cli  
-**Topic:** Fix Batch: quick-wins-02  
-**Date:** 2025-12-18  
-**Status:** ✅ Complete  
+**Project:** proj-cli
+**Topic:** Fix Batch: quick-wins-02
+**Date:** 2025-12-18
+**Status:** ✅ Complete
 **Last Updated:** 2025-12-18
 
 ---
@@ -197,7 +197,7 @@ def test_api_call():
         result = client.make_call()
     except (requests.ConnectionError, requests.Timeout) as e:
         pytest.skip(f"API not available: {e}")
-    
+
     # Assertions OUTSIDE try/except
     assert result is not None
 ```

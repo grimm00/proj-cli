@@ -1,7 +1,7 @@
 # Command Graduation Checklist
 
-**Purpose:** Criteria for graduating commands from Experimental (🟠) to Stable (🟢)  
-**Last Updated:** 2025-12-15  
+**Purpose:** Criteria for graduating commands from Experimental (🟠) to Stable (🟢)
+**Last Updated:** 2025-12-15
 **Based On:** [ADR-004: Graduation Process](https://github.com/grimm00/dev-infra/blob/main/admin/decisions/dev-infra-identity-and-focus/adr-004-graduation-process.md)
 
 ---
@@ -211,8 +211,8 @@ DEFER    3/4 RECOMMENDED met?
         │         │
         ▼         ▼
      DEFER    GRADUATE ✅
-     (with     
-     reasons)  
+     (with
+     reasons)
 ```
 
 ---

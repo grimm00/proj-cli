@@ -1,7 +1,7 @@
 # Maintainers Hub
 
-**Purpose:** Central hub for maintainer-facing documentation and project management  
-**Status:** ✅ Active  
+**Purpose:** Central hub for maintainer-facing documentation and project management
+**Status:** ✅ Active
 **Last Updated:** 2025-12-16
 
 ---
@@ -126,7 +126,7 @@ docs/maintainers/
 
 ---
 
-**Last Updated:** 2025-12-16  
-**Status:** ✅ Active  
+**Last Updated:** 2025-12-16
+**Status:** ✅ Active
 **Next:** Phase 2 - Migrate project commands
 

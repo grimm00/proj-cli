@@ -100,7 +100,7 @@ This command supports multiple project organization patterns:
    - Automatically reads requirements if they exist in research directory
    - Creates: Transition planning documents
 
-**If `--from-reflection` is specified, skip to "From Reflection Mode" section below.**  
+**If `--from-reflection` is specified, skip to "From Reflection Mode" section below.**
 **If `--from-adr` is specified, skip to "From ADR Mode" section below.**
 
 ---
@@ -259,10 +259,10 @@ ls docs/maintainers/planning/releases/v0.1.0/checklist.md
 ```markdown
 # Release Transition Plan - vX.Y.Z
 
-**Version:** vX.Y.Z  
-**Status:** 🔴 Not Started  
-**Created:** YYYY-MM-DD  
-**Source:** [artifact-file]  
+**Version:** vX.Y.Z
+**Status:** 🔴 Not Started
+**Created:** YYYY-MM-DD
+**Source:** [artifact-file]
 **Type:** Release
 
 ---
@@ -339,10 +339,10 @@ ls docs/maintainers/planning/releases/v0.1.0/checklist.md
 ```markdown
 # Feature Transition Plan - [Feature Name]
 
-**Feature:** [Feature Name]  
-**Status:** 🔴 Not Started  
-**Created:** YYYY-MM-DD  
-**Source:** [artifact-file]  
+**Feature:** [Feature Name]
+**Status:** 🔴 Not Started
+**Created:** YYYY-MM-DD
+**Source:** [artifact-file]
 **Type:** Feature
 
 ---
@@ -489,10 +489,10 @@ ls docs/maintainers/planning/releases/v0.1.0/checklist.md
 ```markdown
 # CI/CD Transition Plan - [Improvement Name]
 
-**Improvement:** [Improvement Name]  
-**Status:** 🔴 Not Started  
-**Created:** YYYY-MM-DD  
-**Source:** [artifact-file]  
+**Improvement:** [Improvement Name]
+**Status:** 🔴 Not Started
+**Created:** YYYY-MM-DD
+**Source:** [artifact-file]
 **Type:** CI/CD
 
 ---
@@ -1090,6 +1090,6 @@ Depending on the phase type, use the appropriate task ordering pattern:
 
 ---
 
-**Last Updated:** 2025-12-07  
-**Status:** ✅ Active  
+**Last Updated:** 2025-12-07
+**Status:** ✅ Active
 **Next:** Use after `/decision` to transition from ADRs to planning, or use `--from-reflection` or `--from-artifacts` for other workflows (supports feature-specific and project-wide structures)

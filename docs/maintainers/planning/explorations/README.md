@@ -1,7 +1,7 @@
 # Explorations Hub
 
-**Purpose:** Active explorations and proof of concepts  
-**Status:** ✅ Active  
+**Purpose:** Active explorations and proof of concepts
+**Status:** ✅ Active
 **Last Updated:** 2025-12-22
 
 ---
@@ -72,6 +72,6 @@ This creates:
 
 ---
 
-**Last Updated:** 2025-12-22  
+**Last Updated:** 2025-12-22
 **Status:** ✅ Active
 

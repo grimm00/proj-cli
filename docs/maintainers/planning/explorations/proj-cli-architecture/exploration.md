@@ -1,7 +1,7 @@
 # proj-cli Architecture - Exploration
 
-**Status:** 🔴 Exploration  
-**Created:** 2025-12-22  
+**Status:** 🔴 Exploration
+**Created:** 2025-12-22
 **Last Updated:** 2025-12-22
 
 ---

@@ -1,7 +1,7 @@
 # Requirements Template
 
-**Purpose:** Template for documenting requirements discovered during research  
-**Status:** Template  
+**Purpose:** Template for documenting requirements discovered during research
+**Status:** Template
 **Last Updated:** [DATE]
 
 ---
@@ -229,6 +229,6 @@ Assumptions are beliefs or conditions that are taken for granted but may not be 
 
 ---
 
-**Last Updated:** [DATE]  
+**Last Updated:** [DATE]
 **Status:** Template
 

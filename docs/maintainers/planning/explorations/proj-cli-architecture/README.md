@@ -1,8 +1,8 @@
 # proj-cli Architecture - Exploration Hub
 
-**Purpose:** Explore adding dev-infra template generation to proj-cli  
-**Status:** 🔴 Exploration  
-**Created:** 2025-12-22  
+**Purpose:** Explore adding dev-infra template generation to proj-cli
+**Status:** 🔴 Exploration
+**Created:** 2025-12-22
 **Last Updated:** 2025-12-22
 
 ---
@@ -55,7 +55,7 @@ This exploration examines how to extend proj-cli to include template generation 
 
 ## 📊 Status
 
-**Current Phase:** Exploration  
+**Current Phase:** Exploration
 **Next Step:** Conduct research on topics identified in research-topics.md
 
 ---

@@ -1,8 +1,8 @@
 # Manual Testing Guide - proj-cli
 
-**Feature:** proj-cli - Unified CLI Tool  
-**Phases Covered:** Phase 2, Phase 3, Phase 4  
-**Last Updated:** 2025-12-17  
+**Feature:** proj-cli - Unified CLI Tool
+**Phases Covered:** Phase 2, Phase 3, Phase 4
+**Last Updated:** 2025-12-17
 **Status:** Active
 
 ---
@@ -498,9 +498,9 @@ proj inv export api
 
 ## Test Results
 
-**Date:** _______________  
-**Tester:** _______________  
-**API Version:** _______________  
+**Date:** _______________
+**Tester:** _______________
+**API Version:** _______________
 **CLI Version:** _______________
 
 ### Results Summary

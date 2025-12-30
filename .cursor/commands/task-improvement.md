@@ -98,7 +98,7 @@ This command supports CI/CD improvement phase organization:
 
 - `--improvement [name]` - Specify improvement name (overrides auto-detection)
 
-**Important:** 
+**Important:**
 - This command handles **one task group at a time** (typically related process/documentation tasks)
 - After completing a task group, stop and wait for user to invoke again for next group
 - Do NOT continue to next task group automatically
@@ -549,7 +549,7 @@ Tasks are typically numbered in phase documents:
 
 ---
 
-**Last Updated:** 2025-12-07  
-**Status:** ✅ Active  
+**Last Updated:** 2025-12-07
+**Status:** ✅ Active
 **Next:** Use to implement CI/CD improvement phase tasks following process/documentation workflow
 

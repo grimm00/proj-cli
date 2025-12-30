@@ -1,14 +1,14 @@
 # Example: User Authentication - Exploration
 
-**Status:** 🔴 Exploration  
-**Created:** [Date]  
+**Status:** 🔴 Exploration
+**Created:** [Date]
 **Last Updated:** [Date]
 
 ---
 
 ## 🎯 What Are We Exploring?
 
-<!-- 
+<!--
   EXPLORATION PURPOSE:
   Describe what you're exploring - a new idea, proof of concept, or concept that needs investigation.
   Be clear about the scope and what you're trying to understand.
@@ -26,13 +26,13 @@ Exploring options for implementing user authentication in our application. We ne
 
 ## 🤔 Why Explore This?
 
-<!-- 
+<!--
   PROBLEM STATEMENT:
   Explain why this exploration is needed. What problem are you trying to solve?
   What opportunity exists? What context is important?
 -->
 
-**Problem:** 
+**Problem:**
 - Application needs user authentication for user-specific features
 - Need to understand authentication options before implementation
 - Want to make informed decision about authentication approach
@@ -51,7 +51,7 @@ Exploring options for implementing user authentication in our application. We ne
 
 ## 💡 Initial Thoughts
 
-<!-- 
+<!--
   INITIAL IDEAS:
   Document your initial thoughts, ideas, or hypotheses.
   What do you think might work? What are you unsure about?
@@ -80,7 +80,7 @@ Exploring options for implementing user authentication in our application. We ne
 
 ## 🔍 Key Questions
 
-<!-- 
+<!--
   RESEARCH QUESTIONS:
   List the key questions that need to be researched.
   These questions will guide the research phase.
@@ -100,7 +100,7 @@ Exploring options for implementing user authentication in our application. We ne
 
 ## 🚀 Next Steps
 
-<!-- 
+<!--
   WORKFLOW CONTINUATION:
   Document the next steps in the exploration → research → decision workflow.
   This helps users understand how to proceed after exploration.
@@ -115,7 +115,7 @@ Exploring options for implementing user authentication in our application. We ne
 
 ## 📝 Notes
 
-<!-- 
+<!--
   ADDITIONAL NOTES:
   Include any additional context, constraints, or information that might be helpful.
   This section can include technical details, constraints, or other relevant information.

@@ -1,9 +1,9 @@
 # proj-cli Learnings - Phase 4: Polish & Cleanup
 
-**Project:** proj-cli  
-**Phase:** 4 - Polish & Cleanup  
-**Date:** 2025-12-17  
-**Status:** ✅ Complete  
+**Project:** proj-cli
+**Phase:** 4 - Polish & Cleanup
+**Date:** 2025-12-17
+**Status:** ✅ Complete
 **Last Updated:** 2025-12-17
 
 ---
@@ -78,7 +78,7 @@ def test_cli_list_command(mock_api_client_class):
     mock_client = Mock()
     mock_client.list_projects.return_value = [{"id": 1, "name": "Test"}]
     mock_api_client_class.return_value = mock_client
-    
+
     result = runner.invoke(app, ["list"])
     assert result.exit_code == 0
     assert "Test" in result.stdout

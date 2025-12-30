@@ -1,7 +1,7 @@
 # proj-cli Releases
 
-**Purpose:** Track and document proj-cli releases  
-**Status:** ✅ Active  
+**Purpose:** Track and document proj-cli releases
+**Status:** ✅ Active
 **Last Updated:** 2025-12-18
 
 ---

@@ -1,7 +1,7 @@
 # proj-cli Reflections Hub
 
-**Purpose:** Capture project reflections and insights from development cycles  
-**Status:** Active  
+**Purpose:** Capture project reflections and insights from development cycles
+**Status:** Active
 **Last Updated:** 2025-12-18
 
 ---

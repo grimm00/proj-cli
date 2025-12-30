@@ -1,11 +1,11 @@
 # Project Type Support - Phase 1: Client Update
 
-**Feature:** Add `project_type` parameter support  
-**Phase:** 1 of 2  
-**Status:** 🔴 Not Started  
-**Estimated Effort:** ~2 hours  
-**Created:** 2025-12-23  
-**Last Updated:** 2025-12-23  
+**Feature:** Add `project_type` parameter support
+**Phase:** 1 of 2
+**Status:** 🔴 Not Started
+**Estimated Effort:** ~2 hours
+**Created:** 2025-12-23
+**Last Updated:** 2025-12-23
 **Dependencies:** work-prod `project-type-field` Phase 3 complete
 
 ---
@@ -66,7 +66,7 @@ def list_projects(
         params['search'] = search
     if limit:
         params['limit'] = limit
-    
+
     response = self._request('GET', '/projects', params=params)
     return response.get('projects', [])
 ```
@@ -170,9 +170,9 @@ def test_list_projects_with_type_filter(mock_client):
     mock_client.list_projects.return_value = [
         {'id': 1, 'name': 'Work Project', 'project_type': 'Work'}
     ]
-    
+
     result = runner.invoke(app, ["list", "--type", "Work"])
-    
+
     assert result.exit_code == 0
     mock_client.list_projects.assert_called_once_with(
         classification=None,
@@ -186,18 +186,18 @@ def test_list_projects_with_invalid_type(mock_client):
     mock_client.list_projects.side_effect = ValueError(
         "Invalid project_type. Must be one of: ['Work', 'Personal', 'Learning', 'Inactive']"
     )
-    
+
     result = runner.invoke(app, ["list", "--type", "Invalid"])
-    
+
     assert result.exit_code == 1
     assert "Invalid project_type" in result.output
 
 def test_list_projects_with_type_and_classification(mock_client):
     """Test combining --type and --classification filters."""
     mock_client.list_projects.return_value = []
-    
+
     result = runner.invoke(app, ["list", "--type", "Work", "--classification", "primary"])
-    
+
     assert result.exit_code == 0
     mock_client.list_projects.assert_called_once_with(
         classification="primary",

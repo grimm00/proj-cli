@@ -202,8 +202,8 @@ This command supports multiple fix organization patterns, matching `/fix-plan` a
 ```markdown
 # Fix Review Report
 
-**Date:** YYYY-MM-DD  
-**Total Deferred Issues:** [N]  
+**Date:** YYYY-MM-DD
+**Total Deferred Issues:** [N]
 **Candidates for Addressing:** [M]
 
 ---
@@ -221,8 +221,8 @@ This command supports multiple fix organization patterns, matching `/fix-plan` a
 
 ### Issue Type: [Description]
 
-**Occurrences:** [N] times  
-**PRs:** #[N1], #[N2], #[N3]  
+**Occurrences:** [N] times
+**PRs:** #[N1], #[N2], #[N3]
 **Total Effort:** [Effort Level]
 
 **Issues:**
@@ -289,10 +289,10 @@ This command supports multiple fix organization patterns, matching `/fix-plan` a
    ```bash
    # Create batches from latest review report
    /fix-plan --from-review-report fix-review-report-YYYY-MM-DD.md
-   
+
    # Create specific batch from report
    /fix-plan --from-review-report fix-review-report-YYYY-MM-DD.md --batch "Quick Wins"
-   
+
    # Create only Quick Wins batch
    /fix-plan --from-review-report --quick-wins
    ```
@@ -422,7 +422,7 @@ This command supports multiple fix organization patterns, matching `/fix-plan` a
 
 ---
 
-**Last Updated:** 2025-12-07  
-**Status:** ✅ Active  
+**Last Updated:** 2025-12-07
+**Status:** ✅ Active
 **Next:** Run periodically to identify fix opportunities (supports feature-specific and project-wide fix structures)
 

@@ -1,9 +1,9 @@
 # Feature Transition Plan - proj-cli
 
-**Feature:** Unified CLI Tool (`proj`)  
-**Status:** 🟠 In Progress  
-**Created:** 2025-12-16  
-**Source:** [ADR-0007](../../decisions/ADR-0007-unified-cli-architecture.md)  
+**Feature:** Unified CLI Tool (`proj`)
+**Status:** 🟠 In Progress
+**Created:** 2025-12-16
+**Source:** [ADR-0007](../../decisions/ADR-0007-unified-cli-architecture.md)
 **Type:** Feature
 
 ---

@@ -1,7 +1,7 @@
 # Reflection Artifacts Summary - 2025-12-18
 
-**Source:** `reflection-feature-complete-2025-12-18.md`  
-**Generated:** 2025-12-18  
+**Source:** `reflection-feature-complete-2025-12-18.md`
+**Generated:** 2025-12-18
 **Type:** All artifacts
 
 ---

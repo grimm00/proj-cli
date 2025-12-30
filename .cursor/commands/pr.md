@@ -123,10 +123,10 @@ git branch --show-current
 2. **If worktree exists:**
    ```
    ⚠️ BRANCH MISMATCH: Currently on 'develop', expected 'feat/[feature]-phase-N-*'
-   
+
    Found worktree with expected branch:
    → /path/to/worktree [feat/feature-phase-3-name]
-   
+
    Resolution:
    1. Switch to worktree: cd /path/to/worktree
    2. Then re-run: /pr --phase N --feature [feature]
@@ -140,7 +140,7 @@ git branch --show-current
 4. **If branch doesn't exist:**
    ```
    ❌ BLOCKING: Expected branch not found
-   
+
    Resolution:
    1. Create branch from develop: git checkout -b feat/[feature]-phase-N-[desc]
    2. Ensure phase work is committed to this branch
@@ -304,7 +304,7 @@ git branch --show-current
 
 ### 1a. Add Manual Testing Scenarios
 
-**File:** 
+**File:**
 - Feature-specific: `docs/maintainers/planning/features/[feature-name]/manual-testing.md`
 - Project-wide: `docs/maintainers/planning/manual-testing.md`
 
@@ -444,7 +444,7 @@ curl [endpoint] [options]
 ```markdown
 ## Phase [N]: [Phase Name]
 
-**Status:** ✅ Complete  
+**Status:** ✅ Complete
 **Completed:** YYYY-MM-DD
 
 ---
@@ -1455,6 +1455,6 @@ git branch --show-current
 
 ---
 
-**Last Updated:** 2025-12-16  
-**Status:** ✅ Active  
+**Last Updated:** 2025-12-16
+**Status:** ✅ Active
 **Next:** Use to create PRs for phases, fixes, and releases (includes readiness validation for release PRs)

@@ -1,7 +1,7 @@
 # Research Hub
 
-**Purpose:** Research and analysis for architectural decisions  
-**Status:** ✅ Active  
+**Purpose:** Research and analysis for architectural decisions
+**Status:** ✅ Active
 **Last Updated:** [DATE]
 
 ---
@@ -147,6 +147,6 @@ cp docs/maintainers/research/requirements-template.md \
 
 ---
 
-**Last Updated:** [DATE]  
+**Last Updated:** [DATE]
 **Status:** ✅ Active
 

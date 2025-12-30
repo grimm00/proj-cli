@@ -1,10 +1,10 @@
 # CI/CD Improvement Plan - [Improvement Name]
 
-**Improvement:** [Improvement Name]  
-**Priority:** [🔴 High / 🟠 Medium / 🟡 Low]  
-**Effort:** [Low / Medium / High]  
-**Status:** 🔴 Not Started  
-**Created:** YYYY-MM-DD  
+**Improvement:** [Improvement Name]
+**Priority:** [🔴 High / 🟠 Medium / 🟡 Low]
+**Effort:** [Low / Medium / High]
+**Status:** 🔴 Not Started
+**Created:** YYYY-MM-DD
 **Source:** [Source of improvement - reflection, opportunity, etc.]
 
 ---

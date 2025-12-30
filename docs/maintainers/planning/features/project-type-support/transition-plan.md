@@ -1,9 +1,9 @@
 # Project Type Support - Transition Plan
 
-**Feature:** Add `project_type` parameter support  
-**Source ADR:** [ADR-003: Add project_type Field](../../../../../dev-infra/admin/decisions/project-model-definition/adr-003-add-project-type-field.md)  
-**Status:** 🔴 Not Started  
-**Created:** 2025-12-23  
+**Feature:** Add `project_type` parameter support
+**Source ADR:** [ADR-003: Add project_type Field](../../../../../dev-infra/admin/decisions/project-model-definition/adr-003-add-project-type-field.md)
+**Status:** 🔴 Not Started
+**Created:** 2025-12-23
 **Last Updated:** 2025-12-23
 
 ---
