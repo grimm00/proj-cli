@@ -586,7 +586,9 @@ templates:
         result = get_templates_source(config)
         assert result == templates_dir.resolve()
 
-    def test_get_templates_source_not_configured_raises(self, tmp_path, monkeypatch):
+    def test_get_templates_source_not_configured_raises(
+        self, tmp_path, monkeypatch
+    ):
         """Test error when templates source not configured."""
         monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path / "config"))
         monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path / "data"))
