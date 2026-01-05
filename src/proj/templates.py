@@ -6,6 +6,8 @@ from datetime import date
 from pathlib import Path
 from typing import Optional
 
+from proj.config import Config
+
 
 class TemplateError(Exception):
     """Base exception for template operations."""
@@ -343,3 +345,25 @@ def create_from_template(
     )
 
     return project_path
+
+
+def get_templates_source(config: Config) -> Path:
+    """Get templates source path from config.
+
+    Args:
+        config: proj-cli configuration.
+
+    Returns:
+        Path to templates source directory.
+
+    Raises:
+        TemplateError: If templates source not configured.
+    """
+    if config.templates.source is None:
+        raise TemplateError(
+            "Templates source not configured. "
+            "Run 'proj init' and set templates.source in config, "
+            "or use --templates-source flag."
+        )
+
+    return config.templates.source.expanduser().resolve()
