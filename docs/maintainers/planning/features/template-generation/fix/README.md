@@ -42,7 +42,7 @@ fix/
 |----|-------|--------|--------|---------|
 | [PR #8](pr8/README.md) | Phase 1: Config Extension | 🟡 In Progress | 7 | 2 remaining |
 | [PR #9](pr9/README.md) | Fix: Test Isolation | 🟡 Deferred | 2 | - |
-| [PR #11](pr11/README.md) | Phase 3: Template Copying | 🟡 Deferred | 4 | - |
+| [PR #11](pr11/README.md) | Phase 3: Template Copying | 🟡 Planned | 4 | 2 |
 
 ---
 
@@ -53,6 +53,8 @@ fix/
 | [pr8/batch-high-low-01](pr8/batch-high-low-01.md) | 🟠 HIGH | 🟢 LOW | 1 | ✅ Complete |
 | [pr8/batch-medium-low-01](pr8/batch-medium-low-01.md) | 🟡 MEDIUM | 🟢 LOW | 3 | 🔴 Not Started |
 | [pr8/batch-low-low-01](pr8/batch-low-low-01.md) | 🟢 LOW | 🟢 LOW | 4 | 🔴 Not Started |
+| [pr11/batch-medium-low-01](pr11/batch-medium-low-01.md) | 🟡 MEDIUM | 🟢 LOW | 1 | 🔴 Not Started |
+| [pr11/batch-low-low-01](pr11/batch-low-low-01.md) | 🟢 LOW | 🟢 LOW | 3 | 🔴 Not Started |
 
 ---
 
