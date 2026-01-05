@@ -26,13 +26,14 @@
 
 **Priority Breakdown:**
 
-| Priority | Count | Batch |
-|----------|-------|-------|
-| 🟠 HIGH | 1 | batch-high-low-01 |
-| 🟡 MEDIUM | 3 | batch-medium-low-01 |
-| 🟢 LOW | 4 | batch-low-low-01 |
+| Priority  | Count | Batch               |
+| --------- | ----- | ------------------- |
+| 🟠 HIGH   | 1     | batch-high-low-01   |
+| 🟡 MEDIUM | 3     | batch-medium-low-01 |
+| 🟢 LOW    | 4     | batch-low-low-01    |
 
 **Recommended Order:**
+
 1. `batch-high-low-01` - Fix test isolation first (blocking)
 2. `batch-medium-low-01` - Config cleanup and missing test
 3. `batch-low-low-01` - Test improvements and docs fix
@@ -49,6 +50,7 @@
 - **File:** [batch-high-low-01.md](batch-high-low-01.md)
 
 **Issue:**
+
 - PR8-#3: Test isolation for XDG_CONFIG_HOME
 
 ---
@@ -63,9 +65,10 @@
 - **File:** [batch-medium-low-01.md](batch-medium-low-01.md)
 
 **Issues:**
+
 - PR8-#1: env_prefix confusion for TemplateConfig
 - PR8-#2: env_prefix confusion for RegistryConfig
-- PR8-#4: Missing env override test for PROJ_TEMPLATES__DEFAULT
+- PR8-#4: Missing env override test for PROJ_TEMPLATES\_\_DEFAULT
 
 ---
 
@@ -79,6 +82,7 @@
 - **File:** [batch-low-low-01.md](batch-low-low-01.md)
 
 **Issues:**
+
 - PR8-#5: Strengthen save() test with type assertions
 - PR8-#6: Extend YAML load test to cover more fields
 - PR8-#7: CLI init test should validate loaded Config values
