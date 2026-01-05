@@ -16,33 +16,46 @@ This directory tracks fixes and deferred issues from PR reviews for the Template
 
 ```
 fix/
-├── README.md           # This hub file
-├── pr8/                # PR #8 (Phase 1) fixes
-│   └── README.md       # PR hub with deferred issues
-├── cross-pr/           # Cross-PR fix batches (if any)
-│   └── README.md       # Cross-PR hub
-└── archived/           # Completed fix PRs
-    └── README.md       # Archive hub
+├── README.md                       # This hub file
+├── pr8/                            # PR #8 (Phase 1) fixes
+│   ├── README.md                   # PR hub with batches
+│   ├── batch-high-low-01.md        # Test isolation (1 issue)
+│   ├── batch-medium-low-01.md      # Config cleanup + test (3 issues)
+│   └── batch-low-low-01.md         # Test improvements + docs (4 issues)
+├── cross-pr/                       # Cross-PR fix batches (if any)
+│   └── README.md                   # Cross-PR hub
+└── archived/                       # Completed fix PRs
+    └── README.md                   # Archive hub
 ```
 
 ---
 
 ## 📊 Active PRs
 
-| PR | Phase | Status | Deferred Issues |
-|----|-------|--------|-----------------|
-| [PR #8](pr8/README.md) | Phase 1: Config Extension | ✅ Merged | 8 (all LOW/MEDIUM) |
+| PR | Phase | Status | Issues | Batches |
+|----|-------|--------|--------|---------|
+| [PR #8](pr8/README.md) | Phase 1: Config Extension | 🟡 Planned | 8 | 3 |
+
+---
+
+## 📊 Batch Summary
+
+| Batch | Priority | Effort | Issues | Status |
+|-------|----------|--------|--------|--------|
+| [pr8/batch-high-low-01](pr8/batch-high-low-01.md) | 🟠 HIGH | 🟢 LOW | 1 | 🔴 Not Started |
+| [pr8/batch-medium-low-01](pr8/batch-medium-low-01.md) | 🟡 MEDIUM | 🟢 LOW | 3 | 🔴 Not Started |
+| [pr8/batch-low-low-01](pr8/batch-low-low-01.md) | 🟢 LOW | 🟢 LOW | 4 | 🔴 Not Started |
 
 ---
 
 ## 📋 Quick Links
 
-- [PR #8 Deferred Issues](pr8/README.md)
+- [PR #8 Fix Tracking](pr8/README.md)
 - [Sourcery Review PR #8](../../../feedback/sourcery/pr8.md)
 
 ---
 
 **Last Updated:** 2025-01-05  
 **Status:** ✅ Active  
-**Next:** Review deferred issues opportunistically or in dedicated fix batch
+**Next:** Implement batches using `/fix-implement pr8-batch-high-low-01`
 
