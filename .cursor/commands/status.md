@@ -1,7 +1,7 @@
 # Status Command
 
-**Status:** 🟠 Evolving  
-**Stability:** Experimental - may change without notice  
+**Status:** 🟠 Evolving
+**Stability:** Experimental - may change without notice
 **Feedback:** [Provide feedback](../../.github/ISSUE_TEMPLATE/experimental-feedback.yml)
 
 > ⚠️ **Experimental Command**: This command is under active development and may change significantly between releases. Use in production with caution and please [provide feedback](../../.github/ISSUE_TEMPLATE/experimental-feedback.yml)!
@@ -500,7 +500,7 @@ Changes:
 
 ---
 
-**Last Updated:** 2025-12-09  
-**Status:** ✅ Active  
+**Last Updated:** 2025-12-09
+**Status:** ✅ Active
 **Next:** Integrate with other commands for decoupled status tracking
 

@@ -1,13 +1,13 @@
 # Fix Plan: Cross-PR Quick Wins 02 - Technical Fixes
 
-**Batch:** quick-wins-02  
-**Priority:** 🟠 HIGH / 🟡 MEDIUM / 🟢 LOW  
-**Effort:** 🟢 LOW  
-**Status:** ✅ Complete  
-**Created:** 2025-12-18  
-**Completed:** 2025-12-18  
-**PR:** #6  
-**Source:** fix-review-report-2025-12-18.md  
+**Batch:** quick-wins-02
+**Priority:** 🟠 HIGH / 🟡 MEDIUM / 🟢 LOW
+**Effort:** 🟢 LOW
+**Status:** ✅ Complete
+**Created:** 2025-12-18
+**Completed:** 2025-12-18
+**PR:** #6
+**Source:** fix-review-report-2025-12-18.md
 **Issues:** 9 issues from 2 PRs
 
 ---
@@ -35,7 +35,7 @@ This batch contains 9 LOW effort issues from PRs #4 and #5, focusing on:
 2. **Code quality** - Centralize duplicated code, improve UX
 3. **Documentation** - Fix typos and URL consistency
 
-**Estimated Time:** ~1.5-2 hours  
+**Estimated Time:** ~1.5-2 hours
 **Files Affected:**
 - `tests/test_api_client_integration.py`
 - `src/proj/commands/projects.py`
@@ -56,9 +56,9 @@ This batch contains 9 LOW effort issues from PRs #4 and #5, focusing on:
 
 ### Issue PR5-#3: Fix broad exception handling in integration tests (HIGH)
 
-**Source PR:** #5 - Phase 4: Polish & Cleanup  
-**Location:** `tests/test_api_client_integration.py:5-14`  
-**Sourcery Comment:** Comment #3  
+**Source PR:** #5 - Phase 4: Polish & Cleanup
+**Location:** `tests/test_api_client_integration.py:5-14`
+**Sourcery Comment:** Comment #3
 **Priority:** 🟠 HIGH | **Impact:** 🟠 HIGH | **Effort:** 🟢 LOW
 
 **Description:**
@@ -96,7 +96,7 @@ def test_list_projects_integration():
         projects = client.list_projects()
     except (requests.ConnectionError, requests.Timeout) as e:
         pytest.skip(f"API not available: {e}")
-    
+
     # Assertions are outside try/except so failures are caught
     assert isinstance(projects, list)
 ```
@@ -105,9 +105,9 @@ def test_list_projects_integration():
 
 ### Issue PR5-#1: Centralize status_emoji constant
 
-**Source PR:** #5 - Phase 4: Polish & Cleanup  
-**Location:** `src/proj/commands/projects.py:74-75`  
-**Sourcery Comment:** Comment #1  
+**Source PR:** #5 - Phase 4: Polish & Cleanup
+**Location:** `src/proj/commands/projects.py:74-75`
+**Sourcery Comment:** Comment #1
 **Priority:** 🟡 MEDIUM | **Impact:** 🟡 MEDIUM | **Effort:** 🟢 LOW
 
 **Description:**
@@ -144,9 +144,9 @@ emoji = STATUS_EMOJI.get(project.get("status", "").lower(), "")
 
 ### Issue PR4-#2: Delete corrupted inventory file
 
-**Source PR:** #4 - Fix: Quick Wins Batch  
-**Location:** `src/proj/commands/inventory.py:62-69`  
-**Sourcery Comment:** Comment #2  
+**Source PR:** #4 - Fix: Quick Wins Batch
+**Location:** `src/proj/commands/inventory.py:62-69`
+**Sourcery Comment:** Comment #2
 **Priority:** 🟡 MEDIUM | **Impact:** 🟡 MEDIUM | **Effort:** 🟢 LOW
 
 **Description:**
@@ -182,9 +182,9 @@ except json.JSONDecodeError:
 
 ### Issue PR4-#3: Handle PackageNotFoundError gracefully
 
-**Source PR:** #4 - Fix: Quick Wins Batch  
-**Location:** `tests/test_package.py:18-22`  
-**Sourcery Comment:** Comment #3  
+**Source PR:** #4 - Fix: Quick Wins Batch
+**Location:** `tests/test_package.py:18-22`
+**Sourcery Comment:** Comment #3
 **Priority:** 🟡 MEDIUM | **Impact:** 🟢 LOW | **Effort:** 🟢 LOW
 
 **Description:**
@@ -209,9 +209,9 @@ def test_version_matches_metadata():
 
 ### Issue PR5-#4: Add exit code assertion in test
 
-**Source PR:** #5 - Phase 4: Polish & Cleanup  
-**Location:** `tests/test_cli_integration.py:28-32`  
-**Sourcery Comment:** Comment #4  
+**Source PR:** #5 - Phase 4: Polish & Cleanup
+**Location:** `tests/test_cli_integration.py:28-32`
+**Sourcery Comment:** Comment #4
 **Priority:** 🟢 LOW | **Impact:** 🟢 LOW | **Effort:** 🟢 LOW
 
 **Description:**
@@ -242,9 +242,9 @@ def test_cli_no_args_shows_help():
 
 ### Issue PR5-#6: Assert config file created after load
 
-**Source PR:** #5 - Phase 4: Polish & Cleanup  
-**Location:** `tests/test_config_integration.py:8-17`  
-**Sourcery Comment:** Comment #6  
+**Source PR:** #5 - Phase 4: Polish & Cleanup
+**Location:** `tests/test_config_integration.py:8-17`
+**Sourcery Comment:** Comment #6
 **Priority:** 🟢 LOW | **Impact:** 🟢 LOW | **Effort:** 🟢 LOW
 
 **Description:**
@@ -257,13 +257,13 @@ Add assertion at end of test:
 def test_config_creates_default_on_first_run(mock_xdg_dirs):
     """Test that default config is created on first run."""
     from proj.config import Config, get_config_file
-    
+
     config_file = get_config_file()
     assert not config_file.exists()
-    
+
     config = Config.load()
     assert config.api_url == "http://localhost:5000"
-    
+
     # After loading, config file should exist
     # Note: This depends on Config.load() behavior - verify if it creates file
     # If Config.load() doesn't create file, this assertion may not apply
@@ -275,9 +275,9 @@ def test_config_creates_default_on_first_run(mock_xdg_dirs):
 
 ### Issue PR5-#8: Fix typo in docs (PR reference)
 
-**Source PR:** #5 - Phase 4: Polish & Cleanup  
-**Location:** `docs/maintainers/planning/features/proj-cli/phase-4.md:41`  
-**Sourcery Comment:** Comment #8  
+**Source PR:** #5 - Phase 4: Polish & Cleanup
+**Location:** `docs/maintainers/planning/features/proj-cli/phase-4.md:41`
+**Sourcery Comment:** Comment #8
 **Priority:** 🟢 LOW | **Impact:** 🟢 LOW | **Effort:** 🟢 LOW
 
 **Description:**
@@ -299,9 +299,9 @@ The `PR #2 #2` formatting is confusing. Fix to `PR #2-#2` or `PR #2 Issue #2`.
 
 ### Issue PR5-OC2: Fix URL consistency in docs
 
-**Source PR:** #5 - Phase 4: Polish & Cleanup  
-**Location:** `README.md`  
-**Sourcery Comment:** Overall Comment 2  
+**Source PR:** #5 - Phase 4: Polish & Cleanup
+**Location:** `README.md`
+**Sourcery Comment:** Overall Comment 2
 **Priority:** 🟢 LOW | **Impact:** 🟢 LOW | **Effort:** 🟢 LOW
 
 **Description:**
@@ -314,9 +314,9 @@ Search and replace `yourusername` with `grimm00` throughout documentation.
 
 ### Issue PR4-OC2: Add JSON error logging
 
-**Source PR:** #4 - Fix: Quick Wins Batch  
-**Location:** `src/proj/commands/inventory.py:62-69`  
-**Sourcery Comment:** Overall Comment  
+**Source PR:** #4 - Fix: Quick Wins Batch
+**Location:** `src/proj/commands/inventory.py:62-69`
+**Sourcery Comment:** Overall Comment
 **Priority:** 🟢 LOW | **Impact:** 🟢 LOW | **Effort:** 🟢 LOW
 
 **Description:**

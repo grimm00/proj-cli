@@ -92,7 +92,7 @@ cat [review-path]
 
 ```
 ℹ️  Review already marked as addressed (Status: ✅ Ready)
-    
+
     Options:
     1. Run /task-phase to start implementation
     2. Use --force to re-process review
@@ -468,7 +468,7 @@ grep "Status:" [review-path]
 
 ---
 
-**Last Updated:** 2025-12-10  
-**Status:** ✅ Active  
+**Last Updated:** 2025-12-10
+**Status:** ✅ Active
 **Next:** Use to address pre-phase review gaps before implementation (keeps planning separate from coding)
 

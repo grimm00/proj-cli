@@ -1,8 +1,8 @@
 # proj-cli Learnings
 
-**Purpose:** Capture learnings from proj-cli development phases  
-**Target:** Inform future phases and dev-infra template improvements  
-**Status:** ✅ Active  
+**Purpose:** Capture learnings from proj-cli development phases
+**Target:** Inform future phases and dev-infra template improvements
+**Status:** ✅ Active
 **Last Updated:** 2025-12-17
 
 ---
@@ -34,9 +34,9 @@ This directory contains learnings from proj-cli development that can inform:
 
 ## 📊 Summary
 
-**Total Learning Documents:** 5  
-**Phases Documented:** 3 of 4 (Phase 1, Phase 3, Phase 4)  
-**Fix Batches Documented:** 2 (quick-wins-01, quick-wins-02)  
+**Total Learning Documents:** 5
+**Phases Documented:** 3 of 4 (Phase 1, Phase 3, Phase 4)
+**Fix Batches Documented:** 2 (quick-wins-01, quick-wins-02)
 **Status:** ✅ Active
 
 ---

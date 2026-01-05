@@ -1,13 +1,13 @@
 # Fix Plan: Cross-PR Quick Wins Batch
 
-**Batch:** quick-wins-01  
-**Priority:** 🟡 MEDIUM / 🟢 LOW  
-**Effort:** 🟢 LOW  
-**Status:** ✅ Complete  
-**Completed:** 2025-12-17  
-**PR:** #4  
-**Created:** 2025-12-17  
-**Source:** fix-review-report-2025-12-17.md  
+**Batch:** quick-wins-01
+**Priority:** 🟡 MEDIUM / 🟢 LOW
+**Effort:** 🟢 LOW
+**Status:** ✅ Complete
+**Completed:** 2025-12-17
+**PR:** #4
+**Created:** 2025-12-17
+**Source:** fix-review-report-2025-12-17.md
 **Issues:** 7 issues from 3 PRs
 
 ---
@@ -30,7 +30,7 @@
 
 This batch contains 7 LOW effort issues from 3 PRs. These are quick wins that can be fixed in ~1-1.5 hours total.
 
-**Estimated Time:** ~1-1.5 hours  
+**Estimated Time:** ~1-1.5 hours
 **Files Affected:**
 
 - `src/proj/config.py`
@@ -53,9 +53,9 @@ This batch contains 7 LOW effort issues from 3 PRs. These are quick wins that ca
 
 ### Issue PR1-#1: Add explicit encoding for config file
 
-**Source PR:** #1 - Phase 1: Repository Setup  
-**Location:** `src/proj/config.py:74-75`  
-**Sourcery Comment:** Comment #1  
+**Source PR:** #1 - Phase 1: Repository Setup
+**Location:** `src/proj/config.py:74-75`
+**Sourcery Comment:** Comment #1
 **Priority:** 🟡 MEDIUM | **Impact:** 🟢 LOW | **Effort:** 🟢 LOW
 
 **Description:**
@@ -88,9 +88,9 @@ with open(config_file, "w", encoding="utf-8") as f:
 
 ### Issue PR1-#3: Fix brittle return code test
 
-**Source PR:** #1 - Phase 1: Repository Setup  
-**Location:** `tests/test_cli.py:36`  
-**Sourcery Comment:** Comment #3  
+**Source PR:** #1 - Phase 1: Repository Setup
+**Location:** `tests/test_cli.py:36`
+**Sourcery Comment:** Comment #3
 **Priority:** 🟡 MEDIUM | **Impact:** 🟡 MEDIUM | **Effort:** 🟢 LOW
 
 **Description:**
@@ -116,9 +116,9 @@ assert "Usage" in result.stdout or "usage" in result.stdout.lower()
 
 ### Issue PR1-#7: Add test for **version** matching metadata
 
-**Source PR:** #1 - Phase 1: Repository Setup  
-**Location:** `tests/test_package.py:11-15`  
-**Sourcery Comment:** Comment #7  
+**Source PR:** #1 - Phase 1: Repository Setup
+**Location:** `tests/test_package.py:11-15`
+**Sourcery Comment:** Comment #7
 **Priority:** 🟢 LOW | **Impact:** 🟢 LOW | **Effort:** 🟢 LOW
 
 **Description:**
@@ -149,9 +149,9 @@ def test_version_matches_metadata():
 
 ### Issue PR2-OC1: API URL validation in APIClient constructor
 
-**Source PR:** #2 - Phase 2: Migrate Project Commands  
-**Location:** `src/proj/api_client.py` (constructor)  
-**Sourcery Comment:** Overall Comment  
+**Source PR:** #2 - Phase 2: Migrate Project Commands
+**Location:** `src/proj/api_client.py` (constructor)
+**Sourcery Comment:** Overall Comment
 **Priority:** 🟡 MEDIUM | **Impact:** 🟡 MEDIUM | **Effort:** 🟢 LOW
 
 **Description:**
@@ -188,9 +188,9 @@ def _normalize_url(self, url: str) -> str:
 
 ### Issue PR2-OC2: Format option validation with typer.Choice
 
-**Source PR:** #2 - Phase 2: Migrate Project Commands  
-**Location:** `src/proj/commands/projects.py` (list_projects, get_project, search_projects)  
-**Sourcery Comment:** Overall Comment  
+**Source PR:** #2 - Phase 2: Migrate Project Commands
+**Location:** `src/proj/commands/projects.py` (list_projects, get_project, search_projects)
+**Sourcery Comment:** Overall Comment
 **Priority:** 🟢 LOW | **Impact:** 🟢 LOW | **Effort:** 🟢 LOW
 
 **Description:**
@@ -224,9 +224,9 @@ format: str = typer.Option(
 
 ### Issue PR3-#3: Defensive JSON parsing for inventory.json
 
-**Source PR:** #3 - Phase 3: Add Inventory Commands  
-**Location:** `src/proj/commands/inventory.py:56-60`  
-**Sourcery Comment:** Comment #3  
+**Source PR:** #3 - Phase 3: Add Inventory Commands
+**Location:** `src/proj/commands/inventory.py:56-60`
+**Sourcery Comment:** Comment #3
 **Priority:** 🟡 MEDIUM | **Impact:** 🟡 MEDIUM | **Effort:** 🟢 LOW
 
 **Description:**
@@ -267,9 +267,9 @@ def load_inventory() -> list[dict]:
 
 ### Issue PR3-Overall: Dedupe logic docs alignment
 
-**Source PR:** #3 - Phase 3: Add Inventory Commands  
-**Location:** `docs/maintainers/planning/features/proj-cli/phase-3.md`  
-**Sourcery Comment:** Overall Comment  
+**Source PR:** #3 - Phase 3: Add Inventory Commands
+**Location:** `docs/maintainers/planning/features/proj-cli/phase-3.md`
+**Sourcery Comment:** Overall Comment
 **Priority:** 🟢 LOW | **Impact:** 🟢 LOW | **Effort:** 🟢 LOW
 
 **Description:**

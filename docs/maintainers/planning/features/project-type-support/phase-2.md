@@ -1,11 +1,11 @@
 # Project Type Support - Phase 2: Integration Testing
 
-**Feature:** Add `project_type` parameter support  
-**Phase:** 2 of 2  
-**Status:** 🔴 Not Started  
-**Estimated Effort:** ~1 hour  
-**Created:** 2025-12-23  
-**Last Updated:** 2025-12-23  
+**Feature:** Add `project_type` parameter support
+**Phase:** 2 of 2
+**Status:** 🔴 Not Started
+**Estimated Effort:** ~1 hour
+**Created:** 2025-12-23
+**Last Updated:** 2025-12-23
 **Dependencies:** Phase 1 complete
 
 ---

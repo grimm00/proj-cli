@@ -1,7 +1,7 @@
 # Feature Development Workflow
 
-**Purpose:** Guide for planning and implementing features  
-**Status:** ✅ Active  
+**Purpose:** Guide for planning and implementing features
+**Status:** ✅ Active
 **Last Updated:** [Date]
 
 ---
@@ -429,7 +429,7 @@ Documents follow hub-and-spoke pattern:
 
 ---
 
-**Last Updated:** [Date]  
-**Status:** ✅ Active  
+**Last Updated:** [Date]
+**Status:** ✅ Active
 **Next:** Create feature plan and start with `/task-phase 1 1`
 

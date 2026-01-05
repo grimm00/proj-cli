@@ -227,22 +227,22 @@ TARGET_BRANCH=""
 # Extract PR number from batch name (PR-specific batches only)
 if [[ "$BATCH_NAME" =~ ^pr([0-9]+)-batch- ]]; then
     SOURCE_PR="${BASH_REMATCH[1]}"
-    
+
     echo "Detected PR-specific batch for PR #$SOURCE_PR"
-    
+
     # Check if PR is open
     PR_INFO=$(gh pr view "$SOURCE_PR" --json state,headRefName 2>/dev/null)
-    
+
     if [ $? -eq 0 ]; then
         PR_STATE=$(echo "$PR_INFO" | jq -r '.state')
         PR_BRANCH=$(echo "$PR_INFO" | jq -r '.headRefName')
-        
+
         # Check priority from fix plan
         PRIORITY=$(grep "^**Priority:**" "$FIX_PLAN_FILE" | sed 's/.*: //' | sed 's/ .*//')
-        
+
         echo "PR State: $PR_STATE"
         echo "Priority: $PRIORITY"
-        
+
         if [[ "$PR_STATE" == "OPEN" ]] && [[ "$PRIORITY" =~ (CRITICAL|HIGH) ]]; then
             echo "✅ Source PR #$SOURCE_PR is OPEN and priority is $PRIORITY"
             echo "📋 Action: Push fixes to PR's branch ($PR_BRANCH)"
@@ -522,19 +522,19 @@ Source PRs: PR #1, PR #2, PR #12"
 
 **For PR-Specific Batches:**
 
-**File:** `docs/maintainers/planning/features/[feature-name]/fix/pr##/[batch-name].md`  
+**File:** `docs/maintainers/planning/features/[feature-name]/fix/pr##/[batch-name].md`
 **OR:** `docs/maintainers/planning/fix/pr##/[batch-name].md` (project-wide)
 
 **For Cross-PR Batches:**
 
-**File:** `docs/maintainers/planning/features/[feature-name]/fix/cross-pr/[batch-name].md`  
+**File:** `docs/maintainers/planning/features/[feature-name]/fix/cross-pr/[batch-name].md`
 **OR:** `docs/maintainers/planning/fix/cross-pr/[batch-name].md` (project-wide)
 
 **Update status:**
 
 ```markdown
-**Status:** ✅ Complete  
-**Completed:** YYYY-MM-DD  
+**Status:** ✅ Complete
+**Completed:** YYYY-MM-DD
 **PR:** #[number]
 ```
 
@@ -595,7 +595,7 @@ Source PRs: PR #1, PR #2, PR #12"
 
 **Update PR Hub:**
 
-**File:** `docs/maintainers/planning/features/[feature-name]/fix/pr##/README.md`  
+**File:** `docs/maintainers/planning/features/[feature-name]/fix/pr##/README.md`
 **OR:** `docs/maintainers/planning/fix/pr##/README.md` (project-wide)
 
 **Update batch status:**
@@ -610,7 +610,7 @@ Source PRs: PR #1, PR #2, PR #12"
 
 **Update Cross-PR Hub:**
 
-**File:** `docs/maintainers/planning/features/[feature-name]/fix/cross-pr/README.md`  
+**File:** `docs/maintainers/planning/features/[feature-name]/fix/cross-pr/README.md`
 **OR:** `docs/maintainers/planning/fix/cross-pr/README.md` (project-wide)
 
 **Update batch status:**
@@ -626,7 +626,7 @@ Source PRs: PR #1, PR #2, PR #12"
 
 **Update main hub:**
 
-**File:** `docs/maintainers/planning/features/[feature-name]/fix/README.md`  
+**File:** `docs/maintainers/planning/features/[feature-name]/fix/README.md`
 **OR:** `docs/maintainers/planning/fix/README.md` (project-wide)
 
 **For PR-Specific Batches:**
@@ -985,7 +985,7 @@ gh pr create --title "fix: [Batch Description] ([batch-name])" \
 
 ---
 
-**Last Updated:** 2025-12-16  
-**Status:** ✅ Active  
+**Last Updated:** 2025-12-16
+**Status:** ✅ Active
 **Next:** Use after `/fix-plan` to implement batches (supports both PR-specific and cross-PR batches, feature-specific and project-wide)
 

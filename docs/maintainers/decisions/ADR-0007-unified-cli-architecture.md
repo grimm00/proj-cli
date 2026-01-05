@@ -1,9 +1,9 @@
 # ADR-0007: Unified CLI Tool Architecture
 
-**Status:** Accepted  
-**Date:** 2025-12-16  
-**Updated:** 2025-12-16  
-**Supersedes:** None  
+**Status:** Accepted
+**Date:** 2025-12-16
+**Updated:** 2025-12-16
+**Supersedes:** None
 **Superseded By:** N/A
 
 ---

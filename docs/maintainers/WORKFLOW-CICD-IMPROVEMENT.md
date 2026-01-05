@@ -1,7 +1,7 @@
 # CI/CD Improvement Workflow
 
-**Purpose:** Guide for improving CI/CD processes and workflows  
-**Status:** ✅ Active  
+**Purpose:** Guide for improving CI/CD processes and workflows
+**Status:** ✅ Active
 **Last Updated:** [Date]
 
 ---
@@ -470,7 +470,7 @@ Documents follow hub-and-spoke pattern:
 
 ---
 
-**Last Updated:** [Date]  
-**Status:** ✅ Active  
+**Last Updated:** [Date]
+**Status:** ✅ Active
 **Next:** Create improvement plan and start with `/task-improvement 1 1 --improvement [name]`
 

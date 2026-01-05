@@ -1,7 +1,7 @@
 # proj-cli - Fix Tracking Hub
 
-**Purpose:** Track and document fixes for the proj-cli feature  
-**Status:** ✅ Active  
+**Purpose:** Track and document fixes for the proj-cli feature
+**Status:** ✅ Active
 **Last Updated:** 2025-12-17
 
 ---
@@ -63,7 +63,7 @@ fix/
 | Deferred | 22 |
 | Enhancements | 3 |
 
-**Note:** 
+**Note:**
 - 7 issues resolved in PR #4 (quick-wins-01 batch)
 - 9 issues resolved in PR #6 (quick-wins-02 batch, 8 fixed + 1 N/A)
 - 4 new issues from PR #6's Sourcery review (all deferred)

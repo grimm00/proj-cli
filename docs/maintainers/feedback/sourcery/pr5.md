@@ -59,7 +59,7 @@ Total Individual Comments: 8 + Overall Comments
          default=default_dir,
      )
      scan_dirs = [d.strip() for d in scan_dirs_str.split(&quot;,&quot;) if d.strip()]
--    
+-
 +
 </code></pre>
 
@@ -214,11 +214,11 @@ def test_cli_no_args_shows_help():
  def test_config_creates_default_on_first_run(mock_xdg_dirs):
      &quot;&quot;&quot;Test that default config is created on first run.&quot;&quot;&quot;
      from proj.config import Config, get_config_file, ensure_dirs
--    
+-
 +
      config_file = get_config_file()
      assert not config_file.exists()
--    
+-
 +
      # Load config (should use defaults)
      config = Config.load()
@@ -267,7 +267,7 @@ def test_config_creates_default_on_first_run(mock_xdg_dirs):
  def test_config_env_override(mock_xdg_dirs, monkeypatch):
      &quot;&quot;&quot;Test environment variable override.&quot;&quot;&quot;
      monkeypatch.setenv(&quot;PROJ_API_URL&quot;, &quot;http://env:9000&quot;)
--    
+-
 +
      from proj.config import Config
      config = Config()

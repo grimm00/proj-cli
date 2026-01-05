@@ -156,9 +156,9 @@ decisions/[topic]/
 ```markdown
 # [Topic Name] - Decisions Hub
 
-**Purpose:** Decisions for [topic description]  
-**Status:** 🔴 Pending  
-**Created:** YYYY-MM-DD  
+**Purpose:** Decisions for [topic description]
+**Status:** 🔴 Pending
+**Created:** YYYY-MM-DD
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -180,7 +180,7 @@ decisions/[topic]/
 
 [Brief description of decisions to be made]
 
-**Decision Points:** [N] decisions  
+**Decision Points:** [N] decisions
 **Status:** 🔴 Pending
 
 ---
@@ -222,8 +222,8 @@ decisions/[topic]/
 ```markdown
 # ADR-[Number]: [Decision Name]
 
-**Status:** [Proposed | Accepted | Deprecated | Superseded]  
-**Created:** YYYY-MM-DD  
+**Status:** [Proposed | Accepted | Deprecated | Superseded]
+**Created:** YYYY-MM-DD
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -351,9 +351,9 @@ decisions/[topic]/
 ```markdown
 # Decisions Summary - [Topic Name]
 
-**Purpose:** Summary of all decisions made  
-**Status:** 🔴 Pending  
-**Created:** YYYY-MM-DD  
+**Purpose:** Summary of all decisions made
+**Status:** 🔴 Pending
+**Created:** YYYY-MM-DD
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -362,7 +362,7 @@ decisions/[topic]/
 
 [Brief summary of decisions made]
 
-**Decision Points:** [N] decisions  
+**Decision Points:** [N] decisions
 **Status:** 🔴 Pending
 
 ---
@@ -428,8 +428,8 @@ decisions/[topic]/
 ```markdown
 # Decisions Hub
 
-**Purpose:** Architecture Decision Records (ADRs)  
-**Status:** ✅ Active  
+**Purpose:** Architecture Decision Records (ADRs)
+**Status:** ✅ Active
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -624,7 +624,7 @@ This directory contains Architecture Decision Records (ADRs) documenting key dec
 
 ---
 
-**Last Updated:** 2025-12-07  
-**Status:** ✅ Active  
+**Last Updated:** 2025-12-07
+**Status:** ✅ Active
 **Next:** Use to make decisions based on research findings, creating one ADR per decision point
 

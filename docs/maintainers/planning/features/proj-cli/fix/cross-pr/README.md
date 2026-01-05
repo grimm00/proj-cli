@@ -1,7 +1,7 @@
 # Cross-PR Fix Batches
 
-**Purpose:** Fix batches created from fix-review reports across multiple PRs  
-**Status:** ✅ Active  
+**Purpose:** Fix batches created from fix-review reports across multiple PRs
+**Status:** ✅ Active
 **Last Updated:** 2025-12-18
 
 ---
@@ -17,8 +17,8 @@
 
 ## 📊 Summary
 
-**Total Batches:** 2  
-**Total Issues:** 16 (16 complete, 0 pending)  
+**Total Batches:** 2
+**Total Issues:** 16 (16 complete, 0 pending)
 **Source PRs:** #1, #2, #3, #4, #5
 
 **Priority Breakdown:**

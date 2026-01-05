@@ -85,3 +85,4 @@ def test_init_command_force_overwrites(mock_xdg_dirs):
         assert loaded.api_url == "http://new:8000"
         assert loaded.github_username == "newuser"
 
+

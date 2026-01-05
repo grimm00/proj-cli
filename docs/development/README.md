@@ -1,7 +1,7 @@
 # Development Guide
 
-**Purpose:** Development setup and contribution guidelines  
-**Status:** 🔴 Not Started  
+**Purpose:** Development setup and contribution guidelines
+**Status:** 🔴 Not Started
 **Last Updated:** 2025-12-16
 
 ---
@@ -109,7 +109,8 @@ scope: cli, config, api, inv, etc.
 
 ---
 
-**Last Updated:** 2025-12-16  
-**Status:** 🔴 Not Started  
+**Last Updated:** 2025-12-16
+**Status:** 🔴 Not Started
 **Next:** Add contribution guidelines
+
 

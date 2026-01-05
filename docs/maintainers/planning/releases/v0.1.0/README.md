@@ -1,10 +1,10 @@
 # Release v0.1.0 - Initial Release
 
-**Version:** v0.1.0  
-**Status:** ✅ Released  
-**Release Date:** 2025-12-18  
-**Created:** 2025-12-18  
-**Source:** proj-cli feature development  
+**Version:** v0.1.0
+**Status:** ✅ Released
+**Release Date:** 2025-12-18
+**Created:** 2025-12-18
+**Source:** proj-cli feature development
 **Type:** Minor Release (Initial)
 
 ---
@@ -19,8 +19,8 @@
 
 ## 📊 Release Summary
 
-**Version:** v0.1.0 - Initial Release  
-**Release Date:** 2025-12-18  
+**Version:** v0.1.0 - Initial Release
+**Release Date:** 2025-12-18
 **Status:** ✅ Released
 
 **Key Features:**

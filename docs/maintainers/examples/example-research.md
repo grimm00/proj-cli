@@ -1,16 +1,16 @@
 # Example: User Authentication Methods - Research
 
-**Research Topic:** User Authentication  
-**Question:** What authentication methods are available for our tech stack?  
-**Status:** 🔴 Research  
-**Created:** [Date]  
+**Research Topic:** User Authentication
+**Question:** What authentication methods are available for our tech stack?
+**Status:** 🔴 Research
+**Created:** [Date]
 **Last Updated:** [Date]
 
 ---
 
 ## 🎯 Research Question
 
-<!-- 
+<!--
   RESEARCH QUESTION:
   State the specific question you're researching.
   This should be clear and focused on a single topic.
@@ -22,7 +22,7 @@ What authentication methods are available for our tech stack? How do they compar
 
 ## 🔍 Research Goals
 
-<!-- 
+<!--
   RESEARCH GOALS:
   List what you want to learn from this research.
   These goals guide your research process.
@@ -37,7 +37,7 @@ What authentication methods are available for our tech stack? How do they compar
 
 ## 📚 Research Methodology
 
-<!-- 
+<!--
   RESEARCH METHODOLOGY:
   Document your research approach.
   What sources will you use? What methods will you employ?
@@ -59,7 +59,7 @@ What authentication methods are available for our tech stack? How do they compar
 
 ## 📊 Findings
 
-<!-- 
+<!--
   FINDINGS:
   Document your research findings with sources.
   Include analysis and comparisons where relevant.
@@ -161,7 +161,7 @@ What authentication methods are available for our tech stack? How do they compar
 
 ## 🔍 Analysis
 
-<!-- 
+<!--
   ANALYSIS:
   Synthesize your findings.
   Compare options, identify trade-offs, and highlight key insights.
@@ -185,7 +185,7 @@ What authentication methods are available for our tech stack? How do they compar
 
 ## 💡 Recommendations
 
-<!-- 
+<!--
   RECOMMENDATIONS:
   Provide actionable recommendations based on your research.
   These will inform the decision phase.
@@ -200,7 +200,7 @@ What authentication methods are available for our tech stack? How do they compar
 
 ## 📋 Requirements Discovered
 
-<!-- 
+<!--
   REQUIREMENTS:
   Extract requirements discovered during research.
   These will be documented in requirements.md file.
@@ -231,7 +231,7 @@ What authentication methods are available for our tech stack? How do they compar
 
 ## 🚀 Next Steps
 
-<!-- 
+<!--
   NEXT STEPS:
   Document what should happen next.
   Typically, this leads to the decision phase.
@@ -246,7 +246,7 @@ What authentication methods are available for our tech stack? How do they compar
 
 ## 📝 Notes
 
-<!-- 
+<!--
   ADDITIONAL NOTES:
   Include any additional context, constraints, or information.
   This can include implementation details, edge cases, or other relevant information.

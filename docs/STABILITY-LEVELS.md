@@ -1,6 +1,6 @@
 # Stability Levels
 
-**Purpose:** Communicate the maturity of features and commands  
+**Purpose:** Communicate the maturity of features and commands
 **Last Updated:** 2025-12-15
 
 ---
@@ -113,8 +113,8 @@ Commands display their stability level in the header:
 ```markdown
 # Command Name
 
-**Status:** 🟠 Experimental  
-**Stability:** Evolving - may change without notice  
+**Status:** 🟠 Experimental
+**Stability:** Evolving - may change without notice
 **Feedback:** [Create issue](link)
 
 > ⚠️ **Experimental Command**: This command is under active development...

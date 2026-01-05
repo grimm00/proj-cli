@@ -1,9 +1,9 @@
 # Dev-Infra Template Improvements
 
-**Source:** proj-cli - All Phases (1, 3, 4) + Quick Wins 01  
-**Target:** dev-infra template  
-**Status:** ✅ Complete  
-**Created:** 2025-12-17  
+**Source:** proj-cli - All Phases (1, 3, 4) + Quick Wins 01
+**Target:** dev-infra template
+**Status:** ✅ Complete
+**Created:** 2025-12-17
 **Last Updated:** 2025-12-17
 
 ---
@@ -12,7 +12,7 @@
 
 This document consolidates all actionable improvements for the dev-infra template based on learnings from proj-cli development across 4 phases and 1 fix batch. Improvements are organized by category with clear actions, locations, and priorities.
 
-**Total Items:** 33 improvements  
+**Total Items:** 33 improvements
 **Categories:** 6
 
 ---
@@ -30,7 +30,7 @@ These improvements add CLI-specific patterns and documentation to the dev-infra 
   - **Content/Example:**
     ```python
     app = typer.Typer(name="[tool]", no_args_is_help=True)
-    
+
     class Config(BaseSettings):
         model_config = SettingsConfigDict(env_prefix="[TOOL]_")
     ```
@@ -62,7 +62,7 @@ These improvements add CLI-specific patterns and documentation to the dev-infra 
     ```python
     with Progress(...) as progress:
         # All progress updates here
-        
+
     # After context exits, spinner is gone
     console.print("[green]✓ Complete[/green]")
     ```
@@ -128,7 +128,7 @@ These improvements add CLI-specific patterns and documentation to the dev-infra 
     ```python
     from typer.testing import CliRunner
     runner = CliRunner()
-    
+
     @patch("module.APIClient")
     def test_command(mock_client):
         result = runner.invoke(app, ["command"])
@@ -171,7 +171,7 @@ These improvements add testing patterns and fixtures for CLI projects.
     ## Existence Testing
     Tests that command exists: `--help` returns 0
     Good for: TDD command structure, registration verification
-    
+
     ## Behavior Testing
     Tests actual command behavior with mocked dependencies
     Good for: Regression protection, logic verification
@@ -223,7 +223,7 @@ These improvements add testing patterns and fixtures for CLI projects.
     # BAD - hides assertion failures
     except Exception:
         pytest.skip("API unavailable")
-    
+
     # GOOD - specific exceptions only
     except requests.ConnectionError:
         pytest.skip("API unavailable")
@@ -280,7 +280,7 @@ These improvements add configuration patterns for CLI tools.
     ```python
     def get_xdg_config_home() -> Path:
         return Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config"))
-    
+
     def get_config_dir() -> Path:
         return get_xdg_config_home() / "tool"
     ```
@@ -300,7 +300,7 @@ These improvements add configuration patterns for CLI tools.
     2. Environment variables
     3. Config file values
     4. Defaults (lowest)
-    
+
     Note: Config.load() passes file values as kwargs
     ```
   - **Expected Impact:** Clear config loading behavior
@@ -318,7 +318,7 @@ These improvements add configuration patterns for CLI tools.
     1. Store data locally in XDG data dir
     2. Work offline with local data
     3. Sync to remote API when ready
-    
+
     Example: ~/.local/share/tool/data.json
     ```
   - **Expected Impact:** Better offline CLI experience
@@ -554,7 +554,7 @@ These improvements modify the template's project structure.
     Remove these directories:
     - backend/
     - frontend/
-    
+
     Update these files:
     - README.md (remove web app references)
     - .github/workflows/ (simplify to Python-only)
@@ -572,7 +572,7 @@ These improvements modify the template's project structure.
     ```toml
     [project.scripts]
     tool = "package.cli:app"
-    
+
     [tool.setuptools.packages.find]
     where = ["src"]
     ```

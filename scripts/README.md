@@ -1,7 +1,7 @@
 # Scripts
 
-**Purpose:** Automation and utility scripts  
-**Status:** 🔴 Not Started  
+**Purpose:** Automation and utility scripts
+**Status:** 🔴 Not Started
 **Last Updated:** {{CURRENT_DATE}}
 
 ---
@@ -40,6 +40,6 @@ scripts/
 
 ---
 
-**Last Updated:** {{CURRENT_DATE}}  
-**Status:** 🔴 Not Started  
+**Last Updated:** {{CURRENT_DATE}}
+**Status:** 🔴 Not Started
 **Next:** [Build Scripts](build/README.md)

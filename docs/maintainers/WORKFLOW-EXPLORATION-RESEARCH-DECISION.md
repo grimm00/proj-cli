@@ -1,7 +1,7 @@
 # Exploration/Research/Decision Workflow
 
-**Purpose:** Guide for discovery and decision-making workflow  
-**Status:** ✅ Active  
+**Purpose:** Guide for discovery and decision-making workflow
+**Status:** ✅ Active
 **Last Updated:** [Date]
 
 ---
@@ -396,7 +396,7 @@ You can revisit any phase:
 
 ---
 
-**Last Updated:** [Date]  
-**Status:** ✅ Active  
+**Last Updated:** [Date]
+**Status:** ✅ Active
 **Next:** Start with `/explore [topic]` to begin exploration
 

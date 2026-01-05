@@ -1,7 +1,7 @@
 # Planning Hub
 
-**Purpose:** Central coordination for project planning and roadmap management  
-**Status:** ✅ Active  
+**Purpose:** Central coordination for project planning and roadmap management
+**Status:** ✅ Active
 **Last Updated:** [Date]
 
 ---
@@ -148,6 +148,6 @@ planning/
 
 ---
 
-**Last Updated:** [Date]  
-**Status:** ✅ Active  
+**Last Updated:** [Date]
+**Status:** ✅ Active
 **Next:** [Next planning task]

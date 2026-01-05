@@ -114,7 +114,7 @@ gh pr view [pr-number] --json state,title,headRefName
    ```bash
    # Restore all unrelated files (adjust paths as needed)
    git restore [unrelated-file-1] [unrelated-file-2] ...
-   
+
    # Or restore all modified files except phase-specific ones
    git restore $(git diff --name-only | grep -v "phase-[N]\.md\|[relevant-files]")
    ```
@@ -386,9 +386,9 @@ ls docs/maintainers/planning/features/[feature-name]/manual-testing.md
 ```markdown
 # Manual Testing Guide - [Feature Name]
 
-**Feature:** [Feature Name]  
-**Phases Covered:** [List phases]  
-**Last Updated:** [YYYY-MM-DD]  
+**Feature:** [Feature Name]
+**Phases Covered:** [List phases]
+**Last Updated:** [YYYY-MM-DD]
 **Status:** ✅ Active
 
 ---
@@ -537,7 +537,7 @@ This guide provides step-by-step instructions for manually verifying the [featur
    ```bash
    # Run curl command from scenario
    curl [endpoint] [options]
-   
+
    # Verify response matches expected
    # Check status code, JSON structure, values
    ```
@@ -546,10 +546,10 @@ This guide provides step-by-step instructions for manually verifying the [featur
    ```bash
    # Navigate to CLI directory (project-specific)
    cd [cli-directory]
-   
+
    # Run CLI command from scenario
    [project-cli] [command] [options]
-   
+
    # Verify output matches expected
    # Check formatting, values, error messages
    ```
@@ -955,7 +955,7 @@ Verify with health check (project-specific):
 
 ---
 
-**Last Updated:** 2025-12-16  
-**Status:** ✅ Active  
+**Last Updated:** 2025-12-16
+**Status:** ✅ Active
 **Next:** Use when PR is open to validate features, run reviews, and update documentation (supports conditional manual testing based on PR type, enforces manual testing guide creation for human users)
 

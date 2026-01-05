@@ -1,10 +1,10 @@
 # Project Type Support - Feature Hub
 
-**Purpose:** Add `project_type` parameter support to proj-cli  
-**Status:** 🟡 Ready to Start  
-**Created:** 2025-12-23  
-**Last Updated:** 2025-12-29  
-**Owner:** proj-cli  
+**Purpose:** Add `project_type` parameter support to proj-cli
+**Status:** 🟡 Ready to Start
+**Created:** 2025-12-23
+**Last Updated:** 2025-12-29
+**Owner:** proj-cli
 **Dependency:** ✅ work-prod `project-type-field` complete (PR #42, 2025-12-29)
 
 ---
@@ -77,8 +77,8 @@ Update proj-cli to support filtering projects by `project_type` when work-prod i
 
 ## 📋 Handoff from work-prod
 
-**Date:** 2025-12-29  
-**From:** work-prod  
+**Date:** 2025-12-29
+**From:** work-prod
 **To:** proj-cli
 
 **work-prod Deliverables (Complete):**

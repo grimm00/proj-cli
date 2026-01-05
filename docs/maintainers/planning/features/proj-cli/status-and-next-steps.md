@@ -1,8 +1,8 @@
 # proj-cli - Status and Next Steps
 
-**Feature:** Unified CLI Tool  
-**Status:** ✅ Complete  
-**Current Phase:** All Phases Complete  
+**Feature:** Unified CLI Tool
+**Status:** ✅ Complete
+**Current Phase:** All Phases Complete
 **Last Updated:** 2025-12-17
 
 ---
@@ -91,7 +91,7 @@
 
 1. **Clean up work-prod** ✅ (work-prod PR #38):
    - ✅ Removed `scripts/project_cli/` directory
-   - ✅ Removed `scripts/inventory/` directory  
+   - ✅ Removed `scripts/inventory/` directory
    - ✅ Updated work-prod README with proj-cli reference
    - This was Task 5 from Phase 4, done as separate PR
 

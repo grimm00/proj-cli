@@ -1,10 +1,10 @@
 # Project Type Support - Feature Plan
 
-**Feature:** Add `project_type` parameter support  
-**Status:** 🟡 Ready to Start  
-**Created:** 2025-12-23  
-**Last Updated:** 2025-12-29  
-**Owner:** proj-cli  
+**Feature:** Add `project_type` parameter support
+**Status:** 🟡 Ready to Start
+**Created:** 2025-12-23
+**Last Updated:** 2025-12-29
+**Owner:** proj-cli
 **Dependency:** ✅ Satisfied (work-prod PR #42, 2025-12-29)
 
 ---
