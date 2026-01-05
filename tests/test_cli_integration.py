@@ -1,4 +1,5 @@
 """Integration tests for CLI commands using CliRunner."""
+import yaml
 from unittest.mock import Mock, patch
 
 import pytest
@@ -169,4 +170,29 @@ def test_cli_inv_status_command_with_data(mock_xdg_dirs):
     result = runner.invoke(app, ["inv", "status"])
     assert result.exit_code == 0
     assert "1" in result.stdout or "Total Projects" in result.stdout
+
+
+def test_init_creates_config_with_new_fields(tmp_path, monkeypatch):
+    """Test that proj init creates config with new fields."""
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
+
+    # Run init command with defaults (send newlines to accept defaults)
+    result = runner.invoke(
+        app,
+        ["init", "--force"],
+        input="\n\n\n",  # Accept defaults for all prompts
+    )
+    assert result.exit_code == 0
+
+    from proj.config import get_config_file
+    config_file = get_config_file()
+    assert config_file.exists()
+
+    with open(config_file) as f:
+        saved = yaml.safe_load(f)
+
+    assert 'api_enabled' in saved
+    assert 'templates' in saved
+    assert 'registry' in saved
+    assert 'default_project_dir' in saved
 
