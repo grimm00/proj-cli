@@ -47,11 +47,12 @@
 - **Status:** ✅ Complete
 - **Issues:** 1
 - **Completed:** 2025-01-05
+- **Fix PR:** [#9](https://github.com/grimm00/proj-cli/pull/9)
 - **File:** [batch-high-low-01.md](batch-high-low-01.md)
 
 **Issue:**
 
-- PR8-#3: Test isolation for XDG_CONFIG_HOME
+- PR8-#3: Test isolation for XDG_CONFIG_HOME ✅ Fixed in PR #9
 
 ---
 
