@@ -190,3 +190,54 @@ def test_save_registry_creates_valid_json(tmp_path, monkeypatch):
     assert data["projects"][0]["path"] == "/Users/me/Projects/my-project"
     assert data["projects"][0]["template"] == "standard-project"
 
+
+def test_add_project_to_registry(tmp_path, monkeypatch):
+    """Test adding a project to the registry."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import add_project, load_registry
+    from pathlib import Path
+
+    project = add_project(
+        path=Path("/Users/me/Projects/my-project"),
+        template="standard-project",
+        template_version="0.8.0",
+    )
+
+    assert project.path == Path("/Users/me/Projects/my-project")
+    assert project.template == "standard-project"
+    assert project.created_at is not None  # Timestamp set
+
+    # Verify persisted
+    registry = load_registry()
+    assert len(registry.projects) == 1
+    assert registry.projects[0].path == Path("/Users/me/Projects/my-project")
+
+
+def test_add_project_prevents_duplicates(tmp_path, monkeypatch):
+    """Test that adding duplicate path raises error."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import add_project, load_registry
+    from pathlib import Path
+    import pytest
+
+    # Add first project
+    add_project(
+        path=Path("/Users/me/Projects/my-project"),
+        template="standard-project",
+        template_version="0.8.0",
+    )
+
+    # Try to add duplicate - should raise
+    with pytest.raises(ValueError, match="already registered"):
+        add_project(
+            path=Path("/Users/me/Projects/my-project"),
+            template="standard-project",
+            template_version="0.9.0",
+        )
+
+    # Verify only one project
+    registry = load_registry()
+    assert len(registry.projects) == 1
+

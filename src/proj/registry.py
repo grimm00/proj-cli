@@ -99,3 +99,43 @@ def save_registry(registry: Registry) -> None:
     with open(registry_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2)
 
+
+def add_project(
+    path: Path,
+    template: str,
+    template_version: str,
+) -> RegistryProject:
+    """Add a new project to the registry for sync tracking.
+
+    Note: This only adds to registry. Caller should also add to inventory.
+    
+    Args:
+        path: Project path (cross-reference key to inventory)
+        template: Template type used
+        template_version: Template version for sync
+        
+    Returns:
+        RegistryProject instance that was added
+        
+    Raises:
+        ValueError: If project at path is already registered
+    """
+    registry = load_registry()
+
+    # Check for duplicates
+    for existing in registry.projects:
+        if existing.path == path:
+            raise ValueError(f"Project at {path} already registered")
+
+    project = RegistryProject(
+        path=path,
+        template=template,
+        template_version=template_version,
+        created_at=datetime.now(),
+    )
+
+    registry.projects.append(project)
+    save_registry(registry)
+
+    return project
+
