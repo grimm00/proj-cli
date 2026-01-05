@@ -68,3 +68,32 @@ def test_config_api_enabled_env_override():
         from proj.config import Config
         config = Config.load()
         assert config.api_enabled is False
+
+
+def test_config_has_templates_nested():
+    """Test that config has templates nested config."""
+    from proj.config import Config
+    config = Config.load()
+    assert hasattr(config, 'templates')
+
+
+def test_config_templates_source_default_none():
+    """Test templates.source defaults to None."""
+    from proj.config import Config
+    config = Config.load()
+    assert config.templates.source is None
+
+
+def test_config_templates_default_value():
+    """Test templates.default is standard-project."""
+    from proj.config import Config
+    config = Config.load()
+    assert config.templates.default == "standard-project"
+
+
+def test_config_templates_source_env_override():
+    """Test PROJ_TEMPLATES__SOURCE environment variable."""
+    with patch.dict(os.environ, {"PROJ_TEMPLATES__SOURCE": "/path/to/templates"}):
+        from proj.config import Config
+        config = Config.load()
+        assert str(config.templates.source) == "/path/to/templates"

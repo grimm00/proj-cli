@@ -35,6 +35,24 @@ def get_config_file() -> Path:
     return get_config_dir() / "config.yaml"
 
 
+class TemplateConfig(BaseSettings):
+    """Template-related configuration."""
+
+    model_config = SettingsConfigDict(
+        env_prefix="PROJ_TEMPLATES_",
+        extra="ignore",
+    )
+
+    source: Optional[Path] = Field(
+        default=None,
+        description="Path to dev-infra templates directory",
+    )
+    default: str = Field(
+        default="standard-project",
+        description="Default template type",
+    )
+
+
 class Config(BaseSettings):
     """Application configuration with environment variable support."""
 
@@ -42,6 +60,7 @@ class Config(BaseSettings):
         env_prefix="PROJ_",
         env_file=".env",
         extra="ignore",
+        env_nested_delimiter="__",  # For nested config (PROJ_TEMPLATES__SOURCE)
     )
 
     # API Settings
@@ -69,6 +88,9 @@ class Config(BaseSettings):
         default_factory=lambda: [str(Path.home() / "Projects")],
         description="Directories to scan for local projects",
     )
+
+    # Template Settings
+    templates: TemplateConfig = Field(default_factory=TemplateConfig)
 
     @classmethod
     def load(cls) -> "Config":
