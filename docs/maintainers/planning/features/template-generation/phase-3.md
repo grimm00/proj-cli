@@ -652,8 +652,8 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 1. **RED - Write failing tests:**
 
-   - [ ] Add tests for `copy_template()` function
-   - [ ] Verify tests fail
+   - [x] Add tests for `copy_template()` function
+   - [x] Verify tests fail
 
    **Test code:**
 
@@ -762,9 +762,9 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 2. **GREEN - Implement:**
 
-   - [ ] Define `ProjectExistsError` exception
-   - [ ] Implement `copy_template()` function using `shutil.copytree`
-   - [ ] Run tests, verify they pass
+   - [x] Define `ProjectExistsError` exception
+   - [x] Implement `copy_template()` function using `shutil.copytree`
+   - [x] Run tests, verify they pass
 
    **Implementation:**
 
@@ -811,16 +811,16 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 3. **REFACTOR:**
 
-   - [ ] Review for robustness
-   - [ ] Consider adding verification step
+   - [x] Review for robustness
+   - [x] Consider adding verification step
 
 **Checklist:**
 
-- [ ] Template copying tests added
-- [ ] `ProjectExistsError` defined
-- [ ] `copy_template()` implemented
-- [ ] Hidden files and directories copied
-- [ ] Directory structure preserved
+- [x] Template copying tests added
+- [x] `ProjectExistsError` defined
+- [x] `copy_template()` implemented
+- [x] Hidden files and directories copied
+- [x] Directory structure preserved
 
 ---
 
