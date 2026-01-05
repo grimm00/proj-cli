@@ -22,50 +22,48 @@
 
 ## 🎯 Current Focus
 
-**Stage:** Phase 1 Expanded - Ready for Implementation
+**Stage:** Phase 1 Complete - Ready for Phase 2
 
-Phase 1 (Config Extension) has been expanded with:
-- 6 detailed TDD tasks
-- Code examples for tests and implementation
-- Progress tracking table
-- Testing commands
+Phase 1 (Config Extension) is complete:
+- ✅ All 6 TDD tasks implemented
+- ✅ 16 tests passing
+- ✅ PR #8 merged (2025-01-05)
+- ✅ Sourcery review complete (8 comments, all LOW/MEDIUM deferred)
 
-**Next action:** Implement Phase 1 using TDD workflow.
+**Next action:** Expand Phase 2 and begin implementation.
 
 ---
 
 ## 🚀 Immediate Next Steps
 
-### 1. Implement Phase 1
-
-```bash
-/task-phase template-generation 1
-```
-
-This will:
-- Follow TDD workflow (RED → GREEN → REFACTOR)
-- Complete 6 tasks for config extension
-- Create commits for each task
-- Update phase status
-
-### 2. Create PR
-
-```bash
-/pr --phase 1
-```
-
-- Create PR for Phase 1 work
-- Include test results
-- Request review
-
-### 3. Expand Phase 2 (After PR)
+### 1. Expand Phase 2
 
 ```bash
 /transition-plan template-generation --expand --phase 2
 ```
 
-- Expand Local Registry phase
+- Expand Local Registry phase with detailed TDD tasks
 - Prepare for next implementation cycle
+
+### 2. Implement Phase 2
+
+```bash
+/task-phase template-generation 2
+```
+
+- Follow TDD workflow (RED → GREEN → REFACTOR)
+- Complete local registry functionality
+- Create commits for each task
+
+### 3. Create PR
+
+```bash
+/pr --phase 2
+```
+
+- Create PR for Phase 2 work
+- Include test results
+- Request review
 
 ---
 
@@ -76,19 +74,19 @@ This will:
 | Category | Total | Complete | Remaining |
 |----------|-------|----------|-----------|
 | Command (CREATE) | 4 | 0 | 4 |
-| Config (CONFIG) | 4 | 0 | 4 |
+| Config (CONFIG) | 4 | 3 | 1 |
 | Template (TMPL) | 3 | 0 | 3 |
-| Registry (REG) | 4 | 0 | 4 |
+| Registry (REG) | 4 | 1 | 3 |
 | Port (PORT) | 4 | 0 | 4 |
-| **Total** | **19** | **0** | **19** |
+| **Total** | **19** | **4** | **15** |
 
 ### Non-Functional Requirements (8)
 
 | Requirement | Priority | Status |
 |-------------|----------|--------|
 | NFR-CREATE-1 | High | 🔴 |
-| NFR-CONFIG-1 | Medium | 🔴 |
-| NFR-CONFIG-2 | Medium | 🔴 |
+| NFR-CONFIG-1 | Medium | ✅ |
+| NFR-CONFIG-2 | Medium | ✅ |
 | NFR-TMPL-1 | High | 🔴 |
 | NFR-TMPL-2 | Medium | 🔴 |
 | NFR-REG-1 | Medium | 🔴 |
@@ -101,7 +99,7 @@ This will:
 
 | Phase | Effort | Status |
 |-------|--------|--------|
-| Phase 1: Config Extension | ~2 hrs | 🔴 Not Started |
+| Phase 1: Config Extension | ~2 hrs | ✅ Complete (PR #8) |
 | Phase 2: Local Registry | ~2 hrs | 🔴 Not Started |
 | Phase 3: Template Copying | ~3 hrs | 🔴 Not Started |
 | Phase 4: Create Command Extension | ~3 hrs | 🔴 Not Started |
@@ -114,13 +112,17 @@ This will:
 
 ### 2025-01-05
 
-- ✅ **Phase 1: Config Extension** ✅ Complete - All 6 tasks implemented
-  - Task 1: api_enabled field
-  - Task 2: TemplateConfig nested model
-  - Task 3: RegistryConfig nested model
-  - Task 4: default_project_dir field
-  - Task 5: YAML serialization
-  - Task 6: proj init update
+- ✅ **Phase 1: Config Extension - MERGED** (PR #8)
+  - All 6 TDD tasks implemented
+  - 16 tests passing (config + CLI integration)
+  - Sourcery review complete (8 comments, all deferred)
+  - Tasks completed:
+    - Task 1: api_enabled field
+    - Task 2: TemplateConfig nested model
+    - Task 3: RegistryConfig nested model
+    - Task 4: default_project_dir field
+    - Task 5: YAML serialization
+    - Task 6: proj init update
 - ✅ ADR-0008 created
 - ✅ Requirements documented (19 FR + 8 NFR)
 - ✅ Research completed
@@ -141,7 +143,7 @@ This will:
 ---
 
 **Last Updated:** 2025-01-05  
-**Status:** ✅ Phase 1 Complete  
-**Next:** Create PR with `/pr --phase 1`, then expand Phase 2
+**Status:** ✅ Phase 1 Complete (PR #8 merged)  
+**Next:** Expand Phase 2 with `/transition-plan template-generation --expand --phase 2`
 
 
