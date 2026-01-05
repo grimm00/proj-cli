@@ -46,3 +46,25 @@ def test_config_env_override():
         # Force reload by creating new instance
         config = Config.load()
         assert config.api_url == "http://test:8000"
+
+
+def test_config_has_api_enabled():
+    """Test that config has api_enabled setting."""
+    from proj.config import Config
+    config = Config.load()
+    assert hasattr(config, 'api_enabled')
+
+
+def test_config_api_enabled_default_true():
+    """Test default api_enabled is True."""
+    from proj.config import Config
+    config = Config.load()
+    assert config.api_enabled is True
+
+
+def test_config_api_enabled_env_override():
+    """Test PROJ_API_ENABLED environment variable override."""
+    with patch.dict(os.environ, {"PROJ_API_ENABLED": "false"}):
+        from proj.config import Config
+        config = Config.load()
+        assert config.api_enabled is False

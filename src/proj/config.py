@@ -49,6 +49,10 @@ class Config(BaseSettings):
         default="http://localhost:5000",
         description="URL of the work-prod API",
     )
+    api_enabled: bool = Field(
+        default=True,
+        description="Whether to use the work-prod API",
+    )
 
     # GitHub Settings
     github_token: Optional[str] = Field(
