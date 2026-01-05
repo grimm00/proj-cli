@@ -832,8 +832,8 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 1. **RED - Write failing tests:**
 
-   - [ ] Add tests for `replace_placeholders()` function
-   - [ ] Verify tests fail
+   - [x] Add tests for `replace_placeholders()` function
+   - [x] Verify tests fail
 
    **Test code:**
 
@@ -962,9 +962,9 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 2. **GREEN - Implement:**
 
-   - [ ] Implement `replace_placeholders()` function
-   - [ ] Handle multiple placeholder types
-   - [ ] Run tests, verify they pass
+   - [x] Implement `replace_placeholders()` function
+   - [x] Handle multiple placeholder types
+   - [x] Run tests, verify they pass
 
    **Implementation:**
 
@@ -1022,14 +1022,14 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 3. **REFACTOR:**
 
-   - [ ] Consider making placeholder patterns configurable
-   - [ ] Add handling for additional files (package.json)
+   - [x] Consider making placeholder patterns configurable (deferred - current implementation is robust)
+   - [x] Add handling for additional files (package.json) (deferred - not in current requirements)
 
 **Checklist:**
 
-- [ ] Placeholder replacement tests added
-- [ ] `replace_placeholders()` implemented
-- [ ] README.md placeholders replaced
+- [x] Placeholder replacement tests added
+- [x] `replace_placeholders()` implemented
+- [x] README.md placeholders replaced
 - [ ] start.txt placeholders replaced
 - [ ] Handles missing files gracefully
 
