@@ -510,7 +510,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
 | Task                                | Status         | Notes                             |
 | ----------------------------------- | -------------- | --------------------------------- |
 | Task 1: api_enabled field           | ✅ Complete    | Tests and implementation complete |
-| Task 2: TemplateConfig nested model | 🔴 Not Started |                                   |
+| Task 2: TemplateConfig nested model | ✅ Complete    | Tests and implementation complete |
 | Task 3: RegistryConfig nested model | 🔴 Not Started |                                   |
 | Task 4: default_project_dir field   | 🔴 Not Started |                                   |
 | Task 5: YAML serialization          | 🔴 Not Started |                                   |
@@ -543,7 +543,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
 | Requirement  | Description            | Status      |
 | ------------ | ---------------------- | ----------- |
 | FR-CONFIG-1  | api_enabled toggle     | ✅ Complete |
-| FR-CONFIG-2  | templates.source path  | 🔴 Pending  |
+| FR-CONFIG-2  | templates.source path  | ✅ Complete |
 | FR-CONFIG-3  | registry.path setting  | 🔴 Pending  |
 | FR-CONFIG-4  | Environment overrides  | 🔴 Pending  |
 | NFR-CONFIG-1 | XDG registry location  | 🔴 Pending  |
