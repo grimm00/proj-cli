@@ -2,7 +2,7 @@
 
 **Feature:** Template Generation Extension  
 **Last Updated:** 2026-01-05  
-**Overall Status:** ✅ Phase 2 Complete
+**Overall Status:** ✅ Phase 3 Expanded
 
 ---
 
@@ -11,18 +11,18 @@
 | Phase | Name | Status | Progress | Notes |
 |-------|------|--------|----------|-------|
 | 1 | Config Extension | ✅ Complete | 100% | All 6 tasks complete |
-| 2 | Local Registry | 🟠 In Progress | 0% impl | Task 1 starting |
-| 3 | Template Copying | 🔴 Scaffolding | 0% | Needs expansion |
+| 2 | Local Registry | ✅ Complete | 100% | All 8 tasks complete |
+| 3 | Template Copying | ✅ Expanded | 0% impl | 8 TDD tasks ready |
 | 4 | Create Command Extension | 🔴 Scaffolding | 0% | Needs expansion |
 | 5 | Testing & Polish | 🔴 Scaffolding | 0% | Needs expansion |
 
-**Overall Progress:** ~50% (2/5 phases complete)
+**Overall Progress:** ~40% (2/5 phases complete, Phase 3 ready)
 
 ---
 
 ## 🎯 Current Focus
 
-**Stage:** Phase 2 Merged - Ready for Phase 3 Expansion
+**Stage:** Phase 3 Expanded - Ready for Implementation
 
 Phase 1 (Config Extension) is complete:
 - ✅ All 6 TDD tasks implemented
@@ -39,34 +39,45 @@ Phase 2 (Local Registry) is complete:
 - ✅ PR #10 merged (2026-01-05)
 - ✅ Sourcery review complete (all HIGH issues fixed before merge)
 
-**Next action:** Expand Phase 3 (Template Copying).
+Phase 3 (Template Copying) is expanded:
+- ✅ 8 TDD tasks defined
+- ✅ Detailed test code and implementation examples
+- ✅ Ports logic from dev-infra's `new-project.sh`
+- 🔴 Implementation not started
+
+**Next action:** Begin Phase 3 implementation with `/task-phase 3 1`.
 
 ---
 
 ## 🚀 Immediate Next Steps
 
-### 1. Expand Phase 3
-
-```bash
-/transition-plan template-generation --expand --phase 3
-```
-
-- Expand Template Copying phase
-- Add detailed TDD tasks
-- Prepare for next implementation cycle
-
-### 2. Implement Phase 3
+### 1. Implement Phase 3
 
 ```bash
 /task-phase 3 1
 ```
 
-- Begin implementation with Task 1
+- Begin implementation with Task 1 (Name Validation)
 - Follow TDD workflow (RED → GREEN → REFACTOR)
+- 8 tasks total: name validation, sanitization, directory validation,
+  template discovery, template copying, placeholder replacement,
+  high-level function, config integration
 
-### 3. Create PR for Phase 3
+### 2. Create PR for Phase 3
 
-After all tasks complete, create PR for review.
+After all tasks complete:
+
+```bash
+/pr --phase 3
+```
+
+### 3. Expand Phase 4
+
+After Phase 3 merged:
+
+```bash
+/transition-plan template-generation --expand --phase 4
+```
 
 ---
 
@@ -103,10 +114,10 @@ After all tasks complete, create PR for review.
 | Phase | Effort | Status |
 |-------|--------|--------|
 | Phase 1: Config Extension | ~2 hrs | ✅ Complete (PR #8) |
-| Phase 2: Local Registry | ~2 hrs | ✅ Expanded |
-| Phase 3: Template Copying | ~3 hrs | 🔴 Not Started |
-| Phase 4: Create Command Extension | ~3 hrs | 🔴 Not Started |
-| Phase 5: Testing & Polish | ~2 hrs | 🔴 Not Started |
+| Phase 2: Local Registry | ~2 hrs | ✅ Complete (PR #10) |
+| Phase 3: Template Copying | ~3 hrs | ✅ Expanded |
+| Phase 4: Create Command Extension | ~3 hrs | 🔴 Scaffolding |
+| Phase 5: Testing & Polish | ~2 hrs | 🔴 Scaffolding |
 | **Total** | **~12 hrs** | |
 
 ---
@@ -164,7 +175,7 @@ After all tasks complete, create PR for review.
 ---
 
 **Last Updated:** 2026-01-05  
-**Status:** ✅ Phase 2 Merged (PR #10)  
-**Next:** Expand Phase 3 (Template Copying)
+**Status:** ✅ Phase 3 Expanded  
+**Next:** Begin implementation with `/task-phase 3 1`
 
 
