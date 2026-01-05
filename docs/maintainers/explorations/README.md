@@ -2,7 +2,7 @@
 
 **Purpose:** Active explorations and proof of concepts
 **Status:** ✅ Active
-**Last Updated:** 2025-12-22
+**Last Updated:** 2025-12-31
 
 ---
 
@@ -10,7 +10,7 @@
 
 ### Active Explorations
 
-- **[proj-cli-architecture](proj-cli-architecture/README.md)** - Explore adding dev-infra template generation to proj-cli (🔴 Exploration)
+- **[proj-cli-architecture](proj-cli-architecture/README.md)** - Extend `proj create` with template generation modes (🟠 Ready for ADR)
 
 ---
 
@@ -29,7 +29,7 @@ This directory contains active explorations, proof of concepts, and abstract ide
 ## 📁 Directory Structure
 
 ```
-docs/maintainers/planning/explorations/
+docs/maintainers/explorations/
 ├── README.md                    # 📍 HUB - This file
 └── [topic]/                    # Topic-specific exploration (created by /explore command)
     ├── README.md               # Topic exploration hub
@@ -50,7 +50,7 @@ Use the `/explore` command to start a new exploration:
 ```
 
 This creates:
-- `docs/maintainers/planning/explorations/[topic]/` directory
+- `docs/maintainers/explorations/[topic]/` directory
 - `exploration.md` - Main exploration document
 - `research-topics.md` - Research topics identified
 - `README.md` - Topic exploration hub
@@ -66,12 +66,12 @@ This creates:
 
 ## 📚 Related Documentation
 
-- **[Research Hub](../../research/README.md)** - Research documents and analysis
-- **[Decisions Hub](../../decisions/README.md)** - Architecture Decision Records (ADRs)
-- **[Feature Planning](../features/README.md)** - Feature planning and implementation
+- **[Research Hub](../research/README.md)** - Research documents and analysis
+- **[Decisions Hub](../decisions/README.md)** - Architecture Decision Records (ADRs)
+- **[Feature Planning](../planning/features/README.md)** - Feature planning and implementation
 
 ---
 
-**Last Updated:** 2025-12-22
+**Last Updated:** 2025-01-05
 **Status:** ✅ Active
 

@@ -2,7 +2,7 @@
 
 **Purpose:** Central hub for maintainer-facing documentation and project management
 **Status:** ✅ Active
-**Last Updated:** 2025-12-16
+**Last Updated:** 2025-12-31
 
 ---
 
@@ -25,6 +25,8 @@
 ### Core Management
 
 - **[Planning Hub](planning/README.md)** - Feature planning, releases, and project phases
+- **[Explorations](explorations/README.md)** - Active explorations and proof of concepts
+- **[Research](research/README.md)** - Research documents and analysis
 - **[Decisions](decisions/)** - Architecture decision records (ADRs)
 - **[Feedback](feedback/)** - External code reviews and feedback
 - **[Archived](archived/)** - Historical documentation
@@ -53,6 +55,8 @@ docs/maintainers/
 │   ├── features/      # Feature-based planning
 │   ├── releases/      # Release management
 │   └── ci/            # CI/CD planning
+├── explorations/      # 📡 SPOKE - Active explorations
+├── research/          # 📡 SPOKE - Research documents
 ├── decisions/         # 📡 SPOKE - Architecture decisions (ADRs)
 ├── feedback/          # 📡 SPOKE - External code reviews
 └── archived/          # 📡 SPOKE - Historical documentation
@@ -126,7 +130,7 @@ docs/maintainers/
 
 ---
 
-**Last Updated:** 2025-12-16
+**Last Updated:** 2025-12-31
 **Status:** ✅ Active
 **Next:** Phase 2 - Migrate project commands
 
