@@ -149,13 +149,13 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
    def validate_project_name(name: str) -> str:
        """Validate project name matches allowed pattern.
-       
+
        Args:
            name: Project name to validate.
-           
+
        Returns:
            Validated name (stripped of leading/trailing whitespace).
-           
+
        Raises:
            InvalidProjectNameError: If name is invalid.
        """
@@ -163,21 +163,21 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
        name = name.strip()
        if not name:
            raise InvalidProjectNameError("Project name cannot be empty")
-       
+
        # Check for whitespace characters
        if re.search(r'\s', name):
            raise InvalidProjectNameError(
                "Project name cannot contain whitespace. "
                "Use hyphens or underscores instead."
            )
-       
+
        # Check for valid characters only
        if not re.match(r'^[a-zA-Z0-9_-]+$', name):
            raise InvalidProjectNameError(
                "Project name can only contain letters, numbers, "
                "hyphens, and underscores."
            )
-       
+
        return name
    ```
 
@@ -206,8 +206,8 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 1. **RED - Write failing tests:**
 
-   - [ ] Add tests for `sanitize_project_name()` function
-   - [ ] Verify tests fail
+   - [x] Add tests for `sanitize_project_name()` function
+   - [x] Verify tests fail
 
    **Test code:**
 
@@ -266,18 +266,18 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 2. **GREEN - Implement:**
 
-   - [ ] Implement `sanitize_project_name()` function
-   - [ ] Run tests, verify they pass
+   - [x] Implement `sanitize_project_name()` function
+   - [x] Run tests, verify they pass
 
    **Implementation:**
 
    ```python
    def sanitize_project_name(name: str) -> Optional[str]:
        """Sanitize a project name by fixing common issues.
-       
+
        Args:
            name: Project name to sanitize.
-           
+
        Returns:
            Sanitized name, or None if name cannot be sanitized.
        """
@@ -285,19 +285,19 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
        name = name.strip()
        if not name:
            return None
-       
+
        # Replace whitespace with hyphens
        name = re.sub(r'\s+', '-', name)
-       
+
        # Remove invalid characters (keep alphanumeric, hyphen, underscore)
        name = re.sub(r'[^a-zA-Z0-9_-]', '', name)
-       
+
        # Collapse consecutive hyphens
        name = re.sub(r'-+', '-', name)
-       
+
        # Strip leading/trailing hyphens
        name = name.strip('-')
-       
+
        return name if name else None
    ```
 
@@ -308,9 +308,9 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 **Checklist:**
 
-- [ ] Tests for sanitization added
-- [ ] `sanitize_project_name()` implemented
-- [ ] Handles spaces, special chars, edge cases
+- [x] Tests for sanitization added
+- [x] `sanitize_project_name()` implemented
+- [x] Handles spaces, special chars, edge cases
 
 ---
 
@@ -355,7 +355,7 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            # Create a subdirectory
            subdir = tmp_path / "subdir"
            subdir.mkdir()
-           
+
            # Change to tmp_path and use relative path
            monkeypatch.chdir(tmp_path)
            result = validate_target_directory(Path("subdir"))
@@ -366,11 +366,11 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            """Test path with ~ is expanded to home directory."""
            # Mock home directory
            monkeypatch.setenv("HOME", str(tmp_path))
-           
+
            # Create test directory in mock home
            test_dir = tmp_path / "Projects"
            test_dir.mkdir()
-           
+
            result = validate_target_directory(Path("~/Projects"))
            assert result == test_dir.resolve()
 
@@ -378,7 +378,7 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            """Test file path (not directory) raises error."""
            file_path = tmp_path / "file.txt"
            file_path.touch()
-           
+
            with pytest.raises(DirectoryNotFoundError) as exc:
                validate_target_directory(file_path)
            assert "not a directory" in str(exc.value)
@@ -411,45 +411,45 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
    def validate_target_directory(path: Path) -> Path:
        """Validate target directory exists and is writable.
-       
+
        Args:
            path: Path to target directory.
-           
+
        Returns:
            Resolved absolute path to directory.
-           
+
        Raises:
            DirectoryNotFoundError: If directory does not exist.
            DirectoryNotWritableError: If directory is not writable.
        """
        # Expand ~ to home directory
        path = path.expanduser()
-       
+
        # Resolve to absolute path
        path = path.resolve()
-       
+
        # Check if path is empty
        if not str(path) or str(path) == ".":
            raise DirectoryNotFoundError("Target directory path cannot be empty")
-       
+
        # Check if exists
        if not path.exists():
            raise DirectoryNotFoundError(
                f"Target directory does not exist: {path}"
            )
-       
+
        # Check if directory (not file)
        if not path.is_dir():
            raise DirectoryNotFoundError(
                f"Path is not a directory: {path}"
            )
-       
+
        # Check if writable
        if not os.access(path, os.W_OK):
            raise DirectoryNotWritableError(
                f"Target directory is not writable: {path}"
            )
-       
+
        return path
    ```
 
@@ -497,7 +497,7 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            # Create mock template directories
            (tmp_path / "standard-project").mkdir()
            (tmp_path / "learning-project").mkdir()
-           
+
            result = list_templates(tmp_path)
            assert "standard-project" in result
            assert "learning-project" in result
@@ -507,7 +507,7 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            """Test list_templates ignores files, only returns directories."""
            (tmp_path / "standard-project").mkdir()
            (tmp_path / "README.md").touch()
-           
+
            result = list_templates(tmp_path)
            assert result == ["standard-project"]
 
@@ -515,7 +515,7 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            """Test list_templates ignores hidden directories."""
            (tmp_path / "standard-project").mkdir()
            (tmp_path / ".git").mkdir()
-           
+
            result = list_templates(tmp_path)
            assert result == ["standard-project"]
 
@@ -538,14 +538,14 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            """Test valid template type returns path."""
            template_dir = tmp_path / "standard-project"
            template_dir.mkdir()
-           
+
            result = validate_template_type("standard-project", tmp_path)
            assert result == template_dir
 
        def test_invalid_template_type_raises(self, tmp_path):
            """Test invalid template type raises TemplateNotFoundError."""
            (tmp_path / "standard-project").mkdir()
-           
+
            with pytest.raises(TemplateNotFoundError) as exc:
                validate_template_type("nonexistent", tmp_path)
            assert "not found" in str(exc.value)
@@ -569,28 +569,28 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
    def list_templates(source: Path) -> list[str]:
        """List available template types from source directory.
-       
+
        Args:
            source: Path to templates source directory.
-           
+
        Returns:
            List of template type names (directory names).
-           
+
        Raises:
            DirectoryNotFoundError: If source directory does not exist.
        """
        source = source.expanduser().resolve()
-       
+
        if not source.exists():
            raise DirectoryNotFoundError(
                f"Templates source directory does not exist: {source}"
            )
-       
+
        if not source.is_dir():
            raise DirectoryNotFoundError(
                f"Templates source is not a directory: {source}"
            )
-       
+
        templates = []
        for item in source.iterdir():
            # Skip hidden directories and files
@@ -598,26 +598,26 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
                continue
            if item.is_dir():
                templates.append(item.name)
-       
+
        return sorted(templates)
 
 
    def validate_template_type(template_type: str, source: Path) -> Path:
        """Validate template type exists in source directory.
-       
+
        Args:
            template_type: Template type name (e.g., "standard-project").
            source: Path to templates source directory.
-           
+
        Returns:
            Path to the template directory.
-           
+
        Raises:
            TemplateNotFoundError: If template type does not exist.
        """
        source = source.expanduser().resolve()
        template_path = source / template_type
-       
+
        if not template_path.exists() or not template_path.is_dir():
            available = list_templates(source)
            available_str = ", ".join(available) if available else "none"
@@ -625,7 +625,7 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
                f"Template '{template_type}' not found in {source}. "
                f"Available templates: {available_str}"
            )
-       
+
        return template_path
    ```
 
@@ -670,16 +670,16 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            template_dir = tmp_path / "templates" / "standard-project"
            template_dir.mkdir(parents=True)
            (template_dir / "README.md").write_text("# Test")
-           
+
            target = tmp_path / "projects"
            target.mkdir()
-           
+
            result = copy_template(
                template_path=template_dir,
                target_dir=target,
                project_name="my-project",
            )
-           
+
            assert result == target / "my-project"
            assert result.exists()
            assert (result / "README.md").exists()
@@ -690,16 +690,16 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            template_dir.mkdir(parents=True)
            (template_dir / ".gitignore").write_text("*.pyc")
            (template_dir / "README.md").write_text("# Test")
-           
+
            target = tmp_path / "projects"
            target.mkdir()
-           
+
            result = copy_template(
                template_path=template_dir,
                target_dir=target,
                project_name="my-project",
            )
-           
+
            assert (result / ".gitignore").exists()
            assert (result / ".gitignore").read_text() == "*.pyc"
 
@@ -710,16 +710,16 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            cursor_dir = template_dir / ".cursor" / "commands"
            cursor_dir.mkdir(parents=True)
            (cursor_dir / "status.md").write_text("# Status")
-           
+
            target = tmp_path / "projects"
            target.mkdir()
-           
+
            result = copy_template(
                template_path=template_dir,
                target_dir=target,
                project_name="my-project",
            )
-           
+
            assert (result / ".cursor").exists()
            assert (result / ".cursor" / "commands" / "status.md").exists()
 
@@ -730,27 +730,27 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            nested = template_dir / "docs" / "maintainers" / "planning"
            nested.mkdir(parents=True)
            (nested / "README.md").write_text("# Planning")
-           
+
            target = tmp_path / "projects"
            target.mkdir()
-           
+
            result = copy_template(
                template_path=template_dir,
                target_dir=target,
                project_name="my-project",
            )
-           
+
            assert (result / "docs" / "maintainers" / "planning" / "README.md").exists()
 
        def test_copy_template_project_exists_raises(self, tmp_path):
            """Test copy_template raises error if project directory exists."""
            template_dir = tmp_path / "templates" / "standard-project"
            template_dir.mkdir(parents=True)
-           
+
            target = tmp_path / "projects"
            target.mkdir()
            (target / "my-project").mkdir()  # Already exists
-           
+
            with pytest.raises(ProjectExistsError) as exc:
                copy_template(
                    template_path=template_dir,
@@ -783,29 +783,29 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
        project_name: str,
    ) -> Path:
        """Copy template to target directory.
-       
+
        Args:
            template_path: Path to template directory.
            target_dir: Path to target parent directory.
            project_name: Name for the new project directory.
-           
+
        Returns:
            Path to the created project directory.
-           
+
        Raises:
            ProjectExistsError: If project directory already exists.
        """
        project_path = target_dir / project_name
-       
+
        if project_path.exists():
            raise ProjectExistsError(
                f"Project directory already exists: {project_path}"
            )
-       
+
        # Copy template including hidden files
        # shutil.copytree copies everything by default
        shutil.copytree(template_path, project_path)
-       
+
        return project_path
    ```
 
@@ -851,12 +851,12 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            project_dir.mkdir()
            readme = project_dir / "README.md"
            readme.write_text("# [Project Name]\n\nWelcome to [Project Name]!")
-           
+
            replace_placeholders(
                project_path=project_dir,
                project_name="my-project",
            )
-           
+
            content = readme.read_text()
            assert "# my-project" in content
            assert "Welcome to my-project!" in content
@@ -871,13 +871,13 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
                "# Project\n\n"
                "[Brief description of what this project does]"
            )
-           
+
            replace_placeholders(
                project_path=project_dir,
                project_name="my-project",
                description="A cool project for testing",
            )
-           
+
            content = readme.read_text()
            assert "A cool project for testing" in content
            assert "[Brief description" not in content
@@ -888,12 +888,12 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            project_dir.mkdir()
            readme = project_dir / "README.md"
            readme.write_text("Created: [Date]")
-           
+
            replace_placeholders(
                project_path=project_dir,
                project_name="my-project",
            )
-           
+
            content = readme.read_text()
            today = date.today().strftime("%Y-%m-%d")
            assert today in content
@@ -905,13 +905,13 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            project_dir.mkdir()
            start = project_dir / "start.txt"
            start.write_text("Project: [Project Name]\nAuthor: [Author]")
-           
+
            replace_placeholders(
                project_path=project_dir,
                project_name="my-project",
                author="Test Author",
            )
-           
+
            content = start.read_text()
            assert "Project: my-project" in content
            assert "Author: Test Author" in content
@@ -920,7 +920,7 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            """Test function doesn't fail if files don't exist."""
            project_dir = tmp_path / "my-project"
            project_dir.mkdir()
-           
+
            # Should not raise - just skip missing files
            replace_placeholders(
                project_path=project_dir,
@@ -934,12 +934,12 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            readme = project_dir / "README.md"
            original = "# Simple README\n\nNo placeholders here."
            readme.write_text(original)
-           
+
            replace_placeholders(
                project_path=project_dir,
                project_name="my-project",
            )
-           
+
            assert readme.read_text() == original
 
        def test_default_description_when_not_provided(self, tmp_path):
@@ -948,13 +948,13 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            project_dir.mkdir()
            readme = project_dir / "README.md"
            readme.write_text("[Brief description of what this project does]")
-           
+
            replace_placeholders(
                project_path=project_dir,
                project_name="my-project",
                # No description provided
            )
-           
+
            content = readme.read_text()
            # Should replace with empty or project name
            assert "[Brief description" not in content
@@ -979,13 +979,13 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
        author: Optional[str] = None,
    ) -> None:
        """Replace placeholders in project files.
-       
+
        Replaces the following placeholders:
        - [Project Name] -> project_name
        - [Brief description of what this project does] -> description
        - [Date] -> current date (YYYY-MM-DD)
        - [Author] -> author
-       
+
        Args:
            project_path: Path to project directory.
            project_name: Project name for replacement.
@@ -993,21 +993,21 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            author: Author name (optional).
        """
        current_date = date.today().strftime("%Y-%m-%d")
-       
+
        # Default values
        description = description or f"{project_name} project"
        author = author or ""
-       
+
        # Files to process
        files_to_process = ["README.md", "start.txt"]
-       
+
        for filename in files_to_process:
            file_path = project_path / filename
            if not file_path.exists():
                continue
-           
+
            content = file_path.read_text()
-           
+
            # Replace placeholders
            content = content.replace("[Project Name]", project_name)
            content = content.replace(
@@ -1016,7 +1016,7 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            )
            content = content.replace("[Date]", current_date)
            content = content.replace("[Author]", author)
-           
+
            file_path.write_text(content)
    ```
 
@@ -1064,11 +1064,11 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            template_dir.mkdir()
            (template_dir / "README.md").write_text("# [Project Name]")
            (template_dir / ".gitignore").write_text("*.pyc")
-           
+
            # Target directory
            target = tmp_path / "projects"
            target.mkdir()
-           
+
            result = create_from_template(
                project_name="my-app",
                template_type="standard-project",
@@ -1076,7 +1076,7 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
                templates_source=templates_source,
                description="My awesome app",
            )
-           
+
            assert result.exists()
            assert result.name == "my-app"
            assert (result / "README.md").read_text() == "# my-app"
@@ -1087,10 +1087,10 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            templates_source = tmp_path / "templates"
            templates_source.mkdir()
            (templates_source / "standard-project").mkdir()
-           
+
            target = tmp_path / "projects"
            target.mkdir()
-           
+
            with pytest.raises(InvalidProjectNameError):
                create_from_template(
                    project_name="my project",  # Invalid - has space
@@ -1104,10 +1104,10 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            templates_source = tmp_path / "templates"
            templates_source.mkdir()
            (templates_source / "standard-project").mkdir()
-           
+
            target = tmp_path / "projects"
            target.mkdir()
-           
+
            with pytest.raises(TemplateNotFoundError):
                create_from_template(
                    project_name="my-app",
@@ -1121,9 +1121,9 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            templates_source = tmp_path / "templates"
            templates_source.mkdir()
            (templates_source / "standard-project").mkdir()
-           
+
            nonexistent = tmp_path / "does-not-exist"
-           
+
            with pytest.raises(DirectoryNotFoundError):
                create_from_template(
                    project_name="my-app",
@@ -1151,14 +1151,14 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
        author: Optional[str] = None,
    ) -> Path:
        """Create a new project from a template.
-       
+
        Orchestrates the full workflow:
        1. Validate project name
        2. Validate target directory
        3. Validate template type
        4. Copy template to target
        5. Replace placeholders
-       
+
        Args:
            project_name: Name for the new project.
            template_type: Template type (e.g., "standard-project").
@@ -1166,10 +1166,10 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            templates_source: Path to templates source directory.
            description: Project description (optional).
            author: Author name (optional).
-           
+
        Returns:
            Path to the created project directory.
-           
+
        Raises:
            InvalidProjectNameError: If project name is invalid.
            DirectoryNotFoundError: If target or source directory doesn't exist.
@@ -1181,14 +1181,14 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
        project_name = validate_project_name(project_name)
        target_dir = validate_target_directory(target_dir)
        template_path = validate_template_type(template_type, templates_source)
-       
+
        # Copy template
        project_path = copy_template(
            template_path=template_path,
            target_dir=target_dir,
            project_name=project_name,
        )
-       
+
        # Replace placeholders
        replace_placeholders(
            project_path=project_path,
@@ -1196,7 +1196,7 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            description=description,
            author=author,
        )
-       
+
        return project_path
    ```
 
@@ -1240,21 +1240,21 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            # Mock XDG paths for isolation
            monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path / "config"))
            monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path / "data"))
-           
+
            # Create config with templates source
            config_dir = tmp_path / "config" / "proj"
            config_dir.mkdir(parents=True)
-           
+
            templates_dir = tmp_path / "templates"
            templates_dir.mkdir()
-           
+
            config_file = config_dir / "config.yaml"
            config_file.write_text(f"""
    api_url: http://localhost:5000
    templates:
      source: {templates_dir}
    """)
-           
+
            config = Config.load()
            result = get_templates_source(config)
            assert result == templates_dir.resolve()
@@ -1263,15 +1263,15 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
            """Test error when templates source not configured."""
            monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path / "config"))
            monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path / "data"))
-           
+
            config_dir = tmp_path / "config" / "proj"
            config_dir.mkdir(parents=True)
-           
+
            config_file = config_dir / "config.yaml"
            config_file.write_text("api_url: http://localhost:5000")
-           
+
            config = Config.load()
-           
+
            with pytest.raises(TemplateError) as exc:
                get_templates_source(config)
            assert "not configured" in str(exc.value)
@@ -1290,13 +1290,13 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
    def get_templates_source(config: Config) -> Path:
        """Get templates source path from config.
-       
+
        Args:
            config: proj-cli configuration.
-           
+
        Returns:
            Path to templates source directory.
-           
+
        Raises:
            TemplateError: If templates source not configured.
        """
@@ -1306,7 +1306,7 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
                "Run 'proj init' and set templates.source in config, "
                "or use --templates-source flag."
            )
-       
+
        return config.templates.source.expanduser().resolve()
    ```
 
@@ -1352,33 +1352,33 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 ## 📊 Requirements Addressed
 
-| Requirement | Description | Status |
-|-------------|-------------|--------|
-| FR-TMPL-1 | Local template source | 🔴 Pending |
-| FR-TMPL-2 | Template validation | 🔴 Pending |
-| FR-TMPL-3 | Template types (standard/learning) | 🔴 Pending |
-| FR-PORT-1 | Name validation | 🔴 Pending |
-| FR-PORT-2 | Directory validation | 🔴 Pending |
-| FR-PORT-3 | Template copying with hidden files | 🔴 Pending |
-| FR-PORT-4 | Placeholder replacement | 🔴 Pending |
-| NFR-TMPL-1 | Offline operation | 🔴 Pending |
-| NFR-TMPL-2 | Clear error messages | 🔴 Pending |
-| NFR-PORT-1 | Name sanitization (optional) | 🔴 Pending |
+| Requirement | Description                        | Status     |
+| ----------- | ---------------------------------- | ---------- |
+| FR-TMPL-1   | Local template source              | 🔴 Pending |
+| FR-TMPL-2   | Template validation                | 🔴 Pending |
+| FR-TMPL-3   | Template types (standard/learning) | 🔴 Pending |
+| FR-PORT-1   | Name validation                    | 🔴 Pending |
+| FR-PORT-2   | Directory validation               | 🔴 Pending |
+| FR-PORT-3   | Template copying with hidden files | 🔴 Pending |
+| FR-PORT-4   | Placeholder replacement            | 🔴 Pending |
+| NFR-TMPL-1  | Offline operation                  | 🔴 Pending |
+| NFR-TMPL-2  | Clear error messages               | 🔴 Pending |
+| NFR-PORT-1  | Name sanitization (optional)       | 🔴 Pending |
 
 ---
 
 ## 📊 Progress Tracking
 
-| Task | Status | Notes |
-|------|--------|-------|
-| Task 1: Name Validation | 🔴 Not Started | |
-| Task 2: Name Sanitization | 🔴 Not Started | |
-| Task 3: Directory Validation | 🔴 Not Started | |
-| Task 4: Template Discovery | 🔴 Not Started | |
-| Task 5: Template Copying | 🔴 Not Started | |
-| Task 6: Placeholder Replacement | 🔴 Not Started | |
-| Task 7: High-Level Function | 🔴 Not Started | |
-| Task 8: Config Integration | 🔴 Not Started | |
+| Task                            | Status         | Notes |
+| ------------------------------- | -------------- | ----- |
+| Task 1: Name Validation         | 🔴 Not Started |       |
+| Task 2: Name Sanitization       | 🔴 Not Started |       |
+| Task 3: Directory Validation    | 🔴 Not Started |       |
+| Task 4: Template Discovery      | 🔴 Not Started |       |
+| Task 5: Template Copying        | 🔴 Not Started |       |
+| Task 6: Placeholder Replacement | 🔴 Not Started |       |
+| Task 7: High-Level Function     | 🔴 Not Started |       |
+| Task 8: Config Integration      | 🔴 Not Started |       |
 
 ---
 
@@ -1407,4 +1407,3 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 **Last Updated:** 2026-01-05  
 **Status:** ✅ Expanded  
 **Next:** Begin implementation with Task 1
-
