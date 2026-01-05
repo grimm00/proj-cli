@@ -207,10 +207,10 @@ Extend the existing Pydantic configuration with new fields for template source, 
 
 1. **RED - Write failing test:**
 
-   - [ ] Add test for `registry` nested attribute existence
-   - [ ] Add test for `registry.path` defaults to XDG data directory
-   - [ ] Add test for environment override (`PROJ_REGISTRY__PATH`)
-   - [ ] Verify tests fail
+   - [x] Add test for `registry` nested attribute existence
+   - [x] Add test for `registry.path` defaults to XDG data directory
+   - [x] Add test for environment override (`PROJ_REGISTRY__PATH`)
+   - [x] Verify tests fail
 
    **Test code (`tests/test_config.py`):**
 
@@ -240,10 +240,10 @@ Extend the existing Pydantic configuration with new fields for template source, 
 
 2. **GREEN - Implement minimum code:**
 
-   - [ ] Create `RegistryConfig` nested model class
-   - [ ] Add `registry` field to Config class
-   - [ ] Use `default_factory` for XDG path
-   - [ ] Run tests, verify they pass
+   - [x] Create `RegistryConfig` nested model class
+   - [x] Add `registry` field to Config class
+   - [x] Use `default_factory` for XDG path
+   - [x] Run tests, verify they pass
 
    **Implementation (`src/proj/config.py`):**
 
@@ -270,15 +270,15 @@ Extend the existing Pydantic configuration with new fields for template source, 
    ```
 
 3. **REFACTOR - Clean up:**
-   - [ ] Group registry settings logically
-   - [ ] Add section comment
-   - [ ] Verify tests still pass
+   - [x] Group registry settings logically
+   - [x] Add section comment
+   - [x] Verify tests still pass
 
 **Checklist:**
 
-- [ ] Test written and failing
-- [ ] Implementation passes test
-- [ ] Code refactored and clean
+- [x] Test written and failing
+- [x] Implementation passes test
+- [x] Code refactored and clean
 
 ---
 
@@ -511,7 +511,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
 | ----------------------------------- | -------------- | --------------------------------- |
 | Task 1: api_enabled field           | ✅ Complete    | Tests and implementation complete |
 | Task 2: TemplateConfig nested model | ✅ Complete    | Tests and implementation complete |
-| Task 3: RegistryConfig nested model | 🔴 Not Started |                                   |
+| Task 3: RegistryConfig nested model | ✅ Complete    | Tests and implementation complete |
 | Task 4: default_project_dir field   | 🔴 Not Started |                                   |
 | Task 5: YAML serialization          | 🔴 Not Started |                                   |
 | Task 6: proj init update            | 🔴 Not Started |                                   |
@@ -522,7 +522,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
 
 - [x] `api_enabled` field works with default `True`
 - [x] `templates.source` and `templates.default` fields accessible
-- [ ] `registry.path` field defaults to XDG data directory
+- [x] `registry.path` field defaults to XDG data directory
 - [ ] `default_project_dir` defaults to `~/Projects`
 - [ ] Environment variables override: `PROJ_API_ENABLED`, `PROJ_TEMPLATES__SOURCE`
 - [ ] `proj init` creates valid config with new fields
@@ -544,9 +544,9 @@ Extend the existing Pydantic configuration with new fields for template source, 
 | ------------ | ---------------------- | ----------- |
 | FR-CONFIG-1  | api_enabled toggle     | ✅ Complete |
 | FR-CONFIG-2  | templates.source path  | ✅ Complete |
-| FR-CONFIG-3  | registry.path setting  | 🔴 Pending  |
+| FR-CONFIG-3  | registry.path setting  | ✅ Complete |
 | FR-CONFIG-4  | Environment overrides  | 🔴 Pending  |
-| NFR-CONFIG-1 | XDG registry location  | 🔴 Pending  |
+| NFR-CONFIG-1 | XDG registry location  | ✅ Complete |
 | NFR-CONFIG-2 | YAML format maintained | 🔴 Pending  |
 
 ---
