@@ -120,3 +120,27 @@ def test_config_registry_path_env_override():
         from proj.config import Config
         config = Config.load()
         assert str(config.registry.path) == "/custom/registry.json"
+
+
+def test_config_has_default_project_dir():
+    """Test that config has default_project_dir setting."""
+    from proj.config import Config
+    config = Config.load()
+    assert hasattr(config, 'default_project_dir')
+
+
+def test_config_default_project_dir_value():
+    """Test default_project_dir defaults to ~/Projects."""
+    from proj.config import Config
+    from pathlib import Path
+    config = Config.load()
+    expected = Path.home() / "Projects"
+    assert config.default_project_dir == expected
+
+
+def test_config_default_project_dir_env_override():
+    """Test PROJ_DEFAULT_PROJECT_DIR environment variable."""
+    with patch.dict(os.environ, {"PROJ_DEFAULT_PROJECT_DIR": "/custom/projects"}):
+        from proj.config import Config
+        config = Config.load()
+        assert str(config.default_project_dir) == "/custom/projects"

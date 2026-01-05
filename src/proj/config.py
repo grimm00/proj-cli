@@ -109,6 +109,12 @@ class Config(BaseSettings):
     # Registry Settings
     registry: RegistryConfig = Field(default_factory=RegistryConfig)
 
+    # Default project location
+    default_project_dir: Path = Field(
+        default_factory=lambda: Path.home() / "Projects",
+        description="Default directory for new projects",
+    )
+
     @classmethod
     def load(cls) -> "Config":
         """Load config from file and environment."""
