@@ -1,9 +1,12 @@
 """Tests for template operations."""
 import pytest
+from pathlib import Path
 from proj.templates import (
     validate_project_name,
     sanitize_project_name,
+    validate_target_directory,
     InvalidProjectNameError,
+    DirectoryNotFoundError,
 )
 
 
@@ -125,3 +128,57 @@ class TestSanitizeProjectName:
         """Test consecutive hyphens are collapsed."""
         result = sanitize_project_name("my - - project")
         assert result == "my-project"
+
+
+class TestValidateTargetDirectory:
+    """Tests for validate_target_directory function."""
+
+    def test_existing_writable_directory(self, tmp_path):
+        """Test existing writable directory returns resolved path."""
+        result = validate_target_directory(tmp_path)
+        assert result == tmp_path.resolve()
+
+    def test_nonexistent_directory_raises_error(self, tmp_path):
+        """Test nonexistent directory raises DirectoryNotFoundError."""
+        nonexistent = tmp_path / "does-not-exist"
+        with pytest.raises(DirectoryNotFoundError) as exc:
+            validate_target_directory(nonexistent)
+        assert "does not exist" in str(exc.value)
+
+    def test_relative_path_resolved_to_absolute(self, tmp_path, monkeypatch):
+        """Test relative path is resolved to absolute."""
+        # Create a subdirectory
+        subdir = tmp_path / "subdir"
+        subdir.mkdir()
+
+        # Change to tmp_path and use relative path
+        monkeypatch.chdir(tmp_path)
+        result = validate_target_directory(Path("subdir"))
+        assert result == subdir.resolve()
+        assert result.is_absolute()
+
+    def test_path_with_tilde_expanded(self, monkeypatch, tmp_path):
+        """Test path with ~ is expanded to home directory."""
+        # Mock home directory
+        monkeypatch.setenv("HOME", str(tmp_path))
+
+        # Create test directory in mock home
+        test_dir = tmp_path / "Projects"
+        test_dir.mkdir()
+
+        result = validate_target_directory(Path("~/Projects"))
+        assert result == test_dir.resolve()
+
+    def test_file_path_raises_error(self, tmp_path):
+        """Test file path (not directory) raises error."""
+        file_path = tmp_path / "file.txt"
+        file_path.touch()
+
+        with pytest.raises(DirectoryNotFoundError) as exc:
+            validate_target_directory(file_path)
+        assert "not a directory" in str(exc.value)
+
+    def test_empty_path_raises_error(self):
+        """Test empty path raises error."""
+        with pytest.raises(DirectoryNotFoundError):
+            validate_target_directory(Path(""))
