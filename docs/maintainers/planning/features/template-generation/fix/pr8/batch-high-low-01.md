@@ -4,8 +4,9 @@
 **Batch:** high-low-01  
 **Priority:** 🟠 HIGH  
 **Effort:** 🟢 LOW  
-**Status:** 🔴 Not Started  
+**Status:** ✅ Complete  
 **Created:** 2025-01-05  
+**Completed:** 2025-01-05  
 **Issues:** 1 issue
 
 ---
@@ -67,28 +68,28 @@ def test_config_has_api_enabled(tmp_path, monkeypatch):
 ## Implementation Steps
 
 1. **Identify affected tests:**
-   - [ ] Find all tests that call `Config.load()` without XDG isolation
-   - [ ] List: `test_config_has_api_enabled`, `test_config_api_enabled_default_true`, etc.
+   - [x] Find all tests that call `Config.load()` without XDG isolation
+   - [x] List: `test_config_has_api_enabled`, `test_config_api_enabled_default_true`, etc.
 
 2. **Add fixtures:**
-   - [ ] Add `tmp_path` and `monkeypatch` fixtures to affected tests
-   - [ ] Add `monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))` at start
+   - [x] Add `tmp_path` and `monkeypatch` fixtures to affected tests
+   - [x] Add `monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))` at start
 
 3. **Verify tests still pass:**
-   - [ ] Run `pytest tests/test_config.py -v`
-   - [ ] Verify all tests pass with isolation
+   - [x] Run `pytest tests/test_config.py -v`
+   - [x] Verify all tests pass with isolation
 
 4. **Test with local config:**
-   - [ ] Create a local config file with non-default values
-   - [ ] Verify tests still pass (proving isolation works)
+   - [x] Create a local config file with non-default values
+   - [x] Verify tests still pass (proving isolation works)
 
 ---
 
 ## Testing
 
-- [ ] All existing tests pass
-- [ ] Tests pass when developer has local config
-- [ ] No regressions introduced
+- [x] All existing tests pass
+- [x] Tests pass when developer has local config
+- [x] No regressions introduced
 
 ---
 
@@ -100,10 +101,10 @@ def test_config_has_api_enabled(tmp_path, monkeypatch):
 
 ## Definition of Done
 
-- [ ] All affected tests have XDG isolation
-- [ ] Tests pass in CI
-- [ ] Tests pass with local config present
-- [ ] Ready for PR
+- [x] All affected tests have XDG isolation
+- [x] Tests pass in CI
+- [x] Tests pass with local config present
+- [x] Ready for PR
 
 ---
 
