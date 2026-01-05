@@ -322,8 +322,8 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 1. **RED - Write failing tests:**
 
-   - [ ] Add tests for `validate_target_directory()` function
-   - [ ] Verify tests fail
+   - [x] Add tests for `validate_target_directory()` function
+   - [x] Verify tests fail
 
    **Test code:**
 
@@ -391,10 +391,10 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 2. **GREEN - Implement:**
 
-   - [ ] Define `DirectoryNotFoundError` exception
-   - [ ] Define `DirectoryNotWritableError` exception
-   - [ ] Implement `validate_target_directory()` function
-   - [ ] Run tests, verify they pass
+   - [x] Define `DirectoryNotFoundError` exception
+   - [x] Define `DirectoryNotWritableError` exception
+   - [x] Implement `validate_target_directory()` function
+   - [x] Run tests, verify they pass
 
    **Implementation:**
 
@@ -455,16 +455,16 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 3. **REFACTOR:**
 
-   - [ ] Add `import os` at top of module
-   - [ ] Review error messages for clarity
+   - [x] Add `import os` at top of module
+   - [x] Review error messages for clarity
 
 **Checklist:**
 
-- [ ] Directory validation tests added
-- [ ] `DirectoryNotFoundError` defined
-- [ ] `DirectoryNotWritableError` defined
-- [ ] `validate_target_directory()` implemented
-- [ ] Handles ~, relative paths, permissions
+- [x] Directory validation tests added
+- [x] `DirectoryNotFoundError` defined
+- [x] `DirectoryNotWritableError` defined
+- [x] `validate_target_directory()` implemented
+- [x] Handles ~, relative paths, permissions
 
 ---
 
