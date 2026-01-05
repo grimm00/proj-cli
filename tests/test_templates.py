@@ -1,6 +1,7 @@
 """Tests for template operations."""
 import pytest
 from pathlib import Path
+from datetime import date
 from proj.templates import (
     validate_project_name,
     sanitize_project_name,
@@ -8,6 +9,7 @@ from proj.templates import (
     list_templates,
     validate_template_type,
     copy_template,
+    replace_placeholders,
     InvalidProjectNameError,
     DirectoryNotFoundError,
     TemplateNotFoundError,
@@ -331,8 +333,10 @@ class TestCopyTemplate:
             project_name="my-project",
         )
 
-           planning_readme = result / "docs" / "maintainers" / "planning" / "README.md"
-           assert planning_readme.exists()
+        planning_readme = (
+            result / "docs" / "maintainers" / "planning" / "README.md"
+        )
+        assert planning_readme.exists()
 
     def test_copy_template_project_exists_raises(self, tmp_path):
         """Test copy_template raises error if project directory exists."""
@@ -350,3 +354,121 @@ class TestCopyTemplate:
                 project_name="my-project",
             )
         assert "already exists" in str(exc.value)
+
+
+class TestReplacePlaceholders:
+    """Tests for replace_placeholders function."""
+
+    def test_replace_project_name_in_readme(self, tmp_path):
+        """Test [Project Name] is replaced in README.md."""
+        project_dir = tmp_path / "my-project"
+        project_dir.mkdir()
+        readme = project_dir / "README.md"
+        readme.write_text("# [Project Name]\n\nWelcome to [Project Name]!")
+
+        replace_placeholders(
+            project_path=project_dir,
+            project_name="my-project",
+        )
+
+        content = readme.read_text()
+        assert "# my-project" in content
+        assert "Welcome to my-project!" in content
+        assert "[Project Name]" not in content
+
+    def test_replace_description_in_readme(self, tmp_path):
+        """Test description placeholder is replaced in README.md."""
+        project_dir = tmp_path / "my-project"
+        project_dir.mkdir()
+        readme = project_dir / "README.md"
+        readme.write_text(
+            "# Project\n\n"
+            "[Brief description of what this project does]"
+        )
+
+        replace_placeholders(
+            project_path=project_dir,
+            project_name="my-project",
+            description="A cool project for testing",
+        )
+
+        content = readme.read_text()
+        assert "A cool project for testing" in content
+        assert "[Brief description" not in content
+
+    def test_replace_date_in_readme(self, tmp_path):
+        """Test [Date] is replaced with current date."""
+        project_dir = tmp_path / "my-project"
+        project_dir.mkdir()
+        readme = project_dir / "README.md"
+        readme.write_text("Created: [Date]")
+
+        replace_placeholders(
+            project_path=project_dir,
+            project_name="my-project",
+        )
+
+        content = readme.read_text()
+        today = date.today().strftime("%Y-%m-%d")
+        assert today in content
+        assert "[Date]" not in content
+
+    def test_replace_in_start_txt(self, tmp_path):
+        """Test placeholders are replaced in start.txt."""
+        project_dir = tmp_path / "my-project"
+        project_dir.mkdir()
+        start = project_dir / "start.txt"
+        start.write_text("Project: [Project Name]\nAuthor: [Author]")
+
+        replace_placeholders(
+            project_path=project_dir,
+            project_name="my-project",
+            author="Test Author",
+        )
+
+        content = start.read_text()
+        assert "Project: my-project" in content
+        assert "Author: Test Author" in content
+
+    def test_handles_missing_files_gracefully(self, tmp_path):
+        """Test function doesn't fail if files don't exist."""
+        project_dir = tmp_path / "my-project"
+        project_dir.mkdir()
+
+        # Should not raise - just skip missing files
+        replace_placeholders(
+            project_path=project_dir,
+            project_name="my-project",
+        )
+
+    def test_preserves_files_without_placeholders(self, tmp_path):
+        """Test files without placeholders are unchanged."""
+        project_dir = tmp_path / "my-project"
+        project_dir.mkdir()
+        readme = project_dir / "README.md"
+        original = "# Simple README\n\nNo placeholders here."
+        readme.write_text(original)
+
+        replace_placeholders(
+            project_path=project_dir,
+            project_name="my-project",
+        )
+
+        assert readme.read_text() == original
+
+    def test_default_description_when_not_provided(self, tmp_path):
+        """Test default description when not provided."""
+        project_dir = tmp_path / "my-project"
+        project_dir.mkdir()
+        readme = project_dir / "README.md"
+        readme.write_text("[Brief description of what this project does]")
+
+        replace_placeholders(
+            project_path=project_dir,
+            project_name="my-project",
+            # No description provided
+        )
+
+        content = readme.read_text()
+        # Should replace with empty or project name
+        assert "[Brief description" not in content
