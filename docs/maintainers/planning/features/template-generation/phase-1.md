@@ -509,14 +509,14 @@ Extend the existing Pydantic configuration with new fields for template source, 
 
 ## 📊 Progress Tracking
 
-| Task                                | Status         | Notes                             |
-| ----------------------------------- | -------------- | --------------------------------- |
-| Task 1: api_enabled field           | ✅ Complete    | Tests and implementation complete |
-| Task 2: TemplateConfig nested model | ✅ Complete    | Tests and implementation complete |
-| Task 3: RegistryConfig nested model | ✅ Complete    | Tests and implementation complete |
-| Task 4: default_project_dir field   | ✅ Complete    | Tests and implementation complete |
-| Task 5: YAML serialization          | ✅ Complete    | Tests and implementation complete |
-| Task 6: proj init update            | ✅ Complete    | Test added, implementation already correct |
+| Task                                | Status      | Notes                                      |
+| ----------------------------------- | ----------- | ------------------------------------------ |
+| Task 1: api_enabled field           | ✅ Complete | Tests and implementation complete          |
+| Task 2: TemplateConfig nested model | ✅ Complete | Tests and implementation complete          |
+| Task 3: RegistryConfig nested model | ✅ Complete | Tests and implementation complete          |
+| Task 4: default_project_dir field   | ✅ Complete | Tests and implementation complete          |
+| Task 5: YAML serialization          | ✅ Complete | Tests and implementation complete          |
+| Task 6: proj init update            | ✅ Complete | Test added, implementation already correct |
 
 ---
 
