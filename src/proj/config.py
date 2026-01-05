@@ -53,6 +53,20 @@ class TemplateConfig(BaseSettings):
     )
 
 
+class RegistryConfig(BaseSettings):
+    """Local registry configuration."""
+
+    model_config = SettingsConfigDict(
+        env_prefix="PROJ_REGISTRY_",
+        extra="ignore",
+    )
+
+    path: Path = Field(
+        default_factory=lambda: get_data_dir() / "registry.json",
+        description="Path to local project registry",
+    )
+
+
 class Config(BaseSettings):
     """Application configuration with environment variable support."""
 
@@ -91,6 +105,9 @@ class Config(BaseSettings):
 
     # Template Settings
     templates: TemplateConfig = Field(default_factory=TemplateConfig)
+
+    # Registry Settings
+    registry: RegistryConfig = Field(default_factory=RegistryConfig)
 
     @classmethod
     def load(cls) -> "Config":

@@ -97,3 +97,26 @@ def test_config_templates_source_env_override():
         from proj.config import Config
         config = Config.load()
         assert str(config.templates.source) == "/path/to/templates"
+
+
+def test_config_has_registry_nested():
+    """Test that config has registry nested config."""
+    from proj.config import Config
+    config = Config.load()
+    assert hasattr(config, 'registry')
+
+
+def test_config_registry_path_xdg_default():
+    """Test registry.path defaults to XDG data dir."""
+    from proj.config import Config, get_data_dir
+    config = Config.load()
+    expected = get_data_dir() / "registry.json"
+    assert config.registry.path == expected
+
+
+def test_config_registry_path_env_override():
+    """Test PROJ_REGISTRY__PATH environment variable."""
+    with patch.dict(os.environ, {"PROJ_REGISTRY__PATH": "/custom/registry.json"}):
+        from proj.config import Config
+        config = Config.load()
+        assert str(config.registry.path) == "/custom/registry.json"
