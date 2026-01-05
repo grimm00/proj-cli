@@ -1,5 +1,6 @@
 """Tests for configuration management."""
 import os
+import yaml
 from unittest.mock import patch
 
 
@@ -144,3 +145,53 @@ def test_config_default_project_dir_env_override():
         from proj.config import Config
         config = Config.load()
         assert str(config.default_project_dir) == "/custom/projects"
+
+
+def test_config_save_includes_new_fields(tmp_path, monkeypatch):
+    """Test that save() includes new configuration fields."""
+    # Use temp directory for config
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
+
+    from proj.config import Config, get_config_file
+    config = Config.load()
+    config.save()
+
+    config_file = get_config_file()
+    with open(config_file) as f:
+        saved = yaml.safe_load(f)
+
+    assert 'api_enabled' in saved
+    assert 'templates' in saved
+    assert 'registry' in saved
+    assert 'default_project_dir' in saved
+
+
+def test_config_load_nested_from_yaml(tmp_path, monkeypatch):
+    """Test loading nested config from YAML file."""
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
+
+    from proj.config import get_config_dir, get_config_file, Config
+
+    # Create config directory and file
+    config_dir = get_config_dir()
+    config_dir.mkdir(parents=True, exist_ok=True)
+
+    config_file = get_config_file()
+    config_content = {
+        'api_enabled': False,
+        'templates': {
+            'source': '/custom/templates',
+            'default': 'learning-project'
+        },
+        'registry': {
+            'path': '/custom/registry.json'
+        },
+        'default_project_dir': '/custom/projects'
+    }
+    with open(config_file, 'w') as f:
+        yaml.dump(config_content, f)
+
+    config = Config.load()
+    assert config.api_enabled is False
+    assert str(config.templates.source) == '/custom/templates'
+    assert config.templates.default == 'learning-project'

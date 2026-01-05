@@ -135,8 +135,10 @@ class Config(BaseSettings):
         config_dir.mkdir(parents=True, exist_ok=True)
 
         config_file = get_config_file()
+        # Use mode='json' to convert Path objects to strings for YAML compatibility
+        config_data = self.model_dump(mode='json')
         with open(config_file, "w", encoding="utf-8") as f:
-            yaml.dump(self.model_dump(), f, default_flow_style=False)
+            yaml.dump(config_data, f, default_flow_style=False)
 
 
 def ensure_dirs() -> None:
