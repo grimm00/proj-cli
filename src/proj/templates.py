@@ -1,6 +1,7 @@
 """Template operations for proj-cli."""
 import os
 import re
+import shutil
 from pathlib import Path
 from typing import Optional
 
@@ -27,6 +28,11 @@ class DirectoryNotWritableError(TemplateError):
 
 class TemplateNotFoundError(TemplateError):
     """Raised when template type is not found."""
+    pass
+
+
+class ProjectExistsError(TemplateError):
+    """Raised when project directory already exists."""
     pass
 
 
@@ -198,3 +204,35 @@ def validate_template_type(template_type: str, source: Path) -> Path:
         )
 
     return template_path
+
+
+def copy_template(
+    template_path: Path,
+    target_dir: Path,
+    project_name: str,
+) -> Path:
+    """Copy template to target directory.
+
+    Args:
+        template_path: Path to template directory.
+        target_dir: Path to target parent directory.
+        project_name: Name for the new project directory.
+
+    Returns:
+        Path to the created project directory.
+
+    Raises:
+        ProjectExistsError: If project directory already exists.
+    """
+    project_path = target_dir / project_name
+
+    if project_path.exists():
+        raise ProjectExistsError(
+            f"Project directory already exists: {project_path}"
+        )
+
+    # Copy template including hidden files
+    # shutil.copytree copies everything by default
+    shutil.copytree(template_path, project_path)
+
+    return project_path
