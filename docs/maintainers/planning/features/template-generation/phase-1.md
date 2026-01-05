@@ -363,9 +363,9 @@ Extend the existing Pydantic configuration with new fields for template source, 
 
 1. **RED - Write failing test:**
 
-   - [ ] Add test for saving config with new fields
-   - [ ] Add test for loading config with nested fields from YAML
-   - [ ] Verify tests fail
+   - [x] Add test for saving config with new fields
+   - [x] Add test for loading config with nested fields from YAML
+   - [x] Verify tests fail
 
    **Test code (`tests/test_config.py`):**
 
@@ -422,9 +422,9 @@ Extend the existing Pydantic configuration with new fields for template source, 
 
 2. **GREEN - Implement minimum code:**
 
-   - [ ] Update `model_dump()` to handle nested models
-   - [ ] Update `load()` to handle nested YAML structure
-   - [ ] Run tests, verify they pass
+   - [x] Update `model_dump()` to handle nested models
+   - [x] Update `load()` to handle nested YAML structure
+   - [x] Run tests, verify they pass
 
    **Implementation notes:**
 
@@ -433,15 +433,15 @@ Extend the existing Pydantic configuration with new fields for template source, 
    - May need custom serialization for nested configs
 
 3. **REFACTOR - Clean up:**
-   - [ ] Extract common serialization logic if needed
-   - [ ] Add comments for serialization handling
-   - [ ] Verify tests still pass
+   - [x] Extract common serialization logic if needed
+   - [x] Add comments for serialization handling
+   - [x] Verify tests still pass
 
 **Checklist:**
 
-- [ ] Test written and failing
-- [ ] Implementation passes test
-- [ ] Code refactored and clean
+- [x] Test written and failing
+- [x] Implementation passes test
+- [x] Code refactored and clean
 
 ---
 
@@ -513,7 +513,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
 | Task 2: TemplateConfig nested model | ✅ Complete    | Tests and implementation complete |
 | Task 3: RegistryConfig nested model | ✅ Complete    | Tests and implementation complete |
 | Task 4: default_project_dir field   | ✅ Complete    | Tests and implementation complete |
-| Task 5: YAML serialization          | 🔴 Not Started |                                   |
+| Task 5: YAML serialization          | ✅ Complete    | Tests and implementation complete |
 | Task 6: proj init update            | 🔴 Not Started |                                   |
 
 ---
@@ -547,7 +547,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
 | FR-CONFIG-3  | registry.path setting  | ✅ Complete |
 | FR-CONFIG-4  | Environment overrides  | 🔴 Pending  |
 | NFR-CONFIG-1 | XDG registry location  | ✅ Complete |
-| NFR-CONFIG-2 | YAML format maintained | 🔴 Pending  |
+| NFR-CONFIG-2 | YAML format maintained | ✅ Complete |
 
 ---
 
