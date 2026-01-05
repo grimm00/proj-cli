@@ -5,8 +5,11 @@ from proj.templates import (
     validate_project_name,
     sanitize_project_name,
     validate_target_directory,
+    list_templates,
+    validate_template_type,
     InvalidProjectNameError,
     DirectoryNotFoundError,
+    TemplateNotFoundError,
 )
 
 
@@ -182,3 +185,66 @@ class TestValidateTargetDirectory:
         """Test empty path raises error."""
         with pytest.raises(DirectoryNotFoundError):
             validate_target_directory(Path(""))
+
+
+class TestListTemplates:
+    """Tests for list_templates function."""
+
+    def test_list_templates_returns_directories(self, tmp_path):
+        """Test list_templates returns template directory names."""
+        # Create mock template directories
+        (tmp_path / "standard-project").mkdir()
+        (tmp_path / "learning-project").mkdir()
+
+        result = list_templates(tmp_path)
+        assert "standard-project" in result
+        assert "learning-project" in result
+        assert len(result) == 2
+
+    def test_list_templates_ignores_files(self, tmp_path):
+        """Test list_templates ignores files, only returns directories."""
+        (tmp_path / "standard-project").mkdir()
+        (tmp_path / "README.md").touch()
+
+        result = list_templates(tmp_path)
+        assert result == ["standard-project"]
+
+    def test_list_templates_ignores_hidden(self, tmp_path):
+        """Test list_templates ignores hidden directories."""
+        (tmp_path / "standard-project").mkdir()
+        (tmp_path / ".git").mkdir()
+
+        result = list_templates(tmp_path)
+        assert result == ["standard-project"]
+
+    def test_list_templates_empty_source(self, tmp_path):
+        """Test list_templates returns empty list for empty source."""
+        result = list_templates(tmp_path)
+        assert result == []
+
+    def test_list_templates_nonexistent_source_raises(self, tmp_path):
+        """Test list_templates raises error for nonexistent source."""
+        nonexistent = tmp_path / "does-not-exist"
+        with pytest.raises(DirectoryNotFoundError):
+            list_templates(nonexistent)
+
+
+class TestValidateTemplateType:
+    """Tests for validate_template_type function."""
+
+    def test_valid_template_type(self, tmp_path):
+        """Test valid template type returns path."""
+        template_dir = tmp_path / "standard-project"
+        template_dir.mkdir()
+
+        result = validate_template_type("standard-project", tmp_path)
+        assert result == template_dir
+
+    def test_invalid_template_type_raises(self, tmp_path):
+        """Test invalid template type raises TemplateNotFoundError."""
+        (tmp_path / "standard-project").mkdir()
+
+        with pytest.raises(TemplateNotFoundError) as exc:
+            validate_template_type("nonexistent", tmp_path)
+        assert "not found" in str(exc.value)
+        assert "standard-project" in str(exc.value)  # Should list available
