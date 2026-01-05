@@ -14,8 +14,8 @@
 
 | Phase | Name | Status | Effort |
 |-------|------|--------|--------|
-| [Phase 1](phase-1.md) | Config Extension | ✅ Expanded | ~2 hrs |
-| [Phase 2](phase-2.md) | Local Registry | 🔴 Scaffolding | ~2 hrs |
+| [Phase 1](phase-1.md) | Config Extension | ✅ Complete | ~2 hrs |
+| [Phase 2](phase-2.md) | Local Registry | ✅ Expanded | ~2 hrs |
 | [Phase 3](phase-3.md) | Template Copying | 🔴 Scaffolding | ~3 hrs |
 | [Phase 4](phase-4.md) | Create Command Extension | 🔴 Scaffolding | ~3 hrs |
 | [Phase 5](phase-5.md) | Testing & Polish | 🔴 Scaffolding | ~2 hrs |
@@ -58,8 +58,8 @@ Extend the existing `proj create` command with template generation capabilities 
 
 | Phase | Focus | Effort | Status | Completion |
 |-------|-------|--------|--------|------------|
-| 1 | Config Extension | ~2 hrs | ✅ Expanded | 0% impl |
-| 2 | Local Registry | ~2 hrs | 🔴 Scaffolding | 0% |
+| 1 | Config Extension | ~2 hrs | ✅ Complete | 100% |
+| 2 | Local Registry | ~2 hrs | ✅ Expanded | 0% impl |
 | 3 | Template Copying | ~3 hrs | 🔴 Scaffolding | 0% |
 | 4 | Create Command Extension | ~3 hrs | 🔴 Scaffolding | 0% |
 | 5 | Testing & Polish | ~2 hrs | 🔴 Scaffolding | 0% |
@@ -69,9 +69,9 @@ Extend the existing `proj create` command with template generation capabilities 
 
 ## 🚀 Next Steps
 
-1. **Implement Phase 1** - Use `/task-phase template-generation 1` to implement
-2. **Create PR** - Use `/pr --phase 1` after implementation
-3. **Expand Phase 2** - Run `/transition-plan template-generation --expand --phase 2`
+1. **Implement Phase 2** - Use `/task-phase 2 1` to begin Task 1
+2. **Create PR** - Use `/pr --phase 2` after implementation
+3. **Expand Phase 3** - Run `/transition-plan template-generation --expand --phase 3` when ready
 
 ---
 
@@ -90,7 +90,7 @@ Extend the existing `proj create` command with template generation capabilities 
 ---
 
 **Last Updated:** 2025-01-05  
-**Status:** ✅ Phase 1 Expanded  
-**Next:** Begin implementation with `/task-phase template-generation 1`
+**Status:** ✅ Phase 2 Expanded  
+**Next:** Begin implementation with `/task-phase 2 1`
 
 
