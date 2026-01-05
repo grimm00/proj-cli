@@ -285,3 +285,61 @@ def replace_placeholders(
         content = content.replace("[Author]", author)
 
         file_path.write_text(content)
+
+
+def create_from_template(
+    project_name: str,
+    template_type: str,
+    target_dir: Path,
+    templates_source: Path,
+    description: Optional[str] = None,
+    author: Optional[str] = None,
+) -> Path:
+    """Create a new project from a template.
+
+    Orchestrates the full workflow:
+    1. Validate project name
+    2. Validate target directory
+    3. Validate template type
+    4. Copy template to target
+    5. Replace placeholders
+
+    Args:
+        project_name: Name for the new project.
+        template_type: Template type (e.g., "standard-project").
+        target_dir: Directory to create project in.
+        templates_source: Path to templates source directory.
+        description: Project description (optional).
+        author: Author name (optional).
+
+    Returns:
+        Path to the created project directory.
+
+    Raises:
+        InvalidProjectNameError: If project name is invalid.
+        DirectoryNotFoundError: If target or source directory doesn't exist.
+        DirectoryNotWritableError: If target directory isn't writable.
+        TemplateNotFoundError: If template type doesn't exist.
+        ProjectExistsError: If project directory already exists.
+    """
+    # Validate inputs
+    project_name = validate_project_name(project_name)
+    target_dir = validate_target_directory(target_dir)
+    template_path = validate_template_type(template_type, templates_source)
+
+    # Copy template
+    project_path = copy_template(
+        template_path=template_path,
+        target_dir=target_dir,
+        project_name=project_name,
+    )
+
+    # Replace placeholders
+    replace_placeholders(
+        project_path=project_path,
+        project_name=project_name,
+        description=description,
+        author=author,
+    )
+
+    return project_path
