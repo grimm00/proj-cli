@@ -644,8 +644,8 @@ Create a local registry module to track template-created projects **for sync pur
 
 1. **RED - Write failing test:**
 
-   - [ ] Test removing existing project
-   - [ ] Test removing non-existent project (no error)
+   - [x] Test removing existing project
+   - [x] Test removing non-existent project (no error)
 
    **Test code:**
 
@@ -688,9 +688,9 @@ Create a local registry module to track template-created projects **for sync pur
 
 2. **GREEN - Implement:**
 
-   - [ ] Implement `remove_project()` function
-   - [ ] Filter out project by path
-   - [ ] Return True if removed, False if not found
+   - [x] Implement `remove_project()` function
+   - [x] Filter out project by path
+   - [x] Return True if removed, False if not found
 
    **Implementation:**
 
@@ -710,13 +710,14 @@ Create a local registry module to track template-created projects **for sync pur
    ```
 
 3. **REFACTOR:**
-   - [ ] Return removed project instead of bool?
+   - [x] Return bool (True/False) - simple and sufficient for current needs
+   - [ ] Return removed project instead of bool? (deferred - can add later if needed)
 
 **Checklist:**
 
-- [ ] Test written and failing
-- [ ] Implementation passes test
-- [ ] Code refactored and clean
+- [x] Test written and failing
+- [x] Implementation passes test
+- [x] Code refactored and clean
 
 ---
 
@@ -956,8 +957,8 @@ Create a local registry module to track template-created projects **for sync pur
 | Task 2: Registry Model + Simplify | ✅ Complete    | Registry added, RegistryProject simplified  |
 | Task 3: Load Registry             | ✅ Complete    | load_registry() implemented, all tests pass |
 | Task 4: Save Registry             | ✅ Complete    | save_registry() implemented, all tests pass |
-| Task 5: Add Project               | ✅ Complete    | add_project() implemented, all tests pass    |
-| Task 6: Remove Project            | 🔴 Not Started |                                             |
+| Task 5: Add Project               | ✅ Complete    | add_project() implemented, all tests pass   |
+| Task 6: Remove Project            | ✅ Complete    | remove_project() implemented, all tests pass |
 | Task 7: Lookup Function           | 🔴 Not Started | Path lookup only (cross-reference key)      |
 | Task 8: List Projects             | 🔴 Not Started |                                             |
 
