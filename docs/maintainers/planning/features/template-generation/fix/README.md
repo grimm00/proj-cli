@@ -26,6 +26,8 @@ fix/
 │   └── README.md                   # PR hub with deferred issues
 ├── pr10/                           # PR #10 (Phase 2) - No deferred issues
 │   └── README.md                   # All issues fixed before merge
+├── pr11/                           # PR #11 (Phase 3) deferred issues
+│   └── README.md                   # 4 deferred test improvements
 ├── cross-pr/                       # Cross-PR fix batches (if any)
 │   └── README.md                   # Cross-PR hub
 └── archived/                       # Completed fix PRs
@@ -40,6 +42,7 @@ fix/
 |----|-------|--------|--------|---------|
 | [PR #8](pr8/README.md) | Phase 1: Config Extension | 🟡 In Progress | 7 | 2 remaining |
 | [PR #9](pr9/README.md) | Fix: Test Isolation | 🟡 Deferred | 2 | - |
+| [PR #11](pr11/README.md) | Phase 3: Template Copying | 🟡 Deferred | 4 | - |
 
 ---
 
@@ -58,14 +61,16 @@ fix/
 - [PR #8 Fix Tracking](pr8/README.md)
 - [PR #9 Fix Tracking](pr9/README.md)
 - [PR #10 Fix Tracking](pr10/README.md) - All issues fixed before merge
+- [PR #11 Fix Tracking](pr11/README.md) - 4 test improvements deferred
 - [Sourcery Review PR #8](../../../feedback/sourcery/pr8.md)
 - [Sourcery Review PR #9](../../../feedback/sourcery/pr9.md)
 - [Sourcery Review PR #10](../../../feedback/sourcery/pr10.md)
+- [Sourcery Review PR #11](../../../feedback/sourcery/pr11.md)
 - [Deferred Tasks Collection](../../../feedback/deferred-tasks.md)
 
 ---
 
 **Last Updated:** 2026-01-05  
 **Status:** ✅ Active  
-**Next:** Implement remaining batches using `/fix-implement pr8-batch-medium-low-01`
+**Next:** Handle deferred issues opportunistically or in dedicated test improvement batch
 

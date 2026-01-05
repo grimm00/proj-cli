@@ -22,7 +22,7 @@
 
 ## 🎯 Current Focus
 
-**Stage:** Phase 3 Complete - Ready for PR
+**Stage:** Phase 3 Merged - Ready for Phase 4
 
 Phase 1 (Config Extension) is complete:
 - ✅ All 6 TDD tasks implemented
@@ -42,6 +42,8 @@ Phase 2 (Local Registry) is complete:
 Phase 3 (Template Copying) is complete:
 - ✅ All 8 TDD tasks implemented
 - ✅ 52 tests passing (new templates module)
+- ✅ PR #11 merged (2026-01-05)
+- ✅ Sourcery review: 5 comments (1 fixed, 4 LOW/MEDIUM deferred)
 - ✅ Ports logic from dev-infra's `new-project.sh`
 - ✅ Name validation and sanitization
 - ✅ Directory validation
@@ -51,34 +53,34 @@ Phase 3 (Template Copying) is complete:
 - ✅ High-level orchestration function
 - ✅ Config integration
 
-**Next action:** Create PR for Phase 3, then expand Phase 4.
+**Next action:** Expand Phase 4, then begin implementation.
 
 ---
 
 ## 🚀 Immediate Next Steps
 
-### 1. Create PR for Phase 3
+### 1. Expand Phase 4
 
-Phase 3 implementation complete:
-
-```bash
-/pr --phase 3
-```
-
-### 2. Expand Phase 4
-
-After Phase 3 merged:
+Phase 3 merged, ready for Phase 4:
 
 ```bash
 /transition-plan template-generation --expand --phase 4
 ```
 
-### 3. Implement Phase 4
+### 2. Implement Phase 4
 
 After expansion:
 
 ```bash
 /task-phase 4 1
+```
+
+### 3. Create PR for Phase 4
+
+After all tasks complete:
+
+```bash
+/pr --phase 4
 ```
 
 ---
@@ -117,7 +119,7 @@ After expansion:
 |-------|--------|--------|
 | Phase 1: Config Extension | ~2 hrs | ✅ Complete (PR #8) |
 | Phase 2: Local Registry | ~2 hrs | ✅ Complete (PR #10) |
-| Phase 3: Template Copying | ~3 hrs | ✅ Expanded |
+| Phase 3: Template Copying | ~3 hrs | ✅ Complete (PR #11) |
 | Phase 4: Create Command Extension | ~3 hrs | 🔴 Scaffolding |
 | Phase 5: Testing & Polish | ~2 hrs | 🔴 Scaffolding |
 | **Total** | **~12 hrs** | |
@@ -128,9 +130,10 @@ After expansion:
 
 ### 2026-01-05
 
-- ✅ **Phase 3: Template Copying - COMPLETE**
+- ✅ **Phase 3: Template Copying - MERGED** (PR #11)
   - All 8 TDD tasks implemented
   - 52 tests passing (new templates module)
+  - Sourcery review: 5 comments (1 fixed, 4 LOW/MEDIUM deferred)
   - Ports logic from dev-infra's `new-project.sh`
   - Tasks completed:
     - Task 1: Name Validation
@@ -191,7 +194,7 @@ After expansion:
 ---
 
 **Last Updated:** 2026-01-05  
-**Status:** ✅ Phase 3 Complete  
-**Next:** Create PR for Phase 3, then expand Phase 4
+**Status:** ✅ Phase 3 Merged (PR #11)  
+**Next:** Expand Phase 4, then begin implementation
 
 
