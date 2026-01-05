@@ -191,6 +191,79 @@ def test_save_registry_creates_valid_json(tmp_path, monkeypatch):
     assert data["projects"][0]["template"] == "standard-project"
 
 
+def test_save_load_roundtrip(tmp_path, monkeypatch):
+    """Test that save_registry + load_registry preserves all fields."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import Registry, RegistryProject, save_registry, load_registry
+    from datetime import datetime
+    from pathlib import Path
+
+    # Create a registry with known values
+    original_dt = datetime(2025, 1, 5, 10, 30, 45)
+    original = Registry(
+        version="1.0",
+        projects=[
+            RegistryProject(
+                path=Path("/Users/me/Projects/test-project"),
+                template="standard-project",
+                template_version="0.8.0",
+                created_at=original_dt,
+            )
+        ],
+    )
+
+    # Save and load
+    save_registry(original)
+    loaded = load_registry()
+
+    # Assert all fields are preserved
+    assert loaded.version == original.version
+    assert len(loaded.projects) == 1
+    
+    loaded_proj = loaded.projects[0]
+    original_proj = original.projects[0]
+    
+    assert loaded_proj.path == original_proj.path
+    assert loaded_proj.template == original_proj.template
+    assert loaded_proj.template_version == original_proj.template_version
+    assert loaded_proj.created_at == original_proj.created_at
+
+
+def test_load_registry_handles_z_suffix(tmp_path, monkeypatch):
+    """Test that load_registry handles ISO 8601 Z suffix timestamps."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import load_registry
+    from datetime import datetime, timezone
+    import json
+
+    # Create registry file with Z suffix timestamp (common in JSON APIs)
+    registry_file = tmp_path / "proj" / "registry.json"
+    registry_file.parent.mkdir(parents=True, exist_ok=True)
+    
+    data = {
+        "version": "1.0",
+        "projects": [
+            {
+                "path": "/Users/me/Projects/test",
+                "template": "standard-project",
+                "template_version": "0.8.0",
+                "created_at": "2025-01-05T10:30:00Z",  # Z suffix
+            }
+        ],
+    }
+    with open(registry_file, "w") as f:
+        json.dump(data, f)
+
+    # Load should succeed without error
+    registry = load_registry()
+    
+    assert len(registry.projects) == 1
+    # Timestamp should be parsed correctly (Z = UTC = +00:00)
+    assert registry.projects[0].created_at.tzinfo is not None
+
+
 def test_add_project_to_registry(tmp_path, monkeypatch):
     """Test adding a project to the registry."""
     monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))

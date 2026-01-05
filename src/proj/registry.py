@@ -62,13 +62,18 @@ def load_registry() -> Registry:
 
     projects = []
     for proj_data in data.get("projects", []):
+        # Handle Z suffix (ISO 8601 UTC) - fromisoformat doesn't accept it
+        created_at_str = proj_data["created_at"]
+        if created_at_str.endswith("Z"):
+            created_at_str = created_at_str[:-1] + "+00:00"
+        
         # Minimal schema - only sync fields
         projects.append(
             RegistryProject(
                 path=Path(proj_data["path"]),
                 template=proj_data["template"],
                 template_version=proj_data["template_version"],
-                created_at=datetime.fromisoformat(proj_data["created_at"]),
+                created_at=datetime.fromisoformat(created_at_str),
             )
         )
 
@@ -76,7 +81,12 @@ def load_registry() -> Registry:
 
 
 def save_registry(registry: Registry) -> None:
-    """Save registry to disk with atomic write."""
+    """Save registry to disk.
+    
+    Note: This is not an atomic write. If the process is interrupted,
+    the file may be left in a partial state. For this use case (small
+    registry files, low-frequency writes), this is acceptable.
+    """
     registry_path = _get_registry_path()
 
     # Ensure directory exists
@@ -121,6 +131,9 @@ def add_project(
     Raises:
         ValueError: If project at path is already registered
     """
+    # Normalize path for consistent comparisons
+    path = path.resolve()
+    
     registry = load_registry()
 
     # Check for duplicates
@@ -150,6 +163,9 @@ def remove_project(path: Path) -> bool:
     Returns:
         True if project was removed, False if not found
     """
+    # Normalize path for consistent comparisons
+    path = path.resolve()
+    
     registry = load_registry()
 
     original_count = len(registry.projects)
@@ -171,6 +187,9 @@ def get_project_by_path(path: Path) -> Optional[RegistryProject]:
     Returns:
         RegistryProject if found, None otherwise
     """
+    # Normalize path for consistent comparisons
+    path = path.resolve()
+    
     registry = load_registry()
     for project in registry.projects:
         if project.path == path:
