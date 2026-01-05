@@ -35,9 +35,9 @@ Create a local registry module to track template-created projects. The registry 
 **TDD Flow:**
 
 1. **RED - Write failing test:**
-   - [ ] Create `tests/test_registry.py`
-   - [ ] Write test for `RegistryProject` existence and fields
-   - [ ] Verify test fails (no implementation yet)
+   - [x] Create `tests/test_registry.py`
+   - [x] Write test for `RegistryProject` existence and fields
+   - [x] Verify test fails (no implementation yet)
 
    **Test code:**
    ```python
@@ -95,9 +95,9 @@ Create a local registry module to track template-created projects. The registry 
    ```
 
 2. **GREEN - Implement minimum code:**
-   - [ ] Create `src/proj/registry.py`
-   - [ ] Define `RegistryProject` dataclass/model
-   - [ ] Run tests, verify they pass
+   - [x] Create `src/proj/registry.py`
+   - [x] Define `RegistryProject` dataclass/model
+   - [x] Run tests, verify they pass
 
    **Implementation:**
    ```python
@@ -124,14 +124,14 @@ Create a local registry module to track template-created projects. The registry 
    ```
 
 3. **REFACTOR:**
-   - [ ] Consider using Pydantic model for validation (like Config)
-   - [ ] Add docstrings to class and fields
-   - [ ] Ensure tests still pass
+   - [x] Consider using Pydantic model for validation (like Config) - Using dataclass (appropriate for simple data model)
+   - [x] Add docstrings to class and fields
+   - [x] Ensure tests still pass
 
 **Checklist:**
-- [ ] Test written and failing
-- [ ] Implementation passes test
-- [ ] Code refactored and clean
+- [x] Test written and failing
+- [x] Implementation passes test
+- [x] Code refactored and clean
 
 ---
 
@@ -892,7 +892,7 @@ Create a local registry module to track template-created projects. The registry 
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 1: RegistryProject Model | 🔴 Not Started | |
+| Task 1: RegistryProject Model | ✅ Complete | All tests passing (3/3) |
 | Task 2: Registry Model | 🔴 Not Started | |
 | Task 3: Load Registry | 🔴 Not Started | |
 | Task 4: Save Registry | 🔴 Not Started | |
