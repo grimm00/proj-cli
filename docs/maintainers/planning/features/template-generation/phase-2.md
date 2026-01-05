@@ -835,9 +835,9 @@ Create a local registry module to track template-created projects **for sync pur
 
 1. **RED - Write failing test:**
 
-   - [ ] Test listing empty registry
-   - [ ] Test listing registry with projects
-   - [ ] Test filtering by template type
+   - [x] Test listing empty registry
+   - [x] Test listing registry with projects
+   - [x] Test filtering by template type
 
    **Test code:**
 
@@ -902,8 +902,8 @@ Create a local registry module to track template-created projects **for sync pur
 
 2. **GREEN - Implement:**
 
-   - [ ] Implement `list_projects()` function
-   - [ ] Add optional template filter
+   - [x] Implement `list_projects()` function
+   - [x] Add optional template filter
 
    **Implementation:**
 
@@ -919,13 +919,14 @@ Create a local registry module to track template-created projects **for sync pur
    ```
 
 3. **REFACTOR:**
-   - [ ] Add sorting options
+   - [x] Code clean and simple
+   - [ ] Add sorting options (deferred - can add later if needed)
 
 **Checklist:**
 
-- [ ] Test written and failing
-- [ ] Implementation passes test
-- [ ] Code refactored and clean
+- [x] Test written and failing
+- [x] Implementation passes test
+- [x] Code refactored and clean
 
 ---
 
@@ -952,16 +953,16 @@ Create a local registry module to track template-created projects **for sync pur
 
 ## 📊 Progress Tracking
 
-| Task                              | Status         | Notes                                        |
-| --------------------------------- | -------------- | -------------------------------------------- |
-| Task 1: RegistryProject Model     | ✅ Complete    | Updated to minimal schema in Task 2          |
-| Task 2: Registry Model + Simplify | ✅ Complete    | Registry added, RegistryProject simplified   |
-| Task 3: Load Registry             | ✅ Complete    | load_registry() implemented, all tests pass  |
-| Task 4: Save Registry             | ✅ Complete    | save_registry() implemented, all tests pass  |
-| Task 5: Add Project               | ✅ Complete    | add_project() implemented, all tests pass    |
-| Task 6: Remove Project            | ✅ Complete    | remove_project() implemented, all tests pass |
+| Task                              | Status         | Notes                                                 |
+| --------------------------------- | -------------- | ----------------------------------------------------- |
+| Task 1: RegistryProject Model     | ✅ Complete    | Updated to minimal schema in Task 2                   |
+| Task 2: Registry Model + Simplify | ✅ Complete    | Registry added, RegistryProject simplified            |
+| Task 3: Load Registry             | ✅ Complete    | load_registry() implemented, all tests pass           |
+| Task 4: Save Registry             | ✅ Complete    | save_registry() implemented, all tests pass           |
+| Task 5: Add Project               | ✅ Complete    | add_project() implemented, all tests pass             |
+| Task 6: Remove Project            | ✅ Complete    | remove_project() implemented, all tests pass          |
 | Task 7: Lookup Function           | ✅ Complete    | get_project_by_path() and is_registered() implemented |
-| Task 8: List Projects             | 🔴 Not Started |                                              |
+| Task 8: List Projects             | 🔴 Not Started |                                                       |
 
 ---
 
