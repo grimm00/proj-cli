@@ -21,6 +21,7 @@ This creates a fragmented workflow where users must use two different tools for 
 **Key Question:** How should proj-cli integrate template generation from dev-infra?
 
 **Research Conducted:**
+
 - [Exploration: proj-cli Architecture](../explorations/proj-cli-architecture/README.md)
 - [Research: Unified Create Command](../research/proj-cli-architecture/research-unified-create-command.md)
 - [Research: Config Extension](../research/proj-cli-architecture/research-config-extension.md)
@@ -30,12 +31,14 @@ This creates a fragmented workflow where users must use two different tools for 
 - [Requirements Document](../research/proj-cli-architecture/requirements.md)
 
 **Current State:**
+
 - proj-cli talks to work-prod API for project records
 - dev-infra's `new-project.sh` creates project directories from templates
 - No local tracking of template-created projects
 - No way to sync template updates to existing projects
 
 **Constraints:**
+
 - Must be backward compatible with existing `proj create` usage
 - Should work offline when API is unavailable
 - Should match interactive UX of `new-project.sh`
@@ -45,12 +48,14 @@ This creates a fragmented workflow where users must use two different tools for 
 ## Decision
 
 **Extend the existing `proj create` command with modes** instead of adding a separate `proj new` command. This provides:
+
 - **Interactive mode (default):** Prompts for project name, template, description, etc.
 - **Template mode (`--template`):** Creates project from dev-infra template
 - **API-only mode (`--api-only`):** Preserves current behavior (API record only)
 - **Local-only mode (`--local-only`):** Works without API connectivity
 
 **Config-driven behavior:** New configuration options control feature availability:
+
 - `api_enabled`: Toggle API integration on/off
 - `templates.source`: Path to dev-infra templates
 - `templates.default`: Default template type
@@ -58,14 +63,14 @@ This creates a fragmented workflow where users must use two different tools for 
 
 ### Key Decisions
 
-| Decision Point | Choice | Rationale |
-|----------------|--------|-----------|
-| **Command** | Extend `proj create` | Single mental model, backward compatible |
-| **Default Mode** | Interactive | Matches new-project.sh UX |
-| **Template Source** | Local path reference | Simple, offline, user has dev-infra |
-| **Primary Store** | `inventory.json` | Single source of truth for all projects |
-| **Sync Overlay** | `registry.json` | Minimal overlay for template sync tracking |
-| **API Integration** | Config-driven, optional | Supports offline and API-less workflows |
+| Decision Point      | Choice                  | Rationale                                  |
+| ------------------- | ----------------------- | ------------------------------------------ |
+| **Command**         | Extend `proj create`    | Single mental model, backward compatible   |
+| **Default Mode**    | Interactive             | Matches new-project.sh UX                  |
+| **Template Source** | Local path reference    | Simple, offline, user has dev-infra        |
+| **Primary Store**   | `inventory.json`        | Single source of truth for all projects    |
+| **Sync Overlay**    | `registry.json`         | Minimal overlay for template sync tracking |
+| **API Integration** | Config-driven, optional | Supports offline and API-less workflows    |
 
 ### Inventory vs Registry Architecture
 
@@ -73,25 +78,25 @@ This creates a fragmented workflow where users must use two different tools for 
 
 #### inventory.json - Primary Project Store
 
-| Aspect | Details |
-|--------|---------|
-| **Location** | `~/.local/share/proj/inventory.json` |
-| **Purpose** | All projects the user works with |
-| **Sources** | GitHub scan, local scan, manual addition, template creation |
+| Aspect        | Details                                                         |
+| ------------- | --------------------------------------------------------------- |
+| **Location**  | `~/.local/share/proj/inventory.json`                            |
+| **Purpose**   | All projects the user works with                                |
+| **Sources**   | GitHub scan, local scan, manual addition, template creation     |
 | **Use Cases** | Discovery, cataloging, status tracking, export to work-prod API |
-| **Scope** | Everything - single source of truth |
+| **Scope**     | Everything - single source of truth                             |
 
 **Fields:** `name`, `description`, `remote_url`, `local_path`, `scan_source`, `languages`, `analyzed`, etc.
 
 #### registry.json - Template Sync Overlay
 
-| Aspect | Details |
-|--------|---------|
-| **Location** | `~/.local/share/proj/registry.json` |
-| **Purpose** | Track template-created projects for sync |
-| **Sources** | Only `proj create --template` |
+| Aspect        | Details                                                          |
+| ------------- | ---------------------------------------------------------------- |
+| **Location**  | `~/.local/share/proj/registry.json`                              |
+| **Purpose**   | Track template-created projects for sync                         |
+| **Sources**   | Only `proj create --template`                                    |
 | **Use Cases** | Enable `proj sync` to update projects to newer template versions |
-| **Scope** | Subset - only projects that want template tracking |
+| **Scope**     | Subset - only projects that want template tracking               |
 
 **Fields (minimal):** `path`, `template`, `template_version`, `created_at`
 
@@ -111,6 +116,7 @@ This creates a fragmented workflow where users must use two different tools for 
 ```
 
 **Key Points:**
+
 1. Template-created projects appear in **both** files
 2. Inventory stores the project metadata (name, path, description, etc.)
 3. Registry stores only template sync data (template, version, created_at)
@@ -151,7 +157,7 @@ proj create my-app --template standard --dry-run
 
 # API Settings (existing + new)
 api_url: http://localhost:5000
-api_enabled: true              # NEW: Toggle API integration
+api_enabled: true # NEW: Toggle API integration
 
 # Template Settings (NEW)
 templates:
@@ -191,12 +197,14 @@ The registry schema is intentionally minimal - it only tracks what's needed for 
 ```
 
 **Field Rationale:**
+
 - `path` - Cross-reference key to inventory.json (unique identifier)
 - `template` - Which template was used (needed for sync)
 - `template_version` - Which version (needed to detect updates)
 - `created_at` - When created (audit trail)
 
 **Removed from original design:**
+
 - `id` (UUID) - Not needed; path is unique
 - `name` - Lives in inventory.json
 - `work_prod_id` - Lives in inventory.json
@@ -257,11 +265,13 @@ When a project is created via `proj create --template`, it gets an inventory ent
 **Description:** Add a new `proj new` command for template creation, keep `proj create` for API-only.
 
 **Pros:**
+
 - Clear separation of concerns
 - No changes to existing command
 - Simpler individual commands
 
 **Cons:**
+
 - Two mental models for "creating a project"
 - Users must remember which command to use
 - Doesn't match "create" semantics
@@ -273,11 +283,13 @@ When a project is created via `proj create --template`, it gets an inventory ent
 **Description:** Bundle templates directly in proj-cli package.
 
 **Pros:**
+
 - Works without dev-infra installed
 - Single install for everything
 - Always available offline
 
 **Cons:**
+
 - Templates become stale between releases
 - Larger package size
 - Maintenance burden (sync templates to package)
@@ -290,11 +302,13 @@ When a project is created via `proj create --template`, it gets an inventory ent
 **Description:** Fetch templates from dev-infra GitHub releases on demand.
 
 **Pros:**
+
 - Always get latest templates
 - No local clone needed
 - Versioned templates
 
 **Cons:**
+
 - Requires internet connection
 - Slower than local copy
 - Release packaging complexity
@@ -314,6 +328,7 @@ When a project is created via `proj create --template`, it gets an inventory ent
 5. **Simplicity First:** Local path reference before HTTP download
 
 **Research Support:**
+
 - Finding 1: new-project.sh is interactive by default
 - Finding 2: Users expect "create" to create projects
 - Finding 3: Templates are static at creation time
@@ -325,20 +340,20 @@ When a project is created via `proj create --template`, it gets an inventory ent
 
 **Requirements Addressed:**
 
-| Requirement | Status |
-|-------------|--------|
-| FR-CREATE-1: Interactive mode | ✅ Addressed |
-| FR-CREATE-2: Template-based creation | ✅ Addressed |
-| FR-CREATE-3: API-only mode | ✅ Addressed |
-| FR-CREATE-4: Local-only mode | ✅ Addressed |
-| FR-CONFIG-1: api_enabled toggle | ✅ Addressed |
-| FR-CONFIG-2: templates.source | ✅ Addressed |
-| FR-CONFIG-3: registry.path | ✅ Addressed |
-| FR-TMPL-1-3: Template handling | ✅ Addressed |
-| FR-REG-1-4: Local registry | ✅ Addressed |
-| FR-PORT-1-7: new-project.sh port | ✅ Addressed |
-| NFR-CREATE-1: Backward compatibility | ✅ Addressed |
-| NFR-TMPL-1: Offline operation | ✅ Addressed |
+| Requirement                            | Status       |
+| -------------------------------------- | ------------ |
+| FR-CREATE-1: Interactive mode          | ✅ Addressed |
+| FR-CREATE-2: Template-based creation   | ✅ Addressed |
+| FR-CREATE-3: API-only mode             | ✅ Addressed |
+| FR-CREATE-4: Local-only mode           | ✅ Addressed |
+| FR-CONFIG-1: api_enabled toggle        | ✅ Addressed |
+| FR-CONFIG-2: templates.source          | ✅ Addressed |
+| FR-CONFIG-3: registry.path             | ✅ Addressed |
+| FR-TMPL-1-3: Template handling         | ✅ Addressed |
+| FR-REG-1-4: Local registry             | ✅ Addressed |
+| FR-PORT-1-7: new-project.sh port       | ✅ Addressed |
+| NFR-CREATE-1: Backward compatibility   | ✅ Addressed |
+| NFR-TMPL-1: Offline operation          | ✅ Addressed |
 | NFR-REG-1-2: XDG location, JSON format | ✅ Addressed |
 
 **See:** [requirements.md](../research/proj-cli-architecture/requirements.md) for complete requirements
@@ -404,4 +419,3 @@ When a project is created via `proj create --template`, it gets an inventory ent
 ---
 
 **Last Updated:** 2025-01-05 (Refined: inventory/registry relationship)
-

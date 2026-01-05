@@ -13,6 +13,7 @@
 Create a local registry module to track template-created projects **for sync purposes**. The registry is a **minimal overlay** that cross-references `inventory.json` (the primary project store).
 
 **Architecture (per ADR-0008 refinement):**
+
 - `inventory.json` = Primary project store (all projects)
 - `registry.json` = Sync overlay (template tracking only)
 
@@ -151,6 +152,7 @@ Create a local registry module to track template-created projects **for sync pur
 **Purpose:** Define the registry container and simplify RegistryProject to minimal schema.
 
 **Architecture Note:** Registry is a sync overlay. Only stores what's needed for template sync:
+
 - `path` - Cross-reference key to inventory.json
 - `template` - Which template was used
 - `template_version` - Which version (for sync detection)
@@ -160,10 +162,10 @@ Create a local registry module to track template-created projects **for sync pur
 
 1. **RED - Write failing test:**
 
-   - [ ] Write test for `Registry` class existence
-   - [ ] Test version field and projects list
-   - [ ] Update RegistryProject tests for minimal schema
-   - [ ] Verify test fails
+   - [x] Write test for `Registry` class existence
+   - [x] Test version field and projects list
+   - [x] Update RegistryProject tests for minimal schema
+   - [x] Verify test fails
 
    **Test code:**
 
@@ -229,9 +231,9 @@ Create a local registry module to track template-created projects **for sync pur
 
 2. **GREEN - Implement:**
 
-   - [ ] Simplify `RegistryProject` to minimal schema
-   - [ ] Add `Registry` dataclass to `registry.py`
-   - [ ] Update existing tests to use minimal schema
+   - [x] Simplify `RegistryProject` to minimal schema
+   - [x] Add `Registry` dataclass to `registry.py`
+   - [x] Update existing tests to use minimal schema
 
    **Implementation:**
 
@@ -239,12 +241,12 @@ Create a local registry module to track template-created projects **for sync pur
    @dataclass
    class RegistryProject:
        """A project tracked in the registry for template sync.
-       
+
        Minimal schema - only sync-related fields.
        Project metadata lives in inventory.json.
        Cross-references inventory via path field.
        """
-       
+
        path: Path  # Cross-reference key to inventory
        template: str  # Template type used
        template_version: str  # Template version for sync
@@ -254,7 +256,7 @@ Create a local registry module to track template-created projects **for sync pur
    @dataclass
    class Registry:
        """Local registry for template sync tracking.
-       
+
        This is a sync overlay, not a project store.
        All project metadata lives in inventory.json.
        """
@@ -264,17 +266,17 @@ Create a local registry module to track template-created projects **for sync pur
    ```
 
 3. **REFACTOR:**
-   - [ ] Update Task 1 tests to use minimal schema
-   - [ ] Add docstrings
-   - [ ] Ensure all tests pass
+   - [x] Update Task 1 tests to use minimal schema
+   - [x] Add docstrings
+   - [x] Ensure all tests pass
 
 **Checklist:**
 
-- [ ] Test written and failing
-- [ ] Implementation passes test
-- [ ] RegistryProject simplified to minimal schema
-- [ ] Task 1 tests updated
-- [ ] Code refactored and clean
+- [x] Test written and failing
+- [x] Implementation passes test
+- [x] RegistryProject simplified to minimal schema
+- [x] Task 1 tests updated
+- [x] Code refactored and clean
 
 ---
 
@@ -599,16 +601,16 @@ Create a local registry module to track template-created projects **for sync pur
        template_version: str,
    ) -> RegistryProject:
        """Add a new project to the registry for sync tracking.
-       
+
        Note: This only adds to registry. Caller should also add to inventory.
        """
        registry = load_registry()
-       
+
        # Check for duplicates
        for existing in registry.projects:
            if existing.path == path:
                raise ValueError(f"Project at {path} already registered")
-       
+
        project = RegistryProject(
            path=path,
            template=template,
@@ -948,29 +950,29 @@ Create a local registry module to track template-created projects **for sync pur
 
 ## 📊 Progress Tracking
 
-| Task                                    | Status           | Notes                                     |
-| --------------------------------------- | ---------------- | ----------------------------------------- |
-| Task 1: RegistryProject Model           | ✅ Complete      | Original schema (needs simplification)    |
-| Task 2: Registry Model + Simplify       | 🔴 Not Started   | Simplify to minimal schema                |
-| Task 3: Load Registry                   | 🔴 Not Started   |                                           |
-| Task 4: Save Registry                   | 🔴 Not Started   |                                           |
-| Task 5: Add Project                     | 🔴 Not Started   |                                           |
-| Task 6: Remove Project                  | 🔴 Not Started   |                                           |
-| Task 7: Lookup Function                 | 🔴 Not Started   | Path lookup only (cross-reference key)    |
-| Task 8: List Projects                   | 🔴 Not Started   |                                           |
+| Task                              | Status         | Notes                                  |
+| --------------------------------- | -------------- | -------------------------------------- |
+| Task 1: RegistryProject Model     | ✅ Complete    | Original schema (needs simplification) |
+| Task 2: Registry Model + Simplify | 🔴 Not Started | Simplify to minimal schema             |
+| Task 3: Load Registry             | 🔴 Not Started |                                        |
+| Task 4: Save Registry             | 🔴 Not Started |                                        |
+| Task 5: Add Project               | 🔴 Not Started |                                        |
+| Task 6: Remove Project            | 🔴 Not Started |                                        |
+| Task 7: Lookup Function           | 🔴 Not Started | Path lookup only (cross-reference key) |
+| Task 8: List Projects             | 🔴 Not Started |                                        |
 
 ---
 
 ## 📊 Requirements Addressed
 
-| Requirement | Description                   | Status     | Notes                              |
-| ----------- | ----------------------------- | ---------- | ---------------------------------- |
-| FR-REG-1    | Project tracking              | 🔴 Pending |                                    |
-| FR-REG-2    | Project path storage          | 🔴 Pending | Path is cross-reference key        |
-| FR-REG-3    | Template info (type, version) | 🔴 Pending | For sync tracking                  |
-| FR-REG-4    | API linkage (work_prod_id)    | ✅ N/A     | Moved to inventory.json            |
-| NFR-REG-1   | Human-readable (JSON)         | 🔴 Pending |                                    |
-| NFR-REG-2   | XDG-compliant location        | 🔴 Pending |                                    |
+| Requirement | Description                   | Status     | Notes                       |
+| ----------- | ----------------------------- | ---------- | --------------------------- |
+| FR-REG-1    | Project tracking              | 🔴 Pending |                             |
+| FR-REG-2    | Project path storage          | 🔴 Pending | Path is cross-reference key |
+| FR-REG-3    | Template info (type, version) | 🔴 Pending | For sync tracking           |
+| FR-REG-4    | API linkage (work_prod_id)    | ✅ N/A     | Moved to inventory.json     |
+| NFR-REG-1   | Human-readable (JSON)         | 🔴 Pending |                             |
+| NFR-REG-2   | XDG-compliant location        | 🔴 Pending |                             |
 
 ---
 
