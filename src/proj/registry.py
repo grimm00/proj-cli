@@ -1,7 +1,10 @@
 """Local registry for tracking template-created projects."""
+import json
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
+
+from proj.config import get_data_dir
 
 
 @dataclass
@@ -39,4 +42,34 @@ class Registry:
 
     version: str = "1.0"
     projects: list[RegistryProject] = field(default_factory=list)
+
+
+def _get_registry_path() -> Path:
+    """Get the path to the registry file."""
+    return get_data_dir() / "registry.json"
+
+
+def load_registry() -> Registry:
+    """Load registry from disk, creating empty registry if not exists."""
+    registry_path = _get_registry_path()
+
+    if not registry_path.exists():
+        return Registry()
+
+    with open(registry_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    projects = []
+    for proj_data in data.get("projects", []):
+        # Minimal schema - only sync fields
+        projects.append(
+            RegistryProject(
+                path=Path(proj_data["path"]),
+                template=proj_data["template"],
+                template_version=proj_data["template_version"],
+                created_at=datetime.fromisoformat(proj_data["created_at"]),
+            )
+        )
+
+    return Registry(version=data.get("version", "1.0"), projects=projects)
 

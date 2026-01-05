@@ -1,4 +1,5 @@
 """Tests for local registry module."""
+import json
 import pytest
 from datetime import datetime
 from pathlib import Path
@@ -89,4 +90,51 @@ def test_registry_project_minimal_schema():
     assert not hasattr(project, 'name')
     assert not hasattr(project, 'work_prod_id')
     assert not hasattr(project, 'metadata')
+
+
+def test_load_registry_creates_empty_if_not_exists(tmp_path, monkeypatch):
+    """Test that load_registry creates empty registry if file doesn't exist."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import load_registry
+
+    registry = load_registry()
+
+    assert registry.version == "1.0"
+    assert registry.projects == []
+
+
+def test_load_registry_reads_existing_file(tmp_path, monkeypatch):
+    """Test that load_registry reads existing JSON file."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    # Create registry file
+    registry_dir = tmp_path / "proj"
+    registry_dir.mkdir(parents=True)
+    registry_file = registry_dir / "registry.json"
+
+    # Minimal schema - sync fields only
+    registry_data = {
+        "version": "1.0",
+        "projects": [
+            {
+                "path": "/Users/me/Projects/my-project",
+                "template": "standard-project",
+                "template_version": "0.8.0",
+                "created_at": "2025-01-05T10:30:00",
+            }
+        ],
+    }
+    with open(registry_file, "w") as f:
+        json.dump(registry_data, f)
+
+    from proj.registry import load_registry
+    from pathlib import Path
+
+    registry = load_registry()
+
+    assert registry.version == "1.0"
+    assert len(registry.projects) == 1
+    assert registry.projects[0].path == Path("/Users/me/Projects/my-project")
+    assert registry.projects[0].template == "standard-project"
 
