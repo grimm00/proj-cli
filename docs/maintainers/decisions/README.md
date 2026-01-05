@@ -2,7 +2,7 @@
 
 **Purpose:** Central hub for documenting architectural decisions
 **Status:** ✅ Active
-**Last Updated:** 2025-12-16
+**Last Updated:** 2025-01-05
 
 ---
 
@@ -11,6 +11,7 @@
 ### Architecture Decision Records (ADRs)
 
 - **[ADR-0007: Unified CLI Tool Architecture](ADR-0007-unified-cli-architecture.md)** - CLI architecture, framework, and repository decisions (✅ Accepted)
+- **[ADR-0008: Template Generation Extension](ADR-0008-template-generation-extension.md)** - Extend `proj create` with template generation (🟡 Proposed)
 
 ---
 
@@ -66,12 +67,12 @@ This creates:
 
 ## 📚 Related Documentation
 
-- **[Explorations Hub](../planning/explorations/README.md)** - Explorations and proof of concepts
+- **[Explorations Hub](../explorations/README.md)** - Explorations and proof of concepts
 - **[Research Hub](../research/README.md)** - Research documents and analysis
 - **[Feature Planning](../planning/features/README.md)** - Feature planning and implementation
 
 ---
 
-**Last Updated:** [DATE]
+**Last Updated:** 2025-01-05
 **Status:** ✅ Active
 
