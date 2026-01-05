@@ -453,8 +453,8 @@ Extend the existing Pydantic configuration with new fields for template source, 
 
 1. **RED - Write failing test:**
 
-   - [ ] Add test that `proj init` creates config with new fields
-   - [ ] Verify tests fail
+   - [x] Add test that `proj init` creates config with new fields
+   - [x] Verify tests fail (Note: Test passed immediately - implementation already correct via Task 5)
 
    **Test code (`tests/test_cli.py` or `tests/test_cli_integration.py`):**
 
@@ -484,24 +484,25 @@ Extend the existing Pydantic configuration with new fields for template source, 
 
 2. **GREEN - Implement minimum code:**
 
-   - [ ] Update `proj init` to use new Config class
-   - [ ] Ensure new fields are included in saved config
-   - [ ] Run tests, verify they pass
+   - [x] Update `proj init` to use new Config class
+   - [x] Ensure new fields are included in saved config
+   - [x] Run tests, verify they pass
 
    **Implementation notes:**
 
-   - `proj init` already uses `Config.save()`, so new fields should be included automatically
-   - May need to verify the command handles nested configs correctly
+   - `proj init` already uses `Config.save()`, so new fields are included automatically
+   - Task 5's YAML serialization (`model_dump(mode='json')`) ensures all fields are saved
+   - No changes needed to `proj init` command - works correctly as-is
 
 3. **REFACTOR - Clean up:**
-   - [ ] Ensure output message mentions new config options
-   - [ ] Verify tests still pass
+   - [x] Ensure output message mentions new config options (no changes needed)
+   - [x] Verify tests still pass
 
 **Checklist:**
 
-- [ ] Test written and failing
-- [ ] Implementation passes test
-- [ ] Code refactored and clean
+- [x] Test written and failing (passed immediately - implementation correct)
+- [x] Implementation passes test
+- [x] Code refactored and clean
 
 ---
 
@@ -514,7 +515,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
 | Task 3: RegistryConfig nested model | ✅ Complete    | Tests and implementation complete |
 | Task 4: default_project_dir field   | ✅ Complete    | Tests and implementation complete |
 | Task 5: YAML serialization          | ✅ Complete    | Tests and implementation complete |
-| Task 6: proj init update            | 🔴 Not Started |                                   |
+| Task 6: proj init update            | ✅ Complete    | Test added, implementation already correct |
 
 ---
 
@@ -525,7 +526,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
 - [x] `registry.path` field defaults to XDG data directory
 - [x] `default_project_dir` defaults to `~/Projects`
 - [ ] Environment variables override: `PROJ_API_ENABLED`, `PROJ_TEMPLATES__SOURCE`
-- [ ] `proj init` creates valid config with new fields
+- [x] `proj init` creates valid config with new fields
 - [ ] All tests pass
 
 ---
