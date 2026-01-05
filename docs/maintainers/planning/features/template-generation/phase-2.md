@@ -625,14 +625,14 @@ Create a local registry module to track template-created projects **for sync pur
    ```
 
 3. **REFACTOR:**
-   - [ ] Add validation for path existence?
-   - [ ] Consider returning existing project instead of raising?
+   - [x] Duplicate validation implemented (raises ValueError)
+   - [ ] Path existence validation deferred (caller responsibility)
 
 **Checklist:**
 
-- [ ] Test written and failing
-- [ ] Implementation passes test
-- [ ] Code refactored and clean
+- [x] Test written and failing
+- [x] Implementation passes test
+- [x] Code refactored and clean
 
 ---
 
