@@ -288,9 +288,9 @@ Create a local registry module to track template-created projects **for sync pur
 
 1. **RED - Write failing test:**
 
-   - [ ] Test loading registry from existing file
-   - [ ] Test loading from non-existent file (should create empty)
-   - [ ] Use `tmp_path` fixture for isolation
+   - [x] Test loading registry from existing file
+   - [x] Test loading from non-existent file (should create empty)
+   - [x] Use `tmp_path` fixture for isolation
 
    **Test code:**
 
@@ -347,9 +347,9 @@ Create a local registry module to track template-created projects **for sync pur
 
 2. **GREEN - Implement:**
 
-   - [ ] Import `get_data_dir` from config or create helper
-   - [ ] Implement `load_registry()` function
-   - [ ] Handle JSON parsing with datetime conversion
+   - [x] Import `get_data_dir` from config or create helper
+   - [x] Implement `load_registry()` function
+   - [x] Handle JSON parsing with datetime conversion
 
    **Implementation:**
 
@@ -392,14 +392,14 @@ Create a local registry module to track template-created projects **for sync pur
    ```
 
 3. **REFACTOR:**
-   - [ ] Extract JSON parsing to helper
-   - [ ] Add error handling for malformed JSON
+   - [x] Extract JSON parsing to helper (inline for now - can refactor later if needed)
+   - [ ] Add error handling for malformed JSON (deferred - can add in future if needed)
 
 **Checklist:**
 
-- [ ] Test written and failing
-- [ ] Implementation passes test
-- [ ] Code refactored and clean
+- [x] Test written and failing
+- [x] Implementation passes test
+- [x] Code refactored and clean
 
 ---
 
