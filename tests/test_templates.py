@@ -10,6 +10,7 @@ from proj.templates import (
     validate_template_type,
     copy_template,
     replace_placeholders,
+    create_from_template,
     InvalidProjectNameError,
     DirectoryNotFoundError,
     TemplateNotFoundError,
@@ -472,3 +473,84 @@ class TestReplacePlaceholders:
         content = readme.read_text()
         # Should replace with empty or project name
         assert "[Brief description" not in content
+
+
+class TestCreateFromTemplate:
+    """Tests for create_from_template function."""
+
+    def test_create_from_template_full_workflow(self, tmp_path):
+        """Test full workflow: validate, copy, replace."""
+        # Set up mock template source
+        templates_source = tmp_path / "templates"
+        templates_source.mkdir()
+        template_dir = templates_source / "standard-project"
+        template_dir.mkdir()
+        (template_dir / "README.md").write_text("# [Project Name]")
+        (template_dir / ".gitignore").write_text("*.pyc")
+
+        # Target directory
+        target = tmp_path / "projects"
+        target.mkdir()
+
+        result = create_from_template(
+            project_name="my-app",
+            template_type="standard-project",
+            target_dir=target,
+            templates_source=templates_source,
+            description="My awesome app",
+        )
+
+        assert result.exists()
+        assert result.name == "my-app"
+        assert (result / "README.md").read_text() == "# my-app"
+        assert (result / ".gitignore").exists()
+
+    def test_create_from_template_invalid_name_raises(self, tmp_path):
+        """Test invalid project name raises error."""
+        templates_source = tmp_path / "templates"
+        templates_source.mkdir()
+        (templates_source / "standard-project").mkdir()
+
+        target = tmp_path / "projects"
+        target.mkdir()
+
+        with pytest.raises(InvalidProjectNameError):
+            create_from_template(
+                project_name="my project",  # Invalid - has space
+                template_type="standard-project",
+                target_dir=target,
+                templates_source=templates_source,
+            )
+
+    def test_create_from_template_invalid_template_raises(self, tmp_path):
+        """Test invalid template type raises error."""
+        templates_source = tmp_path / "templates"
+        templates_source.mkdir()
+        (templates_source / "standard-project").mkdir()
+
+        target = tmp_path / "projects"
+        target.mkdir()
+
+        with pytest.raises(TemplateNotFoundError):
+            create_from_template(
+                project_name="my-app",
+                template_type="nonexistent",
+                target_dir=target,
+                templates_source=templates_source,
+            )
+
+    def test_create_from_template_invalid_target_raises(self, tmp_path):
+        """Test invalid target directory raises error."""
+        templates_source = tmp_path / "templates"
+        templates_source.mkdir()
+        (templates_source / "standard-project").mkdir()
+
+        nonexistent = tmp_path / "does-not-exist"
+
+        with pytest.raises(DirectoryNotFoundError):
+            create_from_template(
+                project_name="my-app",
+                template_type="standard-project",
+                target_dir=nonexistent,
+                templates_source=templates_source,
+            )
