@@ -7,9 +7,11 @@ from proj.templates import (
     validate_target_directory,
     list_templates,
     validate_template_type,
+    copy_template,
     InvalidProjectNameError,
     DirectoryNotFoundError,
     TemplateNotFoundError,
+    ProjectExistsError,
 )
 
 
@@ -248,3 +250,102 @@ class TestValidateTemplateType:
             validate_template_type("nonexistent", tmp_path)
         assert "not found" in str(exc.value)
         assert "standard-project" in str(exc.value)  # Should list available
+
+
+class TestCopyTemplate:
+    """Tests for copy_template function."""
+
+    def test_copy_template_creates_directory(self, tmp_path):
+        """Test copy_template creates project directory."""
+        # Create mock template
+        template_dir = tmp_path / "templates" / "standard-project"
+        template_dir.mkdir(parents=True)
+        (template_dir / "README.md").write_text("# Test")
+
+        target = tmp_path / "projects"
+        target.mkdir()
+
+        result = copy_template(
+            template_path=template_dir,
+            target_dir=target,
+            project_name="my-project",
+        )
+
+        assert result == target / "my-project"
+        assert result.exists()
+        assert (result / "README.md").exists()
+
+    def test_copy_template_includes_hidden_files(self, tmp_path):
+        """Test copy_template includes hidden files like .gitignore."""
+        template_dir = tmp_path / "templates" / "standard-project"
+        template_dir.mkdir(parents=True)
+        (template_dir / ".gitignore").write_text("*.pyc")
+        (template_dir / "README.md").write_text("# Test")
+
+        target = tmp_path / "projects"
+        target.mkdir()
+
+        result = copy_template(
+            template_path=template_dir,
+            target_dir=target,
+            project_name="my-project",
+        )
+
+        assert (result / ".gitignore").exists()
+        assert (result / ".gitignore").read_text() == "*.pyc"
+
+    def test_copy_template_includes_hidden_directories(self, tmp_path):
+        """Test copy_template includes hidden directories like .cursor/."""
+        template_dir = tmp_path / "templates" / "standard-project"
+        template_dir.mkdir(parents=True)
+        cursor_dir = template_dir / ".cursor" / "commands"
+        cursor_dir.mkdir(parents=True)
+        (cursor_dir / "status.md").write_text("# Status")
+
+        target = tmp_path / "projects"
+        target.mkdir()
+
+        result = copy_template(
+            template_path=template_dir,
+            target_dir=target,
+            project_name="my-project",
+        )
+
+        assert (result / ".cursor").exists()
+        assert (result / ".cursor" / "commands" / "status.md").exists()
+
+    def test_copy_template_preserves_directory_structure(self, tmp_path):
+        """Test copy_template preserves nested directory structure."""
+        template_dir = tmp_path / "templates" / "standard-project"
+        template_dir.mkdir(parents=True)
+        nested = template_dir / "docs" / "maintainers" / "planning"
+        nested.mkdir(parents=True)
+        (nested / "README.md").write_text("# Planning")
+
+        target = tmp_path / "projects"
+        target.mkdir()
+
+        result = copy_template(
+            template_path=template_dir,
+            target_dir=target,
+            project_name="my-project",
+        )
+
+        assert (result / "docs" / "maintainers" / "planning" / "README.md").exists()
+
+    def test_copy_template_project_exists_raises(self, tmp_path):
+        """Test copy_template raises error if project directory exists."""
+        template_dir = tmp_path / "templates" / "standard-project"
+        template_dir.mkdir(parents=True)
+
+        target = tmp_path / "projects"
+        target.mkdir()
+        (target / "my-project").mkdir()  # Already exists
+
+        with pytest.raises(ProjectExistsError) as exc:
+            copy_template(
+                template_path=template_dir,
+                target_dir=target,
+                project_name="my-project",
+            )
+        assert "already exists" in str(exc.value)
