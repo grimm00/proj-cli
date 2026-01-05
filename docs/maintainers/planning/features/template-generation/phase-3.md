@@ -303,8 +303,8 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 3. **REFACTOR:**
 
-   - [ ] Review for edge cases
-   - [ ] Ensure consistent behavior
+   - [x] Review for edge cases
+   - [x] Ensure consistent behavior
 
 **Checklist:**
 
