@@ -4,6 +4,7 @@
 **Duration:** ~2 hours  
 **Status:** ✅ Complete  
 **Completed:** 2026-01-05
+**Merged:** PR #10 (2026-01-05)
 **Prerequisites:** Phase 1 complete (registry.path in config)
 **Last Updated:** 2026-01-05
 
