@@ -11,42 +11,82 @@ def test_registry_project_exists():
 
 
 def test_registry_project_has_required_fields():
-    """Test that RegistryProject has all required fields."""
+    """Test that RegistryProject has all required fields (minimal schema)."""
     from proj.registry import RegistryProject
     
     project = RegistryProject(
-        id="test-uuid",
-        name="my-project",
         path=Path("/Users/me/Projects/my-project"),
         template="standard-project",
         template_version="0.8.0",
         created_at=datetime.now(),
     )
     
-    assert project.id == "test-uuid"
-    assert project.name == "my-project"
     assert project.path == Path("/Users/me/Projects/my-project")
     assert project.template == "standard-project"
     assert project.template_version == "0.8.0"
-    assert project.work_prod_id is None  # Optional
-    assert project.metadata == {}  # Default empty dict
+    assert isinstance(project.created_at, datetime)
+    # Verify minimal schema - these fields should NOT exist
+    assert not hasattr(project, 'id')
+    assert not hasattr(project, 'name')
+    assert not hasattr(project, 'work_prod_id')
+    assert not hasattr(project, 'metadata')
 
 
-def test_registry_project_with_optional_fields():
-    """Test RegistryProject with optional work_prod_id and metadata."""
-    from proj.registry import RegistryProject
-    
+def test_registry_exists():
+    """Test that Registry class exists."""
+    from proj.registry import Registry
+    assert Registry is not None
+
+
+def test_registry_has_version_and_projects():
+    """Test Registry has version and projects fields."""
+    from proj.registry import Registry
+
+    registry = Registry()
+
+    assert registry.version == "1.0"
+    assert registry.projects == []
+
+
+def test_registry_with_projects():
+    """Test Registry can hold projects."""
+    from proj.registry import Registry, RegistryProject
+    from datetime import datetime
+    from pathlib import Path
+
+    # Minimal schema - only sync-related fields
     project = RegistryProject(
-        id="test-uuid",
-        name="my-project",
         path=Path("/Users/me/Projects/my-project"),
         template="standard-project",
         template_version="0.8.0",
         created_at=datetime.now(),
-        work_prod_id=42,
-        metadata={"description": "My app", "author": "me"},
     )
-    
-    assert project.work_prod_id == 42
-    assert project.metadata["description"] == "My app"
+
+    registry = Registry(projects=[project])
+
+    assert len(registry.projects) == 1
+    assert registry.projects[0].path == Path("/Users/me/Projects/my-project")
+
+
+def test_registry_project_minimal_schema():
+    """Test RegistryProject has only sync-related fields (minimal)."""
+    from proj.registry import RegistryProject
+    from datetime import datetime
+    from pathlib import Path
+
+    project = RegistryProject(
+        path=Path("/Users/me/Projects/my-project"),
+        template="standard-project",
+        template_version="0.8.0",
+        created_at=datetime.now(),
+    )
+
+    assert project.path == Path("/Users/me/Projects/my-project")
+    assert project.template == "standard-project"
+    assert project.template_version == "0.8.0"
+    # These fields should NOT exist (moved to inventory)
+    assert not hasattr(project, 'id')
+    assert not hasattr(project, 'name')
+    assert not hasattr(project, 'work_prod_id')
+    assert not hasattr(project, 'metadata')
 

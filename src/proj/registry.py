@@ -2,30 +2,41 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
 
 
 @dataclass
 class RegistryProject:
-    """A project tracked in the local registry.
+    """A project tracked in the registry for template sync.
+
+    Minimal schema - only sync-related fields.
+    Project metadata lives in inventory.json.
+    Cross-references inventory via path field.
     
     Attributes:
-        id: Unique identifier (UUID) for the project
-        name: Project name
-        path: Absolute path to the project directory
-        template: Template type used to create the project (e.g., "standard-project")
-        template_version: Version of the template used
+        path: Cross-reference key to inventory.json
+        template: Template type used to create the project
+        template_version: Version of the template used (for sync detection)
         created_at: Timestamp when the project was created
-        work_prod_id: Optional ID linking to work-prod API project (if synced)
-        metadata: Optional dictionary for additional project metadata
     """
     
-    id: str
-    name: str
-    path: Path
-    template: str
-    template_version: str
-    created_at: datetime
-    work_prod_id: Optional[int] = None
-    metadata: dict = field(default_factory=dict)
+    path: Path  # Cross-reference key to inventory
+    template: str  # Template type used
+    template_version: str  # Template version for sync
+    created_at: datetime  # When created
+
+
+@dataclass
+class Registry:
+    """Local registry for template sync tracking.
+
+    This is a sync overlay, not a project store.
+    All project metadata lives in inventory.json.
+    
+    Attributes:
+        version: Registry schema version
+        projects: List of registered projects for sync tracking
+    """
+
+    version: str = "1.0"
+    projects: list[RegistryProject] = field(default_factory=list)
 
