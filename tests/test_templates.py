@@ -331,7 +331,8 @@ class TestCopyTemplate:
             project_name="my-project",
         )
 
-        assert (result / "docs" / "maintainers" / "planning" / "README.md").exists()
+           planning_readme = result / "docs" / "maintainers" / "planning" / "README.md"
+           assert planning_readme.exists()
 
     def test_copy_template_project_exists_raises(self, tmp_path):
         """Test copy_template raises error if project directory exists."""
