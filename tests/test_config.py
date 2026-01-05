@@ -49,15 +49,17 @@ def test_config_env_override():
         assert config.api_url == "http://test:8000"
 
 
-def test_config_has_api_enabled():
+def test_config_has_api_enabled(tmp_path, monkeypatch):
     """Test that config has api_enabled setting."""
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
     from proj.config import Config
     config = Config.load()
     assert hasattr(config, 'api_enabled')
 
 
-def test_config_api_enabled_default_true():
+def test_config_api_enabled_default_true(tmp_path, monkeypatch):
     """Test default api_enabled is True."""
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
     from proj.config import Config
     config = Config.load()
     assert config.api_enabled is True
@@ -71,22 +73,25 @@ def test_config_api_enabled_env_override():
         assert config.api_enabled is False
 
 
-def test_config_has_templates_nested():
+def test_config_has_templates_nested(tmp_path, monkeypatch):
     """Test that config has templates nested config."""
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
     from proj.config import Config
     config = Config.load()
     assert hasattr(config, 'templates')
 
 
-def test_config_templates_source_default_none():
+def test_config_templates_source_default_none(tmp_path, monkeypatch):
     """Test templates.source defaults to None."""
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
     from proj.config import Config
     config = Config.load()
     assert config.templates.source is None
 
 
-def test_config_templates_default_value():
+def test_config_templates_default_value(tmp_path, monkeypatch):
     """Test templates.default is standard-project."""
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
     from proj.config import Config
     config = Config.load()
     assert config.templates.default == "standard-project"
@@ -100,15 +105,18 @@ def test_config_templates_source_env_override():
         assert str(config.templates.source) == "/path/to/templates"
 
 
-def test_config_has_registry_nested():
+def test_config_has_registry_nested(tmp_path, monkeypatch):
     """Test that config has registry nested config."""
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
     from proj.config import Config
     config = Config.load()
     assert hasattr(config, 'registry')
 
 
-def test_config_registry_path_xdg_default():
+def test_config_registry_path_xdg_default(tmp_path, monkeypatch):
     """Test registry.path defaults to XDG data dir."""
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
     from proj.config import Config, get_data_dir
     config = Config.load()
     expected = get_data_dir() / "registry.json"
@@ -123,15 +131,17 @@ def test_config_registry_path_env_override():
         assert str(config.registry.path) == "/custom/registry.json"
 
 
-def test_config_has_default_project_dir():
+def test_config_has_default_project_dir(tmp_path, monkeypatch):
     """Test that config has default_project_dir setting."""
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
     from proj.config import Config
     config = Config.load()
     assert hasattr(config, 'default_project_dir')
 
 
-def test_config_default_project_dir_value():
+def test_config_default_project_dir_value(tmp_path, monkeypatch):
     """Test default_project_dir defaults to ~/Projects."""
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
     from proj.config import Config
     from pathlib import Path
     config = Config.load()
