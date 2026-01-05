@@ -73,3 +73,29 @@ def load_registry() -> Registry:
 
     return Registry(version=data.get("version", "1.0"), projects=projects)
 
+
+def save_registry(registry: Registry) -> None:
+    """Save registry to disk with atomic write."""
+    registry_path = _get_registry_path()
+
+    # Ensure directory exists
+    registry_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Convert to JSON-serializable dict (minimal schema)
+    data = {
+        "version": registry.version,
+        "projects": [
+            {
+                "path": str(proj.path),
+                "template": proj.template,
+                "template_version": proj.template_version,
+                "created_at": proj.created_at.isoformat(),
+            }
+            for proj in registry.projects
+        ],
+    }
+
+    # Write with indentation for human readability
+    with open(registry_path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
+

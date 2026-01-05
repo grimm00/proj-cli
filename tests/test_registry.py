@@ -138,3 +138,55 @@ def test_load_registry_reads_existing_file(tmp_path, monkeypatch):
     assert registry.projects[0].path == Path("/Users/me/Projects/my-project")
     assert registry.projects[0].template == "standard-project"
 
+
+def test_save_registry_creates_file(tmp_path, monkeypatch):
+    """Test that save_registry creates registry file."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import Registry, RegistryProject, save_registry
+    from datetime import datetime
+    from pathlib import Path
+
+    # Minimal schema
+    project = RegistryProject(
+        path=Path("/Users/me/Projects/my-project"),
+        template="standard-project",
+        template_version="0.8.0",
+        created_at=datetime(2025, 1, 5, 10, 30, 0),
+    )
+    registry = Registry(projects=[project])
+
+    save_registry(registry)
+
+    registry_file = tmp_path / "proj" / "registry.json"
+    assert registry_file.exists()
+
+
+def test_save_registry_creates_valid_json(tmp_path, monkeypatch):
+    """Test that saved JSON is valid and human-readable."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import Registry, RegistryProject, save_registry
+    from datetime import datetime
+    from pathlib import Path
+
+    # Minimal schema
+    project = RegistryProject(
+        path=Path("/Users/me/Projects/my-project"),
+        template="standard-project",
+        template_version="0.8.0",
+        created_at=datetime(2025, 1, 5, 10, 30, 0),
+    )
+    registry = Registry(projects=[project])
+
+    save_registry(registry)
+
+    registry_file = tmp_path / "proj" / "registry.json"
+    with open(registry_file) as f:
+        data = json.load(f)
+
+    assert data["version"] == "1.0"
+    assert len(data["projects"]) == 1
+    assert data["projects"][0]["path"] == "/Users/me/Projects/my-project"
+    assert data["projects"][0]["template"] == "standard-project"
+
