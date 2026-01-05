@@ -11,11 +11,14 @@ from proj.templates import (
     copy_template,
     replace_placeholders,
     create_from_template,
+    get_templates_source,
     InvalidProjectNameError,
     DirectoryNotFoundError,
     TemplateNotFoundError,
     ProjectExistsError,
+    TemplateError,
 )
+from proj.config import Config
 
 
 class TestValidateProjectName:
@@ -554,3 +557,48 @@ class TestCreateFromTemplate:
                 target_dir=nonexistent,
                 templates_source=templates_source,
             )
+
+
+class TestGetTemplatesSource:
+    """Tests for get_templates_source function."""
+
+    def test_get_templates_source_from_config(self, tmp_path, monkeypatch):
+        """Test getting templates source from config."""
+        # Mock XDG paths for isolation
+        monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path / "config"))
+        monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path / "data"))
+
+        # Create config with templates source
+        config_dir = tmp_path / "config" / "proj"
+        config_dir.mkdir(parents=True)
+
+        templates_dir = tmp_path / "templates"
+        templates_dir.mkdir()
+
+        config_file = config_dir / "config.yaml"
+        config_file.write_text(f"""
+api_url: http://localhost:5000
+templates:
+  source: {templates_dir}
+""")
+
+        config = Config.load()
+        result = get_templates_source(config)
+        assert result == templates_dir.resolve()
+
+    def test_get_templates_source_not_configured_raises(self, tmp_path, monkeypatch):
+        """Test error when templates source not configured."""
+        monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path / "config"))
+        monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path / "data"))
+
+        config_dir = tmp_path / "config" / "proj"
+        config_dir.mkdir(parents=True)
+
+        config_file = config_dir / "config.yaml"
+        config_file.write_text("api_url: http://localhost:5000")
+
+        config = Config.load()
+
+        with pytest.raises(TemplateError) as exc:
+            get_templates_source(config)
+        assert "not configured" in str(exc.value)
