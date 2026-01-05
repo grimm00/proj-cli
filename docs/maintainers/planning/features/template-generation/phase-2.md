@@ -954,16 +954,16 @@ Create a local registry module to track template-created projects **for sync pur
 
 ## 📊 Progress Tracking
 
-| Task                              | Status         | Notes                                                 |
-| --------------------------------- | -------------- | ----------------------------------------------------- |
-| Task 1: RegistryProject Model     | ✅ Complete    | Updated to minimal schema in Task 2                   |
-| Task 2: Registry Model + Simplify | ✅ Complete    | Registry added, RegistryProject simplified            |
-| Task 3: Load Registry             | ✅ Complete    | load_registry() implemented, all tests pass           |
-| Task 4: Save Registry             | ✅ Complete    | save_registry() implemented, all tests pass           |
-| Task 5: Add Project               | ✅ Complete    | add_project() implemented, all tests pass             |
-| Task 6: Remove Project            | ✅ Complete    | remove_project() implemented, all tests pass          |
-| Task 7: Lookup Function           | ✅ Complete    | get_project_by_path() and is_registered() implemented |
-| Task 8: List Projects             | ✅ Complete    | list_projects() implemented, all tests pass           |
+| Task                              | Status      | Notes                                                 |
+| --------------------------------- | ----------- | ----------------------------------------------------- |
+| Task 1: RegistryProject Model     | ✅ Complete | Updated to minimal schema in Task 2                   |
+| Task 2: Registry Model + Simplify | ✅ Complete | Registry added, RegistryProject simplified            |
+| Task 3: Load Registry             | ✅ Complete | load_registry() implemented, all tests pass           |
+| Task 4: Save Registry             | ✅ Complete | save_registry() implemented, all tests pass           |
+| Task 5: Add Project               | ✅ Complete | add_project() implemented, all tests pass             |
+| Task 6: Remove Project            | ✅ Complete | remove_project() implemented, all tests pass          |
+| Task 7: Lookup Function           | ✅ Complete | get_project_by_path() and is_registered() implemented |
+| Task 8: List Projects             | ✅ Complete | list_projects() implemented, all tests pass           |
 
 ---
 
