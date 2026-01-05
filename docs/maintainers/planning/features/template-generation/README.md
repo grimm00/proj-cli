@@ -14,7 +14,7 @@
 
 | Phase | Name | Status | Effort |
 |-------|------|--------|--------|
-| [Phase 1](phase-1.md) | Config Extension | 🔴 Scaffolding | ~2 hrs |
+| [Phase 1](phase-1.md) | Config Extension | ✅ Expanded | ~2 hrs |
 | [Phase 2](phase-2.md) | Local Registry | 🔴 Scaffolding | ~2 hrs |
 | [Phase 3](phase-3.md) | Template Copying | 🔴 Scaffolding | ~3 hrs |
 | [Phase 4](phase-4.md) | Create Command Extension | 🔴 Scaffolding | ~3 hrs |
@@ -58,7 +58,7 @@ Extend the existing `proj create` command with template generation capabilities 
 
 | Phase | Focus | Effort | Status | Completion |
 |-------|-------|--------|--------|------------|
-| 1 | Config Extension | ~2 hrs | 🔴 Scaffolding | 0% |
+| 1 | Config Extension | ~2 hrs | ✅ Expanded | 0% impl |
 | 2 | Local Registry | ~2 hrs | 🔴 Scaffolding | 0% |
 | 3 | Template Copying | ~3 hrs | 🔴 Scaffolding | 0% |
 | 4 | Create Command Extension | ~3 hrs | 🔴 Scaffolding | 0% |
@@ -69,9 +69,9 @@ Extend the existing `proj create` command with template generation capabilities 
 
 ## 🚀 Next Steps
 
-1. **Review scaffolding** - Verify phase breakdown is correct
-2. **Expand Phase 1** - Run `/transition-plan template-generation --expand --phase 1`
-3. **Implement** - Use `/task-phase` to implement expanded phases
+1. **Implement Phase 1** - Use `/task-phase template-generation 1` to implement
+2. **Create PR** - Use `/pr --phase 1` after implementation
+3. **Expand Phase 2** - Run `/transition-plan template-generation --expand --phase 2`
 
 ---
 
@@ -90,7 +90,7 @@ Extend the existing `proj create` command with template generation capabilities 
 ---
 
 **Last Updated:** 2025-01-05  
-**Status:** 🔴 Scaffolding Complete  
-**Next:** Expand Phase 1 for implementation
+**Status:** ✅ Phase 1 Expanded  
+**Next:** Begin implementation with `/task-phase template-generation 1`
 
 

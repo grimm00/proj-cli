@@ -2,7 +2,7 @@
 
 **Feature:** Template Generation Extension  
 **Last Updated:** 2025-01-05  
-**Overall Status:** 🔴 Scaffolding Complete
+**Overall Status:** ✅ Phase 1 Expanded
 
 ---
 
@@ -10,56 +10,45 @@
 
 | Phase | Name | Status | Progress | Notes |
 |-------|------|--------|----------|-------|
-| 1 | Config Extension | 🔴 Scaffolding | 0% | Needs expansion |
+| 1 | Config Extension | ✅ Expanded | 0% impl | Ready for implementation |
 | 2 | Local Registry | 🔴 Scaffolding | 0% | Needs expansion |
 | 3 | Template Copying | 🔴 Scaffolding | 0% | Needs expansion |
 | 4 | Create Command Extension | 🔴 Scaffolding | 0% | Needs expansion |
 | 5 | Testing & Polish | 🔴 Scaffolding | 0% | Needs expansion |
 
-**Overall Progress:** 0% (Scaffolding complete, expansion pending)
+**Overall Progress:** ~5% (Phase 1 expanded, ready for implementation)
 
 ---
 
 ## 🎯 Current Focus
 
-**Stage:** Transition Planning Complete - Ready for Expansion
+**Stage:** Phase 1 Expanded - Ready for Implementation
 
-The scaffolding phase is complete. Phase documents have been created with:
-- Goals and overview
-- Task categories (high-level)
-- Completion criteria
-- Requirements mapping
-- Dependencies
+Phase 1 (Config Extension) has been expanded with:
+- 6 detailed TDD tasks
+- Code examples for tests and implementation
+- Progress tracking table
+- Testing commands
 
-**Next action:** Expand Phase 1 scaffolding with detailed TDD tasks.
+**Next action:** Implement Phase 1 using TDD workflow.
 
 ---
 
 ## 🚀 Immediate Next Steps
 
-### 1. Expand Phase 1 Scaffolding
-
-```bash
-/transition-plan template-generation --expand --phase 1
-```
-
-This will:
-- Add detailed TDD tasks (RED → GREEN → REFACTOR)
-- Add code examples
-- Add implementation notes
-- Update status to "Expanded"
-
-### 2. Implement Phase 1
+### 1. Implement Phase 1
 
 ```bash
 /task-phase template-generation 1
 ```
 
-- Follow TDD workflow
+This will:
+- Follow TDD workflow (RED → GREEN → REFACTOR)
+- Complete 6 tasks for config extension
 - Create commits for each task
 - Update phase status
 
-### 3. Create PR
+### 2. Create PR
 
 ```bash
 /pr --phase 1
@@ -68,6 +57,15 @@ This will:
 - Create PR for Phase 1 work
 - Include test results
 - Request review
+
+### 3. Expand Phase 2 (After PR)
+
+```bash
+/transition-plan template-generation --expand --phase 2
+```
+
+- Expand Local Registry phase
+- Prepare for next implementation cycle
 
 ---
 
@@ -122,6 +120,7 @@ This will:
 - ✅ Feature directory created
 - ✅ Transition plan scaffolding complete
 - ✅ Phase scaffolding documents created (1-5)
+- ✅ **Phase 1 expanded with 6 TDD tasks**
 
 ---
 
@@ -136,7 +135,7 @@ This will:
 ---
 
 **Last Updated:** 2025-01-05  
-**Status:** 🔴 Scaffolding Complete  
-**Next:** Expand Phase 1 with `/transition-plan template-generation --expand --phase 1`
+**Status:** ✅ Phase 1 Expanded  
+**Next:** Implement Phase 1 with `/task-phase template-generation 1`
 
 
