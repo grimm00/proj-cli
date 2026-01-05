@@ -1,5 +1,7 @@
 """Template operations for proj-cli."""
+import os
 import re
+from pathlib import Path
 from typing import Optional
 
 
@@ -10,6 +12,16 @@ class TemplateError(Exception):
 
 class InvalidProjectNameError(TemplateError):
     """Raised when project name is invalid."""
+    pass
+
+
+class DirectoryNotFoundError(TemplateError):
+    """Raised when target directory does not exist."""
+    pass
+
+
+class DirectoryNotWritableError(TemplateError):
+    """Raised when target directory is not writable."""
     pass
 
 
@@ -74,3 +86,48 @@ def sanitize_project_name(name: str) -> Optional[str]:
     name = name.strip('-')
 
     return name if name else None
+
+
+def validate_target_directory(path: Path) -> Path:
+    """Validate target directory exists and is writable.
+
+    Args:
+        path: Path to target directory.
+
+    Returns:
+        Resolved absolute path to directory.
+
+    Raises:
+        DirectoryNotFoundError: If directory does not exist.
+        DirectoryNotWritableError: If directory is not writable.
+    """
+    # Check if path is empty before expansion
+    # Path("") has no parts and string representation is "."
+    if not path.parts or (len(path.parts) == 0 and str(path) == "."):
+        raise DirectoryNotFoundError("Target directory path cannot be empty")
+
+    # Expand ~ to home directory
+    path = path.expanduser()
+
+    # Resolve to absolute path
+    path = path.resolve()
+
+    # Check if exists
+    if not path.exists():
+        raise DirectoryNotFoundError(
+            f"Target directory does not exist: {path}"
+        )
+
+    # Check if directory (not file)
+    if not path.is_dir():
+        raise DirectoryNotFoundError(
+            f"Path is not a directory: {path}"
+        )
+
+    # Check if writable
+    if not os.access(path, os.W_OK):
+        raise DirectoryNotWritableError(
+            f"Target directory is not writable: {path}"
+        )
+
+    return path
