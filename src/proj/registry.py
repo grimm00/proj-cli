@@ -139,3 +139,24 @@ def add_project(
 
     return project
 
+
+def remove_project(path: Path) -> bool:
+    """Remove a project from the registry by path.
+    
+    Args:
+        path: Project path to remove
+        
+    Returns:
+        True if project was removed, False if not found
+    """
+    registry = load_registry()
+
+    original_count = len(registry.projects)
+    registry.projects = [p for p in registry.projects if p.path != path]
+
+    if len(registry.projects) < original_count:
+        save_registry(registry)
+        return True
+
+    return False
+

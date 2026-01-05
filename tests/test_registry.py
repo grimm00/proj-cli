@@ -241,3 +241,39 @@ def test_add_project_prevents_duplicates(tmp_path, monkeypatch):
     registry = load_registry()
     assert len(registry.projects) == 1
 
+
+def test_remove_project_from_registry(tmp_path, monkeypatch):
+    """Test removing a project from the registry."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import add_project, remove_project, load_registry
+    from pathlib import Path
+
+    # Add a project first (minimal schema)
+    add_project(
+        path=Path("/Users/me/Projects/my-project"),
+        template="standard-project",
+        template_version="0.8.0",
+    )
+
+    # Remove it
+    removed = remove_project(Path("/Users/me/Projects/my-project"))
+
+    assert removed is True
+
+    # Verify removed
+    registry = load_registry()
+    assert len(registry.projects) == 0
+
+
+def test_remove_nonexistent_project(tmp_path, monkeypatch):
+    """Test removing a non-existent project returns False."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import remove_project
+    from pathlib import Path
+
+    removed = remove_project(Path("/nonexistent/path"))
+
+    assert removed is False
+
