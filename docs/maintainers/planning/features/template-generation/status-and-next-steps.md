@@ -2,7 +2,7 @@
 
 **Feature:** Template Generation Extension  
 **Last Updated:** 2025-01-05  
-**Overall Status:** 🟠 Phase 1 In Progress
+**Overall Status:** ✅ Phase 1 Complete
 
 ---
 
@@ -10,13 +10,13 @@
 
 | Phase | Name | Status | Progress | Notes |
 |-------|------|--------|----------|-------|
-| 1 | Config Extension | 🟠 In Progress | 0% impl | Implementation started |
+| 1 | Config Extension | ✅ Complete | 100% | All 6 tasks complete |
 | 2 | Local Registry | 🔴 Scaffolding | 0% | Needs expansion |
 | 3 | Template Copying | 🔴 Scaffolding | 0% | Needs expansion |
 | 4 | Create Command Extension | 🔴 Scaffolding | 0% | Needs expansion |
 | 5 | Testing & Polish | 🔴 Scaffolding | 0% | Needs expansion |
 
-**Overall Progress:** ~5% (Phase 1 expanded, ready for implementation)
+**Overall Progress:** ~20% (Phase 1 complete, 5 phases remaining)
 
 ---
 
@@ -114,13 +114,19 @@ This will:
 
 ### 2025-01-05
 
+- ✅ **Phase 1: Config Extension** ✅ Complete - All 6 tasks implemented
+  - Task 1: api_enabled field
+  - Task 2: TemplateConfig nested model
+  - Task 3: RegistryConfig nested model
+  - Task 4: default_project_dir field
+  - Task 5: YAML serialization
+  - Task 6: proj init update
 - ✅ ADR-0008 created
 - ✅ Requirements documented (19 FR + 8 NFR)
 - ✅ Research completed
 - ✅ Feature directory created
 - ✅ Transition plan scaffolding complete
 - ✅ Phase scaffolding documents created (1-5)
-- ✅ **Phase 1 expanded with 6 TDD tasks**
 
 ---
 
@@ -135,7 +141,7 @@ This will:
 ---
 
 **Last Updated:** 2025-01-05  
-**Status:** ✅ Phase 1 Expanded  
-**Next:** Implement Phase 1 with `/task-phase template-generation 1`
+**Status:** ✅ Phase 1 Complete  
+**Next:** Create PR with `/pr --phase 1`, then expand Phase 2
 
 
