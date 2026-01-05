@@ -35,12 +35,14 @@ Extend the existing Pydantic configuration with new fields for template source, 
 **TDD Flow:**
 
 1. **RED - Write failing test:**
+
    - [x] Add test for `api_enabled` field existence
    - [x] Add test for default value (`True`)
    - [x] Add test for environment variable override (`PROJ_API_ENABLED`)
    - [x] Verify tests fail (no implementation yet)
 
    **Test code (`tests/test_config.py`):**
+
    ```python
    def test_config_has_api_enabled():
        """Test that config has api_enabled setting."""
@@ -65,11 +67,13 @@ Extend the existing Pydantic configuration with new fields for template source, 
    ```
 
 2. **GREEN - Implement minimum code:**
+
    - [x] Add `api_enabled` field to Config class
    - [x] Set default to `True`
    - [x] Run tests, verify they pass
 
    **Implementation (`src/proj/config.py`):**
+
    ```python
    # In Config class, add after api_url:
    api_enabled: bool = Field(
@@ -84,6 +88,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
    - [x] Verify tests still pass
 
 **Checklist:**
+
 - [x] Test written and failing
 - [x] Implementation passes test
 - [x] Code refactored and clean
@@ -97,13 +102,15 @@ Extend the existing Pydantic configuration with new fields for template source, 
 **TDD Flow:**
 
 1. **RED - Write failing test:**
-   - [ ] Add test for `templates` nested attribute existence
-   - [ ] Add test for `templates.source` field (defaults to `None`)
-   - [ ] Add test for `templates.default` field (defaults to `"standard-project"`)
-   - [ ] Add test for environment override (`PROJ_TEMPLATES__SOURCE`)
-   - [ ] Verify tests fail
+
+   - [x] Add test for `templates` nested attribute existence
+   - [x] Add test for `templates.source` field (defaults to `None`)
+   - [x] Add test for `templates.default` field (defaults to `"standard-project"`)
+   - [x] Add test for environment override (`PROJ_TEMPLATES__SOURCE`)
+   - [x] Verify tests fail
 
    **Test code (`tests/test_config.py`):**
+
    ```python
    def test_config_has_templates_nested():
        """Test that config has templates nested config."""
@@ -135,12 +142,14 @@ Extend the existing Pydantic configuration with new fields for template source, 
    ```
 
 2. **GREEN - Implement minimum code:**
-   - [ ] Create `TemplateConfig` nested model class
-   - [ ] Add `templates` field to Config class
-   - [ ] Configure `env_nested_delimiter` in model_config for `__` separator
-   - [ ] Run tests, verify they pass
+
+   - [x] Create `TemplateConfig` nested model class
+   - [x] Add `templates` field to Config class
+   - [x] Configure `env_nested_delimiter` in model_config for `__` separator
+   - [x] Run tests, verify they pass
 
    **Implementation (`src/proj/config.py`):**
+
    ```python
    from typing import Optional
    from pathlib import Path
@@ -178,14 +187,15 @@ Extend the existing Pydantic configuration with new fields for template source, 
    ```
 
 3. **REFACTOR - Clean up:**
-   - [ ] Group template settings logically
-   - [ ] Add section comment
-   - [ ] Verify tests still pass
+   - [x] Group template settings logically
+   - [x] Add section comment
+   - [x] Verify tests still pass
 
 **Checklist:**
-- [ ] Test written and failing
-- [ ] Implementation passes test
-- [ ] Code refactored and clean
+
+- [x] Test written and failing
+- [x] Implementation passes test
+- [x] Code refactored and clean
 
 ---
 
@@ -196,12 +206,14 @@ Extend the existing Pydantic configuration with new fields for template source, 
 **TDD Flow:**
 
 1. **RED - Write failing test:**
+
    - [ ] Add test for `registry` nested attribute existence
    - [ ] Add test for `registry.path` defaults to XDG data directory
    - [ ] Add test for environment override (`PROJ_REGISTRY__PATH`)
    - [ ] Verify tests fail
 
    **Test code (`tests/test_config.py`):**
+
    ```python
    def test_config_has_registry_nested():
        """Test that config has registry nested config."""
@@ -227,12 +239,14 @@ Extend the existing Pydantic configuration with new fields for template source, 
    ```
 
 2. **GREEN - Implement minimum code:**
+
    - [ ] Create `RegistryConfig` nested model class
    - [ ] Add `registry` field to Config class
    - [ ] Use `default_factory` for XDG path
    - [ ] Run tests, verify they pass
 
    **Implementation (`src/proj/config.py`):**
+
    ```python
    class RegistryConfig(BaseSettings):
        """Local registry configuration."""
@@ -261,6 +275,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
    - [ ] Verify tests still pass
 
 **Checklist:**
+
 - [ ] Test written and failing
 - [ ] Implementation passes test
 - [ ] Code refactored and clean
@@ -274,6 +289,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
 **TDD Flow:**
 
 1. **RED - Write failing test:**
+
    - [ ] Add test for `default_project_dir` field existence
    - [ ] Add test for default value (`~/Projects`)
    - [ ] Add test for path expansion (~ expands to home)
@@ -281,6 +297,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
    - [ ] Verify tests fail
 
    **Test code (`tests/test_config.py`):**
+
    ```python
    def test_config_has_default_project_dir():
        """Test that config has default_project_dir setting."""
@@ -307,11 +324,13 @@ Extend the existing Pydantic configuration with new fields for template source, 
    ```
 
 2. **GREEN - Implement minimum code:**
+
    - [ ] Add `default_project_dir` field to Config class
    - [ ] Use `default_factory` for `~/Projects` path
    - [ ] Run tests, verify they pass
 
    **Implementation (`src/proj/config.py`):**
+
    ```python
    class Config(BaseSettings):
        # ... existing fields ...
@@ -329,6 +348,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
    - [ ] Verify tests still pass
 
 **Checklist:**
+
 - [ ] Test written and failing
 - [ ] Implementation passes test
 - [ ] Code refactored and clean
@@ -342,11 +362,13 @@ Extend the existing Pydantic configuration with new fields for template source, 
 **TDD Flow:**
 
 1. **RED - Write failing test:**
+
    - [ ] Add test for saving config with new fields
    - [ ] Add test for loading config with nested fields from YAML
    - [ ] Verify tests fail
 
    **Test code (`tests/test_config.py`):**
+
    ```python
    def test_config_save_includes_new_fields(tmp_path, monkeypatch):
        """Test that save() includes new configuration fields."""
@@ -372,7 +394,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
        monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
 
        from proj.config import get_config_dir, get_config_file, Config
-       
+
        # Create config directory and file
        config_dir = get_config_dir()
        config_dir.mkdir(parents=True, exist_ok=True)
@@ -399,11 +421,13 @@ Extend the existing Pydantic configuration with new fields for template source, 
    ```
 
 2. **GREEN - Implement minimum code:**
+
    - [ ] Update `model_dump()` to handle nested models
    - [ ] Update `load()` to handle nested YAML structure
    - [ ] Run tests, verify they pass
 
    **Implementation notes:**
+
    - Pydantic's `model_dump()` should handle nested models automatically
    - May need to convert Path objects to strings for YAML
    - May need custom serialization for nested configs
@@ -414,6 +438,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
    - [ ] Verify tests still pass
 
 **Checklist:**
+
 - [ ] Test written and failing
 - [ ] Implementation passes test
 - [ ] Code refactored and clean
@@ -427,10 +452,12 @@ Extend the existing Pydantic configuration with new fields for template source, 
 **TDD Flow:**
 
 1. **RED - Write failing test:**
+
    - [ ] Add test that `proj init` creates config with new fields
    - [ ] Verify tests fail
 
    **Test code (`tests/test_cli.py` or `tests/test_cli_integration.py`):**
+
    ```python
    def test_init_creates_config_with_new_fields(tmp_path, monkeypatch):
        """Test that proj init creates config with new fields."""
@@ -456,11 +483,13 @@ Extend the existing Pydantic configuration with new fields for template source, 
    ```
 
 2. **GREEN - Implement minimum code:**
+
    - [ ] Update `proj init` to use new Config class
    - [ ] Ensure new fields are included in saved config
    - [ ] Run tests, verify they pass
 
    **Implementation notes:**
+
    - `proj init` already uses `Config.save()`, so new fields should be included automatically
    - May need to verify the command handles nested configs correctly
 
@@ -469,6 +498,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
    - [ ] Verify tests still pass
 
 **Checklist:**
+
 - [ ] Test written and failing
 - [ ] Implementation passes test
 - [ ] Code refactored and clean
@@ -477,21 +507,21 @@ Extend the existing Pydantic configuration with new fields for template source, 
 
 ## 📊 Progress Tracking
 
-| Task | Status | Notes |
-|------|--------|-------|
-| Task 1: api_enabled field | ✅ Complete | Tests and implementation complete |
-| Task 2: TemplateConfig nested model | 🔴 Not Started | |
-| Task 3: RegistryConfig nested model | 🔴 Not Started | |
-| Task 4: default_project_dir field | 🔴 Not Started | |
-| Task 5: YAML serialization | 🔴 Not Started | |
-| Task 6: proj init update | 🔴 Not Started | |
+| Task                                | Status         | Notes                             |
+| ----------------------------------- | -------------- | --------------------------------- |
+| Task 1: api_enabled field           | ✅ Complete    | Tests and implementation complete |
+| Task 2: TemplateConfig nested model | 🔴 Not Started |                                   |
+| Task 3: RegistryConfig nested model | 🔴 Not Started |                                   |
+| Task 4: default_project_dir field   | 🔴 Not Started |                                   |
+| Task 5: YAML serialization          | 🔴 Not Started |                                   |
+| Task 6: proj init update            | 🔴 Not Started |                                   |
 
 ---
 
 ## ✅ Completion Criteria
 
 - [x] `api_enabled` field works with default `True`
-- [ ] `templates.source` and `templates.default` fields accessible
+- [x] `templates.source` and `templates.default` fields accessible
 - [ ] `registry.path` field defaults to XDG data directory
 - [ ] `default_project_dir` defaults to `~/Projects`
 - [ ] Environment variables override: `PROJ_API_ENABLED`, `PROJ_TEMPLATES__SOURCE`
@@ -510,14 +540,14 @@ Extend the existing Pydantic configuration with new fields for template source, 
 
 ## 📊 Requirements Addressed
 
-| Requirement | Description | Status |
-|-------------|-------------|--------|
-| FR-CONFIG-1 | api_enabled toggle | ✅ Complete |
-| FR-CONFIG-2 | templates.source path | 🔴 Pending |
-| FR-CONFIG-3 | registry.path setting | 🔴 Pending |
-| FR-CONFIG-4 | Environment overrides | 🔴 Pending |
-| NFR-CONFIG-1 | XDG registry location | 🔴 Pending |
-| NFR-CONFIG-2 | YAML format maintained | 🔴 Pending |
+| Requirement  | Description            | Status      |
+| ------------ | ---------------------- | ----------- |
+| FR-CONFIG-1  | api_enabled toggle     | ✅ Complete |
+| FR-CONFIG-2  | templates.source path  | 🔴 Pending  |
+| FR-CONFIG-3  | registry.path setting  | 🔴 Pending  |
+| FR-CONFIG-4  | Environment overrides  | 🔴 Pending  |
+| NFR-CONFIG-1 | XDG registry location  | 🔴 Pending  |
+| NFR-CONFIG-2 | YAML format maintained | 🔴 Pending  |
 
 ---
 
@@ -607,4 +637,3 @@ default_project_dir: ~/Projects
 **Last Updated:** 2025-01-05  
 **Status:** ✅ Expanded  
 **Next:** Begin implementation with Task 1
-
