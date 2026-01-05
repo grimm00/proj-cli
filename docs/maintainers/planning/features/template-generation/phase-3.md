@@ -1043,8 +1043,8 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 1. **RED - Write failing tests:**
 
-   - [ ] Add tests for `create_from_template()` function
-   - [ ] Verify tests fail
+   - [x] Add tests for `create_from_template()` function
+   - [x] Verify tests fail
 
    **Test code:**
 
@@ -1135,9 +1135,9 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 2. **GREEN - Implement:**
 
-   - [ ] Implement `create_from_template()` function
-   - [ ] Wire up all validation and copy functions
-   - [ ] Run tests, verify they pass
+   - [x] Implement `create_from_template()` function
+   - [x] Wire up all validation and copy functions
+   - [x] Run tests, verify they pass
 
    **Implementation:**
 
@@ -1202,15 +1202,15 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 3. **REFACTOR:**
 
-   - [ ] Review error handling
-   - [ ] Add logging if needed
+   - [x] Review error handling
+   - [x] Add logging if needed (not needed - exceptions are appropriate)
 
 **Checklist:**
 
-- [ ] High-level function tests added
-- [ ] `create_from_template()` implemented
-- [ ] Orchestrates full workflow
-- [ ] Error handling consistent
+- [x] High-level function tests added
+- [x] `create_from_template()` implemented
+- [x] Orchestrates full workflow
+- [x] Error handling consistent
 
 ---
 
