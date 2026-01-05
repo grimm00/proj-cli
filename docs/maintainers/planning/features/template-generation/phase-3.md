@@ -38,9 +38,9 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 1. **RED - Write failing tests:**
 
-   - [ ] Create test file: `tests/test_templates.py`
-   - [ ] Write tests for `validate_project_name()` function
-   - [ ] Verify tests fail (no implementation yet)
+   - [x] Create test file: `tests/test_templates.py`
+   - [x] Write tests for `validate_project_name()` function
+   - [x] Verify tests fail (no implementation yet)
 
    **Test code:**
 
@@ -123,10 +123,10 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 2. **GREEN - Implement minimum code:**
 
-   - [ ] Create `src/proj/templates.py` module
-   - [ ] Define `InvalidProjectNameError` exception
-   - [ ] Implement `validate_project_name()` function
-   - [ ] Run tests, verify they pass
+   - [x] Create `src/proj/templates.py` module
+   - [x] Define `InvalidProjectNameError` exception
+   - [x] Implement `validate_project_name()` function
+   - [x] Run tests, verify they pass
 
    **Implementation:**
 
@@ -189,12 +189,12 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 **Checklist:**
 
-- [ ] Test file created: `tests/test_templates.py`
-- [ ] Tests for valid names pass
-- [ ] Tests for invalid names raise appropriate errors
-- [ ] `src/proj/templates.py` module created
-- [ ] `InvalidProjectNameError` exception defined
-- [ ] `validate_project_name()` implemented
+- [x] Test file created: `tests/test_templates.py`
+- [x] Tests for valid names pass
+- [x] Tests for invalid names raise appropriate errors
+- [x] `src/proj/templates.py` module created
+- [x] `InvalidProjectNameError` exception defined
+- [x] `validate_project_name()` implemented
 
 ---
 
