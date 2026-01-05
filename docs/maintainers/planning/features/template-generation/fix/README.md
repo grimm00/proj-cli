@@ -42,7 +42,7 @@ fix/
 
 | Batch | Priority | Effort | Issues | Status |
 |-------|----------|--------|--------|--------|
-| [pr8/batch-high-low-01](pr8/batch-high-low-01.md) | 🟠 HIGH | 🟢 LOW | 1 | 🔴 Not Started |
+| [pr8/batch-high-low-01](pr8/batch-high-low-01.md) | 🟠 HIGH | 🟢 LOW | 1 | ✅ Complete |
 | [pr8/batch-medium-low-01](pr8/batch-medium-low-01.md) | 🟡 MEDIUM | 🟢 LOW | 3 | 🔴 Not Started |
 | [pr8/batch-low-low-01](pr8/batch-low-low-01.md) | 🟢 LOW | 🟢 LOW | 4 | 🔴 Not Started |
 
