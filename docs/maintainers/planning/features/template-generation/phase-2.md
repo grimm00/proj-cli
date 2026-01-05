@@ -527,9 +527,9 @@ Create a local registry module to track template-created projects **for sync pur
 
 1. **RED - Write failing test:**
 
-   - [ ] Test adding project to empty registry
-   - [ ] Test adding project sets created_at
-   - [ ] Test duplicate detection by path
+   - [x] Test adding project to empty registry
+   - [x] Test adding project sets created_at
+   - [x] Test duplicate detection by path
 
    **Test code:**
 
@@ -587,10 +587,10 @@ Create a local registry module to track template-created projects **for sync pur
 
 2. **GREEN - Implement:**
 
-   - [ ] Implement `add_project()` function
-   - [ ] Set created_at to now
-   - [ ] Check for duplicates by path
-   - [ ] Load, append, save
+   - [x] Implement `add_project()` function
+   - [x] Set created_at to now
+   - [x] Check for duplicates by path
+   - [x] Load, append, save
 
    **Implementation:**
 
@@ -950,16 +950,16 @@ Create a local registry module to track template-created projects **for sync pur
 
 ## 📊 Progress Tracking
 
-| Task                              | Status         | Notes                                  |
-| --------------------------------- | -------------- | -------------------------------------- |
-| Task 1: RegistryProject Model     | ✅ Complete    | Updated to minimal schema in Task 2       |
-| Task 2: Registry Model + Simplify | ✅ Complete    | Registry added, RegistryProject simplified |
+| Task                              | Status         | Notes                                       |
+| --------------------------------- | -------------- | ------------------------------------------- |
+| Task 1: RegistryProject Model     | ✅ Complete    | Updated to minimal schema in Task 2         |
+| Task 2: Registry Model + Simplify | ✅ Complete    | Registry added, RegistryProject simplified  |
 | Task 3: Load Registry             | ✅ Complete    | load_registry() implemented, all tests pass |
 | Task 4: Save Registry             | ✅ Complete    | save_registry() implemented, all tests pass |
-| Task 5: Add Project               | 🔴 Not Started |                                        |
-| Task 6: Remove Project            | 🔴 Not Started |                                        |
-| Task 7: Lookup Function           | 🔴 Not Started | Path lookup only (cross-reference key) |
-| Task 8: List Projects             | 🔴 Not Started |                                        |
+| Task 5: Add Project               | ✅ Complete    | add_project() implemented, all tests pass    |
+| Task 6: Remove Project            | 🔴 Not Started |                                             |
+| Task 7: Lookup Function           | 🔴 Not Started | Path lookup only (cross-reference key)      |
+| Task 8: List Projects             | 🔴 Not Started |                                             |
 
 ---
 
