@@ -1222,8 +1222,8 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 1. **RED - Write failing tests:**
 
-   - [ ] Add tests for `get_templates_source()` function
-   - [ ] Verify tests fail
+   - [x] Add tests for `get_templates_source()` function
+   - [x] Verify tests fail
 
    **Test code:**
 
@@ -1279,8 +1279,8 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 2. **GREEN - Implement:**
 
-   - [ ] Implement `get_templates_source()` function
-   - [ ] Run tests, verify they pass
+   - [x] Implement `get_templates_source()` function
+   - [x] Run tests, verify they pass
 
    **Implementation:**
 
@@ -1312,14 +1312,14 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 3. **REFACTOR:**
 
-   - [ ] Review error message
-   - [ ] Consider caching
+   - [x] Review error message (clear and actionable)
+   - [x] Consider caching (not needed - simple getter)
 
 **Checklist:**
 
-- [ ] Config integration tests added
-- [ ] `get_templates_source()` implemented
-- [ ] Clear error when not configured
+- [x] Config integration tests added
+- [x] `get_templates_source()` implemented
+- [x] Clear error when not configured
 
 ---
 
