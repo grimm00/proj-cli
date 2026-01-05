@@ -277,3 +277,58 @@ def test_remove_nonexistent_project(tmp_path, monkeypatch):
 
     assert removed is False
 
+
+def test_get_project_by_path(tmp_path, monkeypatch):
+    """Test finding a project by its path."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import add_project, get_project_by_path
+    from pathlib import Path
+
+    add_project(
+        path=Path("/Users/me/Projects/my-project"),
+        template="standard-project",
+        template_version="0.8.0",
+    )
+
+    project = get_project_by_path(Path("/Users/me/Projects/my-project"))
+
+    assert project is not None
+    assert project.template == "standard-project"
+    assert project.template_version == "0.8.0"
+
+
+def test_get_project_by_path_not_found(tmp_path, monkeypatch):
+    """Test get_project_by_path returns None if not found."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import get_project_by_path
+    from pathlib import Path
+
+    project = get_project_by_path(Path("/nonexistent/path"))
+
+    assert project is None
+
+
+def test_is_registered(tmp_path, monkeypatch):
+    """Test is_registered helper function."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import add_project, is_registered
+    from pathlib import Path
+
+    path = Path("/Users/me/Projects/my-project")
+
+    # Not registered yet
+    assert is_registered(path) is False
+
+    # Add project
+    add_project(
+        path=path,
+        template="standard-project",
+        template_version="0.8.0",
+    )
+
+    # Now registered
+    assert is_registered(path) is True
+

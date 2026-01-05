@@ -3,6 +3,7 @@ import json
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
+from typing import Optional
 
 from proj.config import get_data_dir
 
@@ -159,4 +160,32 @@ def remove_project(path: Path) -> bool:
         return True
 
     return False
+
+
+def get_project_by_path(path: Path) -> Optional[RegistryProject]:
+    """Find a project by its path (cross-reference key).
+    
+    Args:
+        path: Project path to look up
+        
+    Returns:
+        RegistryProject if found, None otherwise
+    """
+    registry = load_registry()
+    for project in registry.projects:
+        if project.path == path:
+            return project
+    return None
+
+
+def is_registered(path: Path) -> bool:
+    """Check if a project path is registered for sync tracking.
+    
+    Args:
+        path: Project path to check
+        
+    Returns:
+        True if project is registered, False otherwise
+    """
+    return get_project_by_path(path) is not None
 
