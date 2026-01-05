@@ -13,6 +13,7 @@
 
 - **[Phase 1](phase-1-learnings.md)** - Config Extension (2026-01-05)
 - **[Phase 2](phase-2-learnings.md)** - Local Registry (2026-01-05)
+- **[Phase 3](phase-3-learnings.md)** - Template Copying (2026-01-05)
 
 ---
 
@@ -20,17 +21,18 @@
 
 This directory contains learnings from Template Generation Extension development that can inform:
 
-- Future Template Generation phases (3-5)
+- Future Template Generation phases (4-5)
 - dev-infra template improvements
 - Pydantic configuration best practices
 - TDD workflow patterns
+- Shell-to-Python porting patterns
 
 ---
 
 ## 📊 Summary
 
-**Total Learning Documents:** 2
-**Phases Documented:** 2 of 5 (Phase 1, Phase 2)
+**Total Learning Documents:** 3
+**Phases Documented:** 3 of 5 (Phase 1, Phase 2, Phase 3)
 **Status:** ✅ Active
 
 ---
