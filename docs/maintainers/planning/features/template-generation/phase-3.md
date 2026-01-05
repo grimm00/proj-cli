@@ -476,8 +476,8 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 1. **RED - Write failing tests:**
 
-   - [ ] Add tests for `list_templates()` and `validate_template_type()` functions
-   - [ ] Verify tests fail
+   - [x] Add tests for `list_templates()` and `validate_template_type()` functions
+   - [x] Verify tests fail
 
    **Test code:**
 
@@ -554,10 +554,10 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 2. **GREEN - Implement:**
 
-   - [ ] Define `TemplateNotFoundError` exception
-   - [ ] Implement `list_templates()` function
-   - [ ] Implement `validate_template_type()` function
-   - [ ] Run tests, verify they pass
+   - [x] Define `TemplateNotFoundError` exception
+   - [x] Implement `list_templates()` function
+   - [x] Implement `validate_template_type()` function
+   - [x] Run tests, verify they pass
 
    **Implementation:**
 
@@ -631,16 +631,16 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 3. **REFACTOR:**
 
-   - [ ] Review for edge cases
-   - [ ] Ensure error messages are helpful
+   - [x] Review for edge cases
+   - [x] Ensure error messages are helpful
 
 **Checklist:**
 
-- [ ] Template discovery tests added
-- [ ] `TemplateNotFoundError` defined
-- [ ] `list_templates()` implemented
-- [ ] `validate_template_type()` implemented
-- [ ] Handles missing source, empty source
+- [x] Template discovery tests added
+- [x] `TemplateNotFoundError` defined
+- [x] `list_templates()` implemented
+- [x] `validate_template_type()` implemented
+- [x] Handles missing source, empty source
 
 ---
 
