@@ -189,3 +189,20 @@ def is_registered(path: Path) -> bool:
     """
     return get_project_by_path(path) is not None
 
+
+def list_projects(template: Optional[str] = None) -> list[RegistryProject]:
+    """List all projects in the registry, optionally filtered by template.
+    
+    Args:
+        template: Optional template type to filter by
+        
+    Returns:
+        List of RegistryProject instances matching the filter
+    """
+    registry = load_registry()
+
+    if template:
+        return [p for p in registry.projects if p.template == template]
+
+    return registry.projects
+

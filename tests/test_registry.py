@@ -332,3 +332,61 @@ def test_is_registered(tmp_path, monkeypatch):
     # Now registered
     assert is_registered(path) is True
 
+
+def test_list_projects_empty(tmp_path, monkeypatch):
+    """Test listing projects from empty registry."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import list_projects
+
+    projects = list_projects()
+
+    assert projects == []
+
+
+def test_list_projects(tmp_path, monkeypatch):
+    """Test listing all projects."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import add_project, list_projects
+    from pathlib import Path
+
+    add_project(
+        path=Path("/Users/me/Projects/project-1"),
+        template="standard-project",
+        template_version="0.8.0",
+    )
+    add_project(
+        path=Path("/Users/me/Projects/project-2"),
+        template="learning-project",
+        template_version="0.8.0",
+    )
+
+    projects = list_projects()
+
+    assert len(projects) == 2
+
+
+def test_list_projects_filter_by_template(tmp_path, monkeypatch):
+    """Test filtering projects by template type."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import add_project, list_projects
+    from pathlib import Path
+
+    add_project(
+        path=Path("/Users/me/Projects/project-1"),
+        template="standard-project",
+        template_version="0.8.0",
+    )
+    add_project(
+        path=Path("/Users/me/Projects/project-2"),
+        template="learning-project",
+        template_version="0.8.0",
+    )
+
+    projects = list_projects(template="standard-project")
+
+    assert len(projects) == 1
+    assert projects[0].path == Path("/Users/me/Projects/project-1")
+
