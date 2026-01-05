@@ -25,6 +25,11 @@ class DirectoryNotWritableError(TemplateError):
     pass
 
 
+class TemplateNotFoundError(TemplateError):
+    """Raised when template type is not found."""
+    pass
+
+
 def validate_project_name(name: str) -> str:
     """Validate project name matches allowed pattern.
 
@@ -131,3 +136,65 @@ def validate_target_directory(path: Path) -> Path:
         )
 
     return path
+
+
+def list_templates(source: Path) -> list[str]:
+    """List available template types from source directory.
+
+    Args:
+        source: Path to templates source directory.
+
+    Returns:
+        List of template type names (directory names).
+
+    Raises:
+        DirectoryNotFoundError: If source directory does not exist.
+    """
+    source = source.expanduser().resolve()
+
+    if not source.exists():
+        raise DirectoryNotFoundError(
+            f"Templates source directory does not exist: {source}"
+        )
+
+    if not source.is_dir():
+        raise DirectoryNotFoundError(
+            f"Templates source is not a directory: {source}"
+        )
+
+    templates = []
+    for item in source.iterdir():
+        # Skip hidden directories and files
+        if item.name.startswith('.'):
+            continue
+        if item.is_dir():
+            templates.append(item.name)
+
+    return sorted(templates)
+
+
+def validate_template_type(template_type: str, source: Path) -> Path:
+    """Validate template type exists in source directory.
+
+    Args:
+        template_type: Template type name (e.g., "standard-project").
+        source: Path to templates source directory.
+
+    Returns:
+        Path to the template directory.
+
+    Raises:
+        TemplateNotFoundError: If template type does not exist.
+    """
+    source = source.expanduser().resolve()
+    template_path = source / template_type
+
+    if not template_path.exists() or not template_path.is_dir():
+        available = list_templates(source)
+        available_str = ", ".join(available) if available else "none"
+        raise TemplateNotFoundError(
+            f"Template '{template_type}' not found in {source}. "
+            f"Available templates: {available_str}"
+        )
+
+    return template_path
