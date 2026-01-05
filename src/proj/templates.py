@@ -2,6 +2,7 @@
 import os
 import re
 import shutil
+from datetime import date
 from pathlib import Path
 from typing import Optional
 
@@ -236,3 +237,51 @@ def copy_template(
     shutil.copytree(template_path, project_path)
 
     return project_path
+
+
+def replace_placeholders(
+    project_path: Path,
+    project_name: str,
+    description: Optional[str] = None,
+    author: Optional[str] = None,
+) -> None:
+    """Replace placeholders in project files.
+
+    Replaces the following placeholders:
+    - [Project Name] -> project_name
+    - [Brief description of what this project does] -> description
+    - [Date] -> current date (YYYY-MM-DD)
+    - [Author] -> author
+
+    Args:
+        project_path: Path to project directory.
+        project_name: Project name for replacement.
+        description: Project description (optional).
+        author: Author name (optional).
+    """
+    current_date = date.today().strftime("%Y-%m-%d")
+
+    # Default values
+    description = description or f"{project_name} project"
+    author = author or ""
+
+    # Files to process
+    files_to_process = ["README.md", "start.txt"]
+
+    for filename in files_to_process:
+        file_path = project_path / filename
+        if not file_path.exists():
+            continue
+
+        content = file_path.read_text()
+
+        # Replace placeholders
+        content = content.replace("[Project Name]", project_name)
+        content = content.replace(
+            "[Brief description of what this project does]",
+            description
+        )
+        content = content.replace("[Date]", current_date)
+        content = content.replace("[Author]", author)
+
+        file_path.write_text(content)
