@@ -35,10 +35,10 @@ Extend the existing Pydantic configuration with new fields for template source, 
 **TDD Flow:**
 
 1. **RED - Write failing test:**
-   - [ ] Add test for `api_enabled` field existence
-   - [ ] Add test for default value (`True`)
-   - [ ] Add test for environment variable override (`PROJ_API_ENABLED`)
-   - [ ] Verify tests fail (no implementation yet)
+   - [x] Add test for `api_enabled` field existence
+   - [x] Add test for default value (`True`)
+   - [x] Add test for environment variable override (`PROJ_API_ENABLED`)
+   - [x] Verify tests fail (no implementation yet)
 
    **Test code (`tests/test_config.py`):**
    ```python
@@ -65,9 +65,9 @@ Extend the existing Pydantic configuration with new fields for template source, 
    ```
 
 2. **GREEN - Implement minimum code:**
-   - [ ] Add `api_enabled` field to Config class
-   - [ ] Set default to `True`
-   - [ ] Run tests, verify they pass
+   - [x] Add `api_enabled` field to Config class
+   - [x] Set default to `True`
+   - [x] Run tests, verify they pass
 
    **Implementation (`src/proj/config.py`):**
    ```python
@@ -79,14 +79,14 @@ Extend the existing Pydantic configuration with new fields for template source, 
    ```
 
 3. **REFACTOR - Clean up:**
-   - [ ] Review field placement (group with other API settings)
-   - [ ] Ensure docstring is clear
-   - [ ] Verify tests still pass
+   - [x] Review field placement (group with other API settings)
+   - [x] Ensure docstring is clear
+   - [x] Verify tests still pass
 
 **Checklist:**
-- [ ] Test written and failing
-- [ ] Implementation passes test
-- [ ] Code refactored and clean
+- [x] Test written and failing
+- [x] Implementation passes test
+- [x] Code refactored and clean
 
 ---
 
@@ -479,7 +479,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 1: api_enabled field | 🔴 Not Started | |
+| Task 1: api_enabled field | ✅ Complete | Tests and implementation complete |
 | Task 2: TemplateConfig nested model | 🔴 Not Started | |
 | Task 3: RegistryConfig nested model | 🔴 Not Started | |
 | Task 4: default_project_dir field | 🔴 Not Started | |
@@ -490,7 +490,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
 
 ## ✅ Completion Criteria
 
-- [ ] `api_enabled` field works with default `True`
+- [x] `api_enabled` field works with default `True`
 - [ ] `templates.source` and `templates.default` fields accessible
 - [ ] `registry.path` field defaults to XDG data directory
 - [ ] `default_project_dir` defaults to `~/Projects`
@@ -512,7 +512,7 @@ Extend the existing Pydantic configuration with new fields for template source, 
 
 | Requirement | Description | Status |
 |-------------|-------------|--------|
-| FR-CONFIG-1 | api_enabled toggle | 🔴 Pending |
+| FR-CONFIG-1 | api_enabled toggle | ✅ Complete |
 | FR-CONFIG-2 | templates.source path | 🔴 Pending |
 | FR-CONFIG-3 | registry.path setting | 🔴 Pending |
 | FR-CONFIG-4 | Environment overrides | 🔴 Pending |
