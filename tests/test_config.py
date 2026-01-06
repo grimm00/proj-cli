@@ -173,10 +173,22 @@ def test_config_save_includes_new_fields(tmp_path, monkeypatch):
     with open(config_file) as f:
         saved = yaml.safe_load(f)
 
+    # Check keys exist
     assert 'api_enabled' in saved
     assert 'templates' in saved
     assert 'registry' in saved
     assert 'default_project_dir' in saved
+
+    # Check types
+    assert isinstance(saved['api_enabled'], bool)
+    assert isinstance(saved['templates'], dict)
+    assert isinstance(saved['registry'], dict)
+    assert isinstance(saved['default_project_dir'], str)
+
+    # Check nested structure
+    assert 'source' in saved['templates']
+    assert 'default' in saved['templates']
+    assert 'path' in saved['registry']
 
 
 def test_config_load_nested_from_yaml(tmp_path, monkeypatch):
@@ -208,3 +220,5 @@ def test_config_load_nested_from_yaml(tmp_path, monkeypatch):
     assert config.api_enabled is False
     assert str(config.templates.source) == '/custom/templates'
     assert config.templates.default == 'learning-project'
+    assert str(config.registry.path) == '/custom/registry.json'
+    assert str(config.default_project_dir) == '/custom/projects'
