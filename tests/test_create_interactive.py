@@ -36,10 +36,10 @@ def test_create_interactive_prompts_for_name(
 
     # Simulate user input
     mock_prompt.ask.side_effect = [
-        "my-app",           # Project name
-        "standard-project", # Template type
-        str(tmp_path),      # Target directory
-        "",                 # Description (optional)
+        "my-app",  # Project name
+        "standard-project",  # Template type
+        str(tmp_path),  # Target directory
+        "",  # Description (optional)
     ]
 
     result = runner.invoke(app, [
@@ -98,7 +98,10 @@ def test_create_interactive_prompts_for_template(
     assert result.exit_code == 0
     # Should have prompted for template
     call_args = [str(call) for call in mock_prompt.ask.call_args_list]
-    assert any("template" in str(call).lower() for call in call_args)
+    template_prompted = any(
+        "template" in str(call).lower() for call in call_args
+    )
+    assert template_prompted
 
 
 @patch('proj.commands.projects.Prompt')
@@ -149,8 +152,11 @@ def test_create_interactive_prompts_for_target_dir(
     assert result.exit_code == 0
     # Should have prompted for target directory
     call_args = [str(call) for call in mock_prompt.ask.call_args_list]
-    assert any("target" in str(call).lower() or "directory" in str(call).lower()
-               for call in call_args)
+    target_prompted = any(
+        "target" in str(call).lower() or "directory" in str(call).lower()
+        for call in call_args
+    )
+    assert target_prompted
 
 
 @patch('rich.prompt.Prompt')
