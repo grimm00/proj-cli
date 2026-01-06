@@ -37,9 +37,9 @@ Add API synchronization to template creation flow. Currently, `proj create --tem
 
 1. **RED - Write failing tests:**
 
-   - [ ] Test: `RegistryProject` accepts optional `work_prod_id`
-   - [ ] Test: Registry serializes/deserializes `work_prod_id` correctly
-   - [ ] Test: `work_prod_id=None` is valid (default)
+   - [x] Test: `RegistryProject` accepts optional `work_prod_id`
+   - [x] Test: Registry serializes/deserializes `work_prod_id` correctly
+   - [x] Test: `work_prod_id=None` is valid (default)
 
    **Test file:** `tests/test_registry.py`
 
@@ -96,10 +96,10 @@ Add API synchronization to template creation flow. Currently, `proj create --tem
 
 2. **GREEN - Implement:**
 
-   - [ ] Add `work_prod_id: Optional[int] = None` to `RegistryProject`
-   - [ ] Update `add_project()` to accept `work_prod_id` parameter
-   - [ ] Update `save_registry()` to serialize `work_prod_id`
-   - [ ] Update `load_registry()` to deserialize `work_prod_id`
+   - [x] Add `work_prod_id: Optional[int] = None` to `RegistryProject`
+   - [x] Update `add_project()` to accept `work_prod_id` parameter
+   - [x] Update `save_registry()` to serialize `work_prod_id`
+   - [x] Update `load_registry()` to deserialize `work_prod_id`
 
    **Implementation in `src/proj/registry.py`:**
 
@@ -116,16 +116,16 @@ Add API synchronization to template creation flow. Currently, `proj create --tem
 
 3. **REFACTOR:**
 
-   - [ ] Ensure backward compatibility with existing registry.json files
-   - [ ] Handle missing `work_prod_id` field gracefully in `load_registry()`
+   - [x] Ensure backward compatibility with existing registry.json files
+   - [x] Handle missing `work_prod_id` field gracefully in `load_registry()`
 
 **Checklist:**
 
-- [ ] Tests written and passing
-- [ ] `work_prod_id` field added to `RegistryProject`
-- [ ] `add_project()` accepts `work_prod_id` parameter
-- [ ] Serialization/deserialization works correctly
-- [ ] Backward compatible with existing registry files
+- [x] Tests written and passing
+- [x] `work_prod_id` field added to `RegistryProject`
+- [x] `add_project()` accepts `work_prod_id` parameter
+- [x] Serialization/deserialization works correctly
+- [x] Backward compatible with existing registry files
 
 ---
 
@@ -599,7 +599,7 @@ Add API synchronization to template creation flow. Currently, `proj create --tem
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 1: Registry Schema Update | 🟠 In Progress | Add work_prod_id field |
+| Task 1: Registry Schema Update | ✅ Complete | Add work_prod_id field |
 | Task 2: Update Registry Entry Function | 🔴 Not Started | update_project_work_prod_id() |
 | Task 3: API Sync Helper Function | 🔴 Not Started | sync_to_api() helper |
 | Task 4: Integrate API Sync | 🔴 Not Started | Main integration |
