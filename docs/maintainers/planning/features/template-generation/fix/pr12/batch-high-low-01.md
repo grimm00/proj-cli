@@ -4,8 +4,10 @@
 **Batch:** high-low-01  
 **Priority:** 🟠 HIGH  
 **Effort:** 🟢 LOW  
-**Status:** 🔴 Not Started  
+**Status:** ✅ Complete  
 **Created:** 2026-01-06  
+**Completed:** 2026-01-06  
+**PR:** #[pending]  
 **Issues:** 1 issue
 
 ---
@@ -83,10 +85,10 @@ template = Prompt.ask(
 ## Implementation Steps
 
 1. **PR12-#1: Empty Templates Check**
-   - [ ] Add check for empty `available` list after `list_templates()` call
-   - [ ] Print clear error message with templates source path
-   - [ ] Exit with code 1 (error)
-   - [ ] Add test: `test_prompt_for_create_options_no_templates_available`
+   - [x] Add check for empty `available` list after `list_templates()` call
+   - [x] Print clear error message with templates source path
+   - [x] Exit with code 1 (error)
+   - [x] Add test: `test_prompt_for_create_options_no_templates_available`
 
 ---
 
@@ -108,10 +110,10 @@ template = Prompt.ask(
 
 ## Definition of Done
 
-- [ ] Empty templates case handled with clear error
-- [ ] Tests passing
+- [x] Empty templates case handled with clear error
+- [x] Tests passing
 - [ ] Code reviewed
-- [ ] Ready for PR
+- [x] Ready for PR
 
 ---
 
