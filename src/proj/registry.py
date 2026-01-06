@@ -217,6 +217,30 @@ def is_registered(path: Path) -> bool:
     return get_project_by_path(path) is not None
 
 
+def update_project_work_prod_id(path: Path, work_prod_id: int) -> bool:
+    """Update work_prod_id for an existing registry entry.
+
+    Args:
+        path: Project path to update
+        work_prod_id: API ID to store
+
+    Returns:
+        True if project found and updated, False otherwise
+    """
+    # Normalize path for consistent comparisons
+    path = path.resolve()
+
+    registry = load_registry()
+
+    for project in registry.projects:
+        if project.path == path:
+            project.work_prod_id = work_prod_id
+            save_registry(registry)
+            return True
+
+    return False
+
+
 def list_projects(template: Optional[str] = None) -> list[RegistryProject]:
     """List all projects in the registry, optionally filtered by template.
 
