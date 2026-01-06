@@ -2,41 +2,87 @@
 
 **PR:** Phase 4 - Create Command Extension  
 **Merged:** 2026-01-06  
-**Status:** 🟡 Deferred Issues Tracked
+**Status:** 🟡 Planned  
+**Last Updated:** 2026-01-06
 
 ---
 
 ## 📋 Quick Links
 
-### Issues
+### Fix Batches
+
+| Batch | Priority | Effort | Issues | Status |
+|-------|----------|--------|--------|--------|
+| [batch-high-low-01](batch-high-low-01.md) | 🟠 HIGH | 🟢 LOW | 1 | 🔴 Not Started |
+| [batch-medium-low-01](batch-medium-low-01.md) | 🟡 MEDIUM | 🟢 LOW | 1 | 🔴 Not Started |
+| [batch-low-low-01](batch-low-low-01.md) | 🟢 LOW | 🟢 LOW | 4 | 🔴 Not Started |
+| [batch-low-high-01](batch-low-high-01.md) | 🟢 LOW | 🟠 HIGH | 1 | 🔴 Not Started |
+
+### Individual Issues
 
 | ID | Issue | Priority | Effort | Status |
 |----|-------|----------|--------|--------|
-| 1 | [Learning project placeholder not replaced](./issue-1-learning-placeholder.md) | MEDIUM 🟡 | LOW 🟢 | 🔴 Not Started |
+| 1 | [Learning project placeholder not replaced](./issue-1-learning-placeholder.md) | 🟡 MEDIUM | 🟢 LOW | 🔴 Not Started |
 
-### Sourcery Review
+### Source
 
-- **[PR #12 Sourcery Review](../../feedback/sourcery/pr12.md)** - Code review analysis
+- **[PR #12 Sourcery Review](../../../../feedback/sourcery/pr12.md)** - Code review analysis
 
 ---
 
 ## 📊 Summary
 
-**From Manual Testing:**
-- 1 bug found during manual testing
+**From Sourcery Review (7 issues):**
 
-**From Sourcery Review:**
-- 5 comments (all deferred to post-MVP)
-- 3 overall suggestions (all deferred)
+| Priority | Count | Batched |
+|----------|-------|---------|
+| 🟠 HIGH | 1 | batch-high-low-01 |
+| 🟡 MEDIUM | 1 | batch-medium-low-01 |
+| 🟢 LOW | 5 | batch-low-low-01 (4), batch-low-high-01 (1) |
+
+**From Manual Testing:**
+- 1 bug found during manual testing (issue-1-learning-placeholder)
+
+**Totals:**
+- **8 issues** total
+- **4 batches** + 1 individual issue
+- **Estimated effort:** ~5-6 hours total
 
 ---
 
-## 🎯 Batches
+## 🎯 Recommended Order
 
-No batches created yet - single issue tracked individually.
+1. **batch-high-low-01** (HIGH/LOW) - Empty templates check (~30 min)
+2. **batch-medium-low-01** (MEDIUM/LOW) - Dry-run validation (~30 min)
+3. **batch-low-low-01** (LOW/LOW) - Test improvements (~1 hr)
+4. **issue-1-learning-placeholder** (MEDIUM/LOW) - Manual testing bug (~30 min)
+5. **batch-low-high-01** (LOW/HIGH) - Refactor (defer to code quality sprint)
+
+---
+
+## 📁 Batch Details
+
+### batch-high-low-01: Empty Templates Handling
+- **Issue:** #1 - Interactive prompting doesn't handle empty templates list
+- **Impact:** UX bug - confusing error when no templates available
+- **Fix:** Add explicit check and clear error message
+
+### batch-medium-low-01: Dry-Run Validation
+- **Issue:** #2 - Dry-run bypasses flag conflict validation
+- **Impact:** `--dry-run --api-only --local-only` succeeds but real run fails
+- **Fix:** Call validation in dry-run path
+
+### batch-low-low-01: Test Improvements & Cleanup
+- **Issues:** #3, #4, #5, Overall-1
+- **Impact:** Better test coverage, cleaner code
+- **Fix:** Add tests for precedence, dry-run prompts, implicit API; remove unused param
+
+### batch-low-high-01: Refactor create_project
+- **Issue:** Overall-2 - Function too large and branchy
+- **Impact:** Maintainability improvement
+- **Fix:** Extract mode-specific helpers (defer to dedicated sprint)
 
 ---
 
 **Last Updated:** 2026-01-06  
-**Action Plan:** Learning placeholder issue can be fixed opportunistically or in Phase 5
-
+**Action Plan:** Start with HIGH priority batch, defer LOW/HIGH to code quality sprint

@@ -38,10 +38,10 @@ The Sourcery review of PR #9 identified 2 additional improvement opportunities, 
 **Review:** [PR #9 Sourcery Review](../../../../feedback/sourcery/pr9.md)  
 **Status:** 🟡 **PLANNED** - Batched for implementation
 
-| Issue | Priority | Impact | Effort | Description | Batch |
-|-------|----------|--------|--------|-------------|-------|
-| PR9-#1 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Add XDG isolation to env override tests | [batch-medium-low-01](batch-medium-low-01.md) |
-| PR9-Overall-#1 | 🟢 LOW | 🟢 LOW | 🟢 LOW | Extract shared XDG isolation fixture | [batch-medium-low-01](batch-medium-low-01.md) |
+| Issue          | Priority  | Impact    | Effort | Description                             | Batch                                         |
+| -------------- | --------- | --------- | ------ | --------------------------------------- | --------------------------------------------- |
+| PR9-#1         | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Add XDG isolation to env override tests | [batch-medium-low-01](batch-medium-low-01.md) |
+| PR9-Overall-#1 | 🟢 LOW    | 🟢 LOW    | 🟢 LOW | Extract shared XDG isolation fixture    | [batch-medium-low-01](batch-medium-low-01.md) |
 
 **Batch:** Both issues combined into single batch (XDG test isolation theme).
 
@@ -59,4 +59,3 @@ The Sourcery review of PR #9 identified 2 additional improvement opportunities, 
 **Last Updated:** 2026-01-06  
 **Status:** 🟡 Planned  
 **Next:** Use `/fix-implement pr9-batch-medium-low-01` to implement
-

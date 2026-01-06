@@ -47,7 +47,7 @@ fix/
 | [PR #8](pr8/README.md) | Phase 1: Config Extension | 🟡 In Progress | 7 | 2 remaining |
 | [PR #9](pr9/README.md) | Fix: Test Isolation | 🟡 Planned | 2 | 1 |
 | [PR #11](pr11/README.md) | Phase 3: Template Copying | 🟡 Planned | 4 | 2 |
-| [PR #12](pr12/README.md) | Phase 4: Create Command | 🟡 Planned | 1 | - |
+| [PR #12](pr12/README.md) | Phase 4: Create Command | 🟡 Planned | 8 | 4 |
 | [PR #13](pr13/README.md) | Phase 5: Testing & Polish | ✅ Merged | 2 deferred | - |
 | [PR #14](pr14/README.md) | Phase 6: API Sync Enhancement | ✅ Merged | 0 | - |
 
@@ -63,6 +63,10 @@ fix/
 | [pr9/batch-medium-low-01](pr9/batch-medium-low-01.md) | 🟡 MEDIUM | 🟢 LOW | 2 | 🔴 Not Started |
 | [pr11/batch-medium-low-01](pr11/batch-medium-low-01.md) | 🟡 MEDIUM | 🟢 LOW | 1 | 🔴 Not Started |
 | [pr11/batch-low-low-01](pr11/batch-low-low-01.md) | 🟢 LOW | 🟢 LOW | 3 | 🔴 Not Started |
+| [pr12/batch-high-low-01](pr12/batch-high-low-01.md) | 🟠 HIGH | 🟢 LOW | 1 | 🔴 Not Started |
+| [pr12/batch-medium-low-01](pr12/batch-medium-low-01.md) | 🟡 MEDIUM | 🟢 LOW | 1 | 🔴 Not Started |
+| [pr12/batch-low-low-01](pr12/batch-low-low-01.md) | 🟢 LOW | 🟢 LOW | 4 | 🔴 Not Started |
+| [pr12/batch-low-high-01](pr12/batch-low-high-01.md) | 🟢 LOW | 🟠 HIGH | 1 | 🔴 Not Started |
 
 ---
 
@@ -72,7 +76,7 @@ fix/
 - [PR #9 Fix Tracking](pr9/README.md)
 - [PR #10 Fix Tracking](pr10/README.md) - All issues fixed before merge
 - [PR #11 Fix Tracking](pr11/README.md) - 4 test improvements deferred
-- [PR #12 Fix Tracking](pr12/README.md) - 1 bug from manual testing
+- [PR #12 Fix Tracking](pr12/README.md) - 8 issues (7 Sourcery + 1 manual testing)
 - [PR #13 Fix Tracking](pr13/README.md) - 2 deferred (req reconciliation, placeholder refactor)
 - [PR #14 Fix Tracking](pr14/README.md) - No issues (no Sourcery review)
 - [Sourcery Review PR #8](../../../feedback/sourcery/pr8.md)
@@ -87,5 +91,5 @@ fix/
 
 **Last Updated:** 2026-01-06  
 **Status:** ✅ Active  
-**Next:** Use `/fix-implement` to implement batches (6 batches available)
+**Next:** Use `/fix-implement` to implement batches (10 batches available)
 
