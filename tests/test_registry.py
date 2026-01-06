@@ -561,3 +561,103 @@ def test_registry_backward_compat_missing_work_prod_id(tmp_path, monkeypatch):
 
     assert len(registry.projects) == 1
     assert registry.projects[0].work_prod_id is None
+
+
+# =============================================================================
+# Task 2: Update Registry Entry Function - update_project_work_prod_id()
+# =============================================================================
+
+
+def test_update_project_work_prod_id(tmp_path, monkeypatch):
+    """Test updating work_prod_id for existing project."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+    from proj.registry import (
+        add_project,
+        update_project_work_prod_id,
+        get_project_by_path,
+    )
+
+    project_path = tmp_path / "test-proj"
+
+    # Create project without work_prod_id
+    add_project(
+        path=project_path,
+        template="standard-project",
+        template_version="1.0",
+    )
+
+    # Update with work_prod_id
+    result = update_project_work_prod_id(project_path, 42)
+
+    assert result is True
+
+    # Verify update persisted
+    loaded = get_project_by_path(project_path)
+    assert loaded.work_prod_id == 42
+
+
+def test_update_project_work_prod_id_not_found(tmp_path, monkeypatch):
+    """Test update returns False for non-existent project."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+    from proj.registry import update_project_work_prod_id
+
+    result = update_project_work_prod_id(tmp_path / "non-existent", 42)
+
+    assert result is False
+
+
+def test_update_project_work_prod_id_persists_to_disk(tmp_path, monkeypatch):
+    """Test that update persists to disk correctly."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+    from proj.registry import (
+        add_project,
+        update_project_work_prod_id,
+        load_registry,
+    )
+
+    project_path = tmp_path / "test-proj"
+
+    # Create project
+    add_project(
+        path=project_path,
+        template="standard-project",
+        template_version="1.0",
+    )
+
+    # Update with work_prod_id
+    update_project_work_prod_id(project_path, 123)
+
+    # Reload registry from disk
+    registry = load_registry()
+
+    assert len(registry.projects) == 1
+    assert registry.projects[0].work_prod_id == 123
+
+
+def test_update_work_prod_id_changes_existing(tmp_path, monkeypatch):
+    """Test that update can change existing work_prod_id."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+    from proj.registry import (
+        add_project,
+        update_project_work_prod_id,
+        get_project_by_path,
+    )
+
+    project_path = tmp_path / "test-proj"
+
+    # Create project with initial work_prod_id
+    add_project(
+        path=project_path,
+        template="standard-project",
+        template_version="1.0",
+        work_prod_id=10,
+    )
+
+    # Update to new work_prod_id
+    result = update_project_work_prod_id(project_path, 20)
+
+    assert result is True
+
+    # Verify update
+    loaded = get_project_by_path(project_path)
+    assert loaded.work_prod_id == 20
