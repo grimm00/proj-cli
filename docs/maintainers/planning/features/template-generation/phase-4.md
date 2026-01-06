@@ -423,14 +423,14 @@ Extend the existing `proj create` command with template modes, interactive promp
 
 1. **RED - Write failing tests:**
 
-   - [ ] Add test for template mode creates local directory
-   - [ ] Add test for template mode copies template files
-   - [ ] Add test for template mode replaces placeholders
-   - [ ] Add test for template mode registers project
-   - [ ] Add test for template mode with --no-register skips registry
-   - [ ] Add test for template mode initializes git (default)
-   - [ ] Add test for template mode with --no-git skips git
-   - [ ] Verify tests fail
+   - [x] Add test for template mode creates local directory
+   - [x] Add test for template mode copies template files
+   - [x] Add test for template mode replaces placeholders
+   - [x] Add test for template mode registers project
+   - [x] Add test for template mode with --no-register skips registry
+   - [x] Add test for template mode initializes git (default)
+   - [x] Add test for template mode with --no-git skips git
+   - [x] Verify tests fail
 
    **Test code (`tests/test_create_template.py`):**
 
@@ -537,17 +537,17 @@ Extend the existing `proj create` command with template modes, interactive promp
 
 2. **GREEN - Implement minimum code:**
 
-   - [ ] Import templates module functions
-   - [ ] Import registry module functions
-   - [ ] Implement template mode branch
-   - [ ] Call `create_from_template()`
-   - [ ] Call `add_project()` to registry
-   - [ ] Run tests, verify they pass
+   - [x] Import templates module functions
+   - [x] Import registry module functions
+   - [x] Implement template mode branch
+   - [x] Call `create_from_template()`
+   - [x] Call `add_project()` to registry
+   - [x] Run tests, verify they pass
 
 3. **REFACTOR - Clean up:**
-   - [ ] Extract template creation to helper function
-   - [ ] Handle errors gracefully
-   - [ ] Run linting
+   - [x] Extract template creation to helper function
+   - [x] Handle errors gracefully
+   - [x] Run linting
 
 **Checklist:**
 
