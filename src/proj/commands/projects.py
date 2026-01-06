@@ -31,6 +31,42 @@ def get_client() -> APIClient:
     return APIClient(Config.load())
 
 
+def detect_create_mode(
+    config: Config,
+    template: Optional[str],
+    api_only: bool,
+    local_only: bool,
+) -> str:
+    """Detect which create mode to use.
+
+    Args:
+        config: proj-cli configuration.
+        template: Template type if specified.
+        api_only: Force API-only mode.
+        local_only: Force local-only mode.
+
+    Returns:
+        Mode string: "interactive", "api-only", "local-only", "template"
+
+    Raises:
+        ValueError: If conflicting flags provided.
+    """
+    if api_only and local_only:
+        raise ValueError(
+            "Cannot use --api-only and --local-only together (conflict)"
+        )
+
+    if api_only:
+        return "api-only"
+    if local_only:
+        return "local-only"
+    if template:
+        return "template"
+
+    # Default: interactive
+    return "interactive"
+
+
 def list_projects(
     status: Optional[str] = typer.Option(
         None, "--status", "-s", help="Filter by status"
