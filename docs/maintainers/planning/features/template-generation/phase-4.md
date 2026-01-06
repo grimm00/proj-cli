@@ -39,12 +39,12 @@ Extend the existing `proj create` command with template modes, interactive promp
 
 1. **RED - Write failing tests:**
 
-   - [ ] Add test for default mode (interactive when api_enabled=True)
-   - [ ] Add test for api-only mode detection
-   - [ ] Add test for local-only mode detection
-   - [ ] Add test for template mode detection
-   - [ ] Add test for mode conflicts (api-only + local-only should error)
-   - [ ] Verify tests fail (no implementation yet)
+   - [x] Add test for default mode (interactive when api_enabled=True)
+   - [x] Add test for api-only mode detection
+   - [x] Add test for local-only mode detection
+   - [x] Add test for template mode detection
+   - [x] Add test for mode conflicts (api-only + local-only should error)
+   - [x] Verify tests fail (no implementation yet)
 
    **Test code (`tests/test_commands_projects.py`):**
 
@@ -113,10 +113,10 @@ Extend the existing `proj create` command with template modes, interactive promp
 
 2. **GREEN - Implement minimum code:**
 
-   - [ ] Create `detect_create_mode()` function in `projects.py`
-   - [ ] Handle all mode combinations
-   - [ ] Raise error on conflicts
-   - [ ] Run tests, verify they pass
+   - [x] Create `detect_create_mode()` function in `projects.py`
+   - [x] Handle all mode combinations
+   - [x] Raise error on conflicts
+   - [x] Run tests, verify they pass
 
    **Implementation (`src/proj/commands/projects.py`):**
 
@@ -158,15 +158,15 @@ Extend the existing `proj create` command with template modes, interactive promp
    ```
 
 3. **REFACTOR - Clean up:**
-   - [ ] Consider adding template + api_only combination
-   - [ ] Add docstring with all modes explained
-   - [ ] Run linting
+   - [x] Consider adding template + api_only combination
+   - [x] Add docstring with all modes explained
+   - [x] Run linting
 
 **Checklist:**
 
-- [ ] Tests written and failing
-- [ ] Implementation passes tests
-- [ ] Code refactored and clean
+- [x] Tests written and failing
+- [x] Implementation passes tests
+- [x] Code refactored and clean
 
 ---
 
