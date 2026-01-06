@@ -43,14 +43,15 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
    - [ ] Verify test fails (placeholder not replaced)
 
    **Test code (`tests/test_templates.py`):**
+
    ```python
    def test_replace_placeholders_learning_project_name(tmp_path):
        """Test that [Learning Project Name] placeholder is replaced."""
        test_file = tmp_path / "README.md"
        test_file.write_text("# [Learning Project Name]\n\n**Purpose:** Learning")
-       
+
        replace_placeholders(tmp_path, "my-learning-app")
-       
+
        content = test_file.read_text()
        assert "# my-learning-app" in content
        assert "[Learning Project Name]" not in content
@@ -62,6 +63,7 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
    - [ ] Run test, verify it passes
 
    **Implementation (line ~281 in templates.py):**
+
    ```python
    # Add after existing [Project Name] replacement
    content = content.replace("[Learning Project Name]", project_name)
@@ -74,6 +76,7 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
    - [ ] Run linting
 
 **Checklist:**
+
 - [ ] Test written and failing
 - [ ] Implementation passes test
 - [ ] No regressions in existing tests
@@ -115,6 +118,7 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
 | config.py | >90% | Already well-tested |
 
 **Checklist:**
+
 - [ ] Coverage report generated
 - [ ] Gaps identified and documented
 - [ ] Critical gaps addressed (if any)
@@ -141,7 +145,7 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
 
 2. **Add Template Creation Examples:**
 
-   ```markdown
+   ````markdown
    ## Creating Projects from Templates
 
    Create a new project from a template:
@@ -159,6 +163,7 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
    # Preview without creating
    proj create my-app --template standard-project --dry-run
    ```
+   ````
 
 3. **Document Interactive Mode:**
 
@@ -172,6 +177,7 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
    - [ ] Note that `proj init` configures template source
 
 **Checklist:**
+
 - [ ] Create command section updated
 - [ ] Template examples added
 - [ ] Interactive mode documented
@@ -190,38 +196,39 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
 
 1. **Functional Requirements:**
 
-   | Requirement | Description | Verified | Notes |
-   |-------------|-------------|----------|-------|
-   | FR-CREATE-1 | Template selection | [ ] | `--template` flag |
-   | FR-CREATE-2 | Project name validation | [ ] | `validate_project_name()` |
-   | FR-CREATE-3 | Directory creation | [ ] | `create_from_template()` |
-   | FR-CREATE-4 | Git initialization | [ ] | `init_git()` helper |
-   | FR-CONFIG-1 | api_enabled field | [ ] | Config model |
-   | FR-CONFIG-2 | templates.source | [ ] | TemplateConfig |
-   | FR-CONFIG-3 | registry config | [ ] | RegistryConfig |
-   | FR-CONFIG-4 | default_project_dir | [ ] | Config model |
-   | FR-TMPL-1 | Template discovery | [ ] | `list_templates()` |
-   | FR-TMPL-2 | Template validation | [ ] | `validate_template()` |
-   | FR-TMPL-3 | Placeholder replacement | [ ] | `replace_placeholders()` |
-   | FR-REG-1 | Project registration | [ ] | `add_project()` |
-   | FR-REG-2 | Registry storage | [ ] | `save_registry()` |
-   | FR-REG-3 | Registry query | [ ] | `is_registered()`, `get_project_by_path()` |
-   | FR-REG-4 | Registry listing | [ ] | `list_projects()` |
+   | Requirement | Description             | Verified | Notes                                      |
+   | ----------- | ----------------------- | -------- | ------------------------------------------ |
+   | FR-CREATE-1 | Template selection      | [ ]      | `--template` flag                          |
+   | FR-CREATE-2 | Project name validation | [ ]      | `validate_project_name()`                  |
+   | FR-CREATE-3 | Directory creation      | [ ]      | `create_from_template()`                   |
+   | FR-CREATE-4 | Git initialization      | [ ]      | `init_git()` helper                        |
+   | FR-CONFIG-1 | api_enabled field       | [ ]      | Config model                               |
+   | FR-CONFIG-2 | templates.source        | [ ]      | TemplateConfig                             |
+   | FR-CONFIG-3 | registry config         | [ ]      | RegistryConfig                             |
+   | FR-CONFIG-4 | default_project_dir     | [ ]      | Config model                               |
+   | FR-TMPL-1   | Template discovery      | [ ]      | `list_templates()`                         |
+   | FR-TMPL-2   | Template validation     | [ ]      | `validate_template()`                      |
+   | FR-TMPL-3   | Placeholder replacement | [ ]      | `replace_placeholders()`                   |
+   | FR-REG-1    | Project registration    | [ ]      | `add_project()`                            |
+   | FR-REG-2    | Registry storage        | [ ]      | `save_registry()`                          |
+   | FR-REG-3    | Registry query          | [ ]      | `is_registered()`, `get_project_by_path()` |
+   | FR-REG-4    | Registry listing        | [ ]      | `list_projects()`                          |
 
 2. **Non-Functional Requirements:**
 
-   | Requirement | Description | Verified | Notes |
-   |-------------|-------------|----------|-------|
-   | NFR-CREATE-1 | Clear error messages | [ ] | Custom exceptions |
-   | NFR-CONFIG-1 | Backward compatibility | [ ] | api_enabled default |
-   | NFR-CONFIG-2 | XDG compliance | [ ] | Config paths |
-   | NFR-TMPL-1 | Fast template copy | [ ] | shutil.copytree |
-   | NFR-TMPL-2 | Preserve permissions | [ ] | copy_function arg |
-   | NFR-REG-1 | Atomic writes | [ ] | Write to temp first |
-   | NFR-REG-2 | JSON format | [ ] | Human-readable |
-   | NFR-PORT-1 | dev-infra parity | [ ] | Same behavior |
+   | Requirement  | Description            | Verified | Notes               |
+   | ------------ | ---------------------- | -------- | ------------------- |
+   | NFR-CREATE-1 | Clear error messages   | [ ]      | Custom exceptions   |
+   | NFR-CONFIG-1 | Backward compatibility | [ ]      | api_enabled default |
+   | NFR-CONFIG-2 | XDG compliance         | [ ]      | Config paths        |
+   | NFR-TMPL-1   | Fast template copy     | [ ]      | shutil.copytree     |
+   | NFR-TMPL-2   | Preserve permissions   | [ ]      | copy_function arg   |
+   | NFR-REG-1    | Atomic writes          | [ ]      | Write to temp first |
+   | NFR-REG-2    | JSON format            | [ ]      | Human-readable      |
+   | NFR-PORT-1   | dev-infra parity       | [ ]      | Same behavior       |
 
 **Checklist:**
+
 - [ ] All FR requirements verified
 - [ ] All NFR requirements verified
 - [ ] Any gaps documented
@@ -238,12 +245,14 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
 **Testing Process:**
 
 1. **Setup Verification:**
+
    - [ ] `proj --version` shows correct version
    - [ ] Templates directory accessible
    - [ ] Clean test directory created
    - [ ] `proj init` completed (with templates source)
 
 2. **Core Scenarios:**
+
    - [ ] 4.1: Help Output - All flags shown
    - [ ] 4.2: Dry-Run Mode - Preview without creation
    - [ ] 4.3: Template Mode - Standard project created
@@ -253,11 +262,13 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
    - [ ] 4.7: Local-Only Error - Requires --template
 
 3. **Template Variations:**
+
    - [ ] 4.11: Learning Project - **Now with fixed placeholder**
    - [ ] 4.12: Invalid Template - Clear error message
    - [ ] 4.13: Project Exists - Conflict error
 
 4. **Options:**
+
    - [ ] 4.14: Description Option - --desc flag works
 
 5. **Update Testing Guide (if needed):**
@@ -266,6 +277,7 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
    - [ ] Check off completed scenarios
 
 **Checklist:**
+
 - [ ] Setup verification complete
 - [ ] All core scenarios pass
 - [ ] Template variations tested (including fixed learning-project)
@@ -282,11 +294,13 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
 **Potential Items:**
 
 1. **From Sourcery Reviews (if time permits):**
+
    - [ ] Review pr8/batch-low-low-01.md for quick wins
    - [ ] Review pr11/batch-low-low-01.md for quick wins
    - [ ] Skip any item requiring significant refactoring
 
 2. **Linting Check:**
+
    - [ ] Run `flake8 src/proj/` - 0 errors
    - [ ] Run `flake8 tests/` - 0 errors
 
@@ -297,6 +311,7 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
 **Note:** This task is optional. The feature is complete without these improvements.
 
 **Checklist:**
+
 - [ ] Quick wins addressed (if any)
 - [ ] No linting errors
 - [ ] No blocking issues remain
@@ -305,14 +320,14 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
 
 ## 📊 Progress Tracking
 
-| Task | Status | Notes |
-|------|--------|-------|
-| Task 1: Learning Placeholder Fix | 🔴 Not Started | TDD - estimated 20 min |
-| Task 2: Coverage Analysis | 🔴 Not Started | ~30 min |
-| Task 3: README Update | 🔴 Not Started | ~30 min |
-| Task 4: Requirements Verification | 🔴 Not Started | ~20 min |
-| Task 5: Final Manual Testing | 🔴 Not Started | ~30 min |
-| Task 6: Code Quality (Optional) | 🔴 Not Started | ~30 min if done |
+| Task                              | Status         | Notes                  |
+| --------------------------------- | -------------- | ---------------------- |
+| Task 1: Learning Placeholder Fix  | 🔴 Not Started | TDD - estimated 20 min |
+| Task 2: Coverage Analysis         | 🔴 Not Started | ~30 min                |
+| Task 3: README Update             | 🔴 Not Started | ~30 min                |
+| Task 4: Requirements Verification | 🔴 Not Started | ~20 min                |
+| Task 5: Final Manual Testing      | 🔴 Not Started | ~30 min                |
+| Task 6: Code Quality (Optional)   | 🔴 Not Started | ~30 min if done        |
 
 ---
 
@@ -344,14 +359,14 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
 
 **After Phase 5 Completion:**
 
-| Category | Total | Verified |
-|----------|-------|----------|
-| Command (FR-CREATE) | 4 | 4 |
-| Config (FR-CONFIG) | 4 | 4 |
-| Template (FR-TMPL) | 3 | 3 |
-| Registry (FR-REG) | 4 | 4 |
-| NFR | 8 | 8 |
-| **Total** | **23** | **23** |
+| Category            | Total  | Verified |
+| ------------------- | ------ | -------- |
+| Command (FR-CREATE) | 4      | 4        |
+| Config (FR-CONFIG)  | 4      | 4        |
+| Template (FR-TMPL)  | 3      | 3        |
+| Registry (FR-REG)   | 4      | 4        |
+| NFR                 | 8      | 8        |
+| **Total**           | **23** | **23**   |
 
 ---
 
