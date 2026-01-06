@@ -613,7 +613,8 @@ def create_project(
         elif not name and not template and not api_only:
             # Should not reach here (interactive mode handled above)
             console.print(
-                "[yellow]Please provide project name or use --api-only flag.[/yellow]"
+                "[yellow]Please provide project name or use "
+                "--api-only flag.[/yellow]"
             )
             raise typer.Exit(1)
 
