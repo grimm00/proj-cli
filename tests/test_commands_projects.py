@@ -1,12 +1,17 @@
 """Tests for project commands."""
 import subprocess
 import sys
-from pathlib import Path
+from io import StringIO
 
 import pytest
 import typer
+from rich.console import Console
 from unittest.mock import MagicMock, patch
-from proj.commands.projects import detect_create_mode, prompt_for_create_options
+
+from proj.commands.projects import (
+    detect_create_mode,
+    prompt_for_create_options,
+)
 
 
 def test_list_command_exists():
@@ -165,15 +170,33 @@ def test_detect_mode_conflict_raises():
 
 
 def test_prompt_for_create_options_no_templates_available(tmp_path):
-    """Test that prompt_for_create_options exits with error when no templates available."""
+    """Test prompt_for_create_options exits when no templates available."""
     config = MagicMock()
     templates_source = tmp_path / "templates"
     templates_source.mkdir()
-    
-    with patch('proj.commands.projects.get_templates_source', return_value=templates_source):
-        with patch('proj.commands.projects.list_templates', return_value=[]):
-            with pytest.raises(typer.Exit) as exc_info:
-                prompt_for_create_options(config)
-            
-            # Should exit with code 1
-            assert exc_info.value.exit_code == 1
+
+    # Capture console output
+    test_console = Console(file=StringIO(), force_terminal=True)
+
+    templates_mock = 'proj.commands.projects.get_templates_source'
+    list_mock = 'proj.commands.projects.list_templates'
+    console_mock = 'proj.commands.projects.console'
+    prompt_mock = 'proj.commands.projects.Prompt.ask'
+
+    with patch(templates_mock, return_value=templates_source):
+        with patch(list_mock, return_value=[]):
+            with patch(console_mock, test_console):
+                # Mock Prompt.ask (called before template check)
+                with patch(prompt_mock, return_value="test-project"):
+                    with pytest.raises(typer.Exit) as exc_info:
+                        prompt_for_create_options(config)
+
+                    # Should exit with code 1
+                    assert exc_info.value.exit_code == 1
+
+                    # Verify error message output
+                    output = test_console.file.getvalue()
+                    assert "No templates available" in output
+                    # Path may be wrapped, check key parts
+                    assert "Templates source:" in output
+                    assert "templates" in output
