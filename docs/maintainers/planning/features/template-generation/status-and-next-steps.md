@@ -2,7 +2,7 @@
 
 **Feature:** Template Generation Extension  
 **Last Updated:** 2026-01-06  
-**Overall Status:** ✅ Phase 4 Complete
+**Overall Status:** 🟠 Phase 6 Ready
 
 ---
 
@@ -14,117 +14,105 @@
 | 2 | Local Registry | ✅ Complete | 100% | All 8 tasks complete |
 | 3 | Template Copying | ✅ Complete | 100% | All 8 tasks complete |
 | 4 | Create Command Extension | ✅ Complete | 100% | All 9 TDD tasks complete |
-| 5 | Testing & Polish | 🔴 Scaffolding | 0% | Needs expansion |
+| 5 | Testing & Polish | 🟡 Paused | 67% | Tasks 1-4 complete, 5-6 pending Phase 6 |
+| 6 | API Sync Enhancement | 🔴 Not Started | 0% | New phase - template+API sync |
 
-**Overall Progress:** ~80% (4/5 phases complete, Phase 5 ready)
+**Overall Progress:** ~70% (4/6 phases complete, Phase 6 ready)
 
 ---
 
 ## 🎯 Current Focus
 
-**Stage:** Phase 4 Complete - Ready for Phase 5
+**Stage:** Phase 5 Paused - Ready for Phase 6
 
-Phase 1 (Config Extension) is complete:
-- ✅ All 6 TDD tasks implemented
-- ✅ 16 tests passing
-- ✅ PR #8 merged (2025-01-05)
-- ✅ Sourcery review complete (8 comments, all LOW/MEDIUM deferred)
-- ✅ Fix batch high-low-01 complete (PR #9)
+### Phase 5 (Testing & Polish) - PAUSED
 
-Phase 2 (Local Registry) is complete:
-- ✅ All 8 TDD tasks implemented
-- ✅ 22 tests passing (added 2 during Sourcery fix)
-- ✅ Registry module fully functional
-- ✅ Architectural refinement: registry as sync overlay for inventory
-- ✅ PR #10 merged (2026-01-05)
-- ✅ Sourcery review complete (all HIGH issues fixed before merge)
+Tasks 1-4 complete:
+- ✅ Task 1: Fix learning-project placeholder bug
+- ✅ Task 2: Coverage gap analysis (core modules >90%)
+- ✅ Task 3: README documentation update
+- ✅ Task 4: Requirements verification (22 FR + 8 NFR verified)
 
-Phase 3 (Template Copying) is complete:
-- ✅ All 8 TDD tasks implemented
-- ✅ 52 tests passing (new templates module)
-- ✅ PR #11 merged (2026-01-05)
-- ✅ Sourcery review: 5 comments (1 fixed, 4 LOW/MEDIUM deferred)
-- ✅ Ports logic from dev-infra's `new-project.sh`
-- ✅ Name validation and sanitization
-- ✅ Directory validation
-- ✅ Template discovery and validation
-- ✅ Template copying with hidden files
-- ✅ Placeholder replacement
-- ✅ High-level orchestration function
-- ✅ Config integration
+Tasks 5-6 paused pending Phase 6:
+- 🟡 Task 5: Final manual testing (needs Phase 6)
+- 🟡 Task 6: Code quality polish (optional)
 
-Phase 4 (Create Command Extension) is complete:
-- ✅ All 9 TDD tasks implemented
-- ✅ 50 new tests passing (Phase 4 specific)
-- ✅ Mode detection helper
-- ✅ New command flags (--template, --api-only, --local-only, --target-dir, etc.)
-- ✅ API-only mode (backward compatible)
-- ✅ Template mode with `create_from_template`
-- ✅ Local-only mode (offline)
-- ✅ Dry-run mode (preview without side effects)
-- ✅ Git integration (--no-git to skip)
-- ✅ Interactive mode with Rich prompts
-- ✅ Integration tests for full workflow
+**Reason for pause:** Gap identified - template creation doesn't sync to work-prod API.
 
-**Next action:** Begin Phase 5 (Testing & Polish) expansion and implementation.
+### Gap Identified
+
+Template creation currently:
+- ✅ Creates local project from template
+- ✅ Initializes git repository
+- ✅ Registers in local registry
+- ❌ Does NOT create work-prod API record
+
+**Impact:** Users must manually create API records after template creation.
+
+**Next action:** Implement Phase 6 (API Sync Enhancement).
 
 ---
 
 ## 🚀 Immediate Next Steps
 
-### 1. Expand Phase 5
+### 1. Expand Phase 6
 
-Phase 5 (Testing & Polish) needs expansion:
+Phase 6 (API Sync Enhancement) needs detailed expansion:
 
 ```bash
-/transition-plan template-generation --expand --phase 5
+/transition-plan template-generation --expand --phase 6
 ```
 
 **Expected Tasks:**
-- Edge case testing
-- Error message improvements
-- Documentation updates
-- Manual testing guide completion
-- Bug fixes from deferred issues
+- Add API call to template creation flow
+- Store `work_prod_id` in registry
+- Handle API errors gracefully
+- Respect `--local-only` and `api_enabled` settings
+- Update documentation
 
-### 2. Fix Deferred Issues (Optional)
+### 2. Implement Phase 6
 
-Address deferred issues from PR #12:
-- Learning project placeholder not replaced (`[Learning Project Name]`)
+After expansion:
+```bash
+/task-phase 6 1
+```
 
-### 3. Complete Feature
+### 3. Resume Phase 5
 
-After Phase 5:
-- Feature complete and ready for production use
-- All templates supported with full placeholder replacement
+After Phase 6 merge:
+- Complete Task 5 (final manual testing)
+- Optional Task 6 (code polish)
+- Feature complete
 
 ---
 
 ## 📋 Requirements Progress
 
-### Functional Requirements (19)
+### Functional Requirements (22) ✅ ALL VERIFIED
 
-| Category | Total | Complete | Remaining |
-|----------|-------|----------|-----------|
-| Command (CREATE) | 4 | 0 | 4 |
-| Config (CONFIG) | 4 | 3 | 1 |
-| Template (TMPL) | 3 | 0 | 3 |
-| Registry (REG) | 4 | 1 | 3 |
-| Port (PORT) | 4 | 0 | 4 |
-| **Total** | **19** | **4** | **15** |
+| Category | Total | Complete | Status |
+|----------|-------|----------|--------|
+| Command (CREATE) | 4 | 4 | ✅ |
+| Config (CONFIG) | 4 | 4 | ✅ |
+| Template (TMPL) | 3 | 3 | ✅ |
+| Registry (REG) | 4 | 4 | ✅ |
+| Port (PORT) | 7 | 7 | ✅ |
+| **Total** | **22** | **22** | **✅** |
 
-### Non-Functional Requirements (8)
+### Non-Functional Requirements (8) ✅ ALL VERIFIED
 
-| Requirement | Priority | Status |
-|-------------|----------|--------|
-| NFR-CREATE-1 | High | 🔴 |
-| NFR-CONFIG-1 | Medium | ✅ |
-| NFR-CONFIG-2 | Medium | ✅ |
-| NFR-TMPL-1 | High | 🔴 |
-| NFR-TMPL-2 | Medium | 🔴 |
-| NFR-REG-1 | Medium | 🔴 |
-| NFR-REG-2 | Medium | 🔴 |
-| NFR-PORT-1 | Low | 🔴 |
+| Requirement | Description | Status |
+|-------------|-------------|--------|
+| NFR-CREATE-1 | Backward compatibility | ✅ |
+| NFR-CONFIG-1 | XDG registry location | ✅ |
+| NFR-CONFIG-2 | YAML format | ✅ |
+| NFR-TMPL-1 | Offline operation | ✅ |
+| NFR-TMPL-2 | Clear errors | ✅ |
+| NFR-REG-1 | Human-readable | ✅ |
+| NFR-REG-2 | XDG location | ✅ |
+| NFR-PORT-1 | Name sanitization | ✅ |
+
+**Verified:** Phase 5 Task 4 (2026-01-06)
 
 ---
 
@@ -136,8 +124,9 @@ After Phase 5:
 | Phase 2: Local Registry | ~2 hrs | ✅ Complete (PR #10) |
 | Phase 3: Template Copying | ~3 hrs | ✅ Complete (PR #11) |
 | Phase 4: Create Command Extension | ~3 hrs | ✅ Complete (PR #12) |
-| Phase 5: Testing & Polish | ~2 hrs | 🔴 Scaffolding |
-| **Total** | **~12 hrs** | |
+| Phase 5: Testing & Polish | ~2 hrs | 🟡 Paused (Tasks 1-4 done) |
+| Phase 6: API Sync Enhancement | ~2-3 hrs | 🔴 Not Started |
+| **Total** | **~14-15 hrs** | |
 
 ---
 
@@ -228,7 +217,7 @@ After Phase 5:
 ---
 
 **Last Updated:** 2026-01-06  
-**Status:** ✅ Phase 4 Merged (PR #12), Ready for Phase 5  
-**Next:** Expand Phase 5 with `/transition-plan template-generation --expand --phase 5`
+**Status:** 🟠 Phase 5 Paused, Ready for Phase 6  
+**Next:** Expand Phase 6 with `/transition-plan template-generation --expand --phase 6`
 
 
