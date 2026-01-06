@@ -1,4 +1,5 @@
 """Tests for template operations."""
+import os
 import pytest
 from pathlib import Path
 from datetime import date
@@ -14,6 +15,7 @@ from proj.templates import (
     get_templates_source,
     InvalidProjectNameError,
     DirectoryNotFoundError,
+    DirectoryNotWritableError,
     TemplateNotFoundError,
     ProjectExistsError,
     TemplateError,
@@ -193,6 +195,19 @@ class TestValidateTargetDirectory:
         """Test empty path raises error."""
         with pytest.raises(DirectoryNotFoundError):
             validate_target_directory(Path(""))
+
+    def test_non_writable_directory_raises_error(self, tmp_path, monkeypatch):
+        """Test non-writable directory raises DirectoryNotWritableError."""
+        def mock_access(path, mode):
+            if mode == os.W_OK:
+                return False
+            return os.access(path, mode)
+
+        monkeypatch.setattr(os, "access", mock_access)
+
+        with pytest.raises(DirectoryNotWritableError) as exc:
+            validate_target_directory(tmp_path)
+        assert "not writable" in str(exc.value)
 
 
 class TestListTemplates:
