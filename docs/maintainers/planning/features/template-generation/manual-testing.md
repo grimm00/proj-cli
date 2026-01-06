@@ -796,6 +796,9 @@ rm -rf /tmp/proj-test/described-app
 # Check API is available
 curl -s http://localhost:5000/api/health && echo "API available"
 
+# Create test directory (required)
+mkdir -p /tmp/proj-test
+
 # Create project (API sync enabled by default)
 proj create api-sync-test \
   --template standard-project \
@@ -852,6 +855,9 @@ rm -rf /tmp/proj-test/api-sync-test
 # Ensure API is not running (stop if running)
 # Or use a bad port in config temporarily
 
+# Create test directory (required)
+mkdir -p /tmp/proj-test
+
 # Create project
 proj create offline-test \
   --template standard-project \
@@ -898,6 +904,9 @@ rm -rf /tmp/proj-test/offline-test
 **Steps:**
 
 ```bash
+# Create test directory (required)
+mkdir -p /tmp/proj-test
+
 proj create local-only-test \
   --template standard-project \
   --target-dir /tmp/proj-test \
@@ -945,6 +954,9 @@ rm -rf /tmp/proj-test/local-only-test
 **Steps:**
 
 ```bash
+# Create test directory (required)
+mkdir -p /tmp/proj-test
+
 # Temporarily modify config (or use environment variable)
 # Option 1: Edit ~/.config/proj/config.yaml and set api_enabled: false
 # Option 2: Use environment variable
