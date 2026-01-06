@@ -330,6 +330,55 @@ def create_project(
         # Load config for mode detection
         config = Config.load()
 
+        # Handle dry-run mode (preview without side effects)
+        if dry_run:
+            console.print("[yellow]🔍 Dry-run mode: Preview only[/yellow]")
+            console.print("")
+
+            if template:
+                # Template mode preview
+                templates_source = get_templates_source(config)
+                target = (
+                    Path(target_dir).expanduser().resolve()
+                    if target_dir
+                    else (
+                        config.default_project_dir.expanduser().resolve()
+                        if config.default_project_dir
+                        else Path.home() / "Projects"
+                    )
+                )
+                project_path = target / name if name else target / "[project-name]"
+
+                console.print(f"[cyan]Would create project:[/cyan] {name or '[project-name]'}")
+                console.print(f"[cyan]Template:[/cyan] {template}")
+                console.print(f"[cyan]Target directory:[/cyan] {project_path}")
+                if description:
+                    console.print(f"[cyan]Description:[/cyan] {description}")
+                if not no_git:
+                    console.print("[cyan]Git initialization:[/cyan] Yes")
+                if register:
+                    console.print("[cyan]Registry:[/cyan] Yes")
+            elif api_only:
+                # API-only mode preview
+                console.print(f"[cyan]Would create project via API:[/cyan] {name}")
+                if description:
+                    console.print(f"[cyan]Description:[/cyan] {description}")
+                if status:
+                    console.print(f"[cyan]Status:[/cyan] {status}")
+                if organization:
+                    console.print(f"[cyan]Organization:[/cyan] {organization}")
+                if classification:
+                    console.print(f"[cyan]Classification:[/cyan] {classification}")
+            else:
+                # Default mode preview
+                console.print(f"[cyan]Would create project:[/cyan] {name or '[project-name]'}")
+                if description:
+                    console.print(f"[cyan]Description:[/cyan] {description}")
+
+            console.print("")
+            console.print("[dim]No changes made (dry-run mode)[/dim]")
+            return
+
         # Detect create mode
         mode = detect_create_mode(
             config=config,
