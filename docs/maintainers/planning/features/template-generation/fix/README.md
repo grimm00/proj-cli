@@ -28,6 +28,9 @@ fix/
 │   └── README.md                   # All issues fixed before merge
 ├── pr11/                           # PR #11 (Phase 3) deferred issues
 │   └── README.md                   # 4 deferred test improvements
+├── pr12/                           # PR #12 (Phase 4) deferred issues
+│   ├── README.md                   # 1 manual testing bug
+│   └── issue-1-learning-placeholder.md
 ├── cross-pr/                       # Cross-PR fix batches (if any)
 │   └── README.md                   # Cross-PR hub
 └── archived/                       # Completed fix PRs
@@ -43,6 +46,7 @@ fix/
 | [PR #8](pr8/README.md) | Phase 1: Config Extension | 🟡 In Progress | 7 | 2 remaining |
 | [PR #9](pr9/README.md) | Fix: Test Isolation | 🟡 Deferred | 2 | - |
 | [PR #11](pr11/README.md) | Phase 3: Template Copying | 🟡 Planned | 4 | 2 |
+| [PR #12](pr12/README.md) | Phase 4: Create Command | 🟡 Planned | 1 | - |
 
 ---
 
@@ -64,15 +68,17 @@ fix/
 - [PR #9 Fix Tracking](pr9/README.md)
 - [PR #10 Fix Tracking](pr10/README.md) - All issues fixed before merge
 - [PR #11 Fix Tracking](pr11/README.md) - 4 test improvements deferred
+- [PR #12 Fix Tracking](pr12/README.md) - 1 bug from manual testing
 - [Sourcery Review PR #8](../../../feedback/sourcery/pr8.md)
 - [Sourcery Review PR #9](../../../feedback/sourcery/pr9.md)
 - [Sourcery Review PR #10](../../../feedback/sourcery/pr10.md)
 - [Sourcery Review PR #11](../../../feedback/sourcery/pr11.md)
+- [Sourcery Review PR #12](../../../feedback/sourcery/pr12.md)
 - [Deferred Tasks Collection](../../../feedback/deferred-tasks.md)
 
 ---
 
-**Last Updated:** 2026-01-05  
+**Last Updated:** 2026-01-06  
 **Status:** ✅ Active  
 **Next:** Handle deferred issues opportunistically or in dedicated test improvement batch
 

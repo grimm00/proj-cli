@@ -40,11 +40,16 @@ def init_command(
         default="http://localhost:5000",
     )
 
-    # Get GitHub username
-    github_username = Prompt.ask(
-        "GitHub username (for inventory scanning)",
-        default="",
+    # Get GitHub username (optional - show "skip" as default hint)
+    console.print(
+        "\n[dim]GitHub username for inventory scanning (optional)[/dim]"
     )
+    github_username = Prompt.ask(
+        "GitHub username",
+        default="skip",
+    )
+    if github_username.lower() == "skip":
+        github_username = ""
 
     # Get local scan directories
     console.print(
@@ -58,6 +63,20 @@ def init_command(
     )
     scan_dirs = [d.strip() for d in scan_dirs_str.split(",") if d.strip()]
 
+    # Get templates source (for proj create --template)
+    console.print(
+        "\n[dim]Path to dev-infra templates directory "
+        "(for proj create --template)[/dim]"
+    )
+    default_templates = str(
+        Path.home() / "Projects" / "dev-infra" / "templates"
+    )
+    templates_source_str = Prompt.ask(
+        "Templates source",
+        default=default_templates,
+    )
+    templates_source = Path(templates_source_str).expanduser().resolve()
+
     # Create config
     ensure_dirs()
     config = Config(
@@ -65,6 +84,9 @@ def init_command(
         github_username=github_username or None,
         local_scan_dirs=scan_dirs,
     )
+    # Set templates source (only if directory exists)
+    if templates_source.exists():
+        config.templates.source = templates_source
     config.save()
 
     console.print(f"\n[green]✓ Configuration saved to {config_file}[/green]")

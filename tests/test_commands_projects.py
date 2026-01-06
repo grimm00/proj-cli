@@ -2,6 +2,10 @@
 import subprocess
 import sys
 
+import pytest
+from unittest.mock import MagicMock
+from proj.commands.projects import detect_create_mode
+
 
 def test_list_command_exists():
     """Test that list command exists."""
@@ -93,3 +97,66 @@ def test_archive_command_exists():
         text=True,
     )
     assert result.returncode == 0
+
+
+# Tests for detect_create_mode function (Phase 4, Task 1)
+def test_detect_mode_default_interactive():
+    """Test default mode is interactive when no flags."""
+    config = MagicMock()
+    config.api_enabled = True
+    mode = detect_create_mode(
+        config=config,
+        template=None,
+        api_only=False,
+        local_only=False,
+    )
+    assert mode == "interactive"
+
+
+def test_detect_mode_api_only():
+    """Test api-only mode detection."""
+    config = MagicMock()
+    mode = detect_create_mode(
+        config=config,
+        template=None,
+        api_only=True,
+        local_only=False,
+    )
+    assert mode == "api-only"
+
+
+def test_detect_mode_local_only():
+    """Test local-only mode detection."""
+    config = MagicMock()
+    mode = detect_create_mode(
+        config=config,
+        template=None,
+        api_only=False,
+        local_only=True,
+    )
+    assert mode == "local-only"
+
+
+def test_detect_mode_template():
+    """Test template mode detection."""
+    config = MagicMock()
+    mode = detect_create_mode(
+        config=config,
+        template="standard-project",
+        api_only=False,
+        local_only=False,
+    )
+    assert mode == "template"
+
+
+def test_detect_mode_conflict_raises():
+    """Test conflicting flags raise error."""
+    config = MagicMock()
+    with pytest.raises(ValueError) as exc:
+        detect_create_mode(
+            config=config,
+            template=None,
+            api_only=True,
+            local_only=True,
+        )
+    assert "conflict" in str(exc.value).lower()
