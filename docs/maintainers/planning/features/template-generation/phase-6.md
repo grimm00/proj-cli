@@ -226,10 +226,10 @@ Add API synchronization to template creation flow. Currently, `proj create --tem
 
 1. **RED - Write failing tests:**
 
-   - [ ] Test: `sync_to_api()` calls `APIClient.create_project()`
-   - [ ] Test: Returns `work_prod_id` on success
-   - [ ] Test: Returns `None` on API error (doesn't raise)
-   - [ ] Test: Returns `None` on connection error (doesn't raise)
+   - [x] Test: `sync_to_api()` calls `APIClient.create_project()`
+   - [x] Test: Returns `work_prod_id` on success
+   - [x] Test: Returns `None` on API error (doesn't raise)
+   - [x] Test: Returns `None` on connection error (doesn't raise)
 
    **Test file:** `tests/test_create_api_sync.py` (new file)
 
@@ -289,10 +289,10 @@ Add API synchronization to template creation flow. Currently, `proj create --tem
 
 2. **GREEN - Implement:**
 
-   - [ ] Create `sync_to_api()` helper in `src/proj/commands/projects.py`
-   - [ ] Build project data dict from parameters
-   - [ ] Call `APIClient.create_project()`
-   - [ ] Handle errors gracefully, return `None` on failure
+   - [x] Create `sync_to_api()` helper in `src/proj/commands/projects.py`
+   - [x] Build project data dict from parameters
+   - [x] Call `APIClient.create_project()`
+   - [x] Handle errors gracefully, return `None` on failure
 
    **Implementation in `src/proj/commands/projects.py`:**
 
@@ -337,16 +337,16 @@ Add API synchronization to template creation flow. Currently, `proj create --tem
 
 3. **REFACTOR:**
 
-   - [ ] Ensure error messages are user-friendly
-   - [ ] Consider logging for debugging
+   - [x] Ensure error messages are user-friendly
+   - [x] Consider logging for debugging
 
 **Checklist:**
 
-- [ ] Tests written and passing
-- [ ] `sync_to_api()` helper implemented
-- [ ] Returns `work_prod_id` on success
-- [ ] Returns `None` on any error (graceful degradation)
-- [ ] Error messages displayed to user
+- [x] Tests written and passing
+- [x] `sync_to_api()` helper implemented
+- [x] Returns `work_prod_id` on success
+- [x] Returns `None` on any error (graceful degradation)
+- [x] Error messages displayed to user
 
 ---
 
@@ -618,7 +618,7 @@ Add API synchronization to template creation flow. Currently, `proj create --tem
 | -------------------------------------- | -------------- | ----------------------------- |
 | Task 1: Registry Schema Update         | ✅ Complete    | Add work_prod_id field        |
 | Task 2: Update Registry Entry Function | ✅ Complete    | update_project_work_prod_id() |
-| Task 3: API Sync Helper Function       | 🔴 Not Started | sync_to_api() helper          |
+| Task 3: API Sync Helper Function       | ✅ Complete    | sync_to_api() helper          |
 | Task 4: Integrate API Sync             | 🔴 Not Started | Main integration              |
 | Task 5: Documentation & Manual Testing | 🔴 Not Started | Docs update                   |
 
