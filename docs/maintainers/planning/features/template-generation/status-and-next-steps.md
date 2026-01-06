@@ -66,46 +66,37 @@ Phase 4 (Create Command Extension) is complete:
 - ✅ Interactive mode with Rich prompts
 - ✅ Integration tests for full workflow
 
-**Next action:** Create PR for Phase 4, then begin Phase 5 expansion.
+**Next action:** Begin Phase 5 (Testing & Polish) expansion and implementation.
 
 ---
 
 ## 🚀 Immediate Next Steps
 
-### 1. Implement Phase 4
+### 1. Expand Phase 5
 
-Phase 4 is expanded with 9 TDD tasks:
-
-```bash
-/task-phase 4 1
-```
-
-**Tasks Overview:**
-- Task 1: Mode Detection Helper
-- Task 2: Command Flags
-- Task 3: API-Only Mode (backward compat)
-- Task 4: Template Mode
-- Task 5: Local-Only Mode
-- Task 6: Dry-Run Mode
-- Task 7: Git Integration
-- Task 8: Interactive Mode
-- Task 9: Integration Tests
-
-### 2. Create PR for Phase 4
-
-After all tasks complete:
-
-```bash
-/pr --phase 4
-```
-
-### 3. Expand Phase 5
-
-After Phase 4 merged:
+Phase 5 (Testing & Polish) needs expansion:
 
 ```bash
 /transition-plan template-generation --expand --phase 5
 ```
+
+**Expected Tasks:**
+- Edge case testing
+- Error message improvements
+- Documentation updates
+- Manual testing guide completion
+- Bug fixes from deferred issues
+
+### 2. Fix Deferred Issues (Optional)
+
+Address deferred issues from PR #12:
+- Learning project placeholder not replaced (`[Learning Project Name]`)
+
+### 3. Complete Feature
+
+After Phase 5:
+- Feature complete and ready for production use
+- All templates supported with full placeholder replacement
 
 ---
 
@@ -144,13 +135,32 @@ After Phase 4 merged:
 | Phase 1: Config Extension | ~2 hrs | ✅ Complete (PR #8) |
 | Phase 2: Local Registry | ~2 hrs | ✅ Complete (PR #10) |
 | Phase 3: Template Copying | ~3 hrs | ✅ Complete (PR #11) |
-| Phase 4: Create Command Extension | ~3 hrs | 🔴 Scaffolding |
+| Phase 4: Create Command Extension | ~3 hrs | ✅ Complete (PR #12) |
 | Phase 5: Testing & Polish | ~2 hrs | 🔴 Scaffolding |
 | **Total** | **~12 hrs** | |
 
 ---
 
 ## 🔄 Recent Updates
+
+### 2026-01-06
+
+- ✅ **Phase 4: Create Command Extension - MERGED** (PR #12)
+  - All 9 TDD tasks implemented
+  - 50 new tests passing (Phase 4 specific)
+  - Mode detection helper for flag-based routing
+  - New command flags: --template, --api-only, --local-only, --target-dir, --no-git, --register, --dry-run, --desc
+  - API-only mode (backward compatible)
+  - Template mode with create_from_template integration
+  - Local-only mode (offline support)
+  - Dry-run mode (preview without side effects)
+  - Git integration (--no-git to skip)
+  - Interactive mode with Rich prompts
+  - Integration tests for full workflow
+  - Sourcery review: 8 comments (all LOW/MEDIUM deferred)
+  - Manual testing guide created and validated
+  - Bug found: learning-project placeholder not replaced (tracked in fix/pr12/)
+  - `proj init` enhanced with templates source prompt
 
 ### 2026-01-05
 
@@ -217,8 +227,8 @@ After Phase 4 merged:
 
 ---
 
-**Last Updated:** 2026-01-05  
-**Status:** ✅ Phase 3 Merged (PR #11), Phase 4 Expanded  
-**Next:** Begin Phase 4 implementation with `/task-phase 4 1`
+**Last Updated:** 2026-01-06  
+**Status:** ✅ Phase 4 Merged (PR #12), Ready for Phase 5  
+**Next:** Expand Phase 5 with `/transition-plan template-generation --expand --phase 5`
 
 
