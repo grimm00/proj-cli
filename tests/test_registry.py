@@ -14,14 +14,14 @@ def test_registry_project_exists():
 def test_registry_project_has_required_fields():
     """Test that RegistryProject has all required fields (minimal schema)."""
     from proj.registry import RegistryProject
-    
+
     project = RegistryProject(
         path=Path("/Users/me/Projects/my-project"),
         template="standard-project",
         template_version="0.8.0",
         created_at=datetime.now(),
     )
-    
+
     assert project.path == Path("/Users/me/Projects/my-project")
     assert project.template == "standard-project"
     assert project.template_version == "0.8.0"
@@ -29,8 +29,9 @@ def test_registry_project_has_required_fields():
     # Verify minimal schema - these fields should NOT exist
     assert not hasattr(project, 'id')
     assert not hasattr(project, 'name')
-    assert not hasattr(project, 'work_prod_id')
     assert not hasattr(project, 'metadata')
+    # work_prod_id is now optional (API sync support)
+    assert project.work_prod_id is None  # Default to None
 
 
 def test_registry_exists():
@@ -88,8 +89,9 @@ def test_registry_project_minimal_schema():
     # These fields should NOT exist (moved to inventory)
     assert not hasattr(project, 'id')
     assert not hasattr(project, 'name')
-    assert not hasattr(project, 'work_prod_id')
     assert not hasattr(project, 'metadata')
+    # work_prod_id is now part of schema (optional, for API sync)
+    assert project.work_prod_id is None  # Default to None
 
 
 def test_load_registry_creates_empty_if_not_exists(tmp_path, monkeypatch):
@@ -463,3 +465,99 @@ def test_list_projects_filter_by_template(tmp_path, monkeypatch):
     assert len(projects) == 1
     assert projects[0].path == Path("/Users/me/Projects/project-1")
 
+
+# =============================================================================
+# Task 1: Registry Schema Update - work_prod_id field
+# =============================================================================
+
+
+def test_registry_project_with_work_prod_id(tmp_path, monkeypatch):
+    """Test RegistryProject stores work_prod_id."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import add_project, get_project_by_path
+    from pathlib import Path
+
+    project = add_project(
+        path=tmp_path / "test-proj",
+        template="standard-project",
+        template_version="1.0",
+        work_prod_id=42,  # New field
+    )
+
+    assert project.work_prod_id == 42
+
+    # Verify it persists
+    loaded = get_project_by_path(tmp_path / "test-proj")
+    assert loaded.work_prod_id == 42
+
+
+def test_registry_project_work_prod_id_optional(tmp_path, monkeypatch):
+    """Test work_prod_id is optional (None by default)."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import add_project
+    from pathlib import Path
+
+    project = add_project(
+        path=tmp_path / "test-proj",
+        template="standard-project",
+        template_version="1.0",
+        # No work_prod_id - should default to None
+    )
+
+    assert project.work_prod_id is None
+
+
+def test_registry_serializes_work_prod_id(tmp_path, monkeypatch):
+    """Test registry.json includes work_prod_id."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import add_project
+
+    add_project(
+        path=tmp_path / "test-proj",
+        template="standard-project",
+        template_version="1.0",
+        work_prod_id=123,
+    )
+
+    # Read raw JSON
+    registry_path = tmp_path / "proj" / "registry.json"
+    with open(registry_path) as f:
+        data = json.load(f)
+
+    assert data["projects"][0]["work_prod_id"] == 123
+
+
+def test_registry_backward_compat_missing_work_prod_id(tmp_path, monkeypatch):
+    """Test load_registry handles old files without work_prod_id."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import load_registry
+
+    # Create old-format registry file (no work_prod_id)
+    registry_dir = tmp_path / "proj"
+    registry_dir.mkdir(parents=True)
+    registry_file = registry_dir / "registry.json"
+
+    registry_data = {
+        "version": "1.0",
+        "projects": [
+            {
+                "path": "/Users/me/Projects/old-project",
+                "template": "standard-project",
+                "template_version": "0.8.0",
+                "created_at": "2025-01-05T10:30:00",
+                # No work_prod_id field - old format
+            }
+        ],
+    }
+    with open(registry_file, "w") as f:
+        json.dump(registry_data, f)
+
+    # Load should succeed and default work_prod_id to None
+    registry = load_registry()
+
+    assert len(registry.projects) == 1
+    assert registry.projects[0].work_prod_id is None
