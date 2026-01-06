@@ -74,7 +74,8 @@ class Config(BaseSettings):
         env_prefix="PROJ_",
         env_file=".env",
         extra="ignore",
-        env_nested_delimiter="__",  # For nested config (PROJ_TEMPLATES__SOURCE)
+        # For nested config like PROJ_TEMPLATES__SOURCE
+        env_nested_delimiter="__",
     )
 
     # API Settings
@@ -135,7 +136,7 @@ class Config(BaseSettings):
         config_dir.mkdir(parents=True, exist_ok=True)
 
         config_file = get_config_file()
-        # Use mode='json' to convert Path objects to strings for YAML compatibility
+        # mode='json' converts Path objects to strings for YAML
         config_data = self.model_dump(mode='json')
         with open(config_file, "w", encoding="utf-8") as f:
             yaml.dump(config_data, f, default_flow_style=False)

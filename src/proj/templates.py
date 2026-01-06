@@ -251,6 +251,7 @@ def replace_placeholders(
 
     Replaces the following placeholders:
     - [Project Name] -> project_name
+    - [Learning Project Name] -> project_name (for learning-project template)
     - [Brief description of what this project does] -> description
     - [Date] -> current date (YYYY-MM-DD)
     - [Author] -> author
@@ -279,6 +280,7 @@ def replace_placeholders(
 
         # Replace placeholders
         content = content.replace("[Project Name]", project_name)
+        content = content.replace("[Learning Project Name]", project_name)
         content = content.replace(
             "[Brief description of what this project does]",
             description

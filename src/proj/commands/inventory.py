@@ -71,8 +71,9 @@ def load_inventory() -> list[dict]:
                 inv_file.rename(backup_file)
                 logger.debug(f"Failed to parse inventory.json: {e}")
                 console.print(
-                    f"[yellow]Warning: inventory.json was corrupted. "
-                    f"Backed up to {backup_file.name}. Starting fresh.[/yellow]"
+                    "[yellow]Warning: inventory.json was corrupted. "
+                    f"Backed up to {backup_file.name}. "
+                    "Starting fresh.[/yellow]"
                 )
                 return []
     return []

@@ -1,9 +1,9 @@
 # Requirements - proj-cli Architecture
 
 **Source:** Research on extending proj-cli with template generation
-**Status:** Draft
+**Status:** ✅ Verified
 **Created:** 2025-01-05
-**Last Updated:** 2025-01-05
+**Last Updated:** 2026-01-06
 
 ---
 
@@ -27,7 +27,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `proj create` without args enters interactive mode
 
 ---
 
@@ -39,7 +39,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `--template` flag + `create_from_template()`
 
 ---
 
@@ -51,7 +51,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - Backward compatible
 
 ---
 
@@ -63,7 +63,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - Works offline with local registry
 
 ---
 
@@ -77,7 +77,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `Config.api_enabled` field
 
 ---
 
@@ -89,7 +89,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `TemplateConfig.source`
 
 ---
 
@@ -101,7 +101,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `RegistryConfig.path`
 
 ---
 
@@ -113,7 +113,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** Medium
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - Pydantic settings with env_prefix
 
 ---
 
@@ -127,7 +127,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `get_templates_source()`
 
 ---
 
@@ -139,7 +139,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `validate_template_type()`
 
 ---
 
@@ -151,7 +151,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `list_templates()` discovers both
 
 ---
 
@@ -165,7 +165,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `add_project()`
 
 ---
 
@@ -177,7 +177,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `RegistryProject.path`
 
 ---
 
@@ -189,7 +189,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `template`, `template_version` fields
 
 ---
 
@@ -201,7 +201,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** Medium
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `work_prod_id` optional field
 
 ---
 
@@ -215,7 +215,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `validate_project_name()`
 
 ---
 
@@ -227,7 +227,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `validate_target_directory()`
 
 ---
 
@@ -239,7 +239,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `shutil.copytree()` includes hidden
 
 ---
 
@@ -251,7 +251,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `replace_placeholders()` with learning fix
 
 ---
 
@@ -263,7 +263,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** Medium
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `init_git()` + `--no-git` flag
 
 ---
 
@@ -275,7 +275,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `prompt_for_create_options()`
 
 ---
 
@@ -287,7 +287,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - All inputs via CLI flags
 
 ---
 
@@ -301,7 +301,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Verified - `--api-only` works as before
 
 ---
 
@@ -313,7 +313,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** Medium
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `get_xdg_data_home()`
 
 ---
 
@@ -325,7 +325,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** Medium
 
-**Status:** 🔴 Pending
+**Status:** ✅ Verified - Config remains YAML
 
 ---
 
@@ -337,7 +337,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** High
 
-**Status:** 🔴 Pending
+**Status:** ✅ Verified - `--local-only` works offline
 
 ---
 
@@ -349,7 +349,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** Medium
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - Custom exceptions with messages
 
 ---
 
@@ -361,7 +361,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** Medium
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - JSON with indent=2
 
 ---
 
@@ -373,7 +373,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** Medium
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `~/.local/share/proj/`
 
 ---
 
@@ -385,7 +385,7 @@ This document captures requirements discovered during research on extending proj
 
 **Priority:** Low
 
-**Status:** 🔴 Pending
+**Status:** ✅ Implemented - `sanitize_project_name()`
 
 ---
 

@@ -15,14 +15,14 @@ class RegistryProject:
     Minimal schema - only sync-related fields.
     Project metadata lives in inventory.json.
     Cross-references inventory via path field.
-    
+
     Attributes:
         path: Cross-reference key to inventory.json
         template: Template type used to create the project
         template_version: Version of the template used (for sync detection)
         created_at: Timestamp when the project was created
     """
-    
+
     path: Path  # Cross-reference key to inventory
     template: str  # Template type used
     template_version: str  # Template version for sync
@@ -35,7 +35,7 @@ class Registry:
 
     This is a sync overlay, not a project store.
     All project metadata lives in inventory.json.
-    
+
     Attributes:
         version: Registry schema version
         projects: List of registered projects for sync tracking
@@ -66,7 +66,7 @@ def load_registry() -> Registry:
         created_at_str = proj_data["created_at"]
         if created_at_str.endswith("Z"):
             created_at_str = created_at_str[:-1] + "+00:00"
-        
+
         # Minimal schema - only sync fields
         projects.append(
             RegistryProject(
@@ -82,7 +82,7 @@ def load_registry() -> Registry:
 
 def save_registry(registry: Registry) -> None:
     """Save registry to disk.
-    
+
     Note: This is not an atomic write. If the process is interrupted,
     the file may be left in a partial state. For this use case (small
     registry files, low-frequency writes), this is acceptable.
@@ -119,21 +119,21 @@ def add_project(
     """Add a new project to the registry for sync tracking.
 
     Note: This only adds to registry. Caller should also add to inventory.
-    
+
     Args:
         path: Project path (cross-reference key to inventory)
         template: Template type used
         template_version: Template version for sync
-        
+
     Returns:
         RegistryProject instance that was added
-        
+
     Raises:
         ValueError: If project at path is already registered
     """
     # Normalize path for consistent comparisons
     path = path.resolve()
-    
+
     registry = load_registry()
 
     # Check for duplicates
@@ -156,16 +156,16 @@ def add_project(
 
 def remove_project(path: Path) -> bool:
     """Remove a project from the registry by path.
-    
+
     Args:
         path: Project path to remove
-        
+
     Returns:
         True if project was removed, False if not found
     """
     # Normalize path for consistent comparisons
     path = path.resolve()
-    
+
     registry = load_registry()
 
     original_count = len(registry.projects)
@@ -180,16 +180,16 @@ def remove_project(path: Path) -> bool:
 
 def get_project_by_path(path: Path) -> Optional[RegistryProject]:
     """Find a project by its path (cross-reference key).
-    
+
     Args:
         path: Project path to look up
-        
+
     Returns:
         RegistryProject if found, None otherwise
     """
     # Normalize path for consistent comparisons
     path = path.resolve()
-    
+
     registry = load_registry()
     for project in registry.projects:
         if project.path == path:
@@ -199,10 +199,10 @@ def get_project_by_path(path: Path) -> Optional[RegistryProject]:
 
 def is_registered(path: Path) -> bool:
     """Check if a project path is registered for sync tracking.
-    
+
     Args:
         path: Project path to check
-        
+
     Returns:
         True if project is registered, False otherwise
     """
@@ -211,10 +211,10 @@ def is_registered(path: Path) -> bool:
 
 def list_projects(template: Optional[str] = None) -> list[RegistryProject]:
     """List all projects in the registry, optionally filtered by template.
-    
+
     Args:
         template: Optional template type to filter by
-        
+
     Returns:
         List of RegistryProject instances matching the filter
     """
@@ -224,4 +224,3 @@ def list_projects(template: Optional[str] = None) -> list[RegistryProject]:
         return [p for p in registry.projects if p.template == template]
 
     return registry.projects
-

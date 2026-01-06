@@ -477,6 +477,22 @@ class TestReplacePlaceholders:
         # Should replace with empty or project name
         assert "[Brief description" not in content
 
+    def test_replace_learning_project_name_placeholder(self, tmp_path):
+        """Test that [Learning Project Name] placeholder is replaced."""
+        project_dir = tmp_path / "my-learning-app"
+        project_dir.mkdir()
+        readme = project_dir / "README.md"
+        readme.write_text("# [Learning Project Name]\n\n**Purpose:** Learning")
+
+        replace_placeholders(
+            project_path=project_dir,
+            project_name="my-learning-app",
+        )
+
+        content = readme.read_text()
+        assert "# my-learning-app" in content
+        assert "[Learning Project Name]" not in content
+
 
 class TestCreateFromTemplate:
     """Tests for create_from_template function."""
