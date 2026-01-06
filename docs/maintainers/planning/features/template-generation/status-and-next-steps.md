@@ -13,7 +13,7 @@
 | 1 | Config Extension | ✅ Complete | 100% | All 6 tasks complete |
 | 2 | Local Registry | ✅ Complete | 100% | All 8 tasks complete |
 | 3 | Template Copying | ✅ Complete | 100% | All 8 tasks complete |
-| 4 | Create Command Extension | 🔴 Scaffolding | 0% | Needs expansion |
+| 4 | Create Command Extension | 🟠 Expanded | 0% | 9 TDD tasks ready |
 | 5 | Testing & Polish | 🔴 Scaffolding | 0% | Needs expansion |
 
 **Overall Progress:** ~60% (3/5 phases complete, Phase 4 ready)
@@ -53,34 +53,45 @@ Phase 3 (Template Copying) is complete:
 - ✅ High-level orchestration function
 - ✅ Config integration
 
-**Next action:** Expand Phase 4, then begin implementation.
+**Next action:** Begin Phase 4 implementation with `/task-phase 4 1`.
 
 ---
 
 ## 🚀 Immediate Next Steps
 
-### 1. Expand Phase 4
+### 1. Implement Phase 4
 
-Phase 3 merged, ready for Phase 4:
-
-```bash
-/transition-plan template-generation --expand --phase 4
-```
-
-### 2. Implement Phase 4
-
-After expansion:
+Phase 4 is expanded with 9 TDD tasks:
 
 ```bash
 /task-phase 4 1
 ```
 
-### 3. Create PR for Phase 4
+**Tasks Overview:**
+- Task 1: Mode Detection Helper
+- Task 2: Command Flags
+- Task 3: API-Only Mode (backward compat)
+- Task 4: Template Mode
+- Task 5: Local-Only Mode
+- Task 6: Dry-Run Mode
+- Task 7: Git Integration
+- Task 8: Interactive Mode
+- Task 9: Integration Tests
+
+### 2. Create PR for Phase 4
 
 After all tasks complete:
 
 ```bash
 /pr --phase 4
+```
+
+### 3. Expand Phase 5
+
+After Phase 4 merged:
+
+```bash
+/transition-plan template-generation --expand --phase 5
 ```
 
 ---
@@ -194,7 +205,7 @@ After all tasks complete:
 ---
 
 **Last Updated:** 2026-01-05  
-**Status:** ✅ Phase 3 Merged (PR #11)  
-**Next:** Expand Phase 4, then begin implementation
+**Status:** ✅ Phase 3 Merged (PR #11), Phase 4 Expanded  
+**Next:** Begin Phase 4 implementation with `/task-phase 4 1`
 
 

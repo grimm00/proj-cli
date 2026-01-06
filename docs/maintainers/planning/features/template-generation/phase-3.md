@@ -1371,16 +1371,16 @@ Port template copying logic from dev-infra's `new-project.sh` to Python. This in
 
 ## 📊 Progress Tracking
 
-| Task                            | Status        | Notes |
-| ------------------------------- | ------------- | ----- |
-| Task 1: Name Validation         | ✅ Complete   | TDD: RED → GREEN → REFACTOR |
-| Task 2: Name Sanitization       | ✅ Complete   | TDD: RED → GREEN → REFACTOR |
-| Task 3: Directory Validation    | ✅ Complete   | TDD: RED → GREEN → REFACTOR |
-| Task 4: Template Discovery      | ✅ Complete   | TDD: RED → GREEN → REFACTOR |
-| Task 5: Template Copying        | ✅ Complete   | TDD: RED → GREEN → REFACTOR |
-| Task 6: Placeholder Replacement | ✅ Complete   | TDD: RED → GREEN → REFACTOR |
-| Task 7: High-Level Function     | ✅ Complete   | TDD: RED → GREEN → REFACTOR |
-| Task 8: Config Integration      | ✅ Complete   | TDD: RED → GREEN → REFACTOR |
+| Task                            | Status      | Notes                       |
+| ------------------------------- | ----------- | --------------------------- |
+| Task 1: Name Validation         | ✅ Complete | TDD: RED → GREEN → REFACTOR |
+| Task 2: Name Sanitization       | ✅ Complete | TDD: RED → GREEN → REFACTOR |
+| Task 3: Directory Validation    | ✅ Complete | TDD: RED → GREEN → REFACTOR |
+| Task 4: Template Discovery      | ✅ Complete | TDD: RED → GREEN → REFACTOR |
+| Task 5: Template Copying        | ✅ Complete | TDD: RED → GREEN → REFACTOR |
+| Task 6: Placeholder Replacement | ✅ Complete | TDD: RED → GREEN → REFACTOR |
+| Task 7: High-Level Function     | ✅ Complete | TDD: RED → GREEN → REFACTOR |
+| Task 8: Config Integration      | ✅ Complete | TDD: RED → GREEN → REFACTOR |
 
 ---
 
