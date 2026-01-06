@@ -358,11 +358,11 @@ Add API synchronization to template creation flow. Currently, `proj create --tem
 
 1. **RED - Write failing tests:**
 
-   - [ ] Test: Template creation calls API when `api_enabled=True` and not `--local-only`
-   - [ ] Test: Template creation skips API when `--local-only`
-   - [ ] Test: Template creation skips API when `api_enabled=False`
-   - [ ] Test: Registry updated with `work_prod_id` on successful API sync
-   - [ ] Test: Local creation succeeds even if API fails
+   - [x] Test: Template creation calls API when `api_enabled=True` and not `--local-only`
+   - [x] Test: Template creation skips API when `--local-only`
+   - [x] Test: Template creation skips API when `api_enabled=False`
+   - [x] Test: Registry updated with `work_prod_id` on successful API sync
+   - [x] Test: Local creation succeeds even if API fails
 
    **Test file:** `tests/test_create_api_sync.py`
 
@@ -436,10 +436,10 @@ Add API synchronization to template creation flow. Currently, `proj create --tem
 
 2. **GREEN - Implement:**
 
-   - [ ] Add API sync logic after successful `create_from_template()`
-   - [ ] Check `api_enabled` config and `--local-only` flag
-   - [ ] Call `sync_to_api()` helper
-   - [ ] Update registry with `work_prod_id` via `update_project_work_prod_id()`
+   - [x] Add API sync logic after successful `create_from_template()`
+   - [x] Check `api_enabled` config and `--local-only` flag
+   - [x] Call `sync_to_api()` helper
+   - [x] Update registry with `work_prod_id` via `update_project_work_prod_id()`
 
    **Implementation in `src/proj/commands/projects.py` (around line 571-591):**
 
@@ -471,18 +471,18 @@ Add API synchronization to template creation flow. Currently, `proj create --tem
 
 3. **REFACTOR:**
 
-   - [ ] Ensure import placement is optimal
-   - [ ] Consider moving sync logic to separate function for clarity
-   - [ ] Verify output messages are helpful
+   - [x] Ensure import placement is optimal
+   - [x] Consider moving sync logic to separate function for clarity
+   - [x] Verify output messages are helpful
 
 **Checklist:**
 
-- [ ] Tests written and passing
-- [ ] API sync integrated into template flow
-- [ ] Respects `--local-only` flag
-- [ ] Respects `api_enabled` config
-- [ ] Registry updated with `work_prod_id`
-- [ ] Clear output messages for user
+- [x] Tests written and passing
+- [x] API sync integrated into template flow
+- [x] Respects `--local-only` flag
+- [x] Respects `api_enabled` config
+- [x] Registry updated with `work_prod_id`
+- [x] Clear output messages for user
 
 ---
 
@@ -619,7 +619,7 @@ Add API synchronization to template creation flow. Currently, `proj create --tem
 | Task 1: Registry Schema Update         | ✅ Complete    | Add work_prod_id field        |
 | Task 2: Update Registry Entry Function | ✅ Complete    | update_project_work_prod_id() |
 | Task 3: API Sync Helper Function       | ✅ Complete    | sync_to_api() helper          |
-| Task 4: Integrate API Sync             | 🔴 Not Started | Main integration              |
+| Task 4: Integrate API Sync             | ✅ Complete    | Main integration              |
 | Task 5: Documentation & Manual Testing | 🔴 Not Started | Docs update                   |
 
 ---
