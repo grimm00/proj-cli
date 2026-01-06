@@ -1,32 +1,42 @@
-# Fix Tracking - PR #13 (Phase 5: Testing & Polish)
+# PR #13 Fix Tracking
 
-**PR:** #13 - Testing & Polish (Tasks 1-4)  
-**Phase:** 5 - Testing & Polish (partial)  
+**PR:** Phase 5 - Testing & Polish (Tasks 1-4)  
 **Merged:** 2026-01-06  
-**Status:** ✅ Merged (2 deferred issues)
+**Status:** 🟡 Planned  
+**Last Updated:** 2026-01-06
 
 ---
 
-## 📋 Overview
+## 📋 Quick Links
 
-PR #13 implemented Tasks 1-4 of Phase 5 (Testing & Polish). Sourcery review had 4 comments - 2 fixed before merge, 2 deferred.
+### Fix Batches
+
+| Batch | Priority | Effort | Issues | Status |
+|-------|----------|--------|--------|--------|
+| [batch-medium-medium-01](batch-medium-medium-01.md) | 🟡 MEDIUM | 🟡 MEDIUM | 1 | 🔴 Not Started |
+| [batch-low-medium-01](batch-low-medium-01.md) | 🟢 LOW | 🟡 MEDIUM | 1 | 🔴 Not Started |
+
+### Source
+
+- **[PR #13 Sourcery Review](../../../../feedback/sourcery/pr13.md)** - Code review analysis
 
 ---
 
-## 📋 Deferred Issues
+## 📊 Summary
 
-**Date:** 2026-01-06  
-**Review:** PR #13 (Phase 5 partial) Sourcery feedback  
-**Status:** 🟡 **DEFERRED** - 2 MEDIUM/LOW priority issues
+**From Sourcery Review (4 issues):**
 
-### Deferred Issues:
+| Priority | Count | Status |
+|----------|-------|--------|
+| 🟢 LOW (fixed) | 2 | ✅ Fixed before merge |
+| 🟡 MEDIUM | 1 | 🔴 Deferred → batch-medium-medium-01 |
+| 🟢 LOW | 1 | 🔴 Deferred → batch-low-medium-01 |
 
-| Issue | Priority | Impact | Effort | Description |
-|-------|----------|--------|--------|-------------|
-| PR13-Overall-#2 | 🟡 MEDIUM | 🟡 MEDIUM | 🟡 MEDIUM | Requirements count reconciliation across planning/requirements docs |
-| PR13-Overall-#3 | 🟢 LOW | 🟢 LOW | 🟡 MEDIUM | Centralize placeholders in `replace_placeholders()` as mapping/dictionary |
-
-**Action Plan:** These can be handled opportunistically during future phases or in a dedicated code quality improvement batch.
+**Totals:**
+- **4 issues** total
+- **2 fixed** before merge
+- **2 deferred** into 2 batches
+- **Estimated effort:** ~2-3 hours total
 
 ---
 
@@ -39,15 +49,26 @@ PR #13 implemented Tasks 1-4 of Phase 5 (Testing & Polish). Sourcery review had 
 
 ---
 
-## 🔗 Related Documents
+## 🎯 Recommended Order
 
-- [Sourcery Review](../../../../feedback/sourcery/pr13.md)
-- [Phase 5 Document](../../phase-5.md)
-- [Fix Tracking Hub](../README.md)
+1. **batch-medium-medium-01** (MEDIUM/MEDIUM) - Requirements reconciliation (~1-2 hrs)
+2. **batch-low-medium-01** (LOW/MEDIUM) - Centralize placeholders (~1-1.5 hrs)
+
+---
+
+## 📁 Batch Details
+
+### batch-medium-medium-01: Requirements Reconciliation
+- **Issue:** Overall-#2 - Requirement counts inconsistent across planning docs
+- **Impact:** Documentation maintainability
+- **Fix:** Audit all docs, establish single source of truth
+
+### batch-low-medium-01: Centralize Placeholders
+- **Issue:** Overall-#3 - Multiple hard-coded replace calls in `replace_placeholders()`
+- **Impact:** Code maintainability
+- **Fix:** Create placeholder mapping, refactor function
 
 ---
 
 **Last Updated:** 2026-01-06  
-**Status:** ✅ Merged  
-**Deferred:** 2 issues (MEDIUM/LOW priority)
-
+**Action Plan:** Low priority - handle opportunistically or during code quality sprint

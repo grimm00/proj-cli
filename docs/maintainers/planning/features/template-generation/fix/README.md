@@ -48,7 +48,7 @@ fix/
 | [PR #9](pr9/README.md) | Fix: Test Isolation | 🟡 Planned | 2 | 1 |
 | [PR #11](pr11/README.md) | Phase 3: Template Copying | 🟡 Planned | 4 | 2 |
 | [PR #12](pr12/README.md) | Phase 4: Create Command | 🟡 Planned | 8 | 4 |
-| [PR #13](pr13/README.md) | Phase 5: Testing & Polish | ✅ Merged | 2 deferred | - |
+| [PR #13](pr13/README.md) | Phase 5: Testing & Polish | 🟡 Planned | 2 | 2 |
 | [PR #14](pr14/README.md) | Phase 6: API Sync Enhancement | ✅ Merged | 0 | - |
 
 ---
@@ -67,6 +67,8 @@ fix/
 | [pr12/batch-medium-low-01](pr12/batch-medium-low-01.md) | 🟡 MEDIUM | 🟢 LOW | 1 | 🔴 Not Started |
 | [pr12/batch-low-low-01](pr12/batch-low-low-01.md) | 🟢 LOW | 🟢 LOW | 4 | 🔴 Not Started |
 | [pr12/batch-low-high-01](pr12/batch-low-high-01.md) | 🟢 LOW | 🟠 HIGH | 1 | 🔴 Not Started |
+| [pr13/batch-medium-medium-01](pr13/batch-medium-medium-01.md) | 🟡 MEDIUM | 🟡 MEDIUM | 1 | 🔴 Not Started |
+| [pr13/batch-low-medium-01](pr13/batch-low-medium-01.md) | 🟢 LOW | 🟡 MEDIUM | 1 | 🔴 Not Started |
 
 ---
 
@@ -77,7 +79,7 @@ fix/
 - [PR #10 Fix Tracking](pr10/README.md) - All issues fixed before merge
 - [PR #11 Fix Tracking](pr11/README.md) - 4 test improvements deferred
 - [PR #12 Fix Tracking](pr12/README.md) - 8 issues (7 Sourcery + 1 manual testing)
-- [PR #13 Fix Tracking](pr13/README.md) - 2 deferred (req reconciliation, placeholder refactor)
+- [PR #13 Fix Tracking](pr13/README.md) - 2 batched (req reconciliation, placeholder refactor)
 - [PR #14 Fix Tracking](pr14/README.md) - No issues (no Sourcery review)
 - [Sourcery Review PR #8](../../../feedback/sourcery/pr8.md)
 - [Sourcery Review PR #9](../../../feedback/sourcery/pr9.md)
@@ -91,5 +93,5 @@ fix/
 
 **Last Updated:** 2026-01-06  
 **Status:** ✅ Active  
-**Next:** Use `/fix-implement` to implement batches (10 batches available)
+**Next:** Use `/fix-implement` to implement batches (12 batches available)
 
