@@ -178,14 +178,14 @@ Extend the existing `proj create` command with template modes, interactive promp
 
 1. **RED - Write failing tests:**
 
-   - [ ] Add test for `--template` flag parsing
-   - [ ] Add test for `--api-only` flag parsing
-   - [ ] Add test for `--local-only` flag parsing
-   - [ ] Add test for `--target-dir` flag parsing
-   - [ ] Add test for `--no-git` flag parsing
-   - [ ] Add test for `--register` flag parsing
-   - [ ] Add test for `--dry-run` flag parsing
-   - [ ] Verify tests fail
+   - [x] Add test for `--template` flag parsing
+   - [x] Add test for `--api-only` flag parsing
+   - [x] Add test for `--local-only` flag parsing
+   - [x] Add test for `--target-dir` flag parsing
+   - [x] Add test for `--no-git` flag parsing
+   - [x] Add test for `--register` flag parsing
+   - [x] Add test for `--dry-run` flag parsing
+   - [x] Verify tests fail
 
    **Test code (`tests/test_cli_create_flags.py`):**
 
@@ -247,9 +247,9 @@ Extend the existing `proj create` command with template modes, interactive promp
 
 2. **GREEN - Implement minimum code:**
 
-   - [ ] Update `create_project` function signature with new flags
-   - [ ] Add all new Typer options
-   - [ ] Run tests, verify they pass
+   - [x] Update `create_project` function signature with new flags
+   - [x] Add all new Typer options
+   - [x] Run tests, verify they pass
 
    **Implementation (`src/proj/commands/projects.py`):**
 
@@ -316,15 +316,15 @@ Extend the existing `proj create` command with template modes, interactive promp
    ```
 
 3. **REFACTOR - Clean up:**
-   - [ ] Group related flags together
-   - [ ] Ensure help text is clear
-   - [ ] Run linting
+   - [x] Group related flags together
+   - [x] Ensure help text is clear
+   - [x] Run linting
 
 **Checklist:**
 
-- [ ] Tests written and failing
-- [ ] Implementation passes tests
-- [ ] Code refactored and clean
+- [x] Tests written and failing
+- [x] Implementation passes tests
+- [x] Code refactored and clean
 
 ---
 
@@ -1028,16 +1028,16 @@ Extend the existing `proj create` command with template modes, interactive promp
 
 ## 📊 Requirements Addressed
 
-| Requirement | Description | Status |
-|-------------|-------------|--------|
-| FR-CREATE-1 | Interactive mode (default) | 🔴 Pending |
-| FR-CREATE-2 | Template-based creation | 🔴 Pending |
-| FR-CREATE-3 | API-only mode | 🔴 Pending |
-| FR-CREATE-4 | Local-only mode | 🔴 Pending |
-| FR-PORT-5 | Git initialization | 🔴 Pending |
-| FR-PORT-6 | Interactive prompts | 🔴 Pending |
-| FR-PORT-7 | Non-interactive mode | 🔴 Pending |
-| NFR-CREATE-1 | Backward compatibility | 🔴 Pending |
+| Requirement  | Description                | Status     |
+| ------------ | -------------------------- | ---------- |
+| FR-CREATE-1  | Interactive mode (default) | 🔴 Pending |
+| FR-CREATE-2  | Template-based creation    | 🔴 Pending |
+| FR-CREATE-3  | API-only mode              | 🔴 Pending |
+| FR-CREATE-4  | Local-only mode            | 🔴 Pending |
+| FR-PORT-5    | Git initialization         | 🔴 Pending |
+| FR-PORT-6    | Interactive prompts        | 🔴 Pending |
+| FR-PORT-7    | Non-interactive mode       | 🔴 Pending |
+| NFR-CREATE-1 | Backward compatibility     | 🔴 Pending |
 
 ---
 
@@ -1090,17 +1090,17 @@ proj create my-app --template standard-project --dry-run
 
 ## 📊 Progress Tracking
 
-| Task | Status | Notes |
-|------|--------|-------|
-| Task 1: Mode Detection Helper | 🔴 Not Started | |
-| Task 2: Command Flags | 🔴 Not Started | |
-| Task 3: API-Only Mode | 🔴 Not Started | |
-| Task 4: Template Mode | 🔴 Not Started | |
-| Task 5: Local-Only Mode | 🔴 Not Started | |
-| Task 6: Dry-Run Mode | 🔴 Not Started | |
-| Task 7: Git Integration | 🔴 Not Started | |
-| Task 8: Interactive Mode | 🔴 Not Started | |
-| Task 9: Integration Tests | 🔴 Not Started | |
+| Task                          | Status         | Notes |
+| ----------------------------- | -------------- | ----- |
+| Task 1: Mode Detection Helper | 🔴 Not Started |       |
+| Task 2: Command Flags         | 🔴 Not Started |       |
+| Task 3: API-Only Mode         | 🔴 Not Started |       |
+| Task 4: Template Mode         | 🔴 Not Started |       |
+| Task 5: Local-Only Mode       | 🔴 Not Started |       |
+| Task 6: Dry-Run Mode          | 🔴 Not Started |       |
+| Task 7: Git Integration       | 🔴 Not Started |       |
+| Task 8: Interactive Mode      | 🔴 Not Started |       |
+| Task 9: Integration Tests     | 🔴 Not Started |       |
 
 ---
 
