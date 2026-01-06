@@ -1,7 +1,7 @@
 # Manual Testing Guide - Template Generation Extension
 
 **Feature:** Template Generation Extension  
-**Phases Covered:** 1-4  
+**Phases Covered:** 1-6  
 **Last Updated:** 2026-01-06  
 **Status:** ✅ Active
 
@@ -779,6 +779,204 @@ rm -rf /tmp/proj-test/described-app
 
 ---
 
+## 🧪 Phase 6: API Sync Enhancement
+
+### Scenario 4.20: Template Creation with API Sync
+
+**Objective:** Verify template creation syncs to API when enabled
+
+**Prerequisites:**
+
+- work-prod backend running at localhost:5000
+- `api_enabled: true` in config (default)
+
+**Steps:**
+
+```bash
+# Check API is available
+curl -s http://localhost:5000/api/health && echo "API available"
+
+# Create project (API sync enabled by default)
+proj create api-sync-test \
+  --template standard-project \
+  --target-dir /tmp/proj-test \
+  --no-git
+```
+
+**Expected Output:**
+
+```
+✓ Registered project in local registry
+✓ Synced to API (ID: N)
+✓ Created project from template: /tmp/proj-test/api-sync-test
+```
+
+**Verification:**
+
+```bash
+# Check project exists locally
+ls /tmp/proj-test/api-sync-test/
+
+# Check registry has work_prod_id
+cat ~/.local/share/proj/registry.json | python -m json.tool | grep -A 15 "api-sync-test"
+# Should show "work_prod_id": N (not null)
+
+# Verify project appears in API
+proj list | grep api-sync-test
+```
+
+**Cleanup:**
+
+```bash
+rm -rf /tmp/proj-test/api-sync-test
+```
+
+**Expected Result:** ✅ Project created locally AND synced to API with work_prod_id stored
+
+---
+
+### Scenario 4.21: Template Creation with API Offline
+
+**Objective:** Verify local creation succeeds even if API is unavailable
+
+**Prerequisites:**
+
+- work-prod backend NOT running
+- `api_enabled: true` in config
+
+**Steps:**
+
+```bash
+# Ensure API is not running (stop if running)
+# Or use a bad port in config temporarily
+
+# Create project
+proj create offline-test \
+  --template standard-project \
+  --target-dir /tmp/proj-test \
+  --no-git
+```
+
+**Expected Output:**
+
+```
+✓ Registered project in local registry
+⚠ Could not sync to API: Connection refused
+✓ Created project from template: /tmp/proj-test/offline-test
+```
+
+**Verification:**
+
+```bash
+# Check project was created locally (SUCCESS despite API failure)
+ls /tmp/proj-test/offline-test/README.md
+# Should exist
+
+# Check registry entry (work_prod_id should be null)
+cat ~/.local/share/proj/registry.json | python -m json.tool | grep -A 10 "offline-test"
+# Should show "work_prod_id": null
+```
+
+**Cleanup:**
+
+```bash
+rm -rf /tmp/proj-test/offline-test
+```
+
+**Expected Result:** ✅ Project created locally, warning shown, work_prod_id=null in registry
+
+---
+
+### Scenario 4.22: Template Creation with --local-only
+
+**Objective:** Verify `--local-only` skips API sync entirely (no warning)
+
+**Steps:**
+
+```bash
+proj create local-only-test \
+  --template standard-project \
+  --target-dir /tmp/proj-test \
+  --local-only \
+  --no-git
+```
+
+**Expected Output:**
+
+```
+✓ Registered project in local registry
+ℹ Skipped API sync (--local-only)
+✓ Created project from template: /tmp/proj-test/local-only-test
+```
+
+**Note:** Should show informational message (ℹ), NOT a warning (⚠).
+
+**Verification:**
+
+```bash
+# Check project exists locally
+ls /tmp/proj-test/local-only-test/
+
+# Check registry entry
+cat ~/.local/share/proj/registry.json | python -m json.tool | grep -A 10 "local-only-test"
+# Should exist with work_prod_id: null (expected for local-only)
+```
+
+**Cleanup:**
+
+```bash
+rm -rf /tmp/proj-test/local-only-test
+```
+
+**Expected Result:** ✅ Project created locally, API sync explicitly skipped, no warning
+
+---
+
+### Scenario 4.23: Template Creation with api_enabled=false
+
+**Objective:** Verify API sync skipped when api_enabled=false in config
+
+**Steps:**
+
+```bash
+# Temporarily modify config (or use environment variable)
+# Option 1: Edit ~/.config/proj/config.yaml and set api_enabled: false
+# Option 2: Use environment variable
+PROJ_API_ENABLED=false proj create api-disabled-test \
+  --template standard-project \
+  --target-dir /tmp/proj-test \
+  --no-git
+```
+
+**Expected Output:**
+
+```
+✓ Registered project in local registry
+ℹ Skipped API sync (api_enabled=False)
+✓ Created project from template: /tmp/proj-test/api-disabled-test
+```
+
+**Verification:**
+
+```bash
+# Check project exists
+ls /tmp/proj-test/api-disabled-test/
+
+# Check registry (work_prod_id should be null)
+cat ~/.local/share/proj/registry.json | python -m json.tool | grep -A 10 "api-disabled-test"
+```
+
+**Cleanup:**
+
+```bash
+rm -rf /tmp/proj-test/api-disabled-test
+# Reset api_enabled in config if you changed it
+```
+
+**Expected Result:** ✅ Project created, API sync skipped due to config setting
+
+---
+
 ## ✅ Acceptance Criteria Checklist
 
 ### Phase 1: Config Extension
@@ -820,6 +1018,15 @@ rm -rf /tmp/proj-test/described-app
 - [ ] Scenario 4.8: API-only mode works (if API available)
 - [ ] Scenario 4.11: Learning project template works
 - [ ] Scenario 4.14: Description option accepted
+
+### Phase 6: API Sync Enhancement
+
+**API Sync Behavior:**
+
+- [ ] Scenario 4.20: Template + API sync (happy path)
+- [ ] Scenario 4.21: Template + API offline (graceful degradation)
+- [ ] Scenario 4.22: Template + `--local-only` (explicit skip)
+- [ ] Scenario 4.23: Template + `api_enabled=false` (config skip)
 
 ---
 
