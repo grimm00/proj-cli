@@ -1,5 +1,4 @@
 """Tests for git initialization (Phase 4, Task 7)."""
-import pytest
 from unittest.mock import MagicMock, patch
 from typer.testing import CliRunner
 from proj.cli import app
@@ -130,4 +129,3 @@ def test_create_git_init_handles_errors_gracefully(
     assert "failed to initialize git" in result.output.lower()
     # git init should have been attempted
     mock_init_git.assert_called_once_with(project_path)
-

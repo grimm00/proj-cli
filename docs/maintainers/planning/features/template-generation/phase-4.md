@@ -724,10 +724,10 @@ Extend the existing `proj create` command with template modes, interactive promp
 
 1. **RED - Write failing tests:**
 
-   - [ ] Add test for git init runs by default
-   - [ ] Add test for --no-git skips git init
-   - [ ] Add test for git init handles errors gracefully
-   - [ ] Verify tests fail
+   - [x] Add test for git init runs by default
+   - [x] Add test for --no-git skips git init
+   - [x] Add test for git init handles errors gracefully
+   - [x] Verify tests fail
 
    **Test code (`tests/test_create_git.py`):**
 
@@ -802,38 +802,16 @@ Extend the existing `proj create` command with template modes, interactive promp
 
 2. **GREEN - Implement minimum code:**
 
-   - [ ] Add `init_git()` helper function
-   - [ ] Call `subprocess.run(["git", "init"])`
-   - [ ] Skip if --no-git flag
-   - [ ] Run tests, verify they pass
+   - [x] Add `init_git()` helper function (already done in Task 4)
+   - [x] Call `subprocess.run(["git", "init"])` (already done in Task 4)
+   - [x] Skip if --no-git flag (already done in Task 4)
+   - [x] Run tests, verify they pass
 
-   **Implementation:**
-
-   ```python
-   def init_git(project_path: Path) -> bool:
-       """Initialize git repository in project.
-
-       Args:
-           project_path: Path to project directory.
-
-       Returns:
-           True if successful, False otherwise.
-       """
-       try:
-           result = subprocess.run(
-               ["git", "init"],
-               cwd=project_path,
-               capture_output=True,
-               text=True,
-           )
-           return result.returncode == 0
-       except Exception:
-           return False
-   ```
+   **Note:** Implementation was already completed in Task 4. Tests verify behavior.
 
 3. **REFACTOR - Clean up:**
-   - [ ] Add logging for git init result
-   - [ ] Run linting
+   - [x] Add logging for git init result (already done - shows success/warning)
+   - [x] Run linting
 
 **Checklist:**
 
