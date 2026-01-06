@@ -145,9 +145,25 @@ After Phase 5 completion:
 
 ---
 
+## 🔧 Fix PRs
+
+| Fix PR | Issues | Status | Merged |
+|--------|--------|--------|--------|
+| **Fix PR #1** (PR #15) | 2 HIGH priority (PR12-#1, PR14-#1) | ✅ Complete | 2026-01-06 |
+
+**See:** [Fix Tracking Hub](fix/README.md) for full fix plan details.
+
+---
+
 ## 🔄 Recent Updates
 
 ### 2026-01-06
+
+- ✅ **Fix PR #1 - HIGH Priority Fixes - MERGED** (PR #15)
+  - PR12-#1: Empty templates check (UX bug)
+  - PR14-#1: Security - sanitize error messages
+  - Test improvements added per Sourcery review
+  - 2/29 deferred issues resolved
 
 - ✅ **Phase 6: API Sync Enhancement - MERGED** (PR #14)
   - All 5 TDD tasks implemented
