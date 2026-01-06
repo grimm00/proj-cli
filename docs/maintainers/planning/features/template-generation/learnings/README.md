@@ -3,7 +3,7 @@
 **Purpose:** Capture learnings from Template Generation Extension development phases  
 **Target:** Inform future phases and dev-infra template improvements  
 **Status:** ✅ Active  
-**Last Updated:** 2026-01-05
+**Last Updated:** 2026-01-06
 
 ---
 
@@ -14,6 +14,7 @@
 - **[Phase 1](phase-1-learnings.md)** - Config Extension (2026-01-05)
 - **[Phase 2](phase-2-learnings.md)** - Local Registry (2026-01-05)
 - **[Phase 3](phase-3-learnings.md)** - Template Copying (2026-01-05)
+- **[Phase 4](phase-4-learnings.md)** - Create Command Extension (2026-01-06)
 
 ---
 
@@ -21,7 +22,7 @@
 
 This directory contains learnings from Template Generation Extension development that can inform:
 
-- Future Template Generation phases (4-5)
+- Future Template Generation phases (Phase 5)
 - dev-infra template improvements
 - Pydantic configuration best practices
 - TDD workflow patterns
@@ -31,8 +32,8 @@ This directory contains learnings from Template Generation Extension development
 
 ## 📊 Summary
 
-**Total Learning Documents:** 3
-**Phases Documented:** 3 of 5 (Phase 1, Phase 2, Phase 3)
+**Total Learning Documents:** 4
+**Phases Documented:** 4 of 5 (Phase 1, Phase 2, Phase 3, Phase 4)
 **Status:** ✅ Active
 
 ---
@@ -45,5 +46,5 @@ This directory contains learnings from Template Generation Extension development
 
 ---
 
-**Last Updated:** 2026-01-05
+**Last Updated:** 2026-01-06
 
