@@ -83,10 +83,10 @@ def test_create_interactive_prompts_for_template(
 
     # Simulate user input
     mock_prompt.ask.side_effect = [
-        "my-app",           # Project name
-        "learning-project", # Template type (user choice)
-        str(tmp_path),      # Target directory
-        "",                 # Description (optional)
+        "my-app",  # Project name
+        "learning-project",  # Template type (user choice)
+        str(tmp_path),  # Target directory
+        "",  # Description (optional)
     ]
 
     result = runner.invoke(app, [
@@ -137,10 +137,10 @@ def test_create_interactive_prompts_for_target_dir(
 
     # Simulate user input
     mock_prompt.ask.side_effect = [
-        "my-app",           # Project name
-        "standard-project", # Template type
-        str(custom_target), # Target directory (user choice)
-        "",                 # Description (optional)
+        "my-app",  # Project name
+        "standard-project",  # Template type
+        str(custom_target),  # Target directory (user choice)
+        "",  # Description (optional)
     ]
 
     result = runner.invoke(app, [
@@ -182,4 +182,3 @@ def test_create_interactive_handles_cancellation(
     assert result.exit_code != 0
     # Should not show error traceback
     assert "Traceback" not in result.output
-
