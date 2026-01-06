@@ -16,7 +16,7 @@ from proj.config import Config
 from proj.error_handler import (
     handle_error, APIError, BackendConnectionError, TimeoutError
 )
-from proj.registry import add_project
+from proj.registry import add_project, update_project_work_prod_id
 from proj.templates import (
     create_from_template,
     get_templates_source,
@@ -38,6 +38,44 @@ STATUS_EMOJI = {
 def get_client() -> APIClient:
     """Get configured API client."""
     return APIClient(Config.load())
+
+
+def sync_to_api(
+    client: APIClient,
+    name: str,
+    path: Path,
+    template: str,
+    description: Optional[str] = None,
+    console: Optional[Console] = None,
+) -> Optional[int]:
+    """Sync project to work-prod API.
+
+    Args:
+        client: APIClient instance
+        name: Project name
+        path: Local project path
+        template: Template type used
+        description: Optional project description
+        console: Console for output (optional)
+
+    Returns:
+        work_prod_id if successful, None if failed
+    """
+    try:
+        project_data = {
+            "name": name,
+            "path": str(path),
+            "description": description or f"Created from {template} template",
+            "status": "active",
+        }
+        result = client.create_project(project_data)
+        return result.get("id")
+    except (APIError, BackendConnectionError, TimeoutError) as e:
+        if console:
+            console.print(
+                f"[yellow]⚠ Could not sync to API: {e}[/yellow]"
+            )
+        return None
 
 
 def init_git(project_path: Path) -> bool:
@@ -583,6 +621,32 @@ def create_project(
                     except ValueError as e:
                         # Project already registered - not an error
                         console.print(f"[dim]ℹ {e}[/dim]")
+
+                # Sync to API (unless --local-only or api_enabled=False)
+                if not local_only and config.api_enabled:
+                    client = APIClient(config)
+                    work_prod_id = sync_to_api(
+                        client=client,
+                        name=name,
+                        path=project_path,
+                        template=template,
+                        description=description,
+                        console=console,
+                    )
+                    if work_prod_id:
+                        update_project_work_prod_id(project_path, work_prod_id)
+                        console.print(
+                            f"[dim]✓ Synced to API (ID: {work_prod_id})[/dim]"
+                        )
+                elif local_only:
+                    console.print(
+                        "[dim]ℹ Skipped API sync (--local-only)[/dim]"
+                    )
+                elif not config.api_enabled:
+                    console.print(
+                        "[dim]ℹ Skipped API sync "
+                        "(api_enabled=False)[/dim]"
+                    )
 
                 console.print(
                     f"[green]✓ Created project from template: "

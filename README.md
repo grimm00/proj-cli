@@ -163,6 +163,44 @@ registry:
   path: ~/.local/share/proj/registry.json  # Local project registry
 ```
 
+## API Synchronization
+
+By default, template creation syncs to the work-prod API if:
+
+- `api_enabled: true` in config (default)
+- `--local-only` flag is NOT used
+
+This creates a project record in the API and stores the `work_prod_id` in the local registry for future sync operations.
+
+### Offline Mode
+
+Use `--local-only` for offline development:
+
+```bash
+proj create my-app --template standard-project --local-only
+```
+
+This skips API sync entirely. You can sync later using:
+
+```bash
+proj sync my-app  # Future feature
+```
+
+### API Errors
+
+If the API is unavailable, local creation continues successfully. You'll see a warning but the project will be created and registered locally:
+
+```
+✓ Initialized git repository
+✓ Registered project in local registry
+⚠ Could not sync to API: Connection refused
+✓ Created project from template: /path/to/my-app
+```
+
+The project will have `work_prod_id: null` in the registry until synced.
+
+---
+
 ### Setting Up Templates
 
 Run `proj init` to configure the template source:

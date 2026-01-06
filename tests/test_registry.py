@@ -1,6 +1,5 @@
 """Tests for local registry module."""
 import json
-import pytest
 from datetime import datetime
 from pathlib import Path
 
@@ -14,14 +13,14 @@ def test_registry_project_exists():
 def test_registry_project_has_required_fields():
     """Test that RegistryProject has all required fields (minimal schema)."""
     from proj.registry import RegistryProject
-    
+
     project = RegistryProject(
         path=Path("/Users/me/Projects/my-project"),
         template="standard-project",
         template_version="0.8.0",
         created_at=datetime.now(),
     )
-    
+
     assert project.path == Path("/Users/me/Projects/my-project")
     assert project.template == "standard-project"
     assert project.template_version == "0.8.0"
@@ -29,8 +28,9 @@ def test_registry_project_has_required_fields():
     # Verify minimal schema - these fields should NOT exist
     assert not hasattr(project, 'id')
     assert not hasattr(project, 'name')
-    assert not hasattr(project, 'work_prod_id')
     assert not hasattr(project, 'metadata')
+    # work_prod_id is now optional (API sync support)
+    assert project.work_prod_id is None  # Default to None
 
 
 def test_registry_exists():
@@ -88,8 +88,9 @@ def test_registry_project_minimal_schema():
     # These fields should NOT exist (moved to inventory)
     assert not hasattr(project, 'id')
     assert not hasattr(project, 'name')
-    assert not hasattr(project, 'work_prod_id')
     assert not hasattr(project, 'metadata')
+    # work_prod_id is now part of schema (optional, for API sync)
+    assert project.work_prod_id is None  # Default to None
 
 
 def test_load_registry_creates_empty_if_not_exists(tmp_path, monkeypatch):
@@ -195,7 +196,9 @@ def test_save_load_roundtrip(tmp_path, monkeypatch):
     """Test that save_registry + load_registry preserves all fields."""
     monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
 
-    from proj.registry import Registry, RegistryProject, save_registry, load_registry
+    from proj.registry import (
+        Registry, RegistryProject, save_registry, load_registry
+    )
     from datetime import datetime
     from pathlib import Path
 
@@ -220,10 +223,10 @@ def test_save_load_roundtrip(tmp_path, monkeypatch):
     # Assert all fields are preserved
     assert loaded.version == original.version
     assert len(loaded.projects) == 1
-    
+
     loaded_proj = loaded.projects[0]
     original_proj = original.projects[0]
-    
+
     assert loaded_proj.path == original_proj.path
     assert loaded_proj.template == original_proj.template
     assert loaded_proj.template_version == original_proj.template_version
@@ -235,13 +238,12 @@ def test_load_registry_handles_z_suffix(tmp_path, monkeypatch):
     monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
 
     from proj.registry import load_registry
-    from datetime import datetime, timezone
     import json
 
     # Create registry file with Z suffix timestamp (common in JSON APIs)
     registry_file = tmp_path / "proj" / "registry.json"
     registry_file.parent.mkdir(parents=True, exist_ok=True)
-    
+
     data = {
         "version": "1.0",
         "projects": [
@@ -258,7 +260,7 @@ def test_load_registry_handles_z_suffix(tmp_path, monkeypatch):
 
     # Load should succeed without error
     registry = load_registry()
-    
+
     assert len(registry.projects) == 1
     # Timestamp should be parsed correctly (Z = UTC = +00:00)
     assert registry.projects[0].created_at.tzinfo is not None
@@ -291,9 +293,8 @@ def test_add_project_prevents_duplicates(tmp_path, monkeypatch):
     """Test that adding duplicate path raises error."""
     monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
 
-    from proj.registry import add_project, load_registry
-    from pathlib import Path
     import pytest
+    from proj.registry import add_project, load_registry
 
     # Add first project
     add_project(
@@ -463,3 +464,197 @@ def test_list_projects_filter_by_template(tmp_path, monkeypatch):
     assert len(projects) == 1
     assert projects[0].path == Path("/Users/me/Projects/project-1")
 
+
+# =============================================================================
+# Task 1: Registry Schema Update - work_prod_id field
+# =============================================================================
+
+
+def test_registry_project_with_work_prod_id(tmp_path, monkeypatch):
+    """Test RegistryProject stores work_prod_id."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import add_project, get_project_by_path
+
+    project = add_project(
+        path=tmp_path / "test-proj",
+        template="standard-project",
+        template_version="1.0",
+        work_prod_id=42,  # New field
+    )
+
+    assert project.work_prod_id == 42
+
+    # Verify it persists
+    loaded = get_project_by_path(tmp_path / "test-proj")
+    assert loaded.work_prod_id == 42
+
+
+def test_registry_project_work_prod_id_optional(tmp_path, monkeypatch):
+    """Test work_prod_id is optional (None by default)."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import add_project
+
+    project = add_project(
+        path=tmp_path / "test-proj",
+        template="standard-project",
+        template_version="1.0",
+        # No work_prod_id - should default to None
+    )
+
+    assert project.work_prod_id is None
+
+
+def test_registry_serializes_work_prod_id(tmp_path, monkeypatch):
+    """Test registry.json includes work_prod_id."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import add_project
+
+    add_project(
+        path=tmp_path / "test-proj",
+        template="standard-project",
+        template_version="1.0",
+        work_prod_id=123,
+    )
+
+    # Read raw JSON
+    registry_path = tmp_path / "proj" / "registry.json"
+    with open(registry_path) as f:
+        data = json.load(f)
+
+    assert data["projects"][0]["work_prod_id"] == 123
+
+
+def test_registry_backward_compat_missing_work_prod_id(tmp_path, monkeypatch):
+    """Test load_registry handles old files without work_prod_id."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+
+    from proj.registry import load_registry
+
+    # Create old-format registry file (no work_prod_id)
+    registry_dir = tmp_path / "proj"
+    registry_dir.mkdir(parents=True)
+    registry_file = registry_dir / "registry.json"
+
+    registry_data = {
+        "version": "1.0",
+        "projects": [
+            {
+                "path": "/Users/me/Projects/old-project",
+                "template": "standard-project",
+                "template_version": "0.8.0",
+                "created_at": "2025-01-05T10:30:00",
+                # No work_prod_id field - old format
+            }
+        ],
+    }
+    with open(registry_file, "w") as f:
+        json.dump(registry_data, f)
+
+    # Load should succeed and default work_prod_id to None
+    registry = load_registry()
+
+    assert len(registry.projects) == 1
+    assert registry.projects[0].work_prod_id is None
+
+
+# =============================================================================
+# Task 2: Update Registry Entry Function - update_project_work_prod_id()
+# =============================================================================
+
+
+def test_update_project_work_prod_id(tmp_path, monkeypatch):
+    """Test updating work_prod_id for existing project."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+    from proj.registry import (
+        add_project,
+        update_project_work_prod_id,
+        get_project_by_path,
+    )
+
+    project_path = tmp_path / "test-proj"
+
+    # Create project without work_prod_id
+    add_project(
+        path=project_path,
+        template="standard-project",
+        template_version="1.0",
+    )
+
+    # Update with work_prod_id
+    result = update_project_work_prod_id(project_path, 42)
+
+    assert result is True
+
+    # Verify update persisted
+    loaded = get_project_by_path(project_path)
+    assert loaded.work_prod_id == 42
+
+
+def test_update_project_work_prod_id_not_found(tmp_path, monkeypatch):
+    """Test update returns False for non-existent project."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+    from proj.registry import update_project_work_prod_id
+
+    result = update_project_work_prod_id(tmp_path / "non-existent", 42)
+
+    assert result is False
+
+
+def test_update_project_work_prod_id_persists_to_disk(tmp_path, monkeypatch):
+    """Test that update persists to disk correctly."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+    from proj.registry import (
+        add_project,
+        update_project_work_prod_id,
+        load_registry,
+    )
+
+    project_path = tmp_path / "test-proj"
+
+    # Create project
+    add_project(
+        path=project_path,
+        template="standard-project",
+        template_version="1.0",
+    )
+
+    # Update with work_prod_id
+    update_project_work_prod_id(project_path, 123)
+
+    # Reload registry from disk
+    registry = load_registry()
+
+    assert len(registry.projects) == 1
+    assert registry.projects[0].work_prod_id == 123
+
+
+def test_update_work_prod_id_changes_existing(tmp_path, monkeypatch):
+    """Test that update can change existing work_prod_id."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+    from proj.registry import (
+        add_project,
+        update_project_work_prod_id,
+        get_project_by_path,
+    )
+
+    project_path = tmp_path / "test-proj"
+
+    # Create project with initial work_prod_id
+    add_project(
+        path=project_path,
+        template="standard-project",
+        template_version="1.0",
+        work_prod_id=10,
+    )
+
+    # Update to new work_prod_id
+    result = update_project_work_prod_id(project_path, 20)
+
+    assert result is True
+
+    # Verify update
+    loaded = get_project_by_path(project_path)
+    assert loaded.work_prod_id == 20
