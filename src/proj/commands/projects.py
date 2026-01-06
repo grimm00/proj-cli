@@ -31,6 +31,50 @@ def get_client() -> APIClient:
     return APIClient(Config.load())
 
 
+def _create_project_via_api(
+    name: str,
+    description: Optional[str] = None,
+    status: str = "active",
+    organization: Optional[str] = None,
+    classification: Optional[str] = None,
+    path: Optional[str] = None,
+    remote_url: Optional[str] = None,
+) -> dict:
+    """Create project via API (API-only mode).
+
+    Args:
+        name: Project name (required).
+        description: Project description.
+        status: Project status.
+        organization: Organization name.
+        classification: Project classification.
+        path: Local path.
+        remote_url: Remote repository URL.
+
+    Returns:
+        Created project data from API.
+
+    Raises:
+        APIError: If API call fails.
+        BackendConnectionError: If backend is unreachable.
+        TimeoutError: If request times out.
+    """
+    data = {"name": name, "status": status}
+    if description:
+        data["description"] = description
+    if organization:
+        data["organization"] = organization
+    if classification:
+        data["classification"] = classification
+    if path:
+        data["path"] = path
+    if remote_url:
+        data["remote_url"] = remote_url
+
+    client = get_client()
+    return client.create_project(data)
+
+
 def detect_create_mode(
     config: Config,
     template: Optional[str],
@@ -255,27 +299,69 @@ def create_project(
     - Local-only: Template creation without API
     """
     try:
-        data = {"name": name, "status": status}
-        if description:
-            data["description"] = description
-        if organization:
-            data["organization"] = organization
-        if classification:
-            data["classification"] = classification
-        if path:
-            data["path"] = path
-        if remote_url:
-            data["remote_url"] = remote_url
+        # Load config for mode detection
+        config = Config.load()
 
-        client = get_client()
-        project = client.create_project(data)
-
-        project_id = project.get('id')
-        project_name = project.get('name')
-        console.print(
-            f"[green]✓ Created project {project_id}: "
-            f"{project_name}[/green]"
+        # Detect create mode
+        mode = detect_create_mode(
+            config=config,
+            template=template,
+            api_only=api_only,
+            local_only=local_only,
         )
+
+        # Handle API-only mode (backward compatibility)
+        if mode == "api-only":
+            if not name:
+                console.print(
+                    "[red]Error: Project name is required for API-only mode[/red]"
+                )
+                raise typer.Exit(1)
+
+            project = _create_project_via_api(
+                name=name,
+                description=description,
+                status=status,
+                organization=organization,
+                classification=classification,
+                path=path,
+                remote_url=remote_url,
+            )
+
+            project_id = project.get('id')
+            project_name = project.get('name')
+            console.print(
+                f"[green]✓ Created project {project_id}: "
+                f"{project_name}[/green]"
+            )
+            return
+
+        # Other modes will be implemented in later tasks
+        # For now, default to API-only if name provided (backward compat)
+        if name:
+            project = _create_project_via_api(
+                name=name,
+                description=description,
+                status=status,
+                organization=organization,
+                classification=classification,
+                path=path,
+                remote_url=remote_url,
+            )
+
+            project_id = project.get('id')
+            project_name = project.get('name')
+            console.print(
+                f"[green]✓ Created project {project_id}: "
+                f"{project_name}[/green]"
+            )
+        else:
+            console.print(
+                "[yellow]Interactive mode not yet implemented. "
+                "Please provide project name or use --api-only flag.[/yellow]"
+            )
+            raise typer.Exit(1)
+
     except (APIError, BackendConnectionError, TimeoutError) as e:
         handle_error(e, console)
         raise typer.Exit(1)
