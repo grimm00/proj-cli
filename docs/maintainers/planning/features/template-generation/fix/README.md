@@ -47,6 +47,7 @@ fix/
 | [PR #9](pr9/README.md) | Fix: Test Isolation | 🟡 Deferred | 2 | - |
 | [PR #11](pr11/README.md) | Phase 3: Template Copying | 🟡 Planned | 4 | 2 |
 | [PR #12](pr12/README.md) | Phase 4: Create Command | 🟡 Planned | 1 | - |
+| [PR #13](pr13/README.md) | Phase 5: Testing & Polish | ✅ Merged | 2 deferred | - |
 
 ---
 
@@ -69,16 +70,18 @@ fix/
 - [PR #10 Fix Tracking](pr10/README.md) - All issues fixed before merge
 - [PR #11 Fix Tracking](pr11/README.md) - 4 test improvements deferred
 - [PR #12 Fix Tracking](pr12/README.md) - 1 bug from manual testing
+- [PR #13 Fix Tracking](pr13/README.md) - 2 deferred (req reconciliation, placeholder refactor)
 - [Sourcery Review PR #8](../../../feedback/sourcery/pr8.md)
 - [Sourcery Review PR #9](../../../feedback/sourcery/pr9.md)
 - [Sourcery Review PR #10](../../../feedback/sourcery/pr10.md)
 - [Sourcery Review PR #11](../../../feedback/sourcery/pr11.md)
 - [Sourcery Review PR #12](../../../feedback/sourcery/pr12.md)
+- [Sourcery Review PR #13](../../../feedback/sourcery/pr13.md)
 - [Deferred Tasks Collection](../../../feedback/deferred-tasks.md)
 
 ---
 
-**Last Updated:** 2026-01-06  
+**Last Updated:** 2026-01-06 (PR #13 merged)  
 **Status:** ✅ Active  
 **Next:** Handle deferred issues opportunistically or in dedicated test improvement batch
 

@@ -124,7 +124,7 @@ After Phase 6 merge:
 | Phase 2: Local Registry | ~2 hrs | ✅ Complete (PR #10) |
 | Phase 3: Template Copying | ~3 hrs | ✅ Complete (PR #11) |
 | Phase 4: Create Command Extension | ~3 hrs | ✅ Complete (PR #12) |
-| Phase 5: Testing & Polish | ~2 hrs | 🟡 Paused (Tasks 1-4 done) |
+| Phase 5: Testing & Polish | ~2 hrs | 🟡 Paused (PR #13 - Tasks 1-4 merged) |
 | Phase 6: API Sync Enhancement | ~2-3 hrs | 🔴 Not Started |
 | **Total** | **~14-15 hrs** | |
 
@@ -133,6 +133,17 @@ After Phase 6 merge:
 ## 🔄 Recent Updates
 
 ### 2026-01-06
+
+- 🟡 **Phase 5: Testing & Polish - PARTIAL MERGE** (PR #13)
+  - Tasks 1-4 complete:
+    - Task 1: Fixed learning-project placeholder bug (`[Learning Project Name]`)
+    - Task 2: Coverage gap analysis (core modules >90%)
+    - Task 3: README documentation update
+    - Task 4: Requirements verification (30/30 verified)
+  - Tasks 5-6 paused pending Phase 6 (API Sync Enhancement)
+  - Lint fixes applied (whitespace, line length)
+  - Sourcery review: 4 comments (2 fixed, 2 deferred)
+  - Phase 6 scaffolding added
 
 - ✅ **Phase 4: Create Command Extension - MERGED** (PR #12)
   - All 9 TDD tasks implemented
