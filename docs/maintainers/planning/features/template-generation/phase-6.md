@@ -137,9 +137,9 @@ Add API synchronization to template creation flow. Currently, `proj create --tem
 
 1. **RED - Write failing tests:**
 
-   - [ ] Test: `update_project_work_prod_id()` updates existing entry
-   - [ ] Test: Returns `True` if updated, `False` if not found
-   - [ ] Test: Persists update to disk
+   - [x] Test: `update_project_work_prod_id()` updates existing entry
+   - [x] Test: Returns `True` if updated, `False` if not found
+   - [x] Test: Persists update to disk
 
    **Test file:** `tests/test_registry.py`
 
@@ -176,8 +176,8 @@ Add API synchronization to template creation flow. Currently, `proj create --tem
 
 2. **GREEN - Implement:**
 
-   - [ ] Create `update_project_work_prod_id(path: Path, work_prod_id: int) -> bool`
-   - [ ] Load registry, find project by path, update `work_prod_id`, save
+   - [x] Create `update_project_work_prod_id(path: Path, work_prod_id: int) -> bool`
+   - [x] Load registry, find project by path, update `work_prod_id`, save
 
    **Implementation in `src/proj/registry.py`:**
 
@@ -206,15 +206,15 @@ Add API synchronization to template creation flow. Currently, `proj create --tem
 
 3. **REFACTOR:**
 
-   - [ ] Consider combining with `add_project()` logic if appropriate
-   - [ ] Ensure consistent path normalization
+   - [x] Consider combining with `add_project()` logic if appropriate
+   - [x] Ensure consistent path normalization
 
 **Checklist:**
 
-- [ ] Tests written and passing
-- [ ] `update_project_work_prod_id()` function implemented
-- [ ] Updates persist to disk
-- [ ] Returns correct boolean status
+- [x] Tests written and passing
+- [x] `update_project_work_prod_id()` function implemented
+- [x] Updates persist to disk
+- [x] Returns correct boolean status
 
 ---
 
