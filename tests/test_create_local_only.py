@@ -1,6 +1,5 @@
 """Tests for local-only mode (Phase 4, Task 5)."""
 import pytest
-from pathlib import Path
 from unittest.mock import MagicMock, patch
 from typer.testing import CliRunner
 from proj.cli import app
@@ -132,4 +131,3 @@ def test_create_local_only_registers_locally(
 
     assert result.exit_code == 0
     mock_add_project.assert_called_once()
-
