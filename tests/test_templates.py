@@ -198,10 +198,13 @@ class TestValidateTargetDirectory:
 
     def test_non_writable_directory_raises_error(self, tmp_path, monkeypatch):
         """Test non-writable directory raises DirectoryNotWritableError."""
+        # Capture original os.access before monkeypatching
+        orig_access = os.access
+
         def mock_access(path, mode):
             if mode == os.W_OK:
                 return False
-            return os.access(path, mode)
+            return orig_access(path, mode)
 
         monkeypatch.setattr(os, "access", mock_access)
 
