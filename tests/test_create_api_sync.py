@@ -1,9 +1,15 @@
 """Tests for API sync functionality."""
+import yaml
 from pathlib import Path
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
+from typer.testing import CliRunner
+
+from proj.cli import app
 from proj.commands.projects import sync_to_api
 from proj.error_handler import APIError, BackendConnectionError, TimeoutError
+
+runner = CliRunner()
 
 
 def test_sync_to_api_success():
@@ -112,3 +118,283 @@ def test_sync_to_api_with_console_output():
     # Verify error message contains warning
     call_args = mock_console.print.call_args[0][0]
     assert "Could not sync" in call_args or "⚠" in call_args
+
+
+# =============================================================================
+# Task 4: Integrate API Sync into Template Flow - Integration Tests
+# =============================================================================
+
+
+def test_template_create_syncs_to_api(tmp_path, monkeypatch):
+    """Test template creation syncs to API when enabled."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
+
+    # Create template structure
+    templates_source = tmp_path / "templates"
+    templates_source.mkdir()
+    template_dir = templates_source / "standard-project"
+    template_dir.mkdir()
+    (template_dir / "README.md").write_text("Project: [Project Name]")
+
+    # Create config with api_enabled=True
+    config_dir = tmp_path / "proj"
+    config_dir.mkdir(parents=True)
+    config_data = {
+        "api_url": "http://localhost:5000",
+        "api_enabled": True,
+        "templates": {
+            "source": str(templates_source),
+            "default": "standard-project",
+        },
+    }
+    with open(config_dir / "config.yaml", "w") as f:
+        yaml.dump(config_data, f)
+
+    # Create target directory
+    (tmp_path / "projects").mkdir()
+
+    # Mock API client
+    with patch("proj.commands.projects.APIClient") as MockClient:
+        mock_instance = MockClient.return_value
+        mock_instance.create_project.return_value = {
+            "id": 99,
+            "name": "test-project"
+        }
+
+        result = runner.invoke(
+            app,
+            [
+                "create",
+                "test-project",
+                "--template",
+                "standard-project",
+                "--target-dir",
+                str(tmp_path / "projects"),
+                "--no-git",
+            ],
+        )
+
+        assert result.exit_code == 0
+        mock_instance.create_project.assert_called_once()
+
+
+def test_template_create_skips_api_when_local_only(tmp_path, monkeypatch):
+    """Test --local-only skips API sync."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
+
+    # Create template structure
+    templates_source = tmp_path / "templates"
+    templates_source.mkdir()
+    template_dir = templates_source / "standard-project"
+    template_dir.mkdir()
+    (template_dir / "README.md").write_text("Project: [Project Name]")
+
+    # Create config with api_enabled=True
+    config_dir = tmp_path / "proj"
+    config_dir.mkdir(parents=True)
+    config_data = {
+        "api_url": "http://localhost:5000",
+        "api_enabled": True,
+        "templates": {
+            "source": str(templates_source),
+            "default": "standard-project",
+        },
+    }
+    with open(config_dir / "config.yaml", "w") as f:
+        yaml.dump(config_data, f)
+
+    # Create target directory
+    (tmp_path / "projects").mkdir()
+
+    with patch("proj.commands.projects.APIClient") as MockClient:
+        result = runner.invoke(
+            app,
+            [
+                "create",
+                "test-project",
+                "--template",
+                "standard-project",
+                "--local-only",
+                "--target-dir",
+                str(tmp_path / "projects"),
+                "--no-git",
+            ],
+        )
+
+        assert result.exit_code == 0
+        MockClient.return_value.create_project.assert_not_called()
+
+
+def test_template_create_skips_api_when_disabled(tmp_path, monkeypatch):
+    """Test template creation skips API when api_enabled=False."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
+
+    # Create template structure
+    templates_source = tmp_path / "templates"
+    templates_source.mkdir()
+    template_dir = templates_source / "standard-project"
+    template_dir.mkdir()
+    (template_dir / "README.md").write_text("Project: [Project Name]")
+
+    # Create config with api_enabled=False
+    config_dir = tmp_path / "proj"
+    config_dir.mkdir(parents=True)
+    config_data = {
+        "api_url": "http://localhost:5000",
+        "api_enabled": False,
+        "templates": {
+            "source": str(templates_source),
+            "default": "standard-project",
+        },
+    }
+    with open(config_dir / "config.yaml", "w") as f:
+        yaml.dump(config_data, f)
+
+    # Create target directory
+    (tmp_path / "projects").mkdir()
+
+    with patch("proj.commands.projects.APIClient") as MockClient:
+        result = runner.invoke(
+            app,
+            [
+                "create",
+                "test-project",
+                "--template",
+                "standard-project",
+                "--target-dir",
+                str(tmp_path / "projects"),
+                "--no-git",
+            ],
+        )
+
+        assert result.exit_code == 0
+        MockClient.return_value.create_project.assert_not_called()
+
+
+def test_template_create_updates_registry_with_work_prod_id(
+    tmp_path, monkeypatch
+):
+    """Test registry entry includes work_prod_id after API sync."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
+
+    # Create template structure
+    templates_source = tmp_path / "templates"
+    templates_source.mkdir()
+    template_dir = templates_source / "standard-project"
+    template_dir.mkdir()
+    (template_dir / "README.md").write_text("Project: [Project Name]")
+
+    # Create config with api_enabled=True
+    config_dir = tmp_path / "proj"
+    config_dir.mkdir(parents=True)
+    config_data = {
+        "api_url": "http://localhost:5000",
+        "api_enabled": True,
+        "templates": {
+            "source": str(templates_source),
+            "default": "standard-project",
+        },
+    }
+    with open(config_dir / "config.yaml", "w") as f:
+        yaml.dump(config_data, f)
+
+    # Create target directory
+    (tmp_path / "projects").mkdir()
+
+    with patch("proj.commands.projects.APIClient") as MockClient:
+        mock_instance = MockClient.return_value
+        mock_instance.create_project.return_value = {
+            "id": 77,
+            "name": "test-project"
+        }
+
+        result = runner.invoke(
+            app,
+            [
+                "create",
+                "test-project",
+                "--template",
+                "standard-project",
+                "--target-dir",
+                str(tmp_path / "projects"),
+                "--no-git",
+            ],
+        )
+
+        assert result.exit_code == 0
+
+        # Check registry
+        from proj.registry import get_project_by_path
+
+        project_path = tmp_path / "projects" / "test-project"
+        project = get_project_by_path(project_path)
+        assert project is not None
+        assert project.work_prod_id == 77
+
+
+def test_template_create_succeeds_even_if_api_fails(tmp_path, monkeypatch):
+    """Test local creation succeeds even if API sync fails."""
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
+
+    # Create template structure
+    templates_source = tmp_path / "templates"
+    templates_source.mkdir()
+    template_dir = templates_source / "standard-project"
+    template_dir.mkdir()
+    (template_dir / "README.md").write_text("Project: [Project Name]")
+
+    # Create config with api_enabled=True
+    config_dir = tmp_path / "proj"
+    config_dir.mkdir(parents=True)
+    config_data = {
+        "api_url": "http://localhost:5000",
+        "api_enabled": True,
+        "templates": {
+            "source": str(templates_source),
+            "default": "standard-project",
+        },
+    }
+    with open(config_dir / "config.yaml", "w") as f:
+        yaml.dump(config_data, f)
+
+    # Create target directory
+    (tmp_path / "projects").mkdir()
+
+    with patch("proj.commands.projects.APIClient") as MockClient:
+        mock_instance = MockClient.return_value
+        mock_instance.create_project.side_effect = BackendConnectionError(
+            "Connection failed"
+        )
+
+        result = runner.invoke(
+            app,
+            [
+                "create",
+                "test-project",
+                "--template",
+                "standard-project",
+                "--target-dir",
+                str(tmp_path / "projects"),
+                "--no-git",
+            ],
+        )
+
+        # Should succeed despite API failure
+        assert result.exit_code == 0
+
+        # Project should be created locally
+        project_path = tmp_path / "projects" / "test-project"
+        assert project_path.exists()
+        assert (project_path / "README.md").exists()
+
+        # Registry should exist but without work_prod_id
+        from proj.registry import get_project_by_path
+
+        project = get_project_by_path(project_path)
+        assert project is not None
+        assert project.work_prod_id is None
