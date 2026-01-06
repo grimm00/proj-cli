@@ -103,6 +103,8 @@ After Phase 5 completion:
 
 ## 📋 Requirements Progress
 
+**Source of Truth:** [Requirements Document](../../research/proj-cli-architecture/requirements.md)
+
 ### Functional Requirements (22) ✅ ALL VERIFIED
 
 | Category | Total | Complete | Status |
