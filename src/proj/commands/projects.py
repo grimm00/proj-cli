@@ -194,7 +194,9 @@ def get_project(
 
 
 def create_project(
-    name: str = typer.Argument(..., help="Project name"),
+    name: Optional[str] = typer.Argument(
+        None, help="Project name (required for non-interactive)"
+    ),
     description: Optional[str] = typer.Option(
         None, "--desc", "-d", help="Description"
     ),
@@ -206,13 +208,52 @@ def create_project(
         None, "--class", "-c", help="Classification"
     ),
     path: Optional[str] = typer.Option(
-        None, "--path", "-p", help="Local path"
+        None, "--path", "-p", help="Local path (for API mode)"
     ),
     remote_url: Optional[str] = typer.Option(
         None, "--url", "-u", help="Remote URL"
     ),
+    # New flags for template generation
+    template: Optional[str] = typer.Option(
+        None, "--template", "-t",
+        help="Template type (e.g., standard-project, learning-project)"
+    ),
+    api_only: bool = typer.Option(
+        False, "--api-only",
+        help="Create in API only (original behavior)"
+    ),
+    local_only: bool = typer.Option(
+        False, "--local-only",
+        help="Create locally only (no API, requires --template)"
+    ),
+    target_dir: Optional[Path] = typer.Option(
+        None, "--target-dir",
+        help=(
+            "Target directory for template "
+            "(default: config.default_project_dir)"
+        )
+    ),
+    no_git: bool = typer.Option(
+        False, "--no-git",
+        help="Skip git initialization"
+    ),
+    register: bool = typer.Option(
+        True, "--register/--no-register",
+        help="Register project in local registry (default: True)"
+    ),
+    dry_run: bool = typer.Option(
+        False, "--dry-run",
+        help="Preview creation without side effects"
+    ),
 ):
-    """Create a new project."""
+    """Create a new project.
+
+    MODES:
+    - Interactive (default): Prompts for all options
+    - Template: Creates from dev-infra template
+    - API-only: Original behavior (backward compatible)
+    - Local-only: Template creation without API
+    """
     try:
         data = {"name": name, "status": status}
         if description:
