@@ -94,6 +94,14 @@ def test_config_templates_default_value(tmp_path, monkeypatch):
     assert config.templates.default == "standard-project"
 
 
+def test_config_templates_default_env_override(isolated_xdg, monkeypatch):
+    """Test PROJ_TEMPLATES__DEFAULT environment variable."""
+    monkeypatch.setenv("PROJ_TEMPLATES__DEFAULT", "learning-project")
+    from proj.config import Config
+    config = Config.load()
+    assert config.templates.default == "learning-project"
+
+
 def test_config_templates_source_env_override(isolated_xdg, monkeypatch):
     """Test PROJ_TEMPLATES__SOURCE environment variable."""
     monkeypatch.setenv("PROJ_TEMPLATES__SOURCE", "/path/to/templates")
