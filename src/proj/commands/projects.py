@@ -338,6 +338,13 @@ def create_project(
             local_only=local_only,
         )
 
+        # Validate local-only mode requires template
+        if mode == "local-only" and not template:
+            console.print(
+                "[red]Error: --local-only mode requires --template flag[/red]"
+            )
+            raise typer.Exit(1)
+
         # Handle API-only mode (backward compatibility)
         if mode == "api-only":
             if not name:
