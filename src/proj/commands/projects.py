@@ -516,7 +516,9 @@ def create_project(
 
         # Handle template mode (when --template is provided or from interactive)
         # Also handle local-only mode when template is provided
-        if mode == "template" or (mode == "local-only" and template):
+        if mode == "template" or (
+            mode == "local-only" and template
+        ):
             if not name:
                 console.print(
                     "[red]Error: Project name is required "
