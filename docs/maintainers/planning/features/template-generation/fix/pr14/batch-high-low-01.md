@@ -85,10 +85,10 @@ except (APIError, BackendConnectionError, TimeoutError) as e:
 
 ## Testing
 
-- [ ] All existing tests pass
-- [ ] Test verifies user message doesn't contain exception details
-- [ ] Manual testing: trigger API error, verify message is sanitized
-- [ ] No regressions introduced
+- [x] All existing tests pass
+- [x] Test verifies user message doesn't contain exception details
+- [x] Manual testing: trigger API error, verify message is sanitized
+- [x] No regressions introduced
 
 ---
 
@@ -103,7 +103,7 @@ except (APIError, BackendConnectionError, TimeoutError) as e:
 - [x] Error messages sanitized
 - [x] Full exception logged at debug level
 - [x] Tests passing
-- [ ] Code reviewed
+- [x] Code reviewed (PR15 Sourcery review addressed)
 - [x] Ready for PR
 
 ---

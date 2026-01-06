@@ -94,10 +94,11 @@ template = Prompt.ask(
 
 ## Testing
 
-- [ ] All existing tests pass
-- [ ] New test added for empty templates case
-- [ ] Manual testing: verify error message is clear
-- [ ] No regressions introduced
+- [x] All existing tests pass
+- [x] New test added for empty templates case
+- [x] Test improved with message assertions (PR15-#1)
+- [x] Manual testing: verify error message is clear
+- [x] No regressions introduced
 
 ---
 
@@ -112,7 +113,7 @@ template = Prompt.ask(
 
 - [x] Empty templates case handled with clear error
 - [x] Tests passing
-- [ ] Code reviewed
+- [x] Code reviewed (PR15 Sourcery review addressed)
 - [x] Ready for PR
 
 ---
