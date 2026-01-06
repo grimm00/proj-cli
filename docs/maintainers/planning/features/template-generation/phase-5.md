@@ -39,8 +39,8 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
 
 1. **RED - Write failing test:**
 
-   - [ ] Add test for learning-project placeholder replacement
-   - [ ] Verify test fails (placeholder not replaced)
+   - [x] Add test for learning-project placeholder replacement
+   - [x] Verify test fails (placeholder not replaced)
 
    **Test code (`tests/test_templates.py`):**
 
@@ -59,8 +59,8 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
 
 2. **GREEN - Implement minimum code:**
 
-   - [ ] Add `[Learning Project Name]` to `replace_placeholders()` in `src/proj/templates.py`
-   - [ ] Run test, verify it passes
+   - [x] Add `[Learning Project Name]` to `replace_placeholders()` in `src/proj/templates.py`
+   - [x] Run test, verify it passes
 
    **Implementation (line ~281 in templates.py):**
 
@@ -71,16 +71,16 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
 
 3. **REFACTOR:**
 
-   - [ ] Check for other learning-project-specific placeholders
-   - [ ] Run all tests to ensure no regressions
-   - [ ] Run linting
+   - [x] Check for other learning-project-specific placeholders
+   - [x] Run all tests to ensure no regressions
+   - [x] Run linting
 
 **Checklist:**
 
-- [ ] Test written and failing
-- [ ] Implementation passes test
-- [ ] No regressions in existing tests
-- [ ] Manual verification: `proj create test-learn --template learning-project --local-only --target-dir /tmp/test`
+- [x] Test written and failing
+- [x] Implementation passes test
+- [x] No regressions in existing tests
+- [x] Manual verification: `proj create test-learn --template learning-project --local-only --target-dir /tmp/test` ✅
 
 ---
 
