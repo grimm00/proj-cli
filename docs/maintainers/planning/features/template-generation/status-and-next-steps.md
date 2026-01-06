@@ -2,7 +2,7 @@
 
 **Feature:** Template Generation Extension  
 **Last Updated:** 2026-01-06  
-**Overall Status:** 🟠 Phase 6 Ready
+**Overall Status:** 🟠 Phase 6 In Progress
 
 ---
 
@@ -15,7 +15,7 @@
 | 3 | Template Copying | ✅ Complete | 100% | All 8 tasks complete |
 | 4 | Create Command Extension | ✅ Complete | 100% | All 9 TDD tasks complete |
 | 5 | Testing & Polish | 🟡 Paused | 67% | Tasks 1-4 complete, 5-6 pending Phase 6 |
-| 6 | API Sync Enhancement | ✅ Expanded | 0% impl | 5 TDD tasks ready |
+| 6 | API Sync Enhancement | 🟠 In Progress | 0% | Task 1 in progress |
 
 **Overall Progress:** ~70% (4/6 phases complete, Phase 6 ready)
 
@@ -221,7 +221,7 @@ After Phase 6 merge:
 ---
 
 **Last Updated:** 2026-01-06  
-**Status:** 🟠 Phase 5 Paused, Ready for Phase 6  
-**Next:** Expand Phase 6 with `/transition-plan template-generation --expand --phase 6`
+**Status:** 🟠 Phase 6 In Progress  
+**Next:** Complete Task 1 (Registry Schema Update)
 
 

@@ -2,7 +2,7 @@
 
 **Phase:** 6 - API Sync Enhancement  
 **Duration:** ~2-3 hours (estimated)  
-**Status:** ✅ Expanded  
+**Status:** 🟠 In Progress  
 **Prerequisites:** Phase 4 complete, Phase 5 Tasks 1-4 complete  
 **Last Updated:** 2026-01-06
 
@@ -599,7 +599,7 @@ Add API synchronization to template creation flow. Currently, `proj create --tem
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 1: Registry Schema Update | 🔴 Not Started | Add work_prod_id field |
+| Task 1: Registry Schema Update | 🟠 In Progress | Add work_prod_id field |
 | Task 2: Update Registry Entry Function | 🔴 Not Started | update_project_work_prod_id() |
 | Task 3: API Sync Helper Function | 🔴 Not Started | sync_to_api() helper |
 | Task 4: Integrate API Sync | 🔴 Not Started | Main integration |
