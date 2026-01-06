@@ -206,41 +206,48 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
 
    | Requirement | Description             | Verified | Notes                                      |
    | ----------- | ----------------------- | -------- | ------------------------------------------ |
-   | FR-CREATE-1 | Template selection      | [ ]      | `--template` flag                          |
-   | FR-CREATE-2 | Project name validation | [ ]      | `validate_project_name()`                  |
-   | FR-CREATE-3 | Directory creation      | [ ]      | `create_from_template()`                   |
-   | FR-CREATE-4 | Git initialization      | [ ]      | `init_git()` helper                        |
-   | FR-CONFIG-1 | api_enabled field       | [ ]      | Config model                               |
-   | FR-CONFIG-2 | templates.source        | [ ]      | TemplateConfig                             |
-   | FR-CONFIG-3 | registry config         | [ ]      | RegistryConfig                             |
-   | FR-CONFIG-4 | default_project_dir     | [ ]      | Config model                               |
-   | FR-TMPL-1   | Template discovery      | [ ]      | `list_templates()`                         |
-   | FR-TMPL-2   | Template validation     | [ ]      | `validate_template()`                      |
-   | FR-TMPL-3   | Placeholder replacement | [ ]      | `replace_placeholders()`                   |
-   | FR-REG-1    | Project registration    | [ ]      | `add_project()`                            |
-   | FR-REG-2    | Registry storage        | [ ]      | `save_registry()`                          |
-   | FR-REG-3    | Registry query          | [ ]      | `is_registered()`, `get_project_by_path()` |
-   | FR-REG-4    | Registry listing        | [ ]      | `list_projects()`                          |
+   | FR-CREATE-1 | Interactive mode        | [x]      | `proj create` with no args                 |
+   | FR-CREATE-2 | Template-based creation | [x]      | `--template` flag + `create_from_template` |
+   | FR-CREATE-3 | API-only mode           | [x]      | `--api-only` flag preserved                |
+   | FR-CREATE-4 | Local-only mode         | [x]      | `--local-only` flag + offline support      |
+   | FR-CONFIG-1 | api_enabled field       | [x]      | `Config.api_enabled` boolean               |
+   | FR-CONFIG-2 | templates.source        | [x]      | `TemplateConfig.source` Path               |
+   | FR-CONFIG-3 | registry.path           | [x]      | `RegistryConfig.path` Path                 |
+   | FR-CONFIG-4 | Environment overrides   | [x]      | `PROJ_*` env vars supported                |
+   | FR-TMPL-1   | Local template source   | [x]      | `templates.source` config                  |
+   | FR-TMPL-2   | Template validation     | [x]      | `validate_template_type()`                 |
+   | FR-TMPL-3   | Template types          | [x]      | standard-project, learning-project         |
+   | FR-REG-1    | Project tracking        | [x]      | `add_project()` tracks all                 |
+   | FR-REG-2    | Project path            | [x]      | Absolute path stored                       |
+   | FR-REG-3    | Template info           | [x]      | template, template_version in registry     |
+   | FR-REG-4    | API linkage             | [x]      | work_prod_id field (optional)              |
+   | FR-PORT-1   | Name validation         | [x]      | `validate_project_name()`                  |
+   | FR-PORT-2   | Directory validation    | [x]      | `validate_target_directory()`              |
+   | FR-PORT-3   | Template copying        | [x]      | `shutil.copytree` (includes hidden)        |
+   | FR-PORT-4   | Placeholder replacement | [x]      | `replace_placeholders()` + learning fix    |
+   | FR-PORT-5   | Git initialization      | [x]      | `init_git()` helper, `--no-git` flag       |
+   | FR-PORT-6   | Interactive prompts     | [x]      | `prompt_for_create_options()`              |
+   | FR-PORT-7   | Non-interactive mode    | [x]      | All inputs via flags                       |
 
 2. **Non-Functional Requirements:**
 
-   | Requirement  | Description            | Verified | Notes               |
-   | ------------ | ---------------------- | -------- | ------------------- |
-   | NFR-CREATE-1 | Clear error messages   | [ ]      | Custom exceptions   |
-   | NFR-CONFIG-1 | Backward compatibility | [ ]      | api_enabled default |
-   | NFR-CONFIG-2 | XDG compliance         | [ ]      | Config paths        |
-   | NFR-TMPL-1   | Fast template copy     | [ ]      | shutil.copytree     |
-   | NFR-TMPL-2   | Preserve permissions   | [ ]      | copy_function arg   |
-   | NFR-REG-1    | Atomic writes          | [ ]      | Write to temp first |
-   | NFR-REG-2    | JSON format            | [ ]      | Human-readable      |
-   | NFR-PORT-1   | dev-infra parity       | [ ]      | Same behavior       |
+   | Requirement  | Description            | Verified | Notes                       |
+   | ------------ | ---------------------- | -------- | --------------------------- |
+   | NFR-CREATE-1 | Backward compatibility | [x]      | `--api-only` works as before|
+   | NFR-CONFIG-1 | XDG registry location  | [x]      | `~/.local/share/proj/`      |
+   | NFR-CONFIG-2 | YAML format            | [x]      | Config remains YAML         |
+   | NFR-TMPL-1   | Offline operation      | [x]      | `--local-only` works offline|
+   | NFR-TMPL-2   | Clear errors           | [x]      | Custom exceptions with msgs |
+   | NFR-REG-1    | Human-readable         | [x]      | JSON format with indent     |
+   | NFR-REG-2    | XDG location           | [x]      | `get_xdg_data_home()`       |
+   | NFR-PORT-1   | Name sanitization      | [x]      | `sanitize_project_name()`   |
 
 **Checklist:**
 
-- [ ] All FR requirements verified
-- [ ] All NFR requirements verified
-- [ ] Any gaps documented
-- [ ] Requirements tracking updated
+- [x] All FR requirements verified (22/22)
+- [x] All NFR requirements verified (8/8)
+- [x] Any gaps documented - None found
+- [x] Requirements tracking updated
 
 ---
 
