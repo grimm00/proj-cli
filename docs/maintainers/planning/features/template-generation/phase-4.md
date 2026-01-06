@@ -647,11 +647,11 @@ Extend the existing `proj create` command with template modes, interactive promp
 
 1. **RED - Write failing tests:**
 
-   - [ ] Add test for dry-run shows what would be created
-   - [ ] Add test for dry-run does NOT create directory
-   - [ ] Add test for dry-run does NOT call API
-   - [ ] Add test for dry-run does NOT register
-   - [ ] Verify tests fail
+   - [x] Add test for dry-run shows what would be created
+   - [x] Add test for dry-run does NOT create directory
+   - [x] Add test for dry-run does NOT call API
+   - [x] Add test for dry-run does NOT register
+   - [x] Verify tests fail
 
    **Test code (`tests/test_create_dry_run.py`):**
 
@@ -699,14 +699,14 @@ Extend the existing `proj create` command with template modes, interactive promp
 
 2. **GREEN - Implement minimum code:**
 
-   - [ ] Add dry-run check at start of create_project
-   - [ ] Show preview output
-   - [ ] Return early without side effects
-   - [ ] Run tests, verify they pass
+   - [x] Add dry-run check at start of create_project
+   - [x] Show preview output
+   - [x] Return early without side effects
+   - [x] Run tests, verify they pass
 
 3. **REFACTOR - Clean up:**
-   - [ ] Make preview output Rich-formatted
-   - [ ] Run linting
+   - [x] Make preview output Rich-formatted
+   - [x] Run linting
 
 **Checklist:**
 
