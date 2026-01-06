@@ -37,24 +37,35 @@ This guide provides step-by-step instructions for manually verifying the Templat
 proj --version
 # Expected: 0.1.0 or similar version number
 
-# 2. Verify proj create command exists
+# 2. Initialize proj configuration (first-time setup)
+proj init
+# This creates ~/.config/proj/config.yaml with:
+# - API URL (default: http://localhost:5000)
+# - GitHub username (for inventory scanning)
+# - Local scan directories (default: ~/Projects)
+# - Templates source (if configured)
+#
+# If config already exists, it will ask to overwrite.
+# Use `proj init --force` to overwrite without prompt.
+
+# 3. Verify proj create command exists
 proj create --help | head -5
 # Expected: Shows "Create a new project" help text
 
-# 3. Verify templates location exists
+# 4. Verify templates location exists
 ls ~/Projects/dev-infra/templates/
 # Expected: standard-project/ learning-project/
 
-# 4. Verify both template types exist
+# 5. Verify both template types exist
 ls ~/Projects/dev-infra/templates/standard-project/
 ls ~/Projects/dev-infra/templates/learning-project/
 # Expected: Both directories have README.md and other files
 
-# 5. Create clean test directory
+# 6. Create clean test directory
 rm -rf /tmp/proj-test && mkdir -p /tmp/proj-test
 echo "Test directory ready: /tmp/proj-test"
 
-# 6. Verify git is available (for git init tests)
+# 7. Verify git is available (for git init tests)
 git --version
 # Expected: git version X.X.X
 ```
@@ -62,10 +73,13 @@ git --version
 **If any check fails:**
 
 - Check 1 fails: Run `pip install -e .` from proj-cli directory
-- Check 2 fails: Verify installation, check PATH
-- Check 3-4 fails: Clone dev-infra or update config with templates location
-- Check 5 fails: Check filesystem permissions
-- Check 6 fails: Install git
+- Check 2 fails: Run `proj init` to create initial config
+- Check 3 fails: Verify installation, check PATH
+- Check 4-5 fails: Clone dev-infra or update config with templates location
+- Check 6 fails: Check filesystem permissions
+- Check 7 fails: Install git
+
+**Note:** `proj init` is required before using most proj commands. It creates the configuration file that stores API URL, templates location, and other settings.
 
 ---
 
