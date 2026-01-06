@@ -1,6 +1,5 @@
 """Tests for dry-run mode (Phase 4, Task 6)."""
 import pytest
-from pathlib import Path
 from unittest.mock import MagicMock, patch
 from typer.testing import CliRunner
 from proj.cli import app
@@ -43,7 +42,10 @@ def test_create_dry_run_shows_preview(
         "--dry-run",
     ])
 
-    assert "would create" in result.output.lower() or "preview" in result.output.lower()
+    assert (
+        "would create" in result.output.lower() or
+        "preview" in result.output.lower()
+    )
     mock_create.assert_not_called()
 
 
@@ -87,7 +89,10 @@ def test_create_dry_run_api_does_not_call_api(mock_get_client):
         "--dry-run",
     ])
 
-    assert "would create" in result.output.lower() or "preview" in result.output.lower()
+    assert (
+        "would create" in result.output.lower() or
+        "preview" in result.output.lower()
+    )
     mock_get_client.assert_not_called()
 
 
@@ -117,4 +122,3 @@ def test_create_dry_run_does_not_register(
 
     assert result.exit_code == 0
     mock_add_project.assert_not_called()
-
