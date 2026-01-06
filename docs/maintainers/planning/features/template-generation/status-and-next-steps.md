@@ -13,7 +13,7 @@
 | 1 | Config Extension | ✅ Complete | 100% | All 6 tasks complete |
 | 2 | Local Registry | ✅ Complete | 100% | All 8 tasks complete |
 | 3 | Template Copying | ✅ Complete | 100% | All 8 tasks complete |
-| 4 | Create Command Extension | 🟠 Expanded | 0% | 9 TDD tasks ready |
+| 4 | Create Command Extension | 🟠 In Progress | 0% | 9 TDD tasks ready |
 | 5 | Testing & Polish | 🔴 Scaffolding | 0% | Needs expansion |
 
 **Overall Progress:** ~60% (3/5 phases complete, Phase 4 ready)
