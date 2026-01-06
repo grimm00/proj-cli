@@ -48,6 +48,7 @@ fix/
 | [PR #11](pr11/README.md) | Phase 3: Template Copying | 🟡 Planned | 4 | 2 |
 | [PR #12](pr12/README.md) | Phase 4: Create Command | 🟡 Planned | 1 | - |
 | [PR #13](pr13/README.md) | Phase 5: Testing & Polish | ✅ Merged | 2 deferred | - |
+| [PR #14](pr14/README.md) | Phase 6: API Sync Enhancement | ✅ Merged | 0 | - |
 
 ---
 
@@ -71,6 +72,7 @@ fix/
 - [PR #11 Fix Tracking](pr11/README.md) - 4 test improvements deferred
 - [PR #12 Fix Tracking](pr12/README.md) - 1 bug from manual testing
 - [PR #13 Fix Tracking](pr13/README.md) - 2 deferred (req reconciliation, placeholder refactor)
+- [PR #14 Fix Tracking](pr14/README.md) - No issues (no Sourcery review)
 - [Sourcery Review PR #8](../../../feedback/sourcery/pr8.md)
 - [Sourcery Review PR #9](../../../feedback/sourcery/pr9.md)
 - [Sourcery Review PR #10](../../../feedback/sourcery/pr10.md)
@@ -81,7 +83,7 @@ fix/
 
 ---
 
-**Last Updated:** 2026-01-06 (PR #13 merged)  
+**Last Updated:** 2026-01-06 (PR #14 merged)  
 **Status:** ✅ Active  
 **Next:** Handle deferred issues opportunistically or in dedicated test improvement batch
 

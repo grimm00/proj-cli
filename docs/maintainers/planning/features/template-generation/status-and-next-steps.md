@@ -2,7 +2,7 @@
 
 **Feature:** Template Generation Extension  
 **Last Updated:** 2026-01-06  
-**Overall Status:** 🟠 Phase 6 Complete - Ready for PR
+**Overall Status:** ✅ Phase 6 Merged - Resume Phase 5
 
 ---
 
@@ -23,9 +23,11 @@
 
 ## 🎯 Current Focus
 
-**Stage:** Phase 6 Complete - Ready for PR & Phase 5 Resume
+**Stage:** Phase 6 Merged - Resume Phase 5
 
-### Phase 6 (API Sync Enhancement) - COMPLETE
+### Phase 6 (API Sync Enhancement) - MERGED ✅
+
+**Merged:** PR #14 (2026-01-06)
 
 All 5 tasks complete:
 - ✅ Task 1: Registry Schema Update (`work_prod_id` field)
@@ -40,6 +42,7 @@ All 5 tasks complete:
 - API errors don't break local creation (graceful degradation)
 - `work_prod_id` stored in registry for synced projects
 - 11 new tests added (all passing)
+- Work-prod integration exploration created for future design work
 
 ### Gap Resolved
 
@@ -49,7 +52,7 @@ Template creation now:
 - ✅ Registers in local registry
 - ✅ Syncs to work-prod API (when enabled)
 
-**Next action:** Create PR for Phase 6, then resume Phase 5.
+**Next action:** Resume Phase 5 (Tasks 5-6).
 
 ---
 
@@ -84,20 +87,17 @@ registry_path.write_text(json.dumps(data, indent=2))
 
 ## 🚀 Immediate Next Steps
 
-### 1. Create PR for Phase 6
+### 1. Resume Phase 5
 
-Phase 6 implementation complete. Create PR:
+Phase 6 merged. Now complete Phase 5:
+- Task 5: Final manual testing (includes Phase 6 scenarios)
+- Task 6: Code polish (optional)
 
-```bash
-/pr --phase 6
-```
+### 2. Feature Complete
 
-### 2. Resume Phase 5
-
-After Phase 6 merge:
-- Complete Task 5 (final manual testing - includes Phase 6 scenarios)
-- Optional Task 6 (code polish)
-- Feature complete
+After Phase 5 completion:
+- All phases complete
+- Feature ready for v0.2.0 release planning
 
 ---
 
@@ -140,7 +140,7 @@ After Phase 6 merge:
 | Phase 3: Template Copying | ~3 hrs | ✅ Complete (PR #11) |
 | Phase 4: Create Command Extension | ~3 hrs | ✅ Complete (PR #12) |
 | Phase 5: Testing & Polish | ~2 hrs | 🟡 Paused (PR #13 - Tasks 1-4 merged) |
-| Phase 6: API Sync Enhancement | ~2-3 hrs | ✅ Expanded |
+| Phase 6: API Sync Enhancement | ~2-3 hrs | ✅ Complete (PR #14) |
 | **Total** | **~14-15 hrs** | |
 
 ---
@@ -148,6 +148,17 @@ After Phase 6 merge:
 ## 🔄 Recent Updates
 
 ### 2026-01-06
+
+- ✅ **Phase 6: API Sync Enhancement - MERGED** (PR #14)
+  - All 5 TDD tasks implemented
+  - 11 new tests passing (API sync + registry update)
+  - `work_prod_id` field added to registry schema
+  - `sync_to_api()` helper for graceful API integration
+  - `--local-only` and `api_enabled` config respected
+  - Graceful degradation when API unavailable
+  - Manual testing guide updated with 4 new scenarios
+  - Work-prod integration exploration created for future work
+  - Known gap documented: registry cleanup on delete
 
 - 🟡 **Phase 5: Testing & Polish - PARTIAL MERGE** (PR #13)
   - Tasks 1-4 complete:
@@ -243,7 +254,7 @@ After Phase 6 merge:
 ---
 
 **Last Updated:** 2026-01-06  
-**Status:** ✅ Phase 6 Complete  
-**Next:** Create PR for Phase 6, then resume Phase 5
+**Status:** ✅ Phase 6 Merged (PR #14)  
+**Next:** Resume Phase 5 (Tasks 5-6), then feature complete
 
 
