@@ -15,7 +15,7 @@
 | 3 | Template Copying | ✅ Complete | 100% | All 8 tasks complete |
 | 4 | Create Command Extension | ✅ Complete | 100% | All 9 TDD tasks complete |
 | 5 | Testing & Polish | 🟡 Paused | 67% | Tasks 1-4 complete, 5-6 pending Phase 6 |
-| 6 | API Sync Enhancement | 🔴 Not Started | 0% | New phase - template+API sync |
+| 6 | API Sync Enhancement | ✅ Expanded | 0% impl | 5 TDD tasks ready |
 
 **Overall Progress:** ~70% (4/6 phases complete, Phase 6 ready)
 
@@ -55,29 +55,22 @@ Template creation currently:
 
 ## 🚀 Immediate Next Steps
 
-### 1. Expand Phase 6
+### 1. Implement Phase 6
 
-Phase 6 (API Sync Enhancement) needs detailed expansion:
+Phase 6 (API Sync Enhancement) is now expanded with detailed TDD tasks:
 
-```bash
-/transition-plan template-generation --expand --phase 6
-```
-
-**Expected Tasks:**
-- Add API call to template creation flow
-- Store `work_prod_id` in registry
-- Handle API errors gracefully
-- Respect `--local-only` and `api_enabled` settings
-- Update documentation
-
-### 2. Implement Phase 6
-
-After expansion:
 ```bash
 /task-phase 6 1
 ```
 
-### 3. Resume Phase 5
+**Tasks:**
+1. Registry Schema Update (add `work_prod_id`)
+2. Update Registry Entry Function
+3. API Sync Helper Function
+4. Integrate API Sync into Template Flow
+5. Documentation & Manual Testing
+
+### 2. Resume Phase 5
 
 After Phase 6 merge:
 - Complete Task 5 (final manual testing)
@@ -125,7 +118,7 @@ After Phase 6 merge:
 | Phase 3: Template Copying | ~3 hrs | ✅ Complete (PR #11) |
 | Phase 4: Create Command Extension | ~3 hrs | ✅ Complete (PR #12) |
 | Phase 5: Testing & Polish | ~2 hrs | 🟡 Paused (PR #13 - Tasks 1-4 merged) |
-| Phase 6: API Sync Enhancement | ~2-3 hrs | 🔴 Not Started |
+| Phase 6: API Sync Enhancement | ~2-3 hrs | ✅ Expanded |
 | **Total** | **~14-15 hrs** | |
 
 ---
