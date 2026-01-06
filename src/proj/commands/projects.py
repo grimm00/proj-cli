@@ -432,6 +432,13 @@ def create_project(
 
         # Handle dry-run mode (preview without side effects)
         if dry_run:
+            # Validate mode conflicts even in dry-run
+            detect_create_mode(
+                config=config,
+                template=template,
+                api_only=api_only,
+                local_only=local_only,
+            )
             console.print(
                 "[yellow]🔍 Dry-run mode: Preview only[/yellow]"
             )
