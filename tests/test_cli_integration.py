@@ -2,7 +2,6 @@
 import yaml
 from unittest.mock import Mock, patch
 
-import pytest
 from typer.testing import CliRunner
 
 from proj.cli import app
@@ -146,7 +145,10 @@ def test_cli_inv_status_command(mock_xdg_dirs):
 
     result = runner.invoke(app, ["inv", "status"])
     assert result.exit_code == 0
-    assert "Total Projects" in result.stdout or "inventory" in result.stdout.lower()
+    assert (
+        "Total Projects" in result.stdout
+        or "inventory" in result.stdout.lower()
+    )
 
 
 def test_cli_inv_status_command_with_data(mock_xdg_dirs):
@@ -197,3 +199,15 @@ def test_init_creates_config_with_new_fields(tmp_path, monkeypatch):
     assert 'registry' in saved
     assert 'default_project_dir' in saved
 
+    # Validate loaded Config values
+    from proj.config import Config
+    config = Config.load()
+    assert config.api_enabled is True
+    assert config.templates.default == 'standard-project'
+    # templates.source is set only if the default templates directory exists
+    # Check that loaded config matches what was saved
+    if 'source' in saved.get('templates', {}):
+        assert config.templates.source is not None
+        assert str(config.templates.source) == saved['templates']['source']
+    else:
+        assert config.templates.source is None
