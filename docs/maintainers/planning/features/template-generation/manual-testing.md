@@ -139,7 +139,7 @@ ls ~/Projects/dev-infra/templates/
 ls ~/Projects/dev-infra/templates/standard-project/
 # Expected: README.md, .gitignore, docs/, backend/, frontend/, etc.
 
-# Check learning-project has key files  
+# Check learning-project has key files
 ls ~/Projects/dev-infra/templates/learning-project/
 # Expected: README.md, .gitignore, stage0-fundamentals/, etc.
 ```
@@ -235,7 +235,7 @@ ls /tmp/proj-test/
 
 **Objective:** Verify template creation works end-to-end with correct file structure
 
-**Prerequisites:** 
+**Prerequisites:**
 
 - dev-infra templates available at configured location
 - Target directory exists and is writable
@@ -292,6 +292,7 @@ rm -rf /tmp/proj-test/my-template-app
 ```
 
 **Expected Result:** ✅ Project created with:
+
 - All template files copied (including hidden files)
 - Placeholders replaced with project name
 - Git repository initialized
@@ -380,8 +381,7 @@ cat ~/.local/share/proj/registry.json | python -m json.tool | grep -A 10 "regist
   "path": "/tmp/proj-test/registered-app",
   "template": "standard-project",
   "template_version": "unknown",
-  "created_at": "2026-01-06T...",
-  "synced": false
+  "created_at": "2026-01-06T10:30:00.000000"
 }
 ```
 
@@ -389,9 +389,8 @@ cat ~/.local/share/proj/registry.json | python -m json.tool | grep -A 10 "regist
 
 - `path` - Full path to created project
 - `template` - Template type used
-- `template_version` - Version (currently "unknown")
-- `created_at` - Timestamp of creation
-- `synced` - Should be `false` (not synced with API)
+- `template_version` - Version (currently "unknown" - will be set from dev-infra in future)
+- `created_at` - ISO timestamp of creation
 
 **Cleanup:**
 
@@ -845,21 +844,27 @@ rm -rf /tmp/proj-test
 ### Common Issues
 
 **"proj: command not found"**
+
 - Solution: Ensure proj-cli is installed (`pip install -e .`) and venv is activated
 
 **"Template not found"**
+
 - Solution: Check templates location in config or verify `~/Projects/dev-infra/templates/` exists
 
 **"Permission denied"**
+
 - Solution: Check write permissions on target directory
 
 **"git: command not found"**
+
 - Solution: Install git or use `--no-git` flag
 
 **Interactive mode hangs**
+
 - Solution: Ensure terminal supports input; try different terminal emulator
 
 **Registry file permission error**
+
 - Solution: Check permissions on `~/.local/share/proj/` directory
 
 ---
