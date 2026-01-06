@@ -565,11 +565,11 @@ Extend the existing `proj create` command with template modes, interactive promp
 
 1. **RED - Write failing tests:**
 
-   - [ ] Add test for local-only mode requires template
-   - [ ] Add test for local-only mode does NOT call API
-   - [ ] Add test for local-only mode works when api_enabled=False
-   - [ ] Add test for local-only mode registers locally
-   - [ ] Verify tests fail
+   - [x] Add test for local-only mode requires template
+   - [x] Add test for local-only mode does NOT call API
+   - [x] Add test for local-only mode works when api_enabled=False
+   - [x] Add test for local-only mode registers locally
+   - [x] Verify tests fail
 
    **Test code (`tests/test_create_local_only.py`):**
 
@@ -622,14 +622,14 @@ Extend the existing `proj create` command with template modes, interactive promp
 
 2. **GREEN - Implement minimum code:**
 
-   - [ ] Add validation: local-only requires template
-   - [ ] Implement local-only branch
-   - [ ] Skip API client initialization
-   - [ ] Run tests, verify they pass
+   - [x] Add validation: local-only requires template
+   - [x] Implement local-only branch
+   - [x] Skip API client initialization
+   - [x] Run tests, verify they pass
 
 3. **REFACTOR - Clean up:**
-   - [ ] Add clear error message for missing template
-   - [ ] Run linting
+   - [x] Add clear error message for missing template
+   - [x] Run linting
 
 **Checklist:**
 
