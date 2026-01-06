@@ -2,7 +2,7 @@
 
 **PR:** Phase 4 - Create Command Extension  
 **Merged:** 2026-01-06  
-**Status:** 🟠 Partial (1/4 batches complete)  
+**Status:** 🟠 Partial (2/4 batches complete)  
 **Last Updated:** 2026-01-06
 
 ---
@@ -11,12 +11,12 @@
 
 ### Fix Batches
 
-| Batch                                         | Priority  | Effort  | Issues | Status         |
-| --------------------------------------------- | --------- | ------- | ------ | -------------- |
-| [batch-high-low-01](batch-high-low-01.md)     | 🟠 HIGH   | 🟢 LOW  | 1      | ✅ Complete |
-| [batch-medium-low-01](batch-medium-low-01.md) | 🟡 MEDIUM | 🟢 LOW  | 1      | 🔴 Not Started |
-| [batch-low-low-01](batch-low-low-01.md)       | 🟢 LOW    | 🟢 LOW  | 4      | 🔴 Not Started |
-| [batch-low-high-01](batch-low-high-01.md)     | 🟢 LOW    | 🟠 HIGH | 1      | 🔴 Not Started |
+| Batch                                         | Priority  | Effort  | Issues | Status              |
+| --------------------------------------------- | --------- | ------- | ------ | ------------------- |
+| [batch-high-low-01](batch-high-low-01.md)     | 🟠 HIGH   | 🟢 LOW  | 1      | ✅ Complete (PR #15) |
+| [batch-medium-low-01](batch-medium-low-01.md) | 🟡 MEDIUM | 🟢 LOW  | 1      | ✅ Complete (PR #16) |
+| [batch-low-low-01](batch-low-low-01.md)       | 🟢 LOW    | 🟢 LOW  | 4      | 🔴 Not Started      |
+| [batch-low-high-01](batch-low-high-01.md)     | 🟢 LOW    | 🟠 HIGH | 1      | 🔴 Not Started      |
 
 ### Individual Issues
 

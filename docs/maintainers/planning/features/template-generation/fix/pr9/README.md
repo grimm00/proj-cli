@@ -3,7 +3,7 @@
 **PR:** #9 - fix: Test isolation for XDG_CONFIG_HOME (pr8-batch-high-low-01)  
 **Merged:** 2025-01-05  
 **Type:** Fix PR  
-**Status:** 🟡 Planned  
+**Status:** ✅ Complete (1/1 batches complete)  
 **Last Updated:** 2026-01-06
 
 ---
@@ -28,7 +28,7 @@ The Sourcery review of PR #9 identified 2 additional improvement opportunities, 
 
 **Total Issues:** 2  
 **Batches:** 1  
-**Status:** 🟡 Planned
+**Status:** ✅ Complete
 
 ---
 
@@ -36,14 +36,16 @@ The Sourcery review of PR #9 identified 2 additional improvement opportunities, 
 
 **Date:** 2025-01-05  
 **Review:** [PR #9 Sourcery Review](../../../../feedback/sourcery/pr9.md)  
-**Status:** 🟡 **PLANNED** - Batched for implementation
+**Status:** ✅ **COMPLETE** - Implemented in PR #16 (Fix PR #2)
 
-| Issue          | Priority  | Impact    | Effort | Description                             | Batch                                         |
-| -------------- | --------- | --------- | ------ | --------------------------------------- | --------------------------------------------- |
-| PR9-#1         | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Add XDG isolation to env override tests | [batch-medium-low-01](batch-medium-low-01.md) |
-| PR9-Overall-#1 | 🟢 LOW    | 🟢 LOW    | 🟢 LOW | Extract shared XDG isolation fixture    | [batch-medium-low-01](batch-medium-low-01.md) |
+| Issue          | Priority  | Impact    | Effort | Description                             | Batch                                         | Status                |
+| -------------- | --------- | --------- | ------ | --------------------------------------- | --------------------------------------------- | --------------------- |
+| PR9-#1         | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Add XDG isolation to env override tests | [batch-medium-low-01](batch-medium-low-01.md) | ✅ Fixed in PR #16    |
+| PR9-Overall-#1 | 🟢 LOW    | 🟢 LOW    | 🟢 LOW | Extract shared XDG isolation fixture    | [batch-medium-low-01](batch-medium-low-01.md) | ✅ Fixed in PR #16    |
 
-**Batch:** Both issues combined into single batch (XDG test isolation theme).
+**Batch:** Both issues combined into single batch (XDG test isolation theme).  
+**Completed:** 2026-01-06  
+**Merged:** PR #16 (Fix PR #2)
 
 ---
 
@@ -57,5 +59,5 @@ The Sourcery review of PR #9 identified 2 additional improvement opportunities, 
 ---
 
 **Last Updated:** 2026-01-06  
-**Status:** 🟡 Planned  
-**Next:** Use `/fix-implement pr9-batch-medium-low-01` to implement
+**Status:** ✅ Complete  
+**Completed:** 2026-01-06 (PR #16)

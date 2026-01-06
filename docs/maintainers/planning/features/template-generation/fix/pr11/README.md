@@ -3,7 +3,7 @@
 **PR:** #11  
 **Phase:** Phase 3: Template Copying  
 **Date:** 2026-01-05  
-**Status:** 🟡 Planned
+**Status:** 🟠 Partial (1/2 batches complete)
 
 ---
 
@@ -34,7 +34,7 @@ PR #11 implemented Phase 3 (Template Copying) with all 8 TDD tasks. Sourcery rev
 
 | Batch | Priority | Effort | Issues | Status |
 |-------|----------|--------|--------|--------|
-| [batch-medium-low-01](batch-medium-low-01.md) | 🟡 MEDIUM | 🟢 LOW | 1 | 🔴 Not Started |
+| [batch-medium-low-01](batch-medium-low-01.md) | 🟡 MEDIUM | 🟢 LOW | 1 | ✅ Complete (PR #16) |
 | [batch-low-low-01](batch-low-low-01.md) | 🟢 LOW | 🟢 LOW | 3 | 🔴 Not Started |
 
 ---
@@ -52,10 +52,10 @@ PR #11 implemented Phase 3 (Template Copying) with all 8 TDD tasks. Sourcery rev
   - Description: Add test for `validate_project_name` to verify whitespace stripping
   - Action: Opportunistic handling in future PR
 
-- **PR11-#2:** Add non-writable directory test (MEDIUM priority, LOW effort)
+- **PR11-#2:** Add non-writable directory test (MEDIUM priority, LOW effort) ✅ Fixed in PR #16
   - Location: `tests/test_templates.py:192-194`
   - Description: Add test for `DirectoryNotWritableError` path coverage
-  - Action: Opportunistic handling in future PR
+  - Action: ✅ Implemented in PR #16 (Fix PR #2)
 
 - **PR11-#3:** Strengthen default description test (LOW priority, LOW effort)
   - Location: `tests/test_templates.py:463-401`
@@ -100,7 +100,7 @@ PR #11 implemented Phase 3 (Template Copying) with all 8 TDD tasks. Sourcery rev
 
 ---
 
-**Last Updated:** 2026-01-05  
-**Status:** 🟡 Planned  
-**Next:** Implement batch-medium-low-01 using `/fix-implement pr11-batch-medium-low-01`
+**Last Updated:** 2026-01-06  
+**Status:** 🟠 Partial (1/2 batches complete)  
+**Next:** Implement batch-low-low-01 when convenient
 

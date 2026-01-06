@@ -2,7 +2,7 @@
 
 **PR:** #14 - Phase 6: API Sync Enhancement  
 **Merged:** 2026-01-06  
-**Status:** 🟠 Partial (1/4 batches complete)  
+**Status:** 🟠 Partial (2/4 batches complete)  
 **Last Updated:** 2026-01-06
 
 ---
@@ -13,8 +13,8 @@
 
 | Batch | Priority | Effort | Issues | Status |
 |-------|----------|--------|--------|--------|
-| [batch-high-low-01](batch-high-low-01.md) | 🟠 HIGH | 🟢 LOW | 1 | ✅ Complete |
-| [batch-medium-low-01](batch-medium-low-01.md) | 🟡 MEDIUM | 🟢 LOW | 2 | 🔴 Not Started |
+| [batch-high-low-01](batch-high-low-01.md) | 🟠 HIGH | 🟢 LOW | 1 | ✅ Complete (PR #15) |
+| [batch-medium-low-01](batch-medium-low-01.md) | 🟡 MEDIUM | 🟢 LOW | 2 | ✅ Complete (PR #16) |
 | [batch-low-low-01](batch-low-low-01.md) | 🟢 LOW | 🟢 LOW | 2 | 🔴 Not Started |
 | [batch-low-medium-01](batch-low-medium-01.md) | 🟢 LOW | 🟡 MEDIUM | 1 | 🔴 Not Started |
 
@@ -85,4 +85,5 @@
 ---
 
 **Last Updated:** 2026-01-06  
-**Action Plan:** HIGH priority security batch complete (PR #15), continue with MEDIUM/LOW batches
+**Status:** 🟠 Partial (2/4 batches complete)  
+**Action Plan:** HIGH and MEDIUM priority batches complete (PR #15, PR #16), continue with LOW batches when convenient

@@ -13,11 +13,11 @@
 | Category | Count | Effort Estimate | Status |
 |----------|-------|-----------------|--------|
 | 🟠 HIGH Priority (Security/Blocking) | 2 | 1 hour | ✅ Complete (PR #15) |
-| 🟡 MEDIUM Priority | 10 | 4 hours | 🔴 Not Started |
+| 🟡 MEDIUM Priority | 10 | 4 hours | ✅ Complete (PR #16) |
 | 🟢 LOW Priority | 17 | 5 hours | 🔴 Not Started |
-| **Total** | **29** | **~10 hours** | 2/29 fixed |
+| **Total** | **29** | **~10 hours** | 12/29 fixed |
 
-**Status:** Fix PR #1 complete. Continue with Fix PR #2 (MEDIUM) and Fix PR #3 (LOW).
+**Status:** Fix PR #1 and Fix PR #2 complete. Continue with Fix PR #3 (LOW).
 
 ---
 
@@ -42,30 +42,30 @@
 
 ---
 
-### 🟡 MEDIUM Priority Issues: 10
+### 🟡 MEDIUM Priority Issues: 10 ✅ COMPLETE
 
-| Issue | PR | Effort | Description |
-|-------|-----|--------|-------------|
-| PR8-#1 | #8 | 🟢 LOW | env_prefix confusion for TemplateConfig |
-| PR8-#2 | #8 | 🟢 LOW | env_prefix confusion for RegistryConfig |
-| PR8-#4 | #8 | 🟢 LOW | Missing env override test |
-| PR9-#1 | #9 | 🟢 LOW | XDG isolation for env override tests |
-| PR9-Overall-#1 | #9 | 🟢 LOW | Extract shared XDG isolation fixture |
-| PR11-#2 | #11 | 🟢 LOW | Non-writable directory test |
-| PR12-#2 | #12 | 🟢 LOW | Dry-run bypasses validation |
-| PR13-Overall-#2 | #13 | 🟡 MEDIUM | Requirements count reconciliation |
-| PR14-#4 | #14 | 🟢 LOW | Test missing id response edge case |
-| PR14-Overall-#1 | #14 | 🟢 LOW | Narrow except clause |
+| Issue | PR | Effort | Description | Status |
+|-------|-----|--------|-------------|--------|
+| PR8-#1 | #8 | 🟢 LOW | env_prefix confusion for TemplateConfig | ✅ Fixed (PR #16) |
+| PR8-#2 | #8 | 🟢 LOW | env_prefix confusion for RegistryConfig | ✅ Fixed (PR #16) |
+| PR8-#4 | #8 | 🟢 LOW | Missing env override test | ✅ Fixed (PR #16) |
+| PR9-#1 | #9 | 🟢 LOW | XDG isolation for env override tests | ✅ Fixed (PR #16) |
+| PR9-Overall-#1 | #9 | 🟢 LOW | Extract shared XDG isolation fixture | ✅ Fixed (PR #16) |
+| PR11-#2 | #11 | 🟢 LOW | Non-writable directory test | ✅ Fixed (PR #16) |
+| PR12-#2 | #12 | 🟢 LOW | Dry-run bypasses validation | ✅ Fixed (PR #16) |
+| PR13-Overall-#2 | #13 | 🟡 MEDIUM | Requirements count reconciliation | ✅ Fixed (PR #16) |
+| PR14-#4 | #14 | 🟢 LOW | Test missing id response edge case | ✅ Fixed (PR #16) |
+| PR14-Overall-#1 | #14 | 🟢 LOW | Narrow except clause | ✅ Not Needed (already correct) |
 
 **Batch Coverage:**
-- `pr8/batch-medium-low-01` (3 issues)
-- `pr9/batch-medium-low-01` (2 issues)
-- `pr11/batch-medium-low-01` (1 issue)
-- `pr12/batch-medium-low-01` (1 issue)
-- `pr13/batch-medium-medium-01` (1 issue)
-- `pr14/batch-medium-low-01` (2 issues)
+- `pr8/batch-medium-low-01` (3 issues) ✅ Complete
+- `pr9/batch-medium-low-01` (2 issues) ✅ Complete
+- `pr11/batch-medium-low-01` (1 issue) ✅ Complete
+- `pr12/batch-medium-low-01` (1 issue) ✅ Complete
+- `pr13/batch-medium-medium-01` (1 issue) ✅ Complete
+- `pr14/batch-medium-low-01` (2 issues) ✅ Complete
 
-**⚠️ Recommendation:** Create **Fix PR #2** for MEDIUM priority issues (~4 hours)
+**✅ Complete:** **Fix PR #2** (PR #16) merged 2026-01-06
 
 ---
 

@@ -3,8 +3,8 @@
 **PR:** #8 - feat: Config Extension for Template Generation (Phase 1)  
 **Merged:** 2025-01-05  
 **Phase:** Phase 1: Config Extension  
-**Status:** 🟡 Planned  
-**Last Updated:** 2025-01-05
+**Status:** 🟠 Partial (2/3 batches complete)  
+**Last Updated:** 2026-01-06
 
 ---
 
@@ -60,16 +60,17 @@
 
 ### batch-medium-low-01: Config Cleanup + Test
 
-- **Status:** 🔴 Not Started
+- **Status:** ✅ Complete
 - **Issues:** 3
-- **Estimated:** 45 minutes
+- **Completed:** 2026-01-06
+- **Merged:** PR #16 (Fix PR #2)
 - **File:** [batch-medium-low-01.md](batch-medium-low-01.md)
 
 **Issues:**
 
-- PR8-#1: env_prefix confusion for TemplateConfig
-- PR8-#2: env_prefix confusion for RegistryConfig
-- PR8-#4: Missing env override test for PROJ_TEMPLATES\_\_DEFAULT
+- PR8-#1: env_prefix confusion for TemplateConfig ✅ Fixed in PR #16
+- PR8-#2: env_prefix confusion for RegistryConfig ✅ Fixed in PR #16
+- PR8-#4: Missing env override test for PROJ_TEMPLATES\_\_DEFAULT ✅ Fixed in PR #16
 
 ---
 
@@ -100,6 +101,6 @@
 
 ---
 
-**Last Updated:** 2025-01-05  
-**Status:** 🟡 Planned  
-**Next:** Implement batches using `/fix-implement`
+**Last Updated:** 2026-01-06  
+**Status:** 🟠 Partial (2/3 batches complete)  
+**Next:** Implement remaining LOW priority batch (batch-low-low-01) when convenient
