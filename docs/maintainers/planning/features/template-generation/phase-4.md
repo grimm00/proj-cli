@@ -947,22 +947,22 @@ Extend the existing `proj create` command with template modes, interactive promp
 
 1. **RED - Write failing tests:**
 
-   - [ ] Add integration test for template + register + git
-   - [ ] Add integration test for api-only backward compatibility
-   - [ ] Add integration test for local-only + template
-   - [ ] Verify tests fail
+   - [x] Add integration test for template + register + git
+   - [x] Add integration test for api-only backward compatibility
+   - [x] Add integration test for local-only + template
+   - [x] Verify tests fail
 
 2. **GREEN - Implement any remaining code:**
 
-   - [ ] Wire together all components
-   - [ ] Ensure error handling is complete
-   - [ ] Run tests, verify they pass
+   - [x] Wire together all components (already complete from previous tasks)
+   - [x] Ensure error handling is complete (already complete)
+   - [x] Run tests, verify they pass
 
 3. **REFACTOR - Clean up:**
-   - [ ] Review overall code organization
-   - [ ] Extract common code to helpers
-   - [ ] Run linting
-   - [ ] Run full test suite
+   - [x] Review overall code organization (code is well-organized)
+   - [x] Extract common code to helpers (helpers already extracted)
+   - [x] Run linting
+   - [x] Run full test suite (all Phase 4 tests passing)
 
 **Checklist:**
 
