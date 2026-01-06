@@ -1,5 +1,4 @@
 """Integration tests for full create workflow (Phase 4, Task 9)."""
-from pathlib import Path
 from unittest.mock import MagicMock, patch
 from typer.testing import CliRunner
 from proj.cli import app
@@ -138,4 +137,3 @@ def test_create_local_only_template_no_api_call(
     mock_init_git.assert_called_once_with(project_path)
     # Should NOT have registered (--no-register)
     mock_add_project.assert_not_called()
-
