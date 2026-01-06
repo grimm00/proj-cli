@@ -79,7 +79,7 @@ fix/
 - [PR #10 Fix Tracking](pr10/README.md) - All issues fixed before merge
 - [PR #11 Fix Tracking](pr11/README.md) - 4 test improvements deferred
 - [PR #12 Fix Tracking](pr12/README.md) - 8 issues (7 Sourcery + 1 manual testing)
-- [PR #13 Fix Tracking](pr13/README.md) - 2 batched (req reconciliation, placeholder refactor)
+- [PR #13 Fix Tracking](pr13/README.md) - 2 batches (req reconciliation, placeholder refactor)
 - [PR #14 Fix Tracking](pr14/README.md) - No issues (no Sourcery review)
 - [Sourcery Review PR #8](../../../feedback/sourcery/pr8.md)
 - [Sourcery Review PR #9](../../../feedback/sourcery/pr9.md)

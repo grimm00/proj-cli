@@ -1,6 +1,7 @@
-# PR #13 Fix Tracking
+# Fix Tracking - PR #13 (Phase 5: Testing & Polish)
 
-**PR:** Phase 5 - Testing & Polish (Tasks 1-4)  
+**PR:** #13 - Testing & Polish (Tasks 1-4)  
+**Phase:** 5 - Testing & Polish (partial)  
 **Merged:** 2026-01-06  
 **Status:** 🟡 Planned  
 **Last Updated:** 2026-01-06
@@ -24,19 +25,45 @@
 
 ## 📊 Summary
 
-**From Sourcery Review (4 issues):**
+**From Sourcery Review (4 comments):**
 
-| Priority | Count | Status |
-|----------|-------|--------|
-| 🟢 LOW (fixed) | 2 | ✅ Fixed before merge |
-| 🟡 MEDIUM | 1 | 🔴 Deferred → batch-medium-medium-01 |
-| 🟢 LOW | 1 | 🔴 Deferred → batch-low-medium-01 |
+| Status | Count | Description |
+|--------|-------|-------------|
+| ✅ Fixed before merge | 2 | #1 (req counts), Overall #1 (progress table) |
+| 🟡 Deferred | 2 | Overall #2 (req reconciliation), Overall #3 (placeholders) |
+
+**Priority Breakdown (deferred issues):**
+
+| Priority | Count | Batched |
+|----------|-------|---------|
+| 🟡 MEDIUM | 1 | batch-medium-medium-01 |
+| 🟢 LOW | 1 | batch-low-medium-01 |
 
 **Totals:**
-- **4 issues** total
-- **2 fixed** before merge
-- **2 deferred** into 2 batches
-- **Estimated effort:** ~2-3 hours total
+- **2 deferred issues** batched
+- **2 batches** created
+- **Estimated effort:** ~2.5-3.5 hours total
+
+---
+
+## 🎯 Recommended Order
+
+1. **batch-medium-medium-01** (MEDIUM/MEDIUM) - Requirements reconciliation (~1-2 hrs)
+2. **batch-low-medium-01** (LOW/MEDIUM) - Placeholder refactoring (~1-1.5 hrs)
+
+---
+
+## 📁 Batch Details
+
+### batch-medium-medium-01: Requirements Count Reconciliation
+- **Issue:** Overall #2 - Inconsistent requirement counts across docs
+- **Impact:** Developer experience - confusing to track progress
+- **Fix:** Audit docs, reconcile counts, establish source of truth
+
+### batch-low-medium-01: Centralize Placeholders
+- **Issue:** Overall #3 - Hard-coded replace calls in `replace_placeholders()`
+- **Impact:** Maintainability - easier to add new placeholders
+- **Fix:** Refactor to use mapping/dictionary pattern
 
 ---
 
@@ -49,26 +76,14 @@
 
 ---
 
-## 🎯 Recommended Order
+## 🔗 Related Documents
 
-1. **batch-medium-medium-01** (MEDIUM/MEDIUM) - Requirements reconciliation (~1-2 hrs)
-2. **batch-low-medium-01** (LOW/MEDIUM) - Centralize placeholders (~1-1.5 hrs)
-
----
-
-## 📁 Batch Details
-
-### batch-medium-medium-01: Requirements Reconciliation
-- **Issue:** Overall-#2 - Requirement counts inconsistent across planning docs
-- **Impact:** Documentation maintainability
-- **Fix:** Audit all docs, establish single source of truth
-
-### batch-low-medium-01: Centralize Placeholders
-- **Issue:** Overall-#3 - Multiple hard-coded replace calls in `replace_placeholders()`
-- **Impact:** Code maintainability
-- **Fix:** Create placeholder mapping, refactor function
+- [Sourcery Review](../../../../feedback/sourcery/pr13.md)
+- [Phase 5 Document](../../phase-5.md)
+- [Fix Tracking Hub](../README.md)
 
 ---
 
 **Last Updated:** 2026-01-06  
-**Action Plan:** Low priority - handle opportunistically or during code quality sprint
+**Status:** 🟡 Planned  
+**Next:** Use `/fix-implement pr13-batch-medium-medium-01` to implement
