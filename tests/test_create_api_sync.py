@@ -427,3 +427,33 @@ def test_template_create_succeeds_even_if_api_fails(tmp_path, monkeypatch):
         project = get_project_by_path(project_path)
         assert project is not None
         assert project.work_prod_id is None
+
+
+def test_sync_to_api_missing_id_response():
+    """Test sync_to_api handles response without id."""
+    mock_client = Mock()
+    mock_client.create_project.return_value = {}  # No id
+
+    result = sync_to_api(
+        client=mock_client,
+        name="test-project",
+        path=Path("/tmp/test"),
+        template="standard-project",
+    )
+
+    assert result is None
+
+
+def test_sync_to_api_none_id_response():
+    """Test sync_to_api handles response with None id."""
+    mock_client = Mock()
+    mock_client.create_project.return_value = {"id": None}
+
+    result = sync_to_api(
+        client=mock_client,
+        name="test-project",
+        path=Path("/tmp/test"),
+        template="standard-project",
+    )
+
+    assert result is None
