@@ -1,7 +1,5 @@
 """Tests for configuration management."""
-import os
 import yaml
-from unittest.mock import patch
 
 
 def test_config_class_exists():
@@ -40,13 +38,12 @@ def test_config_xdg_data_path():
     assert "proj" in str(data_dir)
 
 
-def test_config_env_override():
+def test_config_env_override(isolated_xdg, monkeypatch):
     """Test that environment variables override config."""
-    with patch.dict(os.environ, {"PROJ_API_URL": "http://test:8000"}):
-        from proj.config import Config
-        # Force reload by creating new instance
-        config = Config.load()
-        assert config.api_url == "http://test:8000"
+    monkeypatch.setenv("PROJ_API_URL", "http://test:8000")
+    from proj.config import Config
+    config = Config.load()
+    assert config.api_url == "http://test:8000"
 
 
 def test_config_has_api_enabled(tmp_path, monkeypatch):
@@ -65,12 +62,12 @@ def test_config_api_enabled_default_true(tmp_path, monkeypatch):
     assert config.api_enabled is True
 
 
-def test_config_api_enabled_env_override():
+def test_config_api_enabled_env_override(isolated_xdg, monkeypatch):
     """Test PROJ_API_ENABLED environment variable override."""
-    with patch.dict(os.environ, {"PROJ_API_ENABLED": "false"}):
-        from proj.config import Config
-        config = Config.load()
-        assert config.api_enabled is False
+    monkeypatch.setenv("PROJ_API_ENABLED", "false")
+    from proj.config import Config
+    config = Config.load()
+    assert config.api_enabled is False
 
 
 def test_config_has_templates_nested(tmp_path, monkeypatch):
@@ -97,12 +94,20 @@ def test_config_templates_default_value(tmp_path, monkeypatch):
     assert config.templates.default == "standard-project"
 
 
-def test_config_templates_source_env_override():
+def test_config_templates_default_env_override(isolated_xdg, monkeypatch):
+    """Test PROJ_TEMPLATES__DEFAULT environment variable."""
+    monkeypatch.setenv("PROJ_TEMPLATES__DEFAULT", "learning-project")
+    from proj.config import Config
+    config = Config.load()
+    assert config.templates.default == "learning-project"
+
+
+def test_config_templates_source_env_override(isolated_xdg, monkeypatch):
     """Test PROJ_TEMPLATES__SOURCE environment variable."""
-    with patch.dict(os.environ, {"PROJ_TEMPLATES__SOURCE": "/path/to/templates"}):
-        from proj.config import Config
-        config = Config.load()
-        assert str(config.templates.source) == "/path/to/templates"
+    monkeypatch.setenv("PROJ_TEMPLATES__SOURCE", "/path/to/templates")
+    from proj.config import Config
+    config = Config.load()
+    assert str(config.templates.source) == "/path/to/templates"
 
 
 def test_config_has_registry_nested(tmp_path, monkeypatch):
@@ -113,22 +118,20 @@ def test_config_has_registry_nested(tmp_path, monkeypatch):
     assert hasattr(config, 'registry')
 
 
-def test_config_registry_path_xdg_default(tmp_path, monkeypatch):
+def test_config_registry_path_xdg_default(isolated_xdg):
     """Test registry.path defaults to XDG data dir."""
-    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
-    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
     from proj.config import Config, get_data_dir
     config = Config.load()
     expected = get_data_dir() / "registry.json"
     assert config.registry.path == expected
 
 
-def test_config_registry_path_env_override():
+def test_config_registry_path_env_override(isolated_xdg, monkeypatch):
     """Test PROJ_REGISTRY__PATH environment variable."""
-    with patch.dict(os.environ, {"PROJ_REGISTRY__PATH": "/custom/registry.json"}):
-        from proj.config import Config
-        config = Config.load()
-        assert str(config.registry.path) == "/custom/registry.json"
+    monkeypatch.setenv("PROJ_REGISTRY__PATH", "/custom/registry.json")
+    from proj.config import Config
+    config = Config.load()
+    assert str(config.registry.path) == "/custom/registry.json"
 
 
 def test_config_has_default_project_dir(tmp_path, monkeypatch):
@@ -149,12 +152,12 @@ def test_config_default_project_dir_value(tmp_path, monkeypatch):
     assert config.default_project_dir == expected
 
 
-def test_config_default_project_dir_env_override():
+def test_config_default_project_dir_env_override(isolated_xdg, monkeypatch):
     """Test PROJ_DEFAULT_PROJECT_DIR environment variable."""
-    with patch.dict(os.environ, {"PROJ_DEFAULT_PROJECT_DIR": "/custom/projects"}):
-        from proj.config import Config
-        config = Config.load()
-        assert str(config.default_project_dir) == "/custom/projects"
+    monkeypatch.setenv("PROJ_DEFAULT_PROJECT_DIR", "/custom/projects")
+    from proj.config import Config
+    config = Config.load()
+    assert str(config.default_project_dir) == "/custom/projects"
 
 
 def test_config_save_includes_new_fields(tmp_path, monkeypatch):

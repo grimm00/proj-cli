@@ -1,7 +1,4 @@
 """Test fixtures for proj-cli."""
-import json
-import os
-from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pytest
@@ -32,6 +29,14 @@ def mock_xdg_dirs(temp_config_dir, temp_data_dir, monkeypatch):
 
 
 @pytest.fixture
+def isolated_xdg(tmp_path, monkeypatch):
+    """Fixture to isolate XDG directories for config tests."""
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+    return tmp_path
+
+
+@pytest.fixture
 def sample_inventory():
     """Sample inventory data."""
     return [
@@ -55,5 +60,3 @@ def mock_api_client():
         client = Mock()
         mock.return_value = client
         yield client
-
-

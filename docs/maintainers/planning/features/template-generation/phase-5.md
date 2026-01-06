@@ -385,6 +385,8 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
 
 **After Phase 5 Completion:**
 
+**Source of Truth:** [Requirements Document](../../research/proj-cli-architecture/requirements.md)
+
 | Category            | Total  | Verified |
 | ------------------- | ------ | -------- |
 | Command (FR-CREATE) | 4      | 4        |
@@ -395,6 +397,8 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
 | **FR Total**        | **22** | **22**   |
 | NFR                 | 8      | 8        |
 | **Overall Total**   | **30** | **30**   |
+
+**Note:** All requirement counts are verified against the authoritative [Requirements Document](../../research/proj-cli-architecture/requirements.md). Breakdown: CREATE(4) + CONFIG(4) + TMPL(3) + REG(4) + PORT(7) = 22 FR + 8 NFR = 30 total.
 
 ---
 

@@ -39,7 +39,9 @@ class TemplateConfig(BaseSettings):
     """Template-related configuration."""
 
     model_config = SettingsConfigDict(
-        env_prefix="PROJ_TEMPLATES_",
+        # Non-empty prefix prevents reading PATH env var
+        # Nested env vars handled by parent's env_nested_delimiter
+        env_prefix="_",
         extra="ignore",
     )
 
@@ -57,7 +59,9 @@ class RegistryConfig(BaseSettings):
     """Local registry configuration."""
 
     model_config = SettingsConfigDict(
-        env_prefix="PROJ_REGISTRY_",
+        # Non-empty prefix prevents reading PATH env var
+        # Nested env vars handled by parent's env_nested_delimiter
+        env_prefix="_",
         extra="ignore",
     )
 

@@ -122,3 +122,21 @@ def test_create_dry_run_does_not_register(
 
     assert result.exit_code == 0
     mock_add_project.assert_not_called()
+
+
+def test_create_dry_run_validates_flag_conflicts():
+    """Test that dry-run validates conflicting flags."""
+    result = runner.invoke(app, [
+        "create", "test",
+        "--dry-run",
+        "--api-only",
+        "--local-only",
+    ])
+
+    assert result.exit_code != 0
+    # ValueError is raised, check exception or stderr
+    assert (
+        "conflict" in str(result.exception).lower() or
+        "conflict" in result.stderr.lower() or
+        "conflict" in result.output.lower()
+    )
