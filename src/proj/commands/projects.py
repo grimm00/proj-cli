@@ -514,7 +514,7 @@ def create_project(
             )
             return
 
-        # Handle template mode (when --template is provided or from interactive)
+        # Handle template mode (--template or interactive)
         # Also handle local-only mode when template is provided
         if mode == "template" or (
             mode == "local-only" and template
