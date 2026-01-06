@@ -21,12 +21,14 @@ class RegistryProject:
         template: Template type used to create the project
         template_version: Version of the template used (for sync detection)
         created_at: Timestamp when the project was created
+        work_prod_id: Optional ID linking to work-prod API record
     """
 
     path: Path  # Cross-reference key to inventory
     template: str  # Template type used
     template_version: str  # Template version for sync
     created_at: datetime  # When created
+    work_prod_id: Optional[int] = None  # Link to work-prod API record
 
 
 @dataclass
@@ -68,12 +70,14 @@ def load_registry() -> Registry:
             created_at_str = created_at_str[:-1] + "+00:00"
 
         # Minimal schema - only sync fields
+        # Backward compatibility: work_prod_id defaults to None if missing
         projects.append(
             RegistryProject(
                 path=Path(proj_data["path"]),
                 template=proj_data["template"],
                 template_version=proj_data["template_version"],
                 created_at=datetime.fromisoformat(created_at_str),
+                work_prod_id=proj_data.get("work_prod_id"),
             )
         )
 
@@ -101,6 +105,7 @@ def save_registry(registry: Registry) -> None:
                 "template": proj.template,
                 "template_version": proj.template_version,
                 "created_at": proj.created_at.isoformat(),
+                "work_prod_id": proj.work_prod_id,
             }
             for proj in registry.projects
         ],
@@ -115,6 +120,7 @@ def add_project(
     path: Path,
     template: str,
     template_version: str,
+    work_prod_id: Optional[int] = None,
 ) -> RegistryProject:
     """Add a new project to the registry for sync tracking.
 
@@ -124,6 +130,7 @@ def add_project(
         path: Project path (cross-reference key to inventory)
         template: Template type used
         template_version: Template version for sync
+        work_prod_id: Optional ID linking to work-prod API record
 
     Returns:
         RegistryProject instance that was added
@@ -146,6 +153,7 @@ def add_project(
         template=template,
         template_version=template_version,
         created_at=datetime.now(),
+        work_prod_id=work_prod_id,
     )
 
     registry.projects.append(project)
