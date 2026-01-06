@@ -336,11 +336,11 @@ Extend the existing `proj create` command with template modes, interactive promp
 
 1. **RED - Write failing tests:**
 
-   - [ ] Add test for API-only mode creates via API
-   - [ ] Add test for API-only mode does NOT create local directory
-   - [ ] Add test for API-only mode does NOT register
-   - [ ] Add test for API-only mode matches original behavior
-   - [ ] Verify tests fail
+   - [x] Add test for API-only mode creates via API
+   - [x] Add test for API-only mode does NOT create local directory
+   - [x] Add test for API-only mode does NOT register
+   - [x] Add test for API-only mode matches original behavior
+   - [x] Verify tests fail
 
    **Test code (`tests/test_create_api_only.py`):**
 
@@ -399,19 +399,19 @@ Extend the existing `proj create` command with template modes, interactive promp
 
 2. **GREEN - Implement minimum code:**
 
-   - [ ] Add mode detection call in create_project
-   - [ ] Implement API-only branch (existing behavior)
-   - [ ] Run tests, verify they pass
+   - [x] Add mode detection call in create_project
+   - [x] Implement API-only branch (existing behavior)
+   - [x] Run tests, verify they pass
 
 3. **REFACTOR - Clean up:**
-   - [ ] Extract API creation to helper function
-   - [ ] Run linting
+   - [x] Extract API creation to helper function
+   - [x] Run linting
 
 **Checklist:**
 
-- [ ] Tests written and failing
-- [ ] Implementation passes tests
-- [ ] Code refactored and clean
+- [x] Tests written and failing
+- [x] Implementation passes tests
+- [x] Code refactored and clean
 
 ---
 
