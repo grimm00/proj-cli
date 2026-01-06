@@ -111,12 +111,12 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
 
 **Coverage Results (2026-01-06):**
 
-| Module | Target | Actual | Status |
-|--------|--------|--------|--------|
-| templates.py | >90% | **96%** | ✅ Exceeds |
-| registry.py | >90% | **99%** | ✅ Exceeds |
-| config.py | >90% | **96%** | ✅ Exceeds |
-| commands/projects.py | >85% | 61% | ⚠️ Below (interactive code) |
+| Module               | Target | Actual  | Status                      |
+| -------------------- | ------ | ------- | --------------------------- |
+| templates.py         | >90%   | **96%** | ✅ Exceeds                  |
+| registry.py          | >90%   | **99%** | ✅ Exceeds                  |
+| config.py            | >90%   | **96%** | ✅ Exceeds                  |
+| commands/projects.py | >85%   | 61%     | ⚠️ Below (interactive code) |
 
 **Notes:**
 
@@ -144,12 +144,12 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
 
 1. **Update Create Command Section:**
 
-   - [ ] Document `--template` option with available templates
-   - [ ] Document `--local-only` for offline use
-   - [ ] Document `--target-dir` for custom location
-   - [ ] Document `--dry-run` for preview
-   - [ ] Document `--no-git` option
-   - [ ] Document `--register/--no-register` options
+   - [x] Document `--template` option with available templates
+   - [x] Document `--local-only` for offline use
+   - [x] Document `--target-dir` for custom location
+   - [x] Document `--dry-run` for preview
+   - [x] Document `--no-git` option
+   - [x] Document `--register/--no-register` options
 
 2. **Add Template Creation Examples:**
 
@@ -175,22 +175,22 @@ Final polish phase for the template generation feature. Fix known bugs, verify r
 
 3. **Document Interactive Mode:**
 
-   - [ ] Explain that running `proj create` without args enters interactive mode
-   - [ ] List the prompts and options
+   - [x] Explain that running `proj create` without args enters interactive mode
+   - [x] List the prompts and options
 
 4. **Update Configuration Section:**
 
-   - [ ] Document `templates.source` config option
-   - [ ] Document `registry.enabled` and `registry.path` options
-   - [ ] Note that `proj init` configures template source
+   - [x] Document `templates.source` config option
+   - [x] Document `registry.enabled` and `registry.path` options
+   - [x] Note that `proj init` configures template source
 
 **Checklist:**
 
-- [ ] Create command section updated
-- [ ] Template examples added
-- [ ] Interactive mode documented
-- [ ] Configuration section updated
-- [ ] Help text matches documentation
+- [x] Create command section updated
+- [x] Template examples added
+- [x] Interactive mode documented
+- [x] Configuration section updated
+- [x] Help text matches documentation
 
 ---
 
