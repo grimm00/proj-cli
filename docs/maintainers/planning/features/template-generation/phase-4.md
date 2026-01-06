@@ -829,11 +829,11 @@ Extend the existing `proj create` command with template modes, interactive promp
 
 1. **RED - Write failing tests:**
 
-   - [ ] Add test for interactive mode prompts for project name
-   - [ ] Add test for interactive mode prompts for template type
-   - [ ] Add test for interactive mode prompts for target directory
-   - [ ] Add test for interactive mode handles cancellation
-   - [ ] Verify tests fail
+   - [x] Add test for interactive mode prompts for project name
+   - [x] Add test for interactive mode prompts for template type
+   - [x] Add test for interactive mode prompts for target directory
+   - [x] Add test for interactive mode handles cancellation
+   - [x] Verify tests fail
 
    **Test code (`tests/test_create_interactive.py`):**
 
@@ -880,11 +880,11 @@ Extend the existing `proj create` command with template modes, interactive promp
 
 2. **GREEN - Implement minimum code:**
 
-   - [ ] Import Rich Prompt
-   - [ ] Add prompts when name is None
-   - [ ] Add prompts for template selection
-   - [ ] Add prompts for target directory
-   - [ ] Run tests, verify they pass
+   - [x] Import Rich Prompt
+   - [x] Add prompts when name is None
+   - [x] Add prompts for template selection
+   - [x] Add prompts for target directory
+   - [x] Run tests, verify they pass
 
    **Implementation:**
 
@@ -927,9 +927,9 @@ Extend the existing `proj create` command with template modes, interactive promp
    ```
 
 3. **REFACTOR - Clean up:**
-   - [ ] Add validation for prompts
-   - [ ] Make prompts visually appealing
-   - [ ] Run linting
+   - [x] Add validation for prompts (handled by Rich Prompt with choices)
+   - [x] Make prompts visually appealing (Rich formatting)
+   - [x] Run linting
 
 **Checklist:**
 
