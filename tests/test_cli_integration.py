@@ -177,10 +177,11 @@ def test_init_creates_config_with_new_fields(tmp_path, monkeypatch):
     monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
 
     # Run init command with defaults (send newlines to accept defaults)
+    # 4 prompts: API URL, GitHub username, Scan dirs, Templates source
     result = runner.invoke(
         app,
         ["init", "--force"],
-        input="\n\n\n",  # Accept defaults for all prompts
+        input="\n\n\n\n",  # Accept defaults for all 4 prompts
     )
     assert result.exit_code == 0
 
