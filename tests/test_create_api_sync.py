@@ -115,9 +115,38 @@ def test_sync_to_api_with_console_output():
 
     assert result is None
     mock_console.print.assert_called_once()
-    # Verify error message contains warning
+    # Verify sanitized error message (no exception details)
     call_args = mock_console.print.call_args[0][0]
-    assert "Could not sync" in call_args or "⚠" in call_args
+    assert "Could not sync to API. Project created locally." in call_args
+    # Verify exception details are NOT leaked
+    assert "Server error" not in call_args
+
+
+def test_sync_to_api_sanitizes_error_messages():
+    """Test sync_to_api does not leak exception details in user-facing messages."""
+    mock_client = Mock()
+    # Create exception with potentially sensitive details
+    sensitive_error = APIError("Connection failed: http://internal-api:5000/secret-endpoint", 500)
+    mock_client.create_project.side_effect = sensitive_error
+    mock_console = Mock()
+
+    result = sync_to_api(
+        client=mock_client,
+        name="test-project",
+        path=Path("/tmp/test"),
+        template="standard-project",
+        console=mock_console,
+    )
+
+    assert result is None
+    mock_console.print.assert_called_once()
+    # Verify user message does NOT contain exception details
+    call_args = mock_console.print.call_args[0][0]
+    assert "Could not sync to API. Project created locally." in call_args
+    # Verify sensitive details are NOT in message
+    assert "internal-api" not in call_args
+    assert "secret-endpoint" not in call_args
+    assert "http://" not in call_args
 
 
 # =============================================================================
