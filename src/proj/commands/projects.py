@@ -40,6 +40,44 @@ def get_client() -> APIClient:
     return APIClient(Config.load())
 
 
+def sync_to_api(
+    client: APIClient,
+    name: str,
+    path: Path,
+    template: str,
+    description: Optional[str] = None,
+    console: Optional[Console] = None,
+) -> Optional[int]:
+    """Sync project to work-prod API.
+
+    Args:
+        client: APIClient instance
+        name: Project name
+        path: Local project path
+        template: Template type used
+        description: Optional project description
+        console: Console for output (optional)
+
+    Returns:
+        work_prod_id if successful, None if failed
+    """
+    try:
+        project_data = {
+            "name": name,
+            "path": str(path),
+            "description": description or f"Created from {template} template",
+            "status": "active",
+        }
+        result = client.create_project(project_data)
+        return result.get("id")
+    except (APIError, BackendConnectionError, TimeoutError) as e:
+        if console:
+            console.print(
+                f"[yellow]⚠ Could not sync to API: {e}[/yellow]"
+            )
+        return None
+
+
 def init_git(project_path: Path) -> bool:
     """Initialize git repository in project.
 
