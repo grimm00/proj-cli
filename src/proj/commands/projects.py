@@ -1,6 +1,7 @@
 """Project management commands."""
 
 import json
+import subprocess
 from pathlib import Path
 from typing import Optional
 
@@ -13,6 +14,12 @@ from proj.api_client import APIClient
 from proj.config import Config
 from proj.error_handler import (
     handle_error, APIError, BackendConnectionError, TimeoutError
+)
+from proj.registry import add_project
+from proj.templates import (
+    create_from_template,
+    get_templates_source,
+    TemplateError,
 )
 
 console = Console()
@@ -29,6 +36,27 @@ STATUS_EMOJI = {
 def get_client() -> APIClient:
     """Get configured API client."""
     return APIClient(Config.load())
+
+
+def init_git(project_path: Path) -> bool:
+    """Initialize git repository in project.
+
+    Args:
+        project_path: Path to project directory.
+
+    Returns:
+        True if successful, False otherwise.
+    """
+    try:
+        result = subprocess.run(
+            ["git", "init"],
+            cwd=project_path,
+            capture_output=True,
+            text=True,
+        )
+        return result.returncode == 0
+    except Exception:
+        return False
 
 
 def _create_project_via_api(
@@ -336,6 +364,84 @@ def create_project(
                 f"{project_name}[/green]"
             )
             return
+
+        # Handle template mode (when --template is provided)
+        # Also handle local-only mode when template is provided (Task 4)
+        if mode == "template" or (mode == "local-only" and template):
+            if not name:
+                console.print(
+                    "[red]Error: Project name is required "
+                    "for template mode[/red]"
+                )
+                raise typer.Exit(1)
+
+            if not template:
+                console.print(
+                    "[red]Error: Template type is required "
+                    "for template mode[/red]"
+                )
+                raise typer.Exit(1)
+
+            # Get templates source
+            templates_source = get_templates_source(config)
+
+            # Determine target directory
+            if target_dir:
+                target = Path(target_dir).expanduser().resolve()
+            else:
+                target = (
+                    config.default_project_dir.expanduser().resolve()
+                    if config.default_project_dir
+                    else Path.home() / "Projects"
+                )
+
+            # Create project from template
+            try:
+                project_path = create_from_template(
+                    project_name=name,
+                    template_type=template,
+                    target_dir=target,
+                    templates_source=templates_source,
+                    description=description,
+                )
+
+                # Initialize git (unless --no-git)
+                if not no_git:
+                    if init_git(project_path):
+                        console.print(
+                            "[dim]✓ Initialized git repository[/dim]"
+                        )
+                    else:
+                        console.print(
+                            "[yellow]⚠ Failed to initialize git "
+                            "repository[/yellow]"
+                        )
+
+                # Register project (unless --no-register)
+                if register:
+                    try:
+                        add_project(
+                            path=project_path,
+                            template=template,
+                            # TODO: Get from dev-infra
+                            template_version="unknown",
+                        )
+                        console.print(
+                            "[dim]✓ Registered project in local registry[/dim]"
+                        )
+                    except ValueError as e:
+                        # Project already registered - not an error
+                        console.print(f"[dim]ℹ {e}[/dim]")
+
+                console.print(
+                    f"[green]✓ Created project from template: "
+                    f"{project_path}[/green]"
+                )
+                return
+
+            except TemplateError as e:
+                console.print(f"[red]Error: {e}[/red]")
+                raise typer.Exit(1)
 
         # Other modes will be implemented in later tasks
         # For now, default to API-only if name provided (backward compat)
