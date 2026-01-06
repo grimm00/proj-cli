@@ -116,6 +116,12 @@ def prompt_for_create_options(config: Config) -> dict:
     # List available templates
     templates_source = get_templates_source(config)
     available = list_templates(templates_source)
+    
+    if not available:
+        console.print("[red]Error:[/red] No templates available.")
+        console.print(f"[dim]Templates source: {templates_source}[/dim]")
+        raise typer.Exit(1)
+    
     default_template = (
         config.templates.default if hasattr(config, 'templates') and
         hasattr(config.templates, 'default') else None

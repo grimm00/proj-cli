@@ -1,10 +1,12 @@
 """Tests for project commands."""
 import subprocess
 import sys
+from pathlib import Path
 
 import pytest
-from unittest.mock import MagicMock
-from proj.commands.projects import detect_create_mode
+import typer
+from unittest.mock import MagicMock, patch
+from proj.commands.projects import detect_create_mode, prompt_for_create_options
 
 
 def test_list_command_exists():
@@ -160,3 +162,18 @@ def test_detect_mode_conflict_raises():
             local_only=True,
         )
     assert "conflict" in str(exc.value).lower()
+
+
+def test_prompt_for_create_options_no_templates_available(tmp_path):
+    """Test that prompt_for_create_options exits with error when no templates available."""
+    config = MagicMock()
+    templates_source = tmp_path / "templates"
+    templates_source.mkdir()
+    
+    with patch('proj.commands.projects.get_templates_source', return_value=templates_source):
+        with patch('proj.commands.projects.list_templates', return_value=[]):
+            with pytest.raises(typer.Exit) as exc_info:
+                prompt_for_create_options(config)
+            
+            # Should exit with code 1
+            assert exc_info.value.exit_code == 1
