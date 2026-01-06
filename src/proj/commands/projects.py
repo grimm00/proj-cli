@@ -314,7 +314,8 @@ def create_project(
         if mode == "api-only":
             if not name:
                 console.print(
-                    "[red]Error: Project name is required for API-only mode[/red]"
+                    "[red]Error: Project name is required "
+                    "for API-only mode[/red]"
                 )
                 raise typer.Exit(1)
 
