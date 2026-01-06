@@ -8,6 +8,7 @@ from typing import Optional
 import click
 import typer
 from rich.console import Console
+from rich.prompt import Prompt
 from rich.table import Table
 
 from proj.api_client import APIClient
@@ -19,6 +20,7 @@ from proj.registry import add_project
 from proj.templates import (
     create_from_template,
     get_templates_source,
+    list_templates,
     TemplateError,
 )
 
@@ -57,6 +59,54 @@ def init_git(project_path: Path) -> bool:
         return result.returncode == 0
     except Exception:
         return False
+
+
+def prompt_for_create_options(config: Config) -> dict:
+    """Prompt user for create options interactively.
+
+    Args:
+        config: proj-cli configuration.
+
+    Returns:
+        Dict with user choices: name, template, target_dir, description.
+
+    Raises:
+        KeyboardInterrupt: If user cancels (Ctrl+C).
+    """
+    name = Prompt.ask("Project name")
+
+    # List available templates
+    templates_source = get_templates_source(config)
+    available = list_templates(templates_source)
+    default_template = (
+        config.templates.default if hasattr(config, 'templates') and
+        hasattr(config.templates, 'default') else None
+    )
+    template = Prompt.ask(
+        "Template type",
+        choices=available,
+        default=default_template or available[0] if available else None,
+    )
+
+    default_target = (
+        str(config.default_project_dir.expanduser().resolve())
+        if config.default_project_dir
+        else str(Path.home() / "Projects")
+    )
+    target_dir_str = Prompt.ask(
+        "Target directory",
+        default=default_target,
+    )
+    target_dir = Path(target_dir_str).expanduser().resolve()
+
+    description = Prompt.ask("Description (optional)", default="")
+
+    return {
+        "name": name,
+        "template": template,
+        "target_dir": target_dir,
+        "description": description or None,
+    }
 
 
 def _create_project_via_api(
@@ -404,7 +454,25 @@ def create_project(
             console.print("[dim]No changes made (dry-run mode)[/dim]")
             return
 
-        # Detect create mode
+        # Interactive mode (when name is None and no explicit mode)
+        # Check this BEFORE mode detection so we can prompt first
+        if not name and not api_only and not template:
+            try:
+                # Prompt for options
+                options = prompt_for_create_options(config)
+
+                # Use prompted values
+                name = options["name"]
+                template = options["template"]
+                if target_dir is None:
+                    target_dir = options["target_dir"]
+                if options["description"]:
+                    description = options["description"]
+            except KeyboardInterrupt:
+                console.print("\n[yellow]Cancelled[/yellow]")
+                raise typer.Exit(1)
+
+        # Detect create mode (after interactive prompts if applicable)
         mode = detect_create_mode(
             config=config,
             template=template,
@@ -446,8 +514,8 @@ def create_project(
             )
             return
 
-        # Handle template mode (when --template is provided)
-        # Also handle local-only mode when template is provided (Task 4)
+        # Handle template mode (when --template is provided or from interactive)
+        # Also handle local-only mode when template is provided
         if mode == "template" or (mode == "local-only" and template):
             if not name:
                 console.print(
@@ -524,9 +592,8 @@ def create_project(
                 console.print(f"[red]Error: {e}[/red]")
                 raise typer.Exit(1)
 
-        # Other modes will be implemented in later tasks
-        # For now, default to API-only if name provided (backward compat)
-        if name:
+        # Default to API-only if name provided (backward compat)
+        if name and not template and not api_only:
             project = _create_project_via_api(
                 name=name,
                 description=description,
@@ -543,10 +610,10 @@ def create_project(
                 f"[green]✓ Created project {project_id}: "
                 f"{project_name}[/green]"
             )
-        else:
+        elif not name and not template and not api_only:
+            # Should not reach here (interactive mode handled above)
             console.print(
-                "[yellow]Interactive mode not yet implemented. "
-                "Please provide project name or use --api-only flag.[/yellow]"
+                "[yellow]Please provide project name or use --api-only flag.[/yellow]"
             )
             raise typer.Exit(1)
 

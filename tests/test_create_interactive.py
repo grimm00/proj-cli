@@ -6,7 +6,7 @@ from proj.cli import app
 runner = CliRunner()
 
 
-@patch('rich.prompt.Prompt')
+@patch('proj.commands.projects.Prompt')
 @patch('proj.commands.projects.create_from_template')
 @patch('proj.commands.projects.get_templates_source')
 @patch('proj.templates.list_templates')
@@ -159,7 +159,7 @@ def test_create_interactive_prompts_for_target_dir(
     assert target_prompted
 
 
-@patch('rich.prompt.Prompt')
+@patch('proj.commands.projects.Prompt')
 @patch('proj.commands.projects.Config.load')
 def test_create_interactive_handles_cancellation(
     mock_config_load, mock_prompt, tmp_path
