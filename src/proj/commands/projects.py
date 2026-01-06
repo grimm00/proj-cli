@@ -1,6 +1,7 @@
 """Project management commands."""
 
 import json
+import logging
 import subprocess
 from pathlib import Path
 from typing import Optional
@@ -25,6 +26,7 @@ from proj.templates import (
 )
 
 console = Console()
+logger = logging.getLogger(__name__)
 
 # Status emoji mapping (shared constant)
 STATUS_EMOJI = {
@@ -71,9 +73,13 @@ def sync_to_api(
         result = client.create_project(project_data)
         return result.get("id")
     except (APIError, BackendConnectionError, TimeoutError) as e:
+        # Log full exception for debugging
+        logger.debug(f"API sync failed: {e}", exc_info=True)
+        
         if console:
+            # Show user-friendly message without internal details
             console.print(
-                f"[yellow]⚠ Could not sync to API: {e}[/yellow]"
+                "[yellow]⚠ Could not sync to API. Project created locally.[/yellow]"
             )
         return None
 
@@ -116,6 +122,12 @@ def prompt_for_create_options(config: Config) -> dict:
     # List available templates
     templates_source = get_templates_source(config)
     available = list_templates(templates_source)
+    
+    if not available:
+        console.print("[red]Error:[/red] No templates available.")
+        console.print(f"[dim]Templates source: {templates_source}[/dim]")
+        raise typer.Exit(1)
+    
     default_template = (
         config.templates.default if hasattr(config, 'templates') and
         hasattr(config.templates, 'default') else None
