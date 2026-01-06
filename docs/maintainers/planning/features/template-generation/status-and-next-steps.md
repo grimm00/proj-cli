@@ -53,6 +53,35 @@ Template creation now:
 
 ---
 
+## ⚠️ Known Gaps (Future Work)
+
+### Registry-API Cleanup Sync
+
+**Issue:** `proj delete` only removes from API, not from local registry.
+
+**Impact:**
+- Re-creating projects with same path shows "already registered" warning
+- Test cleanup requires manual registry editing
+- User friction when iterating on projects
+
+**Workaround:** Manual registry cleanup:
+```bash
+# Remove specific entries from registry
+python3 -c "
+import json
+from pathlib import Path
+registry_path = Path.home() / '.local/share/proj/registry.json'
+data = json.loads(registry_path.read_text())
+# Filter out unwanted paths
+data['projects'] = [p for p in data['projects'] if '/tmp/proj-test' not in p['path']]
+registry_path.write_text(json.dumps(data, indent=2))
+"
+```
+
+**Future Enhancement:** Add `--from-registry` flag to `proj delete` or create `proj registry remove` command.
+
+---
+
 ## 🚀 Immediate Next Steps
 
 ### 1. Create PR for Phase 6

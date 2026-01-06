@@ -68,6 +68,22 @@ echo "Test directory ready: /tmp/proj-test"
 # 7. Verify git is available (for git init tests)
 git --version
 # Expected: git version X.X.X
+
+# 8. Clean up registry entries from previous test runs (optional)
+# Registry at: ~/.local/share/proj/registry.json
+python3 -c "
+import json
+from pathlib import Path
+registry_path = Path.home() / '.local/share/proj/registry.json'
+if registry_path.exists():
+    data = json.loads(registry_path.read_text())
+    original = len(data['projects'])
+    data['projects'] = [p for p in data['projects'] if '/tmp/proj-test' not in p['path']]
+    registry_path.write_text(json.dumps(data, indent=2))
+    print(f'Removed {original - len(data[\"projects\"])} test entries from registry')
+else:
+    print('No registry file yet')
+"
 ```
 
 **If any check fails:**
@@ -781,6 +797,10 @@ rm -rf /tmp/proj-test/described-app
 
 ## 🧪 Phase 6: API Sync Enhancement
 
+> **⚠️ Known Gap:** `proj delete` only removes from API, not from local registry.
+> When re-running scenarios, you may see "already registered" messages.
+> Use setup step 8 or the Cleanup sections to clean the registry between runs.
+
 ### Scenario 4.20: Template Creation with API Sync
 
 **Objective:** Verify template creation syncs to API when enabled
@@ -831,7 +851,22 @@ proj list | grep api-sync-test
 **Cleanup:**
 
 ```bash
+# Remove local directory
 rm -rf /tmp/proj-test/api-sync-test
+
+# Delete from API (find ID first)
+proj list | grep api-sync-test  # Note the ID
+echo "y" | proj delete <ID>     # Replace <ID> with actual ID
+
+# Remove from registry (optional - run setup step 8)
+python3 -c "
+import json; from pathlib import Path
+r = Path.home() / '.local/share/proj/registry.json'
+d = json.loads(r.read_text())
+d['projects'] = [p for p in d['projects'] if 'api-sync-test' not in p['path']]
+r.write_text(json.dumps(d, indent=2))
+print('Registry cleaned')
+"
 ```
 
 **Expected Result:** ✅ Project created locally AND synced to API with work_prod_id stored
@@ -889,6 +924,7 @@ cat ~/.local/share/proj/registry.json | python -m json.tool | grep -A 10 "offlin
 
 ```bash
 rm -rf /tmp/proj-test/offline-test
+# Also clean registry - see setup step 8
 ```
 
 **Expected Result:** ✅ Project created locally, warning shown, work_prod_id=null in registry
@@ -939,6 +975,7 @@ cat ~/.local/share/proj/registry.json | python -m json.tool | grep -A 10 "local-
 
 ```bash
 rm -rf /tmp/proj-test/local-only-test
+# Also clean registry - see setup step 8
 ```
 
 **Expected Result:** ✅ Project created locally, API sync explicitly skipped, no warning
@@ -989,6 +1026,7 @@ cat ~/.local/share/proj/registry.json | python -m json.tool | grep -A 10 "api-di
 ```bash
 rm -rf /tmp/proj-test/api-disabled-test
 # Reset api_enabled in config if you changed it
+# Also clean registry - see setup step 8
 ```
 
 **Expected Result:** ✅ Project created, API sync skipped due to config setting
