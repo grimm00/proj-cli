@@ -3,7 +3,16 @@
 **PR:** #21
 **Phase:** Phase 1 - Client Update
 **Merged:** 2026-01-07
-**Status:** 🟡 Deferred Issues
+**Status:** 🟡 Planned
+
+---
+
+## 📋 Quick Links
+
+### Fix Batches
+
+- **[batch-medium-medium-01.md](batch-medium-medium-01.md)** - Centralize constants & custom exception (🟡 MEDIUM, 🟡 MEDIUM, 2 issues)
+- **[batch-low-low-01.md](batch-low-low-01.md)** - Test formatting assertion (🟢 LOW, 🟢 LOW, 1 issue)
 
 ---
 
@@ -11,20 +20,20 @@
 
 **Date:** 2026-01-07
 **Review:** PR #21 (Phase 1) Sourcery feedback
-**Status:** 🟡 **DEFERRED** - All MEDIUM/LOW priority, can be handled opportunistically
+**Status:** 🟡 **PLANNED** - Fix plans created
 
 ### Individual Comments
 
-| # | Description | Priority | Effort | Status |
-|---|-------------|----------|--------|--------|
-| #1 | Strengthen invalid-type test with error formatting assertion | 🟢 LOW | 🟢 LOW | Deferred |
+| # | Description | Priority | Effort | Batch | Status |
+|---|-------------|----------|--------|-------|--------|
+| #1 | Strengthen invalid-type test with error formatting assertion | 🟢 LOW | 🟢 LOW | batch-low-low-01 | 🟡 Planned |
 
 ### Overall Comments
 
-| # | Description | Priority | Effort | Status |
-|---|-------------|----------|--------|--------|
-| Overall #1 | Centralize `VALID_PROJECT_TYPES` constant (avoid duplication) | 🟡 MEDIUM | 🟡 MEDIUM | Deferred |
-| Overall #2 | Use custom exception for `project_type` validation | 🟡 MEDIUM | 🟡 MEDIUM | Deferred |
+| # | Description | Priority | Effort | Batch | Status |
+|---|-------------|----------|--------|-------|--------|
+| Overall #1 | Centralize `VALID_PROJECT_TYPES` constant (avoid duplication) | 🟡 MEDIUM | 🟡 MEDIUM | batch-medium-medium-01 | 🟡 Planned |
+| Overall #2 | Use custom exception for `project_type` validation | 🟡 MEDIUM | 🟡 MEDIUM | batch-medium-medium-01 | 🟡 Planned |
 
 ---
 
@@ -68,10 +77,20 @@
 
 ## 📊 Action Plan
 
-These issues can be handled opportunistically:
-- During Phase 2 integration testing
-- In a future code quality PR
-- When adding new project types
+**Recommended Order:**
+1. `batch-medium-medium-01` - Centralize constants & custom exception (higher impact)
+2. `batch-low-low-01` - Test formatting assertion (quick win)
+
+**Implementation:**
+```bash
+# Implement MEDIUM batch first
+/fix-implement pr21/batch-medium-medium-01
+
+# Then LOW batch
+/fix-implement pr21/batch-low-low-01
+```
+
+These can also be handled opportunistically during Phase 2 integration testing.
 
 ---
 

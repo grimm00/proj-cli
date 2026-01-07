@@ -10,15 +10,22 @@
 
 ### Active PRs
 
-- **[PR #21](pr21/README.md)** - Phase 1: Client Update (🟡 Deferred issues)
+- **[PR #21](pr21/README.md)** - Phase 1: Client Update (🟡 Planned - 2 batches)
 
 ---
 
 ## 📊 Summary
 
-| PR | Phase | Status | Issues | Fixed | Deferred |
-|----|-------|--------|--------|-------|----------|
-| PR #21 | Phase 1 | 🟡 Deferred | 3 | 0 | 3 |
+| PR | Phase | Status | Issues | Batches | Fixed | Planned |
+|----|-------|--------|--------|---------|-------|---------|
+| PR #21 | Phase 1 | 🟡 Planned | 3 | 2 | 0 | 3 |
+
+### Batch Summary
+
+| Batch | Priority | Effort | Issues | Status |
+|-------|----------|--------|--------|--------|
+| pr21/batch-medium-medium-01 | 🟡 MEDIUM | 🟡 MEDIUM | 2 | 🔴 Not Started |
+| pr21/batch-low-low-01 | 🟢 LOW | 🟢 LOW | 1 | 🔴 Not Started |
 
 ---
 
