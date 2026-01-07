@@ -142,9 +142,9 @@ proj list --type WORK
 - Types are case-sensitive (lowercase/uppercase fails)
 
 **Acceptance Criteria:**
-- [ ] Invalid type shows error
-- [ ] Error message is helpful
-- [ ] Case sensitivity behavior documented
+- [x] Invalid type shows error (exit code 1)
+- [x] Error message is helpful (lists valid options: Work, Personal, Learning, Inactive)
+- [x] Case sensitivity behavior documented (lowercase 'work' fails as expected)
 
 ---
 
