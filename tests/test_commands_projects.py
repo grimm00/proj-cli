@@ -14,6 +14,7 @@ from proj.commands.projects import (
     detect_create_mode,
     prompt_for_create_options,
 )
+from proj.error_handler import InvalidProjectTypeError
 
 runner = CliRunner()
 
@@ -239,9 +240,9 @@ def test_list_projects_with_type_filter(mock_get_client):
 
 @patch('proj.commands.projects.get_client')
 def test_list_projects_with_invalid_type(mock_get_client):
-    """Test proj list --type Invalid shows error."""
+    """Test proj list --type Invalid shows error with proper formatting."""
     mock_client = MagicMock()
-    mock_client.list_projects.side_effect = ValueError(
+    mock_client.list_projects.side_effect = InvalidProjectTypeError(
         "Invalid project_type. Must be one of: ['Work', 'Personal', 'Learning', 'Inactive']"
     )
     mock_get_client.return_value = mock_client
@@ -250,6 +251,25 @@ def test_list_projects_with_invalid_type(mock_get_client):
 
     assert result.exit_code == 1
     assert "Invalid project_type" in result.output
+    # Verify specific InvalidProjectTypeError handling (not generic handle_error)
+    assert "Error:" in result.output
+
+
+@patch('proj.commands.projects.get_client')
+def test_list_projects_other_value_error_not_caught(mock_get_client):
+    """Test that other ValueError exceptions are not caught as type errors."""
+    mock_client = MagicMock()
+    # Raise a generic ValueError (not InvalidProjectTypeError)
+    mock_client.list_projects.side_effect = ValueError("Some other error")
+    mock_get_client.return_value = mock_client
+
+    result = runner.invoke(app, ["list"])
+
+    # Generic ValueError should propagate (not be handled as type error)
+    # Result should have exit_code 1 due to unhandled exception
+    assert result.exit_code == 1
+    # Should NOT show the "Error:" format (that's for InvalidProjectTypeError)
+    assert "Error:" not in result.output or "Some other error" not in result.output
 
 
 @patch('proj.commands.projects.get_client')
