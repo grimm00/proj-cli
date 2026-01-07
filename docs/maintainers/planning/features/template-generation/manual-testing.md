@@ -1039,43 +1039,43 @@ rm -rf /tmp/proj-test/api-disabled-test
 
 ### Phase 1: Config Extension
 
-- [ ] Scenario 1.1: Config loads with templates settings
+- [x] Scenario 1.1: Config loads with templates settings ✅ (2026-01-07)
 
 ### Phase 2: Local Registry
 
-- [ ] Scenario 2.1: Registry file exists or created
+- [x] Scenario 2.1: Registry file exists or created ✅ (2026-01-07)
 
 ### Phase 3: Template Copying
 
-- [ ] Scenario 3.1: Templates discoverable with expected structure
+- [x] Scenario 3.1: Templates discoverable with expected structure ✅ (2026-01-07)
 
 ### Phase 4: Create Command Extension
 
 **Core Functionality:**
 
-- [ ] Scenario 4.1: Help shows all new flags
-- [ ] Scenario 4.2: Dry-run shows preview without side effects
-- [ ] Scenario 4.3: Template mode creates project end-to-end
-- [ ] Scenario 4.4: `--no-git` skips git initialization
-- [ ] Scenario 4.5: Registry integration works with correct metadata
-- [ ] Scenario 4.6: Local-only works without API
+- [x] Scenario 4.1: Help shows all new flags ✅ (2026-01-07)
+- [x] Scenario 4.2: Dry-run shows preview without side effects ✅ (2026-01-07)
+- [x] Scenario 4.3: Template mode creates project end-to-end ✅ (2026-01-07)
+- [x] Scenario 4.4: `--no-git` skips git initialization ✅ (2026-01-07)
+- [x] Scenario 4.5: Registry integration works with correct metadata ✅ (2026-01-07)
+- [x] Scenario 4.6: Local-only works without API ✅ (2026-01-07)
 
 **Error Handling:**
 
-- [ ] Scenario 4.7: Local-only without template shows error
-- [ ] Scenario 4.12: Invalid template name shows error
-- [ ] Scenario 4.13: Project already exists shows error
+- [x] Scenario 4.7: Local-only without template shows error ✅ (2026-01-07)
+- [x] Scenario 4.12: Invalid template name shows error ✅ (2026-01-07)
+- [x] Scenario 4.13: Project already exists shows error ✅ (2026-01-07)
 
 **Interactive Mode:**
 
-- [ ] Scenario 4.9: Interactive mode prompts correctly and creates project
-- [ ] Scenario 4.10: Ctrl+C cancels gracefully
+- [x] Scenario 4.9: Interactive mode prompts correctly and creates project ✅ (verified via automated tests)
+- [x] Scenario 4.10: Ctrl+C cancels gracefully ✅ (verified via code review)
 
 **Additional Templates & Options:**
 
-- [ ] Scenario 4.8: API-only mode works (if API available)
-- [ ] Scenario 4.11: Learning project template works
-- [ ] Scenario 4.14: Description option accepted
+- [x] Scenario 4.8: API-only mode works (if API available) ✅ (2026-01-07)
+- [x] Scenario 4.11: Learning project template works ✅ (2026-01-07)
+- [x] Scenario 4.14: Description option accepted ✅ (2026-01-07)
 
 ### Phase 6: API Sync Enhancement
 
@@ -1134,4 +1134,4 @@ rm -rf /tmp/proj-test
 
 ---
 
-**Last Updated:** 2026-01-06
+**Last Updated:** 2026-01-07
