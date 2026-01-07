@@ -51,6 +51,11 @@ class TestValidateProjectName:
         result = validate_project_name("MyProject")
         assert result == "MyProject"
 
+    def test_valid_name_with_whitespace_is_stripped(self):
+        """Test leading/trailing whitespace is stripped for valid names."""
+        result = validate_project_name("  my-project  ")
+        assert result == "my-project"
+
     def test_empty_name_raises_error(self):
         """Test empty name raises InvalidProjectNameError."""
         with pytest.raises(InvalidProjectNameError) as exc:
