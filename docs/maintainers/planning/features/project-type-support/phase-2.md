@@ -2,7 +2,8 @@
 
 **Feature:** Add `project_type` parameter support
 **Phase:** 2 of 2
-**Status:** 🟠 In Progress
+**Status:** ✅ Complete
+**Completed:** 2026-01-07
 **Estimated Effort:** ~1 hour
 **Created:** 2025-12-23
 **Last Updated:** 2026-01-07
@@ -21,11 +22,11 @@ Verify proj-cli integration with work-prod API for `project_type` filtering.
 
 ## 🎯 Phase Goals
 
-- [ ] Test against running work-prod instance
-- [ ] Verify all type filters work
-- [ ] Verify combined filters work
-- [ ] Verify error handling
-- [ ] Update documentation
+- [x] Test against running work-prod instance
+- [x] Verify all type filters work
+- [x] Verify combined filters work
+- [x] Verify error handling
+- [x] Update documentation
 
 ---
 
@@ -176,18 +177,18 @@ proj list --type Learning --search "python"
 ```
 
 **Acceptance Criteria:**
-- [ ] CLI help is accurate
-- [ ] README includes type filter examples
+- [x] CLI help is accurate (shows `--type` with valid options)
+- [x] README includes type filter examples (added Filtering Projects section)
 
 ---
 
 ## ✅ Phase Completion Criteria
 
-- [ ] All type filters tested and working
-- [ ] Combined filters tested and working
-- [ ] Error handling tested
-- [ ] Documentation updated
-- [ ] Ready for PR
+- [x] All type filters tested and working
+- [x] Combined filters tested and working
+- [x] Error handling tested
+- [x] Documentation updated
+- [x] Ready for PR
 
 ---
 
