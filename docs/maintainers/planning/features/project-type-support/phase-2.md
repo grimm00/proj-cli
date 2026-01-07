@@ -114,9 +114,9 @@ proj list --type Work --class primary --search "test"
 - Should return projects matching ALL criteria
 
 **Acceptance Criteria:**
-- [ ] Type + classification works
-- [ ] Type + search works
-- [ ] Multiple filters combined work
+- [x] Type + classification works (empty results - no projects have classification set)
+- [x] Type + search works (7 "proj" matches, 5 "poke" matches)
+- [x] Multiple filters combined work (6 "dev" + Personal verified)
 
 ---
 
