@@ -4,8 +4,10 @@
 **Batch:** low-low-01  
 **Priority:** 🟢 LOW  
 **Effort:** 🟢 LOW  
-**Status:** 🔴 Not Started  
+**Status:** ✅ Complete  
 **Created:** 2026-01-06  
+**Completed:** 2026-01-07  
+**Merged:** PR #19  
 **Issues:** 4 issues
 
 ---
@@ -170,27 +172,27 @@ Update all callers to not pass `config`.
 ## Implementation Steps
 
 1. **PR12-#3: Precedence Tests**
-   - [ ] Add `test_detect_mode_template_with_api_only_flag`
-   - [ ] Add `test_detect_mode_template_with_local_only_flag`
+   - [x] Add `test_detect_mode_template_with_api_only_flag`
+   - [x] Add `test_detect_mode_template_with_local_only_flag`
 
 2. **PR12-#4: Dry-Run Prompt Test**
-   - [ ] Add `test_create_dry_run_interactive_does_not_prompt`
+   - [x] Add `test_create_dry_run_interactive_does_not_prompt`
 
 3. **PR12-#5: Implicit API Test**
-   - [ ] Add `test_create_name_only_falls_back_to_api`
+   - [x] Add `test_create_name_only_falls_back_to_api`
 
 4. **PR12-Overall-1: Config Cleanup**
-   - [ ] Remove `config` param from `detect_create_mode`
-   - [ ] Update all callers (search for `detect_create_mode`)
-   - [ ] Update existing tests
+   - [x] Remove `config` param from `detect_create_mode`
+   - [x] Update all callers (search for `detect_create_mode`)
+   - [x] Update existing tests
 
 ---
 
 ## Testing
 
-- [ ] All existing tests pass
-- [ ] 4 new tests added
-- [ ] No regressions introduced
+- [x] All existing tests pass
+- [x] 4 new tests added
+- [x] No regressions introduced
 
 ---
 
@@ -205,10 +207,10 @@ Update all callers to not pass `config`.
 
 ## Definition of Done
 
-- [ ] All 4 issues addressed
-- [ ] Tests passing
-- [ ] Code reviewed
-- [ ] Ready for PR
+- [x] All 4 issues addressed
+- [x] Tests passing
+- [x] Code reviewed
+- [x] Ready for PR
 
 ---
 
