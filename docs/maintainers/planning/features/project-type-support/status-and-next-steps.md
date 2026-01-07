@@ -1,7 +1,7 @@
 # Project Type Support - Status and Next Steps
 
 **Feature:** Add `project_type` parameter support to proj-cli
-**Status:** 🟡 Ready to Start
+**Status:** 🟠 In Progress
 **Created:** 2025-12-23
 **Last Updated:** 2026-01-07
 
@@ -11,7 +11,7 @@
 
 | Phase | Name | Status | Effort |
 |-------|------|--------|--------|
-| Phase 1 | Client Update | 🟡 Ready | ~2 hours |
+| Phase 1 | Client Update | 🟠 In Progress | ~1.75 hours |
 | Phase 2 | Integration Testing | 🔴 Not Started | ~1 hour |
 
 **Total Progress:** 0% (0/2 phases)

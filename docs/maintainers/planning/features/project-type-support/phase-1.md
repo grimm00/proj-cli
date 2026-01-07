@@ -2,7 +2,7 @@
 
 **Feature:** Add `project_type` parameter support
 **Phase:** 1 of 2
-**Status:** 🟡 Ready to Start
+**Status:** 🟠 In Progress
 **Estimated Effort:** ~1.75 hours
 **Created:** 2025-12-23
 **Last Updated:** 2026-01-07
@@ -87,6 +87,7 @@ def list_projects(self, ..., project_type: Optional[str] = None, ...):
 ```
 
 **Acceptance Criteria:**
+
 - [ ] Parameter added to method signature
 - [ ] Parameter passed to API call
 - [ ] Type validation added
@@ -157,6 +158,7 @@ for project in projects:
 ```
 
 **Acceptance Criteria:**
+
 - [ ] `--type` option added
 - [ ] Help text is clear
 - [ ] Output includes project_type column
@@ -217,6 +219,7 @@ def test_list_projects_with_type_and_classification(mock_client):
 > **Note:** Test assertions updated to match current API client signature (no `limit` parameter).
 
 **Acceptance Criteria:**
+
 - [ ] Type filter test added
 - [ ] Invalid type test added
 - [ ] Combined filter test added
@@ -244,4 +247,3 @@ def test_list_projects_with_type_and_classification(mock_client):
 ---
 
 **Last Updated:** 2025-12-23
-
