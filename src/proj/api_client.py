@@ -5,7 +5,13 @@ from typing import Dict, List, Optional
 import requests
 
 from proj.config import Config
-from proj.error_handler import APIError, BackendConnectionError, TimeoutError
+from proj.constants import VALID_PROJECT_TYPES
+from proj.error_handler import (
+    APIError,
+    BackendConnectionError,
+    InvalidProjectTypeError,
+    TimeoutError,
+)
 
 
 def _raise_api_error(
@@ -40,9 +46,6 @@ def _raise_api_error(
 
 class APIClient:
     """Client for interacting with work-prod API."""
-
-    # Valid project types for filtering
-    VALID_PROJECT_TYPES = ['Work', 'Personal', 'Learning', 'Inactive']
 
     def __init__(self, config: Optional[Config] = None):
         """Initialize client with config.
@@ -85,19 +88,19 @@ class APIClient:
             status: Filter by status (active, paused, completed, cancelled)
             organization: Filter by organization name
             classification: Filter by classification
-            project_type: Filter by project type (Work, Personal, Learning, Inactive)
+            project_type: Filter by type (Work, Personal, Learning, Inactive)
             search: Search term for name and description
 
         Returns:
             List of project dictionaries
 
         Raises:
-            ValueError: If project_type is not one of the valid types
+            InvalidProjectTypeError: If project_type is invalid
         """
         # Validate project_type if provided
-        if project_type and project_type not in self.VALID_PROJECT_TYPES:
-            raise ValueError(
-                f"Invalid project_type. Must be one of: {self.VALID_PROJECT_TYPES}"
+        if project_type and project_type not in VALID_PROJECT_TYPES:
+            raise InvalidProjectTypeError(
+                f"Invalid project_type. Must be one of: {VALID_PROJECT_TYPES}"
             )
 
         params = {}

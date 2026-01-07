@@ -14,8 +14,13 @@ from rich.table import Table
 
 from proj.api_client import APIClient
 from proj.config import Config
+from proj.constants import PROJECT_TYPE_HELP
 from proj.error_handler import (
-    handle_error, APIError, BackendConnectionError, TimeoutError
+    handle_error,
+    APIError,
+    BackendConnectionError,
+    InvalidProjectTypeError,
+    TimeoutError,
 )
 from proj.registry import add_project, update_project_work_prod_id
 from proj.templates import (
@@ -250,7 +255,7 @@ def list_projects(
     ),
     project_type: Optional[str] = typer.Option(
         None, "--type", "-t",
-        help="Filter by project type (Work, Personal, Learning, Inactive)"
+        help=PROJECT_TYPE_HELP
     ),
     search: Optional[str] = typer.Option(
         None, "--search", help="Search in names and descriptions"
@@ -331,7 +336,7 @@ def list_projects(
                 table.add_row(*row)
 
             console.print(table)
-    except ValueError as e:
+    except InvalidProjectTypeError as e:
         console.print(f"[red]Error:[/red] {e}")
         raise typer.Exit(1)
     except (APIError, BackendConnectionError, TimeoutError) as e:
