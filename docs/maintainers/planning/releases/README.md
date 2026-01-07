@@ -8,6 +8,10 @@
 
 ## 📋 Quick Links
 
+### In Progress
+
+- **[v0.3.0](v0.3.0/README.md)** - Project Type Support (🔴 Draft)
+
 ### Current Release
 
 - **[v0.2.0](v0.2.0/README.md)** - Template Generation Extension (✅ Released 2026-01-07)
@@ -26,6 +30,7 @@
 
 | Version | Status | Date | Type | Description |
 |---------|--------|------|------|-------------|
+| v0.3.0 | 🔴 Draft | TBD | Minor | Project Type Support |
 | v0.2.0 | ✅ Released | 2026-01-07 | Minor | Template Generation Extension |
 | v0.1.0 | ✅ Released | 2025-12-18 | Initial | Full CLI tool with project and inventory commands |
 
