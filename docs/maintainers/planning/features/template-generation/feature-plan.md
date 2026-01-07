@@ -61,7 +61,7 @@ Extend the existing `proj create` command to support project creation from dev-i
 | Config (CONFIG-1 to CONFIG-4) | 4 | 🔴 Pending |
 | Template (TMPL-1 to TMPL-3) | 3 | 🔴 Pending |
 | Registry (REG-1 to REG-4) | 4 | 🔴 Pending |
-| Port (PORT-1 to PORT-7) | 4 | 🔴 Pending |
+| Port (PORT-1 to PORT-7) | 7 | 🔴 Pending |
 
 ### Non-Functional Requirements (8 total)
 

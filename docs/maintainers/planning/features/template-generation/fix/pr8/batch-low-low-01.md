@@ -4,8 +4,10 @@
 **Batch:** low-low-01  
 **Priority:** 🟢 LOW  
 **Effort:** 🟢 LOW  
-**Status:** 🔴 Not Started  
+**Status:** ✅ Complete  
 **Created:** 2025-01-05  
+**Completed:** 2026-01-06  
+**Merged:** PR #17  
 **Issues:** 4 issues
 
 ---
@@ -217,12 +219,12 @@ Fix the count or the label to match:
 
 ## Definition of Done
 
-- [ ] Test assertions strengthened in save() test
-- [ ] YAML load test extended with missing assertions
-- [ ] CLI init test validates loaded Config values
-- [ ] Documentation count fixed
-- [ ] All tests passing
-- [ ] Ready for PR
+- [x] Test assertions strengthened in save() test
+- [x] YAML load test extended with missing assertions
+- [x] CLI init test validates loaded Config values
+- [x] Documentation count fixed
+- [x] All tests passing
+- [x] Ready for PR
 
 ---
 
