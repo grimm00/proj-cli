@@ -159,9 +159,9 @@ for project in projects:
 
 **Acceptance Criteria:**
 
-- [ ] `--type` option added
-- [ ] Help text is clear
-- [ ] Output includes project_type column
+- [x] `--type` option added
+- [x] Help text is clear
+- [x] Output includes project_type column
 
 ---
 
