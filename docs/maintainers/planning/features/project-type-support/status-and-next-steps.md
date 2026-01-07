@@ -16,7 +16,7 @@
 
 **Total Progress:** 50% (1/2 phases)
 
-- **Phase 1:** Client Update ✅ (2026-01-07) - Added project_type parameter to API client and CLI
+- **Phase 1:** Client Update ✅ (2026-01-07, PR #21) - Added project_type parameter to API client and CLI
 
 ---
 
@@ -48,25 +48,25 @@
 
 ## 🚀 Next Steps
 
-### Immediate (Phase 1)
+### Immediate (Phase 2)
 
-1. Begin Phase 1 implementation:
+1. Begin Phase 2 implementation:
    ```bash
    # From proj-cli root
-   /task-phase 1 --feature project-type-support
+   /task-phase 2 --feature project-type-support
    ```
 
 2. Key implementation tasks:
-   - Add `project_type` parameter to `APIClient.list_projects()`
-   - Add `--type, -t` option to `list_projects()` CLI function
-   - Add Type column to table output
-   - Add unit tests
+   - Test against running work-prod instance
+   - Verify all type filters work
+   - Verify combined filters work
+   - Verify error handling
+   - Update documentation
 
-### After Phase 1
+### After Phase 2
 
-1. ✅ Create PR for Phase 1 (use `/pr --phase 1 --feature project-type-support`)
-2. Begin Phase 2: Integration Testing
-3. Test against running work-prod instance
+1. Create PR for Phase 2 (use `/pr --phase 2 --feature project-type-support`)
+2. Feature complete - ready for release
 
 ---
 
@@ -74,6 +74,7 @@
 
 | Date | Update |
 |------|--------|
+| 2026-01-07 | Phase 1 merged (PR #21) - Post-PR docs updated |
 | 2026-01-07 | Phase 1 complete - API client and CLI updated, tests added |
 | 2026-01-07 | Pre-phase review complete, status file created |
 | 2025-12-29 | Dependency satisfied - work-prod complete |
