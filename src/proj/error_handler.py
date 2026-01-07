@@ -39,6 +39,15 @@ class APIError(CLIError):
         self.response_data = response_data
 
 
+class InvalidProjectTypeError(ValueError):
+    """Raised when an invalid project type is provided.
+
+    Inherits from ValueError for backward compatibility but provides
+    a specific exception type for targeted error handling.
+    """
+    pass
+
+
 def handle_error(error: Exception, console: Console = None) -> None:
     """Handle errors and display friendly messages with suggestions.
 

@@ -3,7 +3,8 @@
 **PR:** #21
 **Phase:** Phase 1 - Client Update
 **Merged:** 2026-01-07
-**Status:** 🟡 Planned
+**Status:** ✅ Complete
+**Fixed In:** PR #23 (2026-01-07)
 
 ---
 
@@ -11,8 +12,8 @@
 
 ### Fix Batches
 
-- **[batch-medium-medium-01.md](batch-medium-medium-01.md)** - Centralize constants & custom exception (🟡 MEDIUM, 🟡 MEDIUM, 2 issues)
-- **[batch-low-low-01.md](batch-low-low-01.md)** - Test formatting assertion (🟢 LOW, 🟢 LOW, 1 issue)
+- **[batch-medium-medium-01.md](batch-medium-medium-01.md)** - Centralize constants & custom exception (✅ Complete via PR #23)
+- **[batch-low-low-01.md](batch-low-low-01.md)** - Test formatting assertion (✅ Complete via PR #23)
 
 ---
 
@@ -20,20 +21,20 @@
 
 **Date:** 2026-01-07
 **Review:** PR #21 (Phase 1) Sourcery feedback
-**Status:** 🟡 **PLANNED** - Fix plans created
+**Status:** ✅ **COMPLETE** - All issues fixed in PR #23
 
 ### Individual Comments
 
 | # | Description | Priority | Effort | Batch | Status |
 |---|-------------|----------|--------|-------|--------|
-| #1 | Strengthen invalid-type test with error formatting assertion | 🟢 LOW | 🟢 LOW | batch-low-low-01 | 🟡 Planned |
+| #1 | Strengthen invalid-type test with error formatting assertion | 🟢 LOW | 🟢 LOW | batch-low-low-01 | ✅ Fixed (PR #23) |
 
 ### Overall Comments
 
 | # | Description | Priority | Effort | Batch | Status |
 |---|-------------|----------|--------|-------|--------|
-| Overall #1 | Centralize `VALID_PROJECT_TYPES` constant (avoid duplication) | 🟡 MEDIUM | 🟡 MEDIUM | batch-medium-medium-01 | 🟡 Planned |
-| Overall #2 | Use custom exception for `project_type` validation | 🟡 MEDIUM | 🟡 MEDIUM | batch-medium-medium-01 | 🟡 Planned |
+| Overall #1 | Centralize `VALID_PROJECT_TYPES` constant (avoid duplication) | 🟡 MEDIUM | 🟡 MEDIUM | batch-medium-medium-01 | ✅ Fixed (PR #23) |
+| Overall #2 | Use custom exception for `project_type` validation | 🟡 MEDIUM | 🟡 MEDIUM | batch-medium-medium-01 | ✅ Fixed (PR #23) |
 
 ---
 
@@ -77,20 +78,14 @@
 
 ## 📊 Action Plan
 
-**Recommended Order:**
-1. `batch-medium-medium-01` - Centralize constants & custom exception (higher impact)
-2. `batch-low-low-01` - Test formatting assertion (quick win)
+**Status:** ✅ Complete
 
-**Implementation:**
-```bash
-# Implement MEDIUM batch first
-/fix-implement pr21/batch-medium-medium-01
-
-# Then LOW batch
-/fix-implement pr21/batch-low-low-01
-```
-
-These can also be handled opportunistically during Phase 2 integration testing.
+Both batches were implemented together in PR #23:
+- Created `src/proj/constants.py` with `VALID_PROJECT_TYPES` and `PROJECT_TYPE_HELP`
+- Added `InvalidProjectTypeError` to `error_handler.py`
+- Updated `api_client.py` and `commands/projects.py` to use centralized constants
+- Updated tests to use `InvalidProjectTypeError` and added "Error:" assertion
+- Added test for other `ValueError` not being caught
 
 ---
 
