@@ -140,3 +140,19 @@ def test_create_dry_run_validates_flag_conflicts():
         "conflict" in result.stderr.lower() or
         "conflict" in result.output.lower()
     )
+
+
+@patch('proj.commands.projects.Prompt')
+@patch('proj.commands.projects.Config.load')
+def test_create_dry_run_interactive_does_not_prompt(
+    mock_config_load, mock_prompt, tmp_path
+):
+    """Dry-run should not trigger interactive prompts."""
+    mock_config = MagicMock()
+    mock_config.default_project_dir = tmp_path
+    mock_config_load.return_value = mock_config
+
+    result = runner.invoke(app, ["create", "--dry-run"])
+
+    # Dry-run should not call any prompts
+    mock_prompt.ask.assert_not_called()
