@@ -41,6 +41,9 @@ def _raise_api_error(
 class APIClient:
     """Client for interacting with work-prod API."""
 
+    # Valid project types for filtering
+    VALID_PROJECT_TYPES = ['Work', 'Personal', 'Learning', 'Inactive']
+
     def __init__(self, config: Optional[Config] = None):
         """Initialize client with config.
 
@@ -73,6 +76,7 @@ class APIClient:
         status: Optional[str] = None,
         organization: Optional[str] = None,
         classification: Optional[str] = None,
+        project_type: Optional[str] = None,
         search: Optional[str] = None,
     ) -> List[Dict]:
         """List all projects with optional filters.
@@ -81,11 +85,21 @@ class APIClient:
             status: Filter by status (active, paused, completed, cancelled)
             organization: Filter by organization name
             classification: Filter by classification
+            project_type: Filter by project type (Work, Personal, Learning, Inactive)
             search: Search term for name and description
 
         Returns:
             List of project dictionaries
+
+        Raises:
+            ValueError: If project_type is not one of the valid types
         """
+        # Validate project_type if provided
+        if project_type and project_type not in self.VALID_PROJECT_TYPES:
+            raise ValueError(
+                f"Invalid project_type. Must be one of: {self.VALID_PROJECT_TYPES}"
+            )
+
         params = {}
         if status:
             params["status"] = status
@@ -93,6 +107,8 @@ class APIClient:
             params["organization"] = organization
         if classification:
             params["classification"] = classification
+        if project_type:
+            params["project_type"] = project_type
         if search:
             params["search"] = search
 
