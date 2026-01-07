@@ -1,11 +1,11 @@
 # CHANGELOG Draft - v0.3.0
 
 **Draft Created:** 2026-01-07
-**Status:** 🔴 Draft - Needs Review
+**Status:** ✅ Merged
 
 ---
 
-## [0.3.0] - YYYY-MM-DD
+## [0.3.0] - 2026-01-07
 
 ### Added
 
@@ -35,9 +35,9 @@
 - [x] Categorization correct (Added/Changed/Fixed/Removed)
 - [x] PR numbers accurate
 - [x] Descriptions clear and user-facing
-- [ ] Ready to merge into CHANGELOG.md
+- [x] Ready to merge into CHANGELOG.md ✅ Merged 2026-01-07
 
 ---
 
-**Ready for merge:** [ ] Yes / [x] No - Needs review
+**Ready for merge:** [x] Yes - Merged 2026-01-07
 

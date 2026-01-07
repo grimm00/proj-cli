@@ -44,12 +44,14 @@ Add `--type` option to `proj list` command that passes `project_type` parameter 
 **Goal:** Add `project_type` support to API client and CLI
 
 **Tasks:**
+
 - Add `project_type` parameter to `list_projects()` in API client
 - Add `--type` option to `proj list` command
 - Update output formatting to show project_type
 - Add unit tests
 
 **Deliverables:**
+
 - Updated `api_client.py`
 - Updated `commands/projects.py`
 - Unit tests
@@ -61,11 +63,13 @@ Add `--type` option to `proj list` command that passes `project_type` parameter 
 **Goal:** Verify integration with work-prod API
 
 **Tasks:**
+
 - Test against running work-prod instance
 - Verify filtering works correctly
 - Update documentation
 
 **Deliverables:**
+
 - Integration tests passing
 - Updated CLI documentation
 
@@ -73,19 +77,21 @@ Add `--type` option to `proj list` command that passes `project_type` parameter 
 
 ## 📋 Requirements Addressed
 
-| Requirement | Description | Phase |
-|-------------|-------------|-------|
-| FR-2d | API Filtering by Project Type | Phase 1 |
-| NFR-1 | API Client Consistency | Phase 1 |
+| Requirement | Description                   | Phase   |
+| ----------- | ----------------------------- | ------- |
+| FR-2d       | API Filtering by Project Type | Phase 1 |
+| NFR-1       | API Client Consistency        | Phase 1 |
 
 ---
 
 ## ✅ Dependencies
 
 **Blocking Dependency:** ✅ **SATISFIED**
+
 - ~~work-prod `project-type-field` Phase 3 must be complete~~ ✅ Complete (PR #42, 2025-12-29)
 
 **API Ready:**
+
 - `GET /api/projects?project_type=Work` filtering works
 - Invalid values return 400 error
 - OpenAPI spec updated
@@ -94,10 +100,10 @@ Add `--type` option to `proj list` command that passes `project_type` parameter 
 
 ## ⚠️ Risks and Mitigations
 
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| ~~work-prod API not ready~~ | ~~Cannot test~~ | ✅ work-prod complete |
-| API contract changes | Breaking changes | Follow OpenAPI spec |
+| Risk                        | Impact           | Mitigation            |
+| --------------------------- | ---------------- | --------------------- |
+| ~~work-prod API not ready~~ | ~~Cannot test~~  | ✅ work-prod complete |
+| API contract changes        | Breaking changes | Follow OpenAPI spec   |
 
 ---
 
@@ -111,4 +117,3 @@ Add `--type` option to `proj list` command that passes `project_type` parameter 
 ---
 
 **Last Updated:** 2025-12-29
-
