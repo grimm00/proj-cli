@@ -497,8 +497,9 @@ class TestReplacePlaceholders:
         )
 
         content = readme.read_text()
-        # Should replace with empty or project name
-        assert "[Brief description" not in content
+        # Should replace with default: "{project_name} project"
+        assert "[Brief description of what this project does]" not in content
+        assert "my-project project" in content
 
     def test_replace_learning_project_name_placeholder(self, tmp_path):
         """Test that [Learning Project Name] placeholder is replaced."""
