@@ -268,8 +268,9 @@ def test_list_projects_other_value_error_not_caught(mock_get_client):
     # Generic ValueError should propagate (not be handled as type error)
     # Result should have exit_code 1 due to unhandled exception
     assert result.exit_code == 1
-    # Should NOT show the "Error:" format (that's for InvalidProjectTypeError)
-    assert "Error:" not in result.output or "Some other error" not in result.output
+    # Should NOT show the formatted "Error:" prefix that InvalidProjectTypeError uses
+    # The error may appear in output but not with our specific formatting
+    assert "Error:" not in result.output
 
 
 @patch('proj.commands.projects.get_client')
