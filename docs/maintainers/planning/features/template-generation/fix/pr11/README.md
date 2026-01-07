@@ -35,7 +35,7 @@ PR #11 implemented Phase 3 (Template Copying) with all 8 TDD tasks. Sourcery rev
 | Batch | Priority | Effort | Issues | Status |
 |-------|----------|--------|--------|--------|
 | [batch-medium-low-01](batch-medium-low-01.md) | 🟡 MEDIUM | 🟢 LOW | 1 | ✅ Complete (PR #16) |
-| [batch-low-low-01](batch-low-low-01.md) | 🟢 LOW | 🟢 LOW | 3 | ✅ Complete (PR #[pending]) |
+| [batch-low-low-01](batch-low-low-01.md) | 🟢 LOW | 🟢 LOW | 3 | ✅ Complete (PR #18) |
 
 ---
 
@@ -47,25 +47,25 @@ PR #11 implemented Phase 3 (Template Copying) with all 8 TDD tasks. Sourcery rev
 
 ### Deferred Issues:
 
-- **PR11-#1:** Add whitespace strip test (LOW priority, LOW effort) ✅ Fixed in PR #[pending]
+- **PR11-#1:** Add whitespace strip test (LOW priority, LOW effort) ✅ Fixed in PR #18
   - Location: `tests/test_templates.py:42-47`
   - Description: Add test for `validate_project_name` to verify whitespace stripping
-  - Action: ✅ Implemented in PR #[pending] (Fix PR #4)
+  - Action: ✅ Implemented in PR #18 (Fix PR #4)
 
 - **PR11-#2:** Add non-writable directory test (MEDIUM priority, LOW effort) ✅ Fixed in PR #16
   - Location: `tests/test_templates.py:192-194`
   - Description: Add test for `DirectoryNotWritableError` path coverage
   - Action: ✅ Implemented in PR #16 (Fix PR #2)
 
-- **PR11-#3:** Strengthen default description test (LOW priority, LOW effort) ✅ Fixed in PR #[pending]
+- **PR11-#3:** Strengthen default description test (LOW priority, LOW effort) ✅ Fixed in PR #18
   - Location: `tests/test_templates.py:463-401`
   - Description: Assert actual replacement value in default description test
-  - Action: ✅ Implemented in PR #[pending] (Fix PR #4)
+  - Action: ✅ Implemented in PR #18 (Fix PR #4)
 
-- **PR11-#4:** Add ProjectExistsError test for create_from_template (LOW priority, LOW effort) ✅ Fixed in PR #[pending]
+- **PR11-#4:** Add ProjectExistsError test for create_from_template (LOW priority, LOW effort) ✅ Fixed in PR #18
   - Location: `tests/test_templates.py:545-502`
   - Description: Add test to verify `create_from_template` surfaces `ProjectExistsError`
-  - Action: ✅ Implemented in PR #[pending] (Fix PR #4)
+  - Action: ✅ Implemented in PR #18 (Fix PR #4)
 
 ### Fixed Before Merge:
 
@@ -102,5 +102,5 @@ PR #11 implemented Phase 3 (Template Copying) with all 8 TDD tasks. Sourcery rev
 
 **Last Updated:** 2026-01-07  
 **Status:** ✅ Complete  
-**Completed:** 2026-01-07 (PR #[pending])
+**Completed:** 2026-01-07 (PR #18)
 
