@@ -6,12 +6,16 @@ from io import StringIO
 import pytest
 import typer
 from rich.console import Console
+from typer.testing import CliRunner
 from unittest.mock import MagicMock, patch
 
+from proj.cli import app
 from proj.commands.projects import (
     detect_create_mode,
     prompt_for_create_options,
 )
+
+runner = CliRunner()
 
 
 def test_list_command_exists():
@@ -209,3 +213,59 @@ def test_prompt_for_create_options_no_templates_available(tmp_path):
                     # Path may be wrapped, check key parts
                     assert "Templates source:" in output
                     assert "templates" in output
+
+
+# Tests for project_type filtering (Phase 1, Task 3)
+@patch('proj.commands.projects.get_client')
+def test_list_projects_with_type_filter(mock_get_client):
+    """Test proj list --type Work."""
+    mock_client = MagicMock()
+    mock_client.list_projects.return_value = [
+        {'id': 1, 'name': 'Work Project', 'project_type': 'Work'}
+    ]
+    mock_get_client.return_value = mock_client
+
+    result = runner.invoke(app, ["list", "--type", "Work"])
+
+    assert result.exit_code == 0
+    mock_client.list_projects.assert_called_once_with(
+        status=None,
+        organization=None,
+        classification=None,
+        project_type="Work",
+        search=None,
+    )
+
+
+@patch('proj.commands.projects.get_client')
+def test_list_projects_with_invalid_type(mock_get_client):
+    """Test proj list --type Invalid shows error."""
+    mock_client = MagicMock()
+    mock_client.list_projects.side_effect = ValueError(
+        "Invalid project_type. Must be one of: ['Work', 'Personal', 'Learning', 'Inactive']"
+    )
+    mock_get_client.return_value = mock_client
+
+    result = runner.invoke(app, ["list", "--type", "Invalid"])
+
+    assert result.exit_code == 1
+    assert "Invalid project_type" in result.output
+
+
+@patch('proj.commands.projects.get_client')
+def test_list_projects_with_type_and_classification(mock_get_client):
+    """Test combining --type and --classification filters."""
+    mock_client = MagicMock()
+    mock_client.list_projects.return_value = []
+    mock_get_client.return_value = mock_client
+
+    result = runner.invoke(app, ["list", "--type", "Work", "--class", "primary"])
+
+    assert result.exit_code == 0
+    mock_client.list_projects.assert_called_once_with(
+        status=None,
+        organization=None,
+        classification="primary",
+        project_type="Work",
+        search=None,
+    )
