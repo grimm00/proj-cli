@@ -1,7 +1,7 @@
 # Feature Planning Hub
 
-**Purpose:** Feature-based planning and tracking using hub-and-spoke documentation  
-**Status:** ✅ Active  
+**Purpose:** Feature-based planning and tracking using hub-and-spoke documentation
+**Status:** ✅ Active
 **Last Updated:** 2025-12-16
 
 ---
@@ -10,7 +10,8 @@
 
 ### Active Features
 
-- **[proj-cli](proj-cli/README.md)** - Unified CLI tool for project and inventory management (🟠 In Progress)
+- **[proj-cli](proj-cli/README.md)** - Unified CLI tool for project and inventory management (✅ Complete)
+- **[template-generation](template-generation/README.md)** - Extend proj create with dev-infra templates (🔴 Scaffolding)
 
 ### Feature Templates
 
@@ -88,17 +89,18 @@ features/
 
 ## 📊 Feature Status Overview
 
+
 ### ✅ Completed Features
 
 | Feature | Status | Duration | Result |
 |---------|--------|----------|--------|
-| - | - | - | - |
+| proj-cli | ✅ Complete | ~16 hrs | Unified CLI (Phases 1-4) |
 
 ### 🟠 In Progress Features
 
 | Feature | Current Phase | Progress | Next |
 |---------|---------------|----------|------|
-| proj-cli | Phase 1 Complete | 25% | Create PR, start Phase 2 |
+| template-generation | Scaffolding | 0% | Expand Phase 1 |
 
 ### 🟡 Planned Features
 
@@ -227,6 +229,6 @@ features/
 
 ---
 
-**Last Updated:** 2025-12-16  
-**Status:** ✅ Active  
-**Next:** Complete Phase 1 PR, start Phase 2
+**Last Updated:** 2025-01-05
+**Status:** ✅ Active
+**Next:** Expand template-generation Phase 1 scaffolding

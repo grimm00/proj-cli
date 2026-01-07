@@ -1,7 +1,7 @@
 # Tests
 
-**Purpose:** Test suite for application validation  
-**Status:** 🔴 Not Started  
+**Purpose:** Test suite for application validation
+**Status:** 🔴 Not Started
 **Last Updated:** {{CURRENT_DATE}}
 
 ---
@@ -41,6 +41,6 @@ tests/
 
 ---
 
-**Last Updated:** {{CURRENT_DATE}}  
-**Status:** 🔴 Not Started  
+**Last Updated:** {{CURRENT_DATE}}
+**Status:** 🔴 Not Started
 **Next:** [Unit Tests](unit/README.md)

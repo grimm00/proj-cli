@@ -1,6 +1,6 @@
-# Post Release Command
+# Post-Release Command
 
-Handles post-release cleanup including merging main back to develop, cleaning up the release branch, and preparing for the next development cycle. Customized for work-prod's release workflow.
+Handles all post-merge release tasks: tagging, merging main→develop, creating GitHub release, and cleanup.
 
 ---
 
@@ -11,7 +11,7 @@ Handles post-release cleanup including merging main back to develop, cleaning up
 - Releases Hub: `docs/maintainers/planning/releases/README.md`
 - Per-Version: `docs/maintainers/planning/releases/[version]/`
 
-**Version Format:** `vX.Y.Z` (e.g., `v0.2.0`)
+**Version Format:** `vX.Y.Z` (e.g., `v0.1.0`)
 
 ---
 
@@ -19,35 +19,34 @@ Handles post-release cleanup including merging main back to develop, cleaning up
 
 **When to use:**
 
-- After release PR is merged to main
-- After tag is created
-- To clean up and prepare for next development cycle
+- After release PR is merged to `main`
+- To complete the release process with tagging and cleanup
 
 **Workflow Position:**
 
 ```
+/release-prep vX.Y.Z
+         │
+         ▼
 /release-finalize vX.Y.Z
          │
          ▼
-   /pr --release (merged)
+/pr --release vX.Y.Z
          │
          ▼
-   Tag created (git tag vX.Y.Z)
+   [Merge PR to main]
          │
          ▼
 ┌─────────────────────────────────────┐
 │   /post-release vX.Y.Z              │  ◄── This command
 │                                     │
-│   1. Validate release complete      │
-│   2. Merge main to develop          │
-│   3. Clean up release branch        │
-│   4. Update release documentation   │
-│   5. Update releases hub            │
-│   6. Prepare for next cycle         │
+│   1. Validate PR merged             │
+│   2. Tag release                    │
+│   3. Merge main → develop           │
+│   4. Create GitHub release          │
+│   5. Clean up release branch        │
+│   6. Update release documentation   │
 └─────────────────────────────────────┘
-         │
-         ▼
-   Ready for next development cycle
 ```
 
 ---
@@ -58,120 +57,197 @@ Handles post-release cleanup including merging main back to develop, cleaning up
 
 **Examples:**
 
-- `/post-release v0.2.0` - Full post-release workflow
-- `/post-release v0.2.0 --dry-run` - Preview changes
-- `/post-release v0.2.0 --keep-branch` - Don't delete release branch
+- `/post-release v0.1.0` - Full post-release workflow
+- `/post-release v0.1.0 --skip-github-release` - Skip GitHub release creation
+- `/post-release v0.1.0 --dry-run` - Preview changes without executing
 
 **Options:**
 
 - `--dry-run` - Show what would be done without executing
-- `--keep-branch` - Keep release branch (don't delete)
-- `--skip-merge` - Skip merging main to develop (if already done)
+- `--skip-github-release` - Skip GitHub release creation
+- `--skip-cleanup` - Skip release branch cleanup
+- `--pr [number]` - Specify PR number (auto-detects if not provided)
 
 ---
 
 ## Step-by-Step Process
 
-### 1. Validate Release Complete
+### 1. Validate Prerequisites
 
-**Verify tag exists:**
-
-```bash
-git fetch --tags
-git tag -l "vX.Y.Z"
-```
-
-**Verify main has release:**
+**Check PR is merged:**
 
 ```bash
-git log main --oneline -5
-# Should show release merge commit
+# Find release PR
+gh pr list --state merged --head release/vX.Y.Z --json number,mergedAt
+
+# Or if PR number provided
+gh pr view [number] --json state,mergedAt
 ```
 
-**Checklist:**
+**Verify on correct branch:**
 
-- [ ] Tag vX.Y.Z exists
-- [ ] Main branch has release changes
-- [ ] Release PR merged
+```bash
+git branch --show-current
+# Should be on release/vX.Y.Z or main
+```
+
+**Update local main:**
+
+```bash
+git checkout main
+git pull origin main
+```
+
+**Validation checks:**
+
+- [ ] Release PR is merged
+- [ ] Local main is up-to-date
+- [ ] Tag doesn't already exist
 
 **Error handling:**
 
 ```
-❌ Tag vX.Y.Z not found
-   Resolution: Create tag first: git tag vX.Y.Z && git push origin vX.Y.Z
+❌ Release PR not found or not merged
+   Resolution: Merge PR #[number] first, then re-run /post-release
 
-❌ Release changes not in main
-   Resolution: Ensure release PR was merged to main
-```
-
----
-
-### 2. Merge Main to Develop
-
-**Sync develop with main:**
-
-```bash
-git checkout develop
-git pull origin develop
-git fetch origin main
-git merge origin/main --no-edit -m "Merge main into develop after vX.Y.Z release"
-```
-
-**Handle conflicts (if any):**
-
-- Resolve in favor of main for release-specific changes
-- Keep develop changes for ongoing work
-- Common conflict areas:
-  - CHANGELOG.md (accept main's version)
-  - Version numbers (accept main's version)
-
-**Push updated develop:**
-
-```bash
-git push origin develop
+❌ Tag vX.Y.Z already exists
+   Resolution: Tag already created. Skip to next step or use --force
 ```
 
 **Checklist:**
 
-- [ ] Switched to develop branch
-- [ ] Pulled latest develop
-- [ ] Merged main into develop
-- [ ] Conflicts resolved (if any)
-- [ ] Pushed to origin
+- [ ] PR merged verified
+- [ ] On main branch
+- [ ] Local main updated
+- [ ] Ready to proceed
 
 ---
 
-### 3. Clean Up Release Branch
+### 2. Tag the Release
 
-**Skip if:** `--keep-branch` flag used
+**Create annotated tag:**
 
-**Delete local release branch:**
+```bash
+git checkout main
+git pull origin main
+
+# Create annotated tag
+git tag -a vX.Y.Z -m "Release vX.Y.Z"
+
+# Verify tag
+git tag -l vX.Y.Z
+git show vX.Y.Z
+```
+
+**Push tag:**
+
+```bash
+git push origin vX.Y.Z
+```
+
+**Checklist:**
+
+- [ ] Tag created locally
+- [ ] Tag message set
+- [ ] Tag pushed to remote
+
+---
+
+### 3. Merge Main to Develop
+
+**Purpose:** Ensure develop has all release changes.
+
+```bash
+git checkout develop
+git pull origin develop
+
+# Merge main into develop
+git merge main --no-edit
+
+# Push develop
+git push origin develop
+```
+
+**Handle conflicts (if any):**
+
+- Release changes should merge cleanly
+- If conflicts exist, resolve favoring main (release) changes
+- Document any manual conflict resolution
+
+**Checklist:**
+
+- [ ] Switched to develop
+- [ ] Merged main into develop
+- [ ] Pushed develop
+
+---
+
+### 4. Create GitHub Release (Optional)
+
+**Skip if:** `--skip-github-release` option provided
+
+**Create release using GitHub CLI:**
+
+```bash
+# Read release notes
+RELEASE_NOTES=$(cat docs/maintainers/planning/releases/vX.Y.Z/release-notes.md)
+
+# Create GitHub release
+gh release create vX.Y.Z \
+  --title "vX.Y.Z - [Release Name]" \
+  --notes-file docs/maintainers/planning/releases/vX.Y.Z/release-notes.md
+```
+
+**Alternative: Manual creation**
+
+1. Go to: `https://github.com/[owner]/[repo]/releases/new`
+2. Select tag: `vX.Y.Z`
+3. Title: `vX.Y.Z - [Release Name]`
+4. Copy content from `release-notes.md`
+5. Publish release
+
+**Checklist:**
+
+- [ ] GitHub release created (or skipped)
+- [ ] Release notes included
+- [ ] Release published
+
+---
+
+### 5. Clean Up Release Branch
+
+**Skip if:** `--skip-cleanup` option provided
+
+**Delete local branch:**
 
 ```bash
 git branch -d release/vX.Y.Z
 ```
 
-**Delete remote release branch:**
+**Delete remote branch:**
 
 ```bash
 git push origin --delete release/vX.Y.Z
 ```
 
-**Prune stale references:**
+**Error handling:**
 
-```bash
-git remote prune origin
+```
+⚠️ Cannot delete release/vX.Y.Z - currently checked out
+   Resolution: Switch to main or develop first
+
+⚠️ Remote branch already deleted
+   Resolution: Skip remote deletion (already cleaned up)
 ```
 
 **Checklist:**
 
 - [ ] Local branch deleted
 - [ ] Remote branch deleted
-- [ ] Stale references pruned
 
 ---
 
-### 4. Update Release Documentation
+### 6. Update Release Documentation
 
 **File:** `docs/maintainers/planning/releases/vX.Y.Z/README.md`
 
@@ -179,45 +255,12 @@ git remote prune origin
 
 ```markdown
 # Before
-**Status:** 🟡 Ready for Release
+**Status:** ✅ Ready for Release
 
 # After
 **Status:** ✅ Released
 **Released:** YYYY-MM-DD
-**Merged:** PR #XX (to main)
 ```
-
-**Update checklist status section:**
-
-```markdown
-## ✅ Release Checklist Status
-
-**Pre-Release:**
-- [x] All tests passing
-- [x] Release checklist complete
-- [x] Release notes prepared
-
-**Release:**
-- [x] Version tagged in git ✅ Tagged vX.Y.Z
-- [x] Release notes finalized ✅ Finalized YYYY-MM-DD
-- [x] Documentation updated ✅
-
-**Post-Release:**
-- [x] Main merged to develop ✅
-- [x] Release branch cleaned up ✅
-- [x] Release docs updated ✅
-```
-
-**Checklist:**
-
-- [ ] Status updated to Released
-- [ ] Release date added
-- [ ] Merged PR number added
-- [ ] Post-release checklist items marked complete
-
----
-
-### 5. Update Release Checklist
 
 **File:** `docs/maintainers/planning/releases/vX.Y.Z/checklist.md`
 
@@ -226,98 +269,40 @@ git remote prune origin
 ```markdown
 ## Post-Release
 
-### Git Cleanup
-
+- [x] Version tagged in git ✅
 - [x] Main merged to develop ✅
-- [x] Release branch deleted (local) ✅
-- [x] Release branch deleted (remote) ✅
-
-### Communication
-
-- [x] Release notes published ✅ (if applicable)
-
-### Follow-up
-
-- [x] Post-release complete ✅
+- [x] Release branch cleaned up ✅
+- [x] GitHub release created ✅ (or N/A)
+- [x] Release documentation updated ✅
 ```
 
 **Update status:**
 
 ```markdown
-**Status:** ✅ Complete
+**Status:** ✅ Released
 ```
-
-**Checklist:**
-
-- [ ] Post-release items marked complete
-- [ ] Status updated to Complete
-
----
-
-### 6. Update Releases Hub
 
 **File:** `docs/maintainers/planning/releases/README.md`
 
-**Update Quick Links:**
+**Update releases hub:**
 
 ```markdown
 ### Releases
 
 - **[vX.Y.Z](vX.Y.Z/README.md)** - [Release Name] (✅ Released YYYY-MM-DD)
-- **[v0.1.0](v0.1.0/README.md)** - MVP Release (✅ Released 2025-12-07)
 ```
 
-**Update Release Timeline:**
+**Update timeline:**
 
 ```markdown
 | vX.Y.Z | ✅ Released | YYYY-MM-DD | [Type] | [Description] |
-| v0.1.0 | ✅ Released | 2025-12-07 | MVP | Backend MVP Release |
-```
-
-**Update Summary:**
-
-```markdown
-**Total Releases:** 2 released  
-**Latest Release:** vX.Y.Z - Released YYYY-MM-DD  
-**Status:** ✅ Released
-```
-
-**Add to Release History:**
-
-```markdown
-## 📝 Release History
-
-### vX.Y.Z - [Release Name] (YYYY-MM-DD)
-
-**Status:** ✅ Released  
-**PR:** #XX  
-**Type:** [Type]
-
-**Key Features:**
-- [Feature 1]
-- [Feature 2]
-
-**Release Notes:** [vX.Y.Z/release-notes.md](vX.Y.Z/release-notes.md)
-```
-
-**Update "Next Release" section:**
-
-```markdown
-## 🚀 Next Release
-
-No release currently planned. Start planning with:
-- `/release-prep vX.Y+1.0` for next minor release
-- `/release-prep vX.Y.Z+1` for patch release
 ```
 
 **Checklist:**
 
-- [ ] Quick Links updated (status → Released)
-- [ ] Release Timeline updated
-- [ ] Summary updated
-- [ ] Release History entry added
-- [ ] Next Release section updated
-- [ ] Last Updated refreshed
+- [ ] Release hub updated (status → Released)
+- [ ] Checklist updated (post-release items)
+- [ ] Releases hub updated
 
 ---
 
@@ -326,20 +311,18 @@ No release currently planned. Start planning with:
 **Stage and commit:**
 
 ```bash
-git add docs/maintainers/planning/releases/vX.Y.Z/
-git add docs/maintainers/planning/releases/README.md
-
+git checkout develop
+git add docs/maintainers/planning/releases/
 git commit -m "docs(release): mark vX.Y.Z as released
 
 - Updated release hub status to Released
-- Updated checklist (all items complete)
-- Updated releases hub with release history
-- Post-release cleanup complete
+- Marked post-release checklist items complete
+- Updated releases hub with release date
 
-Released: vX.Y.Z on YYYY-MM-DD"
+Release: vX.Y.Z"
 ```
 
-**Push to develop:**
+**Push:**
 
 ```bash
 git push origin develop
@@ -347,8 +330,7 @@ git push origin develop
 
 **Checklist:**
 
-- [ ] Documentation changes staged
-- [ ] Commit created
+- [ ] Documentation changes committed
 - [ ] Pushed to develop
 
 ---
@@ -365,67 +347,104 @@ git push origin develop
 
 | Action | Status |
 |--------|--------|
-| Tag verified | ✅ |
-| Main merged to develop | ✅ |
-| Release branch deleted | ✅ / ⏭️ Kept |
-| Release hub updated | ✅ |
-| Checklist updated | ✅ |
-| Releases hub updated | ✅ |
-| Documentation committed | ✅ |
+| Tag created | ✅ vX.Y.Z |
+| Tag pushed | ✅ origin/vX.Y.Z |
+| Main → Develop | ✅ Merged |
+| GitHub Release | ✅ Created (or ⏭️ Skipped) |
+| Branch cleanup | ✅ Deleted (or ⏭️ Skipped) |
+| Documentation | ✅ Updated |
 
-### Branch Status
+### Links
 
-- **develop:** Up to date with main
-- **release/vX.Y.Z:** Deleted / Kept
-- **main:** Release tagged
+- **Tag:** https://github.com/[owner]/[repo]/releases/tag/vX.Y.Z
+- **GitHub Release:** https://github.com/[owner]/[repo]/releases/vX.Y.Z
+- **Release Notes:** docs/maintainers/planning/releases/vX.Y.Z/release-notes.md
 
-### Next Steps
+### What's Next
 
-1. Start next development cycle
-2. Create feature branches from develop
-3. Plan next release when ready:
-   - Minor: `/release-prep vX.Y+1.0`
-   - Patch: `/release-prep vX.Y.Z+1`
+- Monitor for any post-release issues
+- Begin planning for vX.Y.Z+1 (if applicable)
+- Update project roadmap (if applicable)
+
+---
+
+🎉 **Release vX.Y.Z is complete!**
 ```
 
 ---
 
 ## Common Issues
 
-### Issue: Tag Not Found
+### Issue: Tag Already Exists
+
+**Cause:** Tag was created manually or in a previous attempt.
 
 **Solution:**
 
 ```bash
-# Create and push tag
-git checkout main
-git tag vX.Y.Z
-git push origin vX.Y.Z
+# Verify tag exists
+git tag -l vX.Y.Z
+
+# If tag is correct, skip tagging step
+# If tag needs to be recreated:
+git tag -d vX.Y.Z           # Delete local
+git push origin :vX.Y.Z     # Delete remote
+# Then re-run /post-release
 ```
 
-### Issue: Merge Conflicts
+---
+
+### Issue: Merge Conflicts (Main → Develop)
+
+**Cause:** Develop has changes that conflict with main.
 
 **Solution:**
 
 ```bash
-# Common resolution
-git checkout --theirs CHANGELOG.md  # Accept main's CHANGELOG
-git add CHANGELOG.md
+# Check conflict files
+git status
+
+# Resolve conflicts (favor main/release changes)
+git checkout --theirs [conflicting-file]  # Use main version
+# OR manually resolve
+
+git add [resolved-files]
 git commit
+git push origin develop
 ```
 
-### Issue: Branch Already Deleted
+---
+
+### Issue: Cannot Delete Branch (In Use)
+
+**Cause:** Currently on the release branch.
 
 **Solution:**
 
 ```bash
-# Check if branch exists
-git branch -a | grep release/vX.Y.Z
-
-# If not found, skip deletion steps
-# Prune stale references
-git remote prune origin
+git checkout main  # Or develop
+git branch -d release/vX.Y.Z
 ```
+
+---
+
+### Issue: GitHub Release Creation Failed
+
+**Cause:** Permissions, network, or CLI issues.
+
+**Solution:**
+
+1. **Manual creation:**
+   - Go to: `https://github.com/[owner]/[repo]/releases/new`
+   - Select existing tag: `vX.Y.Z`
+   - Add title and release notes
+   - Publish
+
+2. **Retry with CLI:**
+   ```bash
+   gh auth status  # Verify authentication
+   gh release create vX.Y.Z --title "vX.Y.Z" --notes "Release notes..."
+   ```
 
 ---
 
@@ -433,59 +452,73 @@ git remote prune origin
 
 ### Before Running
 
-- Ensure release PR was merged to main
-- Ensure tag was created
-- Verify you're on develop (or will switch)
+- Ensure release PR is merged
+- Have write access to repository
+- Verify `gh` CLI is authenticated
 
 ### During Execution
 
 - Watch for merge conflicts
-- Use `--keep-branch` if you need the branch for hotfixes
+- Verify tag creation before pushing
+- Check GitHub release preview before publishing
 
 ### After Completion
 
-- Verify develop is up to date with main
-- Check releases hub looks correct
-- Ready to start new development
+- Verify tag appears in GitHub
+- Check release notes render correctly
+- Monitor for any immediate issues
 
 ---
 
 ## Integration with Other Commands
 
-### Full Release Workflow
+### Complete Release Workflow
 
 ```
-1. /release-prep vX.Y.Z          - Create drafts
-2. Review and edit drafts
-3. /release-finalize vX.Y.Z      - Finalize documents
-4. /pr --release                 - Create PR to main
-5. Review, approve, merge PR
-6. git tag vX.Y.Z && git push origin vX.Y.Z
-7. /post-release vX.Y.Z          ← This command
+1. /release-prep vX.Y.Z      - Create draft documents
+2. [Review drafts]
+3. /release-finalize vX.Y.Z  - Finalize documents
+4. /pr --release vX.Y.Z      - Create PR to main
+5. [Review and merge PR]
+6. /post-release vX.Y.Z      - Tag, merge, release, cleanup  ◄── This command
 ```
 
 ### Related Commands
 
-- **`/release-prep`** - Create release drafts
+- **`/release-prep`** - Create release draft documents
 - **`/release-finalize`** - Finalize release documents
-- **`/pr --release`** - Create release PR
+- **`/pr --release`** - Create release PR to main
 
 ---
 
-## Work-Prod Specific Notes
+## Quick Reference
 
-### Version History
+**Minimal usage:**
 
-| Version | Released | Notes |
-|---------|----------|-------|
-| v0.1.0 | 2025-12-07 | MVP Release |
+```bash
+/post-release v0.1.0
+```
 
-### Typical Release Cadence
+**Skip GitHub release:**
 
-- **Minor releases:** After completing feature phases
-- **Patch releases:** For critical bug fixes
+```bash
+/post-release v0.1.0 --skip-github-release
+```
+
+**Preview only:**
+
+```bash
+/post-release v0.1.0 --dry-run
+```
+
+**With specific PR:**
+
+```bash
+/post-release v0.1.0 --pr 7
+```
 
 ---
 
-**Last Updated:** 2025-12-16  
-**Status:** ✅ Active - Customized for work-prod
+**Last Updated:** 2025-12-18
+**Status:** ✅ Active
+**Next:** Use after merging release PR to main

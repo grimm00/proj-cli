@@ -1,16 +1,20 @@
 # proj-cli Releases
 
-**Purpose:** Track and document proj-cli releases  
-**Status:** ✅ Active  
-**Last Updated:** 2025-12-18
+**Purpose:** Track and document proj-cli releases
+**Status:** ✅ Active
+**Last Updated:** 2026-01-07
 
 ---
 
 ## 📋 Quick Links
 
+### In Progress
+
+- **[v0.2.0](v0.2.0/README.md)** - Template Generation Extension (🟢 Ready)
+
 ### Current Release
 
-- **[v0.1.0](v0.1.0/README.md)** - Initial Release (✅ Ready for Release)
+- **[v0.1.0](v0.1.0/README.md)** - Initial Release (✅ Released 2025-12-18)
 
 ### Release Documents
 
@@ -22,7 +26,8 @@
 
 | Version | Status | Date | Type | Description |
 |---------|--------|------|------|-------------|
-| v0.1.0 | ✅ Ready | 2025-12-18 | Initial | Full CLI tool with project and inventory commands |
+| v0.2.0 | 🟢 Ready | 2026-01-07 | Minor | Template Generation Extension |
+| v0.1.0 | ✅ Released | 2025-12-18 | Initial | Full CLI tool with project and inventory commands |
 
 ---
 
@@ -46,6 +51,18 @@
 ---
 
 ## 📊 Version History
+
+### v0.2.0 - Template Generation Extension (2026-01-07) 🟢 Ready
+
+**Key Features:**
+- Template Generation: `proj create --template standard-project`
+- Local Registry: Track locally created projects
+- API Sync: Automatic sync with graceful degradation
+- Enhanced create command with new modes
+
+**PRs:**
+- #8-14: Template Generation feature (6 phases)
+- #15-19: Fix PRs (24 issues fixed)
 
 ### v0.1.0 - Initial Release (2025-12-18)
 
@@ -79,5 +96,5 @@ releases/
 
 ---
 
-**Last Updated:** 2025-12-18
+**Last Updated:** 2026-01-07
 

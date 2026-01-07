@@ -1,7 +1,7 @@
 # Planning Hub
 
-**Purpose:** Central coordination for project planning and roadmap management  
-**Status:** ✅ Active  
+**Purpose:** Central coordination for project planning and roadmap management
+**Status:** ✅ Active
 **Last Updated:** [Date]
 
 ---
@@ -11,6 +11,7 @@
 ### Core Planning
 
 - **[Features](features/README.md)** - Feature-based planning and tracking
+- **[Explorations](explorations/README.md)** - Early-stage explorations and proof of concepts
 - **[Releases](releases/README.md)** - Release management and versioning
 - **[Phases](phases/README.md)** - Development phase tracking
 - **[Notes](notes/README.md)** - Planning insights and decisions
@@ -47,6 +48,11 @@ planning/
 │       ├── quick-start.md     # Implementation guide
 │       ├── phase-*.md         # Phase details
 │       └── fix/               # Troubleshooting docs
+├── explorations/              # 📡 SPOKE - Early explorations
+│   └── [topic]/               # Topic-specific exploration
+│       ├── README.md          # Exploration hub
+│       ├── exploration.md     # Main exploration doc
+│       └── research-topics.md # Research questions
 ├── releases/                  # 📡 SPOKE - Release management
 │   ├── README.md              # Release hub
 │   ├── history.md             # Release timeline
@@ -148,6 +154,6 @@ planning/
 
 ---
 
-**Last Updated:** [Date]  
-**Status:** ✅ Active  
+**Last Updated:** [Date]
+**Status:** ✅ Active
 **Next:** [Next planning task]

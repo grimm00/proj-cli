@@ -131,3 +131,4 @@ secrets/
 !scripts/
 !docs/
 .coverage
+tmp/

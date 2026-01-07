@@ -1,8 +1,8 @@
 # Release Checklist - v0.1.0
 
-**Version:** v0.1.0  
-**Status:** ✅ Ready for Release  
-**Created:** 2025-12-18  
+**Version:** v0.1.0
+**Status:** ✅ Released
+**Created:** 2025-12-18
 **Type:** Minor Release (Initial)
 
 ---
@@ -67,13 +67,14 @@
 
 ### Git Cleanup
 
-- [ ] Release branch merged/deleted (if used)
-- [ ] Tags verified on remote
+- [x] Release branch merged/deleted ✅
+- [x] Tags verified on remote (v0.1.0) ✅
+- [x] Main merged to develop ✅
 
 ### Communication
 
-- [ ] Release notes available
-- [ ] README updated if needed
+- [x] Release notes available ✅
+- [x] README updated ✅
 
 ### Follow-up
 
@@ -84,9 +85,9 @@
 
 ## Release Summary
 
-**Version:** v0.1.0 - Initial Release  
-**Release Date:** 2025-12-18  
-**Status:** ✅ Ready for Release
+**Version:** v0.1.0 - Initial Release
+**Release Date:** 2025-12-18
+**Status:** ✅ Released
 
 **Key Achievements:**
 - Unified CLI tool migrated from work-prod

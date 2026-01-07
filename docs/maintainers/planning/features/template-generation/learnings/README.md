@@ -1,0 +1,50 @@
+# Template Generation Learnings
+
+**Purpose:** Capture learnings from Template Generation Extension development phases  
+**Target:** Inform future phases and dev-infra template improvements  
+**Status:** ✅ Active  
+**Last Updated:** 2026-01-06
+
+---
+
+## 📋 Quick Links
+
+### Phase Learnings
+
+- **[Phase 1](phase-1-learnings.md)** - Config Extension (2026-01-05)
+- **[Phase 2](phase-2-learnings.md)** - Local Registry (2026-01-05)
+- **[Phase 3](phase-3-learnings.md)** - Template Copying (2026-01-05)
+- **[Phase 4](phase-4-learnings.md)** - Create Command Extension (2026-01-06)
+
+---
+
+## 🎯 Purpose
+
+This directory contains learnings from Template Generation Extension development that can inform:
+
+- Future Template Generation phases (Phase 5)
+- dev-infra template improvements
+- Pydantic configuration best practices
+- TDD workflow patterns
+- Shell-to-Python porting patterns
+
+---
+
+## 📊 Summary
+
+**Total Learning Documents:** 4
+**Phases Documented:** 4 of 5 (Phase 1, Phase 2, Phase 3, Phase 4)
+**Status:** ✅ Active
+
+---
+
+## 🔗 Related
+
+- [Feature Hub](../README.md)
+- [Status & Next Steps](../status-and-next-steps.md)
+- [ADR-0008](../../../decisions/ADR-0008-template-generation-extension.md)
+
+---
+
+**Last Updated:** 2026-01-06
+

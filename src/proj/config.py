@@ -35,6 +35,42 @@ def get_config_file() -> Path:
     return get_config_dir() / "config.yaml"
 
 
+class TemplateConfig(BaseSettings):
+    """Template-related configuration."""
+
+    model_config = SettingsConfigDict(
+        # Non-empty prefix prevents reading PATH env var
+        # Nested env vars handled by parent's env_nested_delimiter
+        env_prefix="_",
+        extra="ignore",
+    )
+
+    source: Optional[Path] = Field(
+        default=None,
+        description="Path to dev-infra templates directory",
+    )
+    default: str = Field(
+        default="standard-project",
+        description="Default template type",
+    )
+
+
+class RegistryConfig(BaseSettings):
+    """Local registry configuration."""
+
+    model_config = SettingsConfigDict(
+        # Non-empty prefix prevents reading PATH env var
+        # Nested env vars handled by parent's env_nested_delimiter
+        env_prefix="_",
+        extra="ignore",
+    )
+
+    path: Path = Field(
+        default_factory=lambda: get_data_dir() / "registry.json",
+        description="Path to local project registry",
+    )
+
+
 class Config(BaseSettings):
     """Application configuration with environment variable support."""
 
@@ -42,12 +78,18 @@ class Config(BaseSettings):
         env_prefix="PROJ_",
         env_file=".env",
         extra="ignore",
+        # For nested config like PROJ_TEMPLATES__SOURCE
+        env_nested_delimiter="__",
     )
 
     # API Settings
     api_url: str = Field(
         default="http://localhost:5000",
         description="URL of the work-prod API",
+    )
+    api_enabled: bool = Field(
+        default=True,
+        description="Whether to use the work-prod API",
     )
 
     # GitHub Settings
@@ -64,6 +106,18 @@ class Config(BaseSettings):
     local_scan_dirs: list[str] = Field(
         default_factory=lambda: [str(Path.home() / "Projects")],
         description="Directories to scan for local projects",
+    )
+
+    # Template Settings
+    templates: TemplateConfig = Field(default_factory=TemplateConfig)
+
+    # Registry Settings
+    registry: RegistryConfig = Field(default_factory=RegistryConfig)
+
+    # Default project location
+    default_project_dir: Path = Field(
+        default_factory=lambda: Path.home() / "Projects",
+        description="Default directory for new projects",
     )
 
     @classmethod
@@ -86,8 +140,10 @@ class Config(BaseSettings):
         config_dir.mkdir(parents=True, exist_ok=True)
 
         config_file = get_config_file()
+        # mode='json' converts Path objects to strings for YAML
+        config_data = self.model_dump(mode='json')
         with open(config_file, "w", encoding="utf-8") as f:
-            yaml.dump(self.model_dump(), f, default_flow_style=False)
+            yaml.dump(config_data, f, default_flow_style=False)
 
 
 def ensure_dirs() -> None:

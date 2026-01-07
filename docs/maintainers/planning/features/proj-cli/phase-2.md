@@ -1,11 +1,11 @@
 # proj-cli - Phase 2: Migrate Project Commands
 
-**Phase:** 2 of 4  
-**Duration:** ~4-5 hours  
-**Status:** ✅ Complete  
-**Completed:** 2025-12-17  
-**Merged:** PR #2 (2025-12-17)  
-**Prerequisites:** Phase 1 complete ✅ (PR #1 merged 2025-12-17)  
+**Phase:** 2 of 4
+**Duration:** ~4-5 hours
+**Status:** ✅ Complete
+**Completed:** 2025-12-17
+**Merged:** PR #2 (2025-12-17)
+**Prerequisites:** Phase 1 complete ✅ (PR #1 merged 2025-12-17)
 **Test Coverage Goal:** ≥70% for new code
 
 ---
@@ -116,7 +116,7 @@ def test_handle_error_exists():
 
 **Goal:** Copy and adapt error handler from work-prod
 
-**Source:** `work-prod/scripts/project_cli/error_handler.py`  
+**Source:** `work-prod/scripts/project_cli/error_handler.py`
 **Destination:** `proj-cli/src/proj/error_handler.py`
 
 **Steps:**
@@ -462,7 +462,7 @@ def test_api_client_archive_project():
 
 **Goal:** Copy and adapt API client from work-prod
 
-**Source:** `work-prod/scripts/project_cli/api_client.py`  
+**Source:** `work-prod/scripts/project_cli/api_client.py`
 **Destination:** `proj-cli/src/proj/api_client.py`
 
 **Steps:**

@@ -128,10 +128,10 @@ admin/planning/opportunities/internal/[project-name]/
 ```markdown
 # [Project Name] Opportunities
 
-**Purpose:** [Project description]  
-**Type:** [Application/Tool/Library/Template]  
-**Status:** ✅ Active  
-**Created:** YYYY-MM-DD  
+**Purpose:** [Project description]
+**Type:** [Application/Tool/Library/Template]
+**Status:** ✅ Active
+**Created:** YYYY-MM-DD
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -162,8 +162,8 @@ admin/planning/opportunities/internal/[project-name]/
 
 ## 📊 Summary
 
-**Learnings Documents:** [N]  
-**Improvement Documents:** [M]  
+**Learnings Documents:** [N]
+**Improvement Documents:** [M]
 **Status:** ✅ Active
 
 ---
@@ -178,9 +178,9 @@ admin/planning/opportunities/internal/[project-name]/
 ```markdown
 # [Project Name] Learnings
 
-**Purpose:** Learnings from [project name] implementation  
-**Target:** Inform dev-infra template and other projects  
-**Status:** ✅ Active  
+**Purpose:** Learnings from [project name] implementation
+**Target:** Inform dev-infra template and other projects
+**Status:** ✅ Active
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -214,8 +214,8 @@ This directory contains learnings from [project name] that can inform:
 
 ## 📊 Summary
 
-**Total Learning Documents:** [N]  
-**Feature-Specific Learnings:** [M] features  
+**Total Learning Documents:** [N]
+**Feature-Specific Learnings:** [M] features
 **Status:** ✅ Active
 
 ---
@@ -230,9 +230,9 @@ This directory contains learnings from [project name] that can inform:
 ```markdown
 # [Feature Name] Learnings
 
-**Purpose:** Phase learnings from [feature name] implementation  
-**Target:** Inform dev-infra template and other projects  
-**Status:** ✅ Active  
+**Purpose:** Phase learnings from [feature name] implementation
+**Target:** Inform dev-infra template and other projects
+**Status:** ✅ Active
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -255,7 +255,7 @@ This directory contains phase-specific learnings from [feature name] implementat
 
 ## 📊 Summary
 
-**Total Phase Learnings:** [N]  
+**Total Phase Learnings:** [N]
 **Status:** ✅ Active
 
 ---
@@ -270,9 +270,9 @@ This directory contains phase-specific learnings from [feature name] implementat
 ```markdown
 # [Project Name] Improvements
 
-**Purpose:** Actionable improvements based on [project name] learnings  
-**Target:** Dev-infra template and other projects  
-**Status:** ✅ Active  
+**Purpose:** Actionable improvements based on [project name] learnings
+**Target:** Dev-infra template and other projects
+**Status:** ✅ Active
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -293,7 +293,7 @@ This directory contains actionable improvement checklists based on learnings fro
 
 ## 📊 Summary
 
-**Total Improvement Documents:** [N]  
+**Total Improvement Documents:** [N]
 **Status:** ✅ Active
 
 ---
@@ -403,10 +403,10 @@ This directory contains actionable improvement checklists based on learnings fro
 ```markdown
 # [Project Name] Learnings - [Topic]
 
-**Project:** [Project Name]  
-**Topic:** [Topic/Phase Name]  
-**Date:** YYYY-MM-DD  
-**Status:** ✅ Complete  
+**Project:** [Project Name]
+**Topic:** [Topic/Phase Name]
+**Date:** YYYY-MM-DD
+**Status:** ✅ Complete
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -527,10 +527,10 @@ This directory contains actionable improvement checklists based on learnings fro
 ```markdown
 # [Project Name] Improvements - [Topic]
 
-**Source:** [Project Name] - [Topic/Phase]  
-**Target:** Dev-infra template  
-**Status:** ✅ Complete  
-**Created:** YYYY-MM-DD  
+**Source:** [Project Name] - [Topic/Phase]
+**Target:** Dev-infra template
+**Status:** ✅ Complete
+**Created:** YYYY-MM-DD
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -573,10 +573,10 @@ This directory contains actionable improvement checklists based on learnings fro
 ```markdown
 # Command Adaptation: [Command Name] for Dev-Infra
 
-**Source Command:** [Command name from source project]  
-**Target:** Dev-infra template  
-**Status:** 🔴 Not Started  
-**Created:** YYYY-MM-DD  
+**Source Command:** [Command name from source project]
+**Target:** Dev-infra template
+**Status:** 🔴 Not Started
+**Created:** YYYY-MM-DD
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -589,8 +589,8 @@ This directory contains actionable improvement checklists based on learnings fro
 
 ## 🎯 Original Command
 
-**Command:** `/[command-name]`  
-**Purpose:** [Original purpose]  
+**Command:** `/[command-name]`
+**Purpose:** [Original purpose]
 **Location:** `.cursor/commands/[command-name].md`
 
 **Key Features:**
@@ -603,8 +603,8 @@ This directory contains actionable improvement checklists based on learnings fro
 
 ### [Adaptation Category]
 
-**Change:** [What needs to change]  
-**Reason:** [Why this change is needed]  
+**Change:** [What needs to change]
+**Reason:** [Why this change is needed]
 **Impact:** [How this affects dev-infra usage]
 
 **Original:**
@@ -1120,6 +1120,6 @@ Related: Fix Management Workflow"
 
 ---
 
-**Last Updated:** 2025-12-17  
-**Status:** ✅ Active  
+**Last Updated:** 2025-12-17
+**Status:** ✅ Active
 **Next:** Use to capture learnings, create project directories, or document command adaptations (supports any project with automatic discovery, feature-grouped phase learnings)

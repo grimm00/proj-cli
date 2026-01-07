@@ -1,8 +1,8 @@
 # proj-cli - Feature Plan
 
-**Status:** 🟠 In Progress  
-**Created:** 2025-12-16  
-**Priority:** High  
+**Status:** 🟠 In Progress
+**Created:** 2025-12-16
+**Priority:** High
 **ADR:** [ADR-0007](../../decisions/ADR-0007-unified-cli-architecture.md)
 
 ---

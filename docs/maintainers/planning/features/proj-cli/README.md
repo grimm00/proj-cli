@@ -1,9 +1,9 @@
 # proj-cli - Feature Hub
 
-**Feature:** Unified CLI Tool for Project and Inventory Management  
-**Status:** ✅ Complete  
-**Created:** 2025-12-16  
-**Completed:** 2025-12-17  
+**Feature:** Unified CLI Tool for Project and Inventory Management
+**Status:** ✅ Complete
+**Created:** 2025-12-16
+**Completed:** 2025-12-17
 **Repository:** https://github.com/grimm00/proj-cli
 
 ---
@@ -134,6 +134,6 @@ The `proj-cli` is being extracted from `work-prod`, which will become API-only a
 
 ---
 
-**Last Updated:** 2025-12-17  
+**Last Updated:** 2025-12-17
 **Status:** ✅ All Phases Complete (PRs #1-5)
 

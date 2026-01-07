@@ -1,16 +1,16 @@
 # PR #3 - Phase 3: Add Inventory Commands
 
-**PR:** #3  
-**Phase:** 3 - Add Inventory Commands  
-**Merged:** 2025-12-17  
+**PR:** #3
+**Phase:** 3 - Add Inventory Commands
+**Merged:** 2025-12-17
 **Status:** ✅ Complete
 
 ---
 
 ## 📋 Deferred Issues
 
-**Date:** 2025-12-17  
-**Review:** PR #3 Sourcery feedback + User manual testing  
+**Date:** 2025-12-17
+**Review:** PR #3 Sourcery feedback + User manual testing
 **Status:** 🟡 **DEFERRED** - MEDIUM/LOW priority items for Phase 4
 
 ### Sourcery Review Issues
@@ -50,21 +50,21 @@ These are new enhancements identified during Phase 3 for future work:
 
 ### D1: Smart Dedupe with Field Merging
 
-**Priority:** 🟡 MEDIUM  
+**Priority:** 🟡 MEDIUM
 **Component:** `proj inv dedupe`
 
 When dedupe finds duplicates from different sources (GitHub + local), it should merge the records instead of dropping one.
 
 ### D2: Multi-Directory Scan Configuration
 
-**Priority:** 🟢 LOW  
+**Priority:** 🟢 LOW
 **Component:** `proj inv scan local`
 
 Support config-driven multi-directory scanning with per-directory depth settings.
 
 ### D3: Exclusion Patterns for Scan
 
-**Priority:** 🟢 LOW  
+**Priority:** 🟢 LOW
 **Component:** `proj inv scan local`
 
 Add `--exclude` option for pattern-based directory exclusion.

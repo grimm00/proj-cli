@@ -32,6 +32,7 @@ def test_init_command_creates_config(mock_xdg_dirs):
             "http://test:8000",  # API URL
             "testuser",  # GitHub username
             str(Path.home() / "Projects"),  # Scan dirs
+            str(Path.home() / "Projects" / "dev-infra" / "templates"),  # Templates
         ]
 
         result = runner.invoke(app, ["init", "--force"])
@@ -75,6 +76,7 @@ def test_init_command_force_overwrites(mock_xdg_dirs):
             "http://new:8000",  # API URL
             "newuser",  # GitHub username
             str(Path.home() / "Projects"),  # Scan dirs
+            str(Path.home() / "Projects" / "dev-infra" / "templates"),  # Templates
         ]
 
         result = runner.invoke(app, ["init", "--force"])
@@ -84,4 +86,5 @@ def test_init_command_force_overwrites(mock_xdg_dirs):
         loaded = Config.load()
         assert loaded.api_url == "http://new:8000"
         assert loaded.github_username == "newuser"
+
 

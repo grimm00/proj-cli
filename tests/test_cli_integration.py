@@ -1,7 +1,7 @@
 """Integration tests for CLI commands using CliRunner."""
+import yaml
 from unittest.mock import Mock, patch
 
-import pytest
 from typer.testing import CliRunner
 
 from proj.cli import app
@@ -145,7 +145,10 @@ def test_cli_inv_status_command(mock_xdg_dirs):
 
     result = runner.invoke(app, ["inv", "status"])
     assert result.exit_code == 0
-    assert "Total Projects" in result.stdout or "inventory" in result.stdout.lower()
+    assert (
+        "Total Projects" in result.stdout
+        or "inventory" in result.stdout.lower()
+    )
 
 
 def test_cli_inv_status_command_with_data(mock_xdg_dirs):
@@ -170,3 +173,41 @@ def test_cli_inv_status_command_with_data(mock_xdg_dirs):
     assert result.exit_code == 0
     assert "1" in result.stdout or "Total Projects" in result.stdout
 
+
+def test_init_creates_config_with_new_fields(tmp_path, monkeypatch):
+    """Test that proj init creates config with new fields."""
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))
+
+    # Run init command with defaults (send newlines to accept defaults)
+    # 4 prompts: API URL, GitHub username, Scan dirs, Templates source
+    result = runner.invoke(
+        app,
+        ["init", "--force"],
+        input="\n\n\n\n",  # Accept defaults for all 4 prompts
+    )
+    assert result.exit_code == 0
+
+    from proj.config import get_config_file
+    config_file = get_config_file()
+    assert config_file.exists()
+
+    with open(config_file) as f:
+        saved = yaml.safe_load(f)
+
+    assert 'api_enabled' in saved
+    assert 'templates' in saved
+    assert 'registry' in saved
+    assert 'default_project_dir' in saved
+
+    # Validate loaded Config values
+    from proj.config import Config
+    config = Config.load()
+    assert config.api_enabled is True
+    assert config.templates.default == 'standard-project'
+    # templates.source is set only if the default templates directory exists
+    # Check that loaded config matches what was saved
+    if 'source' in saved.get('templates', {}):
+        assert config.templates.source is not None
+        assert str(config.templates.source) == saved['templates']['source']
+    else:
+        assert config.templates.source is None

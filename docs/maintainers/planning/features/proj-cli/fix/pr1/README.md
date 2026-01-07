@@ -1,8 +1,8 @@
 # PR #1 - Phase 1: Repository Setup
 
-**PR:** #1  
-**Phase:** 1 - Repository Setup  
-**Merged:** 2025-12-17  
+**PR:** #1
+**Phase:** 1 - Repository Setup
+**Merged:** 2025-12-17
 **Status:** ✅ Merged (deferred issues tracked)
 
 ---
@@ -15,8 +15,8 @@ This PR established the proj-cli repository structure, Typer CLI, and Pydantic c
 
 ## 📋 Deferred Issues
 
-**Date:** 2025-12-17  
-**Review:** PR #1 (Phase 1) Sourcery feedback  
+**Date:** 2025-12-17
+**Review:** PR #1 (Phase 1) Sourcery feedback
 **Status:** 🟡 **DEFERRED** - All MEDIUM/LOW priority, can be handled in Phase 4
 
 **Deferred Issues:**

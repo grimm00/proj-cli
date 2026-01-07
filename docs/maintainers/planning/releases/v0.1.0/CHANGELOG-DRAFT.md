@@ -1,6 +1,6 @@
 # CHANGELOG Draft - v0.1.0
 
-**Draft Created:** 2025-12-18  
+**Draft Created:** 2025-12-18
 **Status:** ✅ Merged to CHANGELOG.md
 
 ---

@@ -291,8 +291,8 @@ Mark items complete:
 **Update Summary:**
 
 ```markdown
-**Total Releases:** 1 released, 1 pending  
-**Latest Release:** v0.1.0 (MVP) - Released 2025-12-07  
+**Total Releases:** 1 released, 1 pending
+**Latest Release:** v0.1.0 (MVP) - Released 2025-12-07
 **Next Release:** vX.Y.Z - Ready for release
 ```
 
@@ -459,5 +459,5 @@ grep "Status:" docs/maintainers/planning/releases/vX.Y.Z/README.md
 
 ---
 
-**Last Updated:** 2025-12-16  
+**Last Updated:** 2025-12-16
 **Status:** ✅ Active - Customized for work-prod

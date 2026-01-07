@@ -1,16 +1,16 @@
 # Example: User Authentication - Feature Plan
 
-**Feature:** User Authentication  
-**Priority:** 🔴 High  
-**Status:** 🔴 Not Started  
-**Created:** [Date]  
+**Feature:** User Authentication
+**Priority:** 🔴 High
+**Status:** 🔴 Not Started
+**Created:** [Date]
 **Source:** ADR-001: User Authentication Method
 
 ---
 
 ## 📋 Overview
 
-<!-- 
+<!--
   OVERVIEW:
   Provide a high-level description of the feature.
   Explain what the feature does and why it's needed.
@@ -32,7 +32,7 @@ Implement user authentication using OAuth 2.0 to enable user-specific features, 
 
 ## 🎯 Success Criteria
 
-<!-- 
+<!--
   SUCCESS CRITERIA:
   Define measurable criteria for feature success.
   These should be specific and testable.
@@ -52,7 +52,7 @@ Implement user authentication using OAuth 2.0 to enable user-specific features, 
 
 ## 📅 Implementation Phases
 
-<!-- 
+<!--
   IMPLEMENTATION PHASES:
   Break the feature into manageable phases.
   Each phase should have clear goals and deliverables.
@@ -142,7 +142,7 @@ Implement user authentication using OAuth 2.0 to enable user-specific features, 
 
 ## 🔗 Dependencies
 
-<!-- 
+<!--
   DEPENDENCIES:
   List any dependencies this feature has.
   Include both internal and external dependencies.
@@ -168,32 +168,32 @@ Implement user authentication using OAuth 2.0 to enable user-specific features, 
 
 ## ⚠️ Risks
 
-<!-- 
+<!--
   RISKS:
   Identify potential risks and mitigation strategies.
   Consider technical, timeline, and resource risks.
 -->
 
-**Risk: OAuth Provider Outage**  
-**Probability:** Low  
-**Impact:** High  
+**Risk: OAuth Provider Outage**
+**Probability:** Low
+**Impact:** High
 **Mitigation:** Implement graceful error handling, show user-friendly messages, consider backup provider
 
-**Risk: Token Management Complexity**  
-**Probability:** Medium  
-**Impact:** Medium  
+**Risk: Token Management Complexity**
+**Probability:** Medium
+**Impact:** Medium
 **Mitigation:** Use well-tested library, follow security best practices, thorough testing
 
-**Risk: Integration Issues**  
-**Probability:** Medium  
-**Impact:** Medium  
+**Risk: Integration Issues**
+**Probability:** Medium
+**Impact:** Medium
 **Mitigation:** Test integration early, use proven library, follow documentation
 
 ---
 
 ## 📊 Progress Tracking
 
-<!-- 
+<!--
   PROGRESS TRACKING:
   Track overall feature progress.
   Update as phases are completed.
@@ -211,7 +211,7 @@ Implement user authentication using OAuth 2.0 to enable user-specific features, 
 
 ## 🚀 Next Steps
 
-<!-- 
+<!--
   NEXT STEPS:
   Document immediate next actions.
   What should happen first?
@@ -228,7 +228,7 @@ Implement user authentication using OAuth 2.0 to enable user-specific features, 
 
 ## 📝 Notes
 
-<!-- 
+<!--
   NOTES:
   Include any additional context, constraints, or information.
   This can include technical details, design decisions, or other relevant information.

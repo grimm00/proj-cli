@@ -197,9 +197,9 @@ git checkout -b docs/post-direct-phase[##]-complete
 
 **With PR:**
 ```markdown
-**Phase:** 3 - Projects API - Delete & Archive (Backend + CLI)  
-**Duration:** 1 day  
-**Status:** ✅ Complete  
+**Phase:** 3 - Projects API - Delete & Archive (Backend + CLI)
+**Duration:** 1 day
+**Status:** ✅ Complete
 **Completed:** 2025-12-04
 **Merged:** PR #10 (2025-12-04)
 **Prerequisites:** Phase 2 complete
@@ -207,9 +207,9 @@ git checkout -b docs/post-direct-phase[##]-complete
 
 **Direct merge (docs-only):**
 ```markdown
-**Phase:** 3 - Exploration/Research/Decision Workflows  
-**Duration:** 1-2 hours (Actual: ~30 minutes)  
-**Status:** ✅ Complete  
+**Phase:** 3 - Exploration/Research/Decision Workflows
+**Duration:** 1-2 hours (Actual: ~30 minutes)
+**Status:** ✅ Complete
 **Completed:** 2025-12-08
 **Prerequisites:** Phase 2 complete
 ```
@@ -348,14 +348,14 @@ git checkout -b docs/post-direct-phase[##]-complete
 
 **PR Hub Entry (with deferred issues):**
 
-**File:** `docs/maintainers/planning/features/[feature-name]/fix/pr##/README.md`  
+**File:** `docs/maintainers/planning/features/[feature-name]/fix/pr##/README.md`
 **OR:** `docs/maintainers/planning/fix/pr##/README.md` (project-wide)
 
 ```markdown
 ## 📋 Deferred Issues
 
-**Date:** 2025-12-04  
-**Review:** PR #12 (Phase 4) Sourcery feedback  
+**Date:** 2025-12-04
+**Review:** PR #12 (Phase 4) Sourcery feedback
 **Status:** 🟡 **DEFERRED** - All MEDIUM/LOW priority, can be handled opportunistically
 
 **Deferred Issues:**
@@ -374,14 +374,14 @@ git checkout -b docs/post-direct-phase[##]-complete
 ```markdown
 ## 📋 Deferred Issues
 
-**Date:** YYYY-MM-DD  
-**Review:** PR #N (Phase N) Sourcery feedback  
+**Date:** YYYY-MM-DD
+**Review:** PR #N (Phase N) Sourcery feedback
 **Status:** ✅ **NONE** - All issues were CRITICAL/HIGH priority and addressed in PR, or no issues found
 ```
 
 **Update Main Fix Tracking:**
 
-**File:** 
+**File:**
 - Feature-specific: `docs/maintainers/planning/features/[feature-name]/fix/README.md`
 - Project-wide: `docs/maintainers/planning/fix/README.md`
 
@@ -419,7 +419,7 @@ Add PR to active PRs section (if not already there):
 
 **For PR-Specific Batches:**
 
-**File:** 
+**File:**
 - Feature-specific: `docs/maintainers/planning/features/[feature-name]/fix/pr##/[batch-name].md`
 - Project-wide: `docs/maintainers/planning/fix/pr##/[batch-name].md`
 
@@ -627,12 +627,12 @@ git push origin --delete docs/post-pr[##]-phase[##]-complete
    ```bash
    # Try normal delete first (only works if merged locally)
    git branch -d [branch-name]
-   
+
    # If that fails (branch merged via GitHub, not locally), force delete
    # This is safe if PR is confirmed merged on GitHub or direct merge confirmed
    git branch -D [branch-name]
    ```
-   
+
    **Note:** If branch was merged via GitHub PR (not locally), `git branch -d` may fail even though the branch is merged. Use `git branch -D` in this case, but only after confirming PR is merged on GitHub or direct merge is confirmed.
 
 6. **Delete remote branch (if exists):**
@@ -1016,6 +1016,6 @@ git push origin --delete fix/pr12-batch-medium-medium-01
 
 ---
 
-**Last Updated:** 2025-12-17  
-**Status:** ✅ Active  
+**Last Updated:** 2025-12-17
+**Status:** ✅ Active
 **Next:** Use after each PR merge to keep documentation current (supports phase, fix, and release modes, feature-specific and project-wide structures, includes `--direct` mode for docs-only phases)

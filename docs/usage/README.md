@@ -1,7 +1,7 @@
 # Usage Guide
 
-**Purpose:** CLI command reference and examples  
-**Status:** 🔴 Not Started  
+**Purpose:** CLI command reference and examples
+**Status:** 🔴 Not Started
 **Last Updated:** 2025-12-16
 
 ---
@@ -60,7 +60,8 @@ proj inv status              # Show inventory status
 
 ---
 
-**Last Updated:** 2025-12-16  
-**Status:** 🔴 Not Started  
+**Last Updated:** 2025-12-16
+**Status:** 🔴 Not Started
 **Next:** Document project commands in detail
+
 

@@ -1,7 +1,7 @@
 # Documentation
 
-**Purpose:** proj-cli documentation and guides  
-**Status:** 🟡 Planned  
+**Purpose:** proj-cli documentation and guides
+**Status:** 🟡 Planned
 **Last Updated:** 2025-12-16
 
 ---
@@ -46,6 +46,6 @@ docs/
 
 ---
 
-**Last Updated:** 2025-12-16  
-**Status:** 🟡 Planned  
+**Last Updated:** 2025-12-16
+**Status:** 🟡 Planned
 **Next:** [Usage Guide](usage/README.md)

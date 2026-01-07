@@ -15,7 +15,7 @@ pip install git+https://github.com/grimm00/proj-cli.git
 ## Quick Start
 
 ```bash
-# Initialize configuration
+# Initialize configuration (sets API URL, templates source, etc.)
 proj init
 
 # List projects
@@ -24,8 +24,11 @@ proj list
 # Get project details
 proj get 1
 
-# Create a project
-proj create "My New Project" --desc "Description here"
+# Create a project from template (recommended)
+proj create my-app --template standard-project --local-only
+
+# Or use interactive mode
+proj create
 
 # Scan GitHub repos
 proj inv scan github --user grimm00
@@ -40,20 +43,91 @@ proj inv analyze
 proj inv export api
 ```
 
+## Creating Projects from Templates
+
+The `proj create` command supports creating projects from dev-infra templates.
+
+### Interactive Mode (Default)
+
+Simply run `proj create` without arguments to enter interactive mode:
+
+```bash
+proj create
+```
+
+You'll be prompted for:
+- **Project name** - Name for your new project
+- **Template type** - Choose from available templates (standard-project, learning-project)
+- **Description** - Brief description of the project
+- **Target directory** - Where to create the project (default: ~/Projects)
+
+### Template Mode
+
+Create a project directly from a template:
+
+```bash
+# Standard project (full structure)
+proj create my-app --template standard-project --local-only
+
+# Learning project (stage-based structure)
+proj create my-learning --template learning-project --local-only
+
+# With custom target directory
+proj create my-app --template standard-project --target-dir ~/Projects
+
+# With description
+proj create my-app --template standard-project --desc "My awesome app"
+```
+
+### Available Templates
+
+| Template | Description |
+| -------- | ----------- |
+| `standard-project` | Full project structure with backend/frontend, tests, CI/CD |
+| `learning-project` | Stage-based learning structure with fundamentals and practice apps |
+
+### Create Command Options
+
+| Option | Short | Description |
+| ------ | ----- | ----------- |
+| `--template` | `-t` | Template to use (standard-project, learning-project) |
+| `--target-dir` | `-d` | Directory to create project in (default: ~/Projects) |
+| `--desc` | | Project description |
+| `--local-only` | | Create locally without API registration |
+| `--api-only` | | Create API record only (no local files) |
+| `--dry-run` | | Preview what would be created |
+| `--no-git` | | Skip Git repository initialization |
+| `--register/--no-register` | | Control local registry registration |
+
+### Examples
+
+```bash
+# Preview what would be created (dry-run)
+proj create my-app --template standard-project --dry-run
+
+# Create without Git initialization
+proj create my-app --template standard-project --local-only --no-git
+
+# API-only mode (backward compatible with work-prod)
+proj create "My Project" --api-only --desc "Created via CLI"
+```
+
 ## Commands
 
 ### Project Management
 
-| Command                   | Description         |
-| ------------------------- | ------------------- |
-| `proj list`               | List all projects   |
-| `proj get <id>`           | Get project details |
-| `proj create <name>`      | Create new project  |
-| `proj update <id>`        | Update project      |
-| `proj delete <id>`        | Delete project      |
-| `proj search <query>`     | Search projects     |
-| `proj import-json <file>` | Import from JSON    |
-| `proj archive <id>`       | Archive project     |
+| Command                   | Description                              |
+| ------------------------- | ---------------------------------------- |
+| `proj list`               | List all projects                        |
+| `proj get <id>`           | Get project details                      |
+| `proj create`             | Create project (interactive mode)        |
+| `proj create <name> -t`   | Create project from template             |
+| `proj update <id>`        | Update project                           |
+| `proj delete <id>`        | Delete project                           |
+| `proj search <query>`     | Search projects                          |
+| `proj import-json <file>` | Import from JSON                         |
+| `proj archive <id>`       | Archive project                          |
+| `proj init`               | Initialize/update configuration          |
 
 ### Inventory Management
 
@@ -73,19 +147,86 @@ Configuration is stored at `~/.config/proj/config.yaml`:
 
 ```yaml
 api_url: http://localhost:5000
+api_enabled: true
 github_username: grimm00
 github_token: null # Set via PROJ_GITHUB_TOKEN env var
 local_scan_dirs:
   - /home/user/Projects
+
+# Template configuration
+templates:
+  source: ~/Projects/dev-infra/templates  # Path to dev-infra templates
+  default: standard-project               # Default template type
+
+# Local registry
+registry:
+  path: ~/.local/share/proj/registry.json  # Local project registry
 ```
+
+## API Synchronization
+
+By default, template creation syncs to the work-prod API if:
+
+- `api_enabled: true` in config (default)
+- `--local-only` flag is NOT used
+
+This creates a project record in the API and stores the `work_prod_id` in the local registry for future sync operations.
+
+### Offline Mode
+
+Use `--local-only` for offline development:
+
+```bash
+proj create my-app --template standard-project --local-only
+```
+
+This skips API sync entirely. You can sync later using:
+
+```bash
+proj sync my-app  # Future feature
+```
+
+### API Errors
+
+If the API is unavailable, local creation continues successfully. You'll see a warning but the project will be created and registered locally:
+
+```
+✓ Initialized git repository
+✓ Registered project in local registry
+⚠ Could not sync to API: Connection refused
+✓ Created project from template: /path/to/my-app
+```
+
+The project will have `work_prod_id: null` in the registry until synced.
+
+---
+
+### Setting Up Templates
+
+Run `proj init` to configure the template source:
+
+```bash
+proj init
+# Prompts for:
+# - API URL (default: http://localhost:5000)
+# - GitHub username (optional)
+# - Local scan directories
+# - Templates source (default: ~/Projects/dev-infra/templates)
+```
+
+The templates source should point to your local clone of the dev-infra repository's `templates/` directory.
 
 ### Environment Variables
 
-| Variable               | Description                  |
-| ---------------------- | ---------------------------- |
-| `PROJ_API_URL`         | work-prod API URL            |
-| `PROJ_GITHUB_TOKEN`    | GitHub personal access token |
-| `PROJ_GITHUB_USERNAME` | GitHub username              |
+| Variable                  | Description                           |
+| ------------------------- | ------------------------------------- |
+| `PROJ_API_URL`            | work-prod API URL                     |
+| `PROJ_API_ENABLED`        | Enable/disable API (true/false)       |
+| `PROJ_GITHUB_TOKEN`       | GitHub personal access token          |
+| `PROJ_GITHUB_USERNAME`    | GitHub username                       |
+| `PROJ_TEMPLATES__SOURCE`  | Path to templates directory           |
+| `PROJ_REGISTRY__PATH`     | Path to local registry file           |
+| `PROJ_DEFAULT_PROJECT_DIR`| Default directory for new projects    |
 
 ## Development
 

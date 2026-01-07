@@ -1,14 +1,14 @@
 # ADR-001: User Authentication Method
 
-**Status:** Proposed  
-**Created:** [Date]  
+**Status:** Proposed
+**Created:** [Date]
 **Last Updated:** [Date]
 
 ---
 
 ## Context
 
-<!-- 
+<!--
   CONTEXT:
   Describe the situation that requires a decision.
   Include background information, constraints, and any relevant history.
@@ -36,7 +36,7 @@ Our application currently has no user authentication. We need to add authenticat
 
 ## Decision
 
-<!-- 
+<!--
   DECISION:
   State the decision clearly and concisely.
   This should be the answer to the question posed in the context.
@@ -63,7 +63,7 @@ Our application currently has no user authentication. We need to add authenticat
 
 ## Consequences
 
-<!-- 
+<!--
   CONSEQUENCES:
   Document the positive and negative consequences of this decision.
   Be honest about trade-offs and limitations.
@@ -90,7 +90,7 @@ Our application currently has no user authentication. We need to add authenticat
 
 ## Alternatives Considered
 
-<!-- 
+<!--
   ALTERNATIVES:
   Document alternatives that were considered but not chosen.
   For each alternative, explain why it wasn't chosen.
@@ -157,7 +157,7 @@ Our application currently has no user authentication. We need to add authenticat
 
 ## Decision Rationale
 
-<!-- 
+<!--
   DECISION RATIONALE:
   Explain the key factors that led to this decision.
   Reference research findings, requirements, and constraints.
@@ -190,7 +190,7 @@ Our application currently has no user authentication. We need to add authenticat
 
 ## Requirements Impact
 
-<!-- 
+<!--
   REQUIREMENTS IMPACT:
   Document how this decision affects requirements.
   Which requirements are satisfied? Which are refined?
@@ -215,7 +215,7 @@ Our application currently has no user authentication. We need to add authenticat
 
 ## References
 
-<!-- 
+<!--
   REFERENCES:
   Link to related documents, research, and decisions.
   This helps readers understand the full context.

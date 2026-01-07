@@ -63,7 +63,7 @@ This command supports multiple phase organization patterns:
    ```bash
    git branch --show-current
    ```
-   
+
 2. **Expected Pattern:** `feat/[feature-name]-phase-N-*` or `feat/phase-N-*`
 
 3. **Validation Logic:**
@@ -76,7 +76,7 @@ This command supports multiple phase organization patterns:
 **Wrong Branch Error:**
 ```
 ❌ BLOCKING: Currently on 'develop', expected 'feat/[feature]-phase-N-*'
-   
+
    Resolution:
    1. Check out the correct feature branch: git checkout feat/[feature]-phase-N-[desc]
    2. If branch exists in worktree, work from that worktree instead
@@ -86,7 +86,7 @@ This command supports multiple phase organization patterns:
 **Worktree Conflict Error:**
 ```
 ❌ BLOCKING: Branch 'feat/...' is checked out in worktree at '/path/to/worktree'
-   
+
    Resolution:
    1. Work from the worktree: cd /path/to/worktree
    2. Or delete the worktree: git worktree remove /path/to/worktree
@@ -899,6 +899,6 @@ Tasks are typically numbered in phase documents:
 
 ---
 
-**Last Updated:** 2025-12-16  
-**Status:** ✅ Active  
+**Last Updated:** 2025-12-16
+**Status:** ✅ Active
 **Next:** Use to implement phase tasks following TDD workflow (supports feature-specific and project-wide phases, now with pre-phase review integration)

@@ -27,7 +27,7 @@ Total Individual Comments: 8 + Overall Comments
 
 <pre><code>
              repos = []
--            
+-
 +
              while url:
                  response = requests.get(url, headers=headers, params=params)
@@ -58,7 +58,7 @@ Total Individual Comments: 8 + Overall Comments
 
 <pre><code>
              markers = [&quot;.git&quot;, &quot;package.json&quot;, &quot;pyproject.toml&quot;, &quot;Cargo.toml&quot;, &quot;go.mod&quot;]
--            
+-
 +
              for marker in markers:
                  for project_dir in scan_dir.glob(f&quot;**/{marker}&quot;):
@@ -352,12 +352,12 @@ Total Individual Comments: 8 + Overall Comments
 
 ## User Feedback (Manual Testing)
 
-**Tester:** User  
+**Tester:** User
 **Date:** 2025-12-17
 
 ### Issue U1: `--wide` option not available for `search` command
 
-**Severity:** 🟡 MEDIUM  
+**Severity:** 🟡 MEDIUM
 **Command:** `proj search "query" --wide`
 
 **Description:** The `--wide` option that works for `proj list` is not available for the `proj search` command. Users expect consistent behavior across similar list-style commands.
@@ -370,7 +370,7 @@ Total Individual Comments: 8 + Overall Comments
 
 ### Issue U2: Progress indicator shows after completion message
 
-**Severity:** 🟢 LOW  
+**Severity:** 🟢 LOW
 **Command:** `proj inv analyze`
 
 **Description:** The analyze command shows "✓ Analyzed 20 projects" followed by "Analyzing frontend..." - the progress message appears AFTER the completion message.
@@ -393,7 +393,7 @@ proj inv analyze
 
 ### Issue U3: Duplicate/non-existent projects after `export api`
 
-**Severity:** 🟠 HIGH  
+**Severity:** 🟠 HIGH
 **Command:** `proj inv export api`
 
 **Description:** After running `proj inv export api`, there are multiple instances of "frontend" and other projects that don't seem to exist. The deduplication or import process may not be working correctly.
@@ -416,7 +416,7 @@ proj inv analyze
 
 ### Issue U4: Subdirectories scanned as separate projects
 
-**Severity:** 🟠 HIGH  
+**Severity:** 🟠 HIGH
 **Command:** `proj inv scan local`
 
 **Description:** Subdirectories like `frontend/` inside a project (e.g., `~/Projects/pokedex/frontend`) were being added as separate projects because they have their own `package.json`, even though the parent directory already has `.git`.
@@ -447,7 +447,7 @@ proj inv analyze
 
 ### D1: Smart Dedupe with Field Merging
 
-**Priority:** 🟡 MEDIUM  
+**Priority:** 🟡 MEDIUM
 **Component:** `proj inv dedupe`
 
 **Description:** When dedupe finds duplicates (same project from GitHub + local scan), it should intelligently merge the records instead of just dropping one. For example:
@@ -478,7 +478,7 @@ merged = {
 
 ### D2: Multiple Scan Directory Configuration
 
-**Priority:** 🟢 LOW  
+**Priority:** 🟢 LOW
 **Component:** `proj inv scan local`
 
 **Description:** Support scanning multiple directories (e.g., `~/Projects`, `~/Learning`, `~/Work`) with different depth settings per directory.
@@ -504,7 +504,7 @@ scan_directories:
 
 ### D3: Exclusion Patterns for Scan
 
-**Priority:** 🟢 LOW  
+**Priority:** 🟢 LOW
 **Component:** `proj inv scan local`
 
 **Description:** Allow excluding directories by pattern (e.g., `test*`, `*-backup`, `archive/`).

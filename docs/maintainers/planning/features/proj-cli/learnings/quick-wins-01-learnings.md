@@ -1,9 +1,9 @@
 # proj-cli Learnings - Quick Wins Fix Batch
 
-**Project:** proj-cli  
-**Topic:** Fix Batch: quick-wins-01  
-**Date:** 2025-12-17  
-**Status:** ✅ Complete  
+**Project:** proj-cli
+**Topic:** Fix Batch: quick-wins-01
+**Date:** 2025-12-17
+**Status:** ✅ Complete
 **Last Updated:** 2025-12-17
 
 ---

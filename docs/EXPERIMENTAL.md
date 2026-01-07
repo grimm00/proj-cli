@@ -1,6 +1,6 @@
 # Experimental Commands Guide
 
-**Purpose:** Documentation for experimental/evolving commands in this template  
+**Purpose:** Documentation for experimental/evolving commands in this template
 **Last Updated:** 2025-12-12
 
 ---
@@ -15,7 +15,7 @@ This template includes experimental commands that are not yet stable enough for 
 
 ### `/status` - Project Status Tracking
 
-**Status:** 🟠 Evolving  
+**Status:** 🟠 Evolving
 **Stability:** Experimental - may change without notice
 
 **Purpose:** View, update, and sync project status tracking across features and phases.
