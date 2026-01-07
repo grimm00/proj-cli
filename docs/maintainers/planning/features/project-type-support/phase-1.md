@@ -88,9 +88,9 @@ def list_projects(self, ..., project_type: Optional[str] = None, ...):
 
 **Acceptance Criteria:**
 
-- [ ] Parameter added to method signature
-- [ ] Parameter passed to API call
-- [ ] Type validation added
+- [x] Parameter added to method signature
+- [x] Parameter passed to API call
+- [x] Type validation added
 
 ---
 
