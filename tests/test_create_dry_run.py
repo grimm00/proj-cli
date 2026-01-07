@@ -152,7 +152,7 @@ def test_create_dry_run_interactive_does_not_prompt(
     mock_config.default_project_dir = tmp_path
     mock_config_load.return_value = mock_config
 
-    result = runner.invoke(app, ["create", "--dry-run"])
+    runner.invoke(app, ["create", "--dry-run"])
 
     # Dry-run should not call any prompts
     mock_prompt.ask.assert_not_called()
