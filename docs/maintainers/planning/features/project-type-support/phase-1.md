@@ -2,11 +2,12 @@
 
 **Feature:** Add `project_type` parameter support
 **Phase:** 1 of 2
-**Status:** 🔴 Not Started
-**Estimated Effort:** ~2 hours
+**Status:** 🟡 Ready to Start
+**Estimated Effort:** ~1.75 hours
 **Created:** 2025-12-23
-**Last Updated:** 2025-12-23
-**Dependencies:** work-prod `project-type-field` Phase 3 complete
+**Last Updated:** 2026-01-07
+**Dependencies:** ✅ work-prod `project-type-field` complete (PR #42)
+**Pre-Phase Review:** ✅ Complete ([phase-1-review.md](phase-1-review.md))
 
 ---
 
@@ -51,25 +52,28 @@ curl "http://localhost:5000/api/projects?project_type=Work"
 ```python
 def list_projects(
     self,
+    status: Optional[str] = None,
+    organization: Optional[str] = None,
     classification: Optional[str] = None,
-    project_type: Optional[str] = None,
+    project_type: Optional[str] = None,  # NEW
     search: Optional[str] = None,
-    limit: int = 50,
 ) -> List[Dict]:
-    """List projects with optional filters."""
+    """List all projects with optional filters."""
     params = {}
+    if status:
+        params["status"] = status
+    if organization:
+        params["organization"] = organization
     if classification:
-        params['classification'] = classification
-    if project_type:
-        params['project_type'] = project_type
+        params["classification"] = classification
+    if project_type:  # NEW
+        params["project_type"] = project_type
     if search:
-        params['search'] = search
-    if limit:
-        params['limit'] = limit
-
-    response = self._request('GET', '/projects', params=params)
-    return response.get('projects', [])
+        params["search"] = search
+    # ... rest of method
 ```
+
+> **Note:** Follow existing code pattern - current client has `status`, `organization`, `classification`, `search` parameters.
 
 2. Add type validation (optional, API validates):
 
@@ -98,42 +102,43 @@ def list_projects(self, ..., project_type: Optional[str] = None, ...):
 1. Add `--type` option to `list` command:
 
 ```python
-@app.command("list")
+# Add to existing list_projects function (registered via app.command(name="list"))
 def list_projects(
-    classification: Optional[str] = typer.Option(
-        None, "--classification", "-c",
-        help="Filter by classification (primary, secondary, archive, maintenance)"
+    status: Optional[str] = typer.Option(
+        None, "--status", "-s", help="Filter by status"
     ),
-    project_type: Optional[str] = typer.Option(
+    organization: Optional[str] = typer.Option(
+        None, "--org", "-o", help="Filter by organization"
+    ),
+    classification: Optional[str] = typer.Option(
+        None, "--class", "-c", help="Filter by classification"
+    ),
+    project_type: Optional[str] = typer.Option(  # NEW
         None, "--type", "-t",
         help="Filter by project type (Work, Personal, Learning, Inactive)"
     ),
     search: Optional[str] = typer.Option(
-        None, "--search", "-s",
-        help="Search projects by name"
+        None, "--search", help="Search in names and descriptions"
     ),
-    limit: int = typer.Option(
-        50, "--limit", "-l",
-        help="Maximum number of projects to return"
-    ),
-    format: str = typer.Option(
-        "table", "--format", "-f",
-        help="Output format (table, json)"
-    ),
+    # ... existing wide, format options
 ):
-    """List projects with optional filters."""
+    """List all projects with optional filters."""
     try:
+        client = get_client()
         projects = client.list_projects(
+            status=status,
+            organization=organization,
             classification=classification,
-            project_type=project_type,
+            project_type=project_type,  # NEW
             search=search,
-            limit=limit,
         )
         # ... output formatting
     except ValueError as e:
         console.print(f"[red]Error:[/red] {e}")
         raise typer.Exit(1)
 ```
+
+> **Note:** `-t` flag is safe - Typer handles flags per-command. `create` uses `-t` for `--template`, but that's a different command.
 
 2. Update output formatting to include project_type:
 
@@ -175,10 +180,11 @@ def test_list_projects_with_type_filter(mock_client):
 
     assert result.exit_code == 0
     mock_client.list_projects.assert_called_once_with(
+        status=None,
+        organization=None,
         classification=None,
         project_type="Work",
         search=None,
-        limit=50,
     )
 
 def test_list_projects_with_invalid_type(mock_client):
@@ -196,16 +202,19 @@ def test_list_projects_with_type_and_classification(mock_client):
     """Test combining --type and --classification filters."""
     mock_client.list_projects.return_value = []
 
-    result = runner.invoke(app, ["list", "--type", "Work", "--classification", "primary"])
+    result = runner.invoke(app, ["list", "--type", "Work", "--class", "primary"])
 
     assert result.exit_code == 0
     mock_client.list_projects.assert_called_once_with(
+        status=None,
+        organization=None,
         classification="primary",
         project_type="Work",
         search=None,
-        limit=50,
     )
 ```
+
+> **Note:** Test assertions updated to match current API client signature (no `limit` parameter).
 
 **Acceptance Criteria:**
 - [ ] Type filter test added
