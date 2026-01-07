@@ -75,11 +75,12 @@ def sync_to_api(
     except (APIError, BackendConnectionError, TimeoutError) as e:
         # Log full exception for debugging
         logger.debug(f"API sync failed: {e}", exc_info=True)
-        
+
         if console:
             # Show user-friendly message without internal details
             console.print(
-                "[yellow]⚠ Could not sync to API. Project created locally.[/yellow]"
+                "[yellow]⚠ Could not sync to API. "
+                "Project created locally.[/yellow]"
             )
         return None
 
@@ -122,12 +123,12 @@ def prompt_for_create_options(config: Config) -> dict:
     # List available templates
     templates_source = get_templates_source(config)
     available = list_templates(templates_source)
-    
+
     if not available:
         console.print("[red]Error:[/red] No templates available.")
         console.print(f"[dim]Templates source: {templates_source}[/dim]")
         raise typer.Exit(1)
-    
+
     default_template = (
         config.templates.default if hasattr(config, 'templates') and
         hasattr(config.templates, 'default') else None
@@ -204,7 +205,6 @@ def _create_project_via_api(
 
 
 def detect_create_mode(
-    config: Config,
     template: Optional[str],
     api_only: bool,
     local_only: bool,
@@ -212,7 +212,6 @@ def detect_create_mode(
     """Detect which create mode to use.
 
     Args:
-        config: proj-cli configuration.
         template: Template type if specified.
         api_only: Force API-only mode.
         local_only: Force local-only mode.
@@ -434,7 +433,6 @@ def create_project(
         if dry_run:
             # Validate mode conflicts even in dry-run
             detect_create_mode(
-                config=config,
                 template=template,
                 api_only=api_only,
                 local_only=local_only,
@@ -531,7 +529,6 @@ def create_project(
 
         # Detect create mode (after interactive prompts if applicable)
         mode = detect_create_mode(
-            config=config,
             template=template,
             api_only=api_only,
             local_only=local_only,
