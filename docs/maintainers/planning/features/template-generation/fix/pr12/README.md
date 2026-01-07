@@ -22,7 +22,7 @@
 
 | ID  | Issue                                                                          | Priority  | Effort | Status         |
 | --- | ------------------------------------------------------------------------------ | --------- | ------ | -------------- |
-| 1   | [Learning project placeholder not replaced](./issue-1-learning-placeholder.md) | 🟡 MEDIUM | 🟢 LOW | 🔴 Not Started |
+| 1   | [Learning project placeholder not replaced](./issue-1-learning-placeholder.md) | 🟡 MEDIUM | 🟢 LOW | ✅ Already Fixed (PR #13) |
 
 ### Source
 
@@ -57,7 +57,7 @@
 1. **batch-high-low-01** (HIGH/LOW) - Empty templates check (~30 min)
 2. **batch-medium-low-01** (MEDIUM/LOW) - Dry-run validation (~30 min)
 3. **batch-low-low-01** (LOW/LOW) - Test improvements (~1 hr)
-4. **issue-1-learning-placeholder** (MEDIUM/LOW) - Manual testing bug (~30 min)
+4. ~~**issue-1-learning-placeholder** (MEDIUM/LOW) - Manual testing bug~~  ✅ Already fixed in PR #13
 5. **batch-low-high-01** (LOW/HIGH) - Refactor (defer to code quality sprint)
 
 ---
@@ -90,5 +90,5 @@
 
 ---
 
-**Last Updated:** 2026-01-06  
-**Action Plan:** HIGH priority complete (PR #15), continue with MEDIUM/LOW batches, defer LOW/HIGH to code quality sprint
+**Last Updated:** 2026-01-07  
+**Action Plan:** HIGH priority complete (PR #15), issue-1 already fixed in PR #13, continue with LOW batches, defer LOW/HIGH to code quality sprint
