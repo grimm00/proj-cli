@@ -248,6 +248,10 @@ def list_projects(
     classification: Optional[str] = typer.Option(
         None, "--class", "-c", help="Filter by classification"
     ),
+    project_type: Optional[str] = typer.Option(
+        None, "--type", "-t",
+        help="Filter by project type (Work, Personal, Learning, Inactive)"
+    ),
     search: Optional[str] = typer.Option(
         None, "--search", help="Search in names and descriptions"
     ),
@@ -267,6 +271,7 @@ def list_projects(
             status=status,
             organization=organization,
             classification=classification,
+            project_type=project_type,
             search=search,
         )
 
@@ -292,6 +297,8 @@ def list_projects(
                 table.add_column("Org", style="blue")
             if wide or classification:
                 table.add_column("Classification", style="magenta")
+            if wide or project_type:
+                table.add_column("Type", style="cyan")
 
             table.add_column("Path", style="blue")
 
@@ -313,6 +320,8 @@ def list_projects(
                     row.append(p.get("organization", ""))
                 if wide or classification:
                     row.append(p.get("classification", ""))
+                if wide or project_type:
+                    row.append(p.get("project_type", "-"))
                 row.append(p.get("path", "") or "")
                 if wide or search:
                     row.append(p.get("description", "") or "")
@@ -322,6 +331,9 @@ def list_projects(
                 table.add_row(*row)
 
             console.print(table)
+    except ValueError as e:
+        console.print(f"[red]Error:[/red] {e}")
+        raise typer.Exit(1)
     except (APIError, BackendConnectionError, TimeoutError) as e:
         handle_error(e, console)
         raise typer.Exit(1)

@@ -4,12 +4,13 @@ Unified CLI for project and inventory management.
 
 ## Installation
 
-```bash
-# From local source
-pip install -e .
+See [INSTALL.md](INSTALL.md) for detailed installation instructions including prerequisites, multiple installation methods, and troubleshooting.
 
-# From GitHub
-pip install git+https://github.com/grimm00/proj-cli.git
+**Quick install with pipx (recommended):**
+
+```bash
+pipx install git+https://github.com/grimm00/proj-cli.git
+proj init
 ```
 
 ## Quick Start
