@@ -51,8 +51,8 @@ curl "http://localhost:5000/api/projects?project_type=Work"
 ```
 
 **Acceptance Criteria:**
-- [ ] work-prod server running
-- [ ] API responds to project_type parameter
+- [x] work-prod server running
+- [x] API responds to project_type parameter
 
 ---
 
