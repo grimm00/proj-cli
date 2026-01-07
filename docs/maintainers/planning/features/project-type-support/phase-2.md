@@ -2,11 +2,12 @@
 
 **Feature:** Add `project_type` parameter support
 **Phase:** 2 of 2
-**Status:** 🔴 Not Started
+**Status:** 🟡 Ready to Start
 **Estimated Effort:** ~1 hour
 **Created:** 2025-12-23
-**Last Updated:** 2025-12-23
-**Dependencies:** Phase 1 complete
+**Last Updated:** 2026-01-07
+**Dependencies:** ✅ Phase 1 complete (PR #21, 2026-01-07)
+**Pre-Phase Review:** ✅ Complete ([phase-2-review.md](phase-2-review.md))
 
 ---
 
@@ -95,16 +96,18 @@ proj list --type Work --format json | jq '.[].project_type' | sort | uniq
 
 ```bash
 # Combine type with classification
-proj list --type Work --classification primary
-proj list --type Learning --classification secondary
+proj list --type Work --class primary
+proj list --type Learning --class secondary
 
 # Combine type with search
 proj list --type Work --search "api"
 proj list --type Personal --search "python"
 
-# Combine all filters
-proj list --type Work --classification primary --search "test" --limit 10
+# Combine multiple filters
+proj list --type Work --class primary --search "test"
 ```
+
+> **Note:** Use `--class` (short form). Full `--classification` also works, but `--class` is consistent with other short options.
 
 **Expected Behavior:**
 - Filters should be additive (AND logic)
@@ -126,20 +129,22 @@ proj list --type Work --classification primary --search "test" --limit 10
 proj list --type Invalid
 # Expected: Error message about valid types
 
-# Mixed case (should this work?)
+# Case sensitivity tests
 proj list --type work
 proj list --type WORK
-# Document behavior
+# Expected: Fails - types are case-sensitive
+# Valid values: Work, Personal, Learning, Inactive
 ```
 
 **Expected Behavior:**
 - Invalid type shows clear error message
-- Error message lists valid values
+- Error message lists valid values (Work, Personal, Learning, Inactive)
+- Types are case-sensitive (lowercase/uppercase fails)
 
 **Acceptance Criteria:**
 - [ ] Invalid type shows error
 - [ ] Error message is helpful
-- [ ] Case sensitivity documented
+- [ ] Case sensitivity behavior documented
 
 ---
 
@@ -204,5 +209,5 @@ After Phase 2 completion:
 
 ---
 
-**Last Updated:** 2025-12-23
+**Last Updated:** 2026-01-07
 
