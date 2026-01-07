@@ -1,7 +1,7 @@
 # Release Notes - v0.3.1
 
-**Release Date:** TBD
-**Status:** 🔴 Draft
+**Release Date:** 2026-01-07
+**Status:** ✅ Final
 **Type:** Patch Release
 
 ---

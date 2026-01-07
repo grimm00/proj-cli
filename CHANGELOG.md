@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _Changes not yet released_
 
+## [0.3.1] - 2026-01-07
+
+### Changed
+
+- **Centralized project type constants:** Created `constants.py` with `VALID_PROJECT_TYPES` and `PROJECT_TYPE_HELP` to avoid duplication (PR #23)
+- **Custom exception for type validation:** Added `InvalidProjectTypeError` for safer error handling instead of catching all `ValueError` (PR #23)
+- **Improved test assertions:** Strengthened invalid project type test with specific error format verification (PR #23)
+
 ## [0.3.0] - 2026-01-07
 
 ### Added
@@ -153,7 +161,8 @@ _Changes not yet released_
 
 ---
 
-[Unreleased]: https://github.com/grimm00/proj-cli/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/grimm00/proj-cli/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/grimm00/proj-cli/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/grimm00/proj-cli/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/grimm00/proj-cli/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/grimm00/proj-cli/releases/tag/v0.1.0

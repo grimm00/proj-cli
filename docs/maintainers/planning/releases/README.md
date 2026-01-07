@@ -10,7 +10,7 @@
 
 ### In Progress
 
-- **[v0.3.1](v0.3.1/README.md)** - Code Quality Improvements (🔴 Draft)
+- **[v0.3.1](v0.3.1/README.md)** - Code Quality Improvements (🟡 Ready for Release)
 
 ### Released
 
@@ -31,7 +31,7 @@
 
 | Version | Status | Date | Type | Description |
 |---------|--------|------|------|-------------|
-| v0.3.1 | 🔴 Draft | TBD | Patch | Code Quality Improvements |
+| v0.3.1 | 🟡 Ready | 2026-01-07 | Patch | Code Quality Improvements |
 | v0.3.0 | ✅ Released | 2026-01-07 | Minor | Project Type Support |
 | v0.2.0 | ✅ Released | 2026-01-07 | Minor | Template Generation Extension |
 | v0.1.0 | ✅ Released | 2025-12-18 | Initial | Full CLI tool with project and inventory commands |
