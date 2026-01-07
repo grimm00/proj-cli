@@ -156,6 +156,30 @@ def test_detect_mode_template():
     assert mode == "template"
 
 
+def test_detect_mode_template_with_api_only_flag():
+    """Explicit api_only flag takes precedence over template."""
+    config = MagicMock()
+    mode = detect_create_mode(
+        config=config,
+        template="standard-project",
+        api_only=True,
+        local_only=False,
+    )
+    assert mode == "api-only"
+
+
+def test_detect_mode_template_with_local_only_flag():
+    """Explicit local_only flag takes precedence over template."""
+    config = MagicMock()
+    mode = detect_create_mode(
+        config=config,
+        template="standard-project",
+        api_only=False,
+        local_only=True,
+    )
+    assert mode == "local-only"
+
+
 def test_detect_mode_conflict_raises():
     """Test conflicting flags raise error."""
     config = MagicMock()
