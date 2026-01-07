@@ -51,6 +51,11 @@ class TestValidateProjectName:
         result = validate_project_name("MyProject")
         assert result == "MyProject"
 
+    def test_valid_name_with_whitespace_is_stripped(self):
+        """Test leading/trailing whitespace is stripped for valid names."""
+        result = validate_project_name("  my-project  ")
+        assert result == "my-project"
+
     def test_empty_name_raises_error(self):
         """Test empty name raises InvalidProjectNameError."""
         with pytest.raises(InvalidProjectNameError) as exc:
@@ -492,8 +497,9 @@ class TestReplacePlaceholders:
         )
 
         content = readme.read_text()
-        # Should replace with empty or project name
-        assert "[Brief description" not in content
+        # Should replace with default: "{project_name} project"
+        assert "[Brief description of what this project does]" not in content
+        assert "my-project project" in content
 
     def test_replace_learning_project_name_placeholder(self, tmp_path):
         """Test that [Learning Project Name] placeholder is replaced."""
@@ -573,6 +579,29 @@ class TestCreateFromTemplate:
                 project_name="my-app",
                 template_type="nonexistent",
                 target_dir=target,
+                templates_source=templates_source,
+            )
+
+    def test_create_from_template_project_exists_raises(self, tmp_path):
+        """Test project already exists raises ProjectExistsError."""
+        templates_source = tmp_path / "templates"
+        templates_source.mkdir()
+        template_dir = templates_source / "standard-project"
+        template_dir.mkdir()
+        (template_dir / "README.md").write_text("[Project Name]")
+
+        target_dir = tmp_path / "target"
+        target_dir.mkdir()
+
+        # Create project directory that already exists
+        existing_project = target_dir / "my-app"
+        existing_project.mkdir()
+
+        with pytest.raises(ProjectExistsError):
+            create_from_template(
+                project_name="my-app",
+                template_type="standard-project",
+                target_dir=target_dir,
                 templates_source=templates_source,
             )
 
