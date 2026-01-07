@@ -582,6 +582,29 @@ class TestCreateFromTemplate:
                 templates_source=templates_source,
             )
 
+    def test_create_from_template_project_exists_raises(self, tmp_path):
+        """Test project already exists raises ProjectExistsError."""
+        templates_source = tmp_path / "templates"
+        templates_source.mkdir()
+        template_dir = templates_source / "standard-project"
+        template_dir.mkdir()
+        (template_dir / "README.md").write_text("[Project Name]")
+
+        target_dir = tmp_path / "target"
+        target_dir.mkdir()
+
+        # Create project directory that already exists
+        existing_project = target_dir / "my-app"
+        existing_project.mkdir()
+
+        with pytest.raises(ProjectExistsError):
+            create_from_template(
+                project_name="my-app",
+                template_type="standard-project",
+                target_dir=target_dir,
+                templates_source=templates_source,
+            )
+
     def test_create_from_template_invalid_target_raises(self, tmp_path):
         """Test invalid target directory raises error."""
         templates_source = tmp_path / "templates"
