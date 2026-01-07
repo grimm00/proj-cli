@@ -88,6 +88,31 @@ def test_create_api_only_backward_compatibility(
     assert "123" in result.output
 
 
+@patch('proj.commands.projects.get_client')
+@patch('proj.commands.projects.Config.load')
+def test_create_name_only_falls_back_to_api(
+    mock_config_load, mock_get_client, tmp_path
+):
+    """Providing only a name falls back to API (backward compatible)."""
+    mock_config = MagicMock()
+    mock_config.api_enabled = True
+    mock_config_load.return_value = mock_config
+
+    mock_client = MagicMock()
+    mock_client.create_project.return_value = {
+        "id": 456,
+        "name": "My Application",
+        "status": "active",
+    }
+    mock_get_client.return_value = mock_client
+
+    result = runner.invoke(app, ["create", "My Application"])
+
+    assert result.exit_code == 0
+    mock_client.create_project.assert_called_once()
+    assert "Created project" in result.output
+
+
 @patch('proj.commands.projects.add_project')
 @patch('proj.commands.projects.init_git')
 @patch('proj.commands.projects.create_from_template')
