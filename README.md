@@ -4,12 +4,13 @@ Unified CLI for project and inventory management.
 
 ## Installation
 
-```bash
-# From local source
-pip install -e .
+See [INSTALL.md](INSTALL.md) for detailed installation instructions including prerequisites, multiple installation methods, and troubleshooting.
 
-# From GitHub
-pip install git+https://github.com/grimm00/proj-cli.git
+**Quick install with pipx (recommended):**
+
+```bash
+pipx install git+https://github.com/grimm00/proj-cli.git
+proj init
 ```
 
 ## Quick Start
@@ -140,6 +141,44 @@ proj create "My Project" --api-only --desc "Created via CLI"
 | `proj inv export json <file>` | Export to JSON         |
 | `proj inv export api`         | Push to work-prod API  |
 | `proj inv status`             | Show inventory status  |
+
+## Filtering Projects
+
+The `proj list` command supports filtering by type, status, organization, classification, and search terms.
+
+### By Project Type
+
+```bash
+proj list --type Work       # Show only Work projects
+proj list --type Personal   # Show only Personal projects
+proj list --type Learning   # Show only Learning projects
+proj list --type Inactive   # Show only Inactive projects
+```
+
+### Combined Filters
+
+```bash
+# Type with classification
+proj list --type Work --class primary
+
+# Type with search
+proj list --type Personal --search "python"
+
+# Multiple filters (AND logic)
+proj list --type Work --status active --org personal
+```
+
+### Other Filter Options
+
+| Option | Short | Description |
+| ------ | ----- | ----------- |
+| `--type` | `-t` | Filter by project type (Work, Personal, Learning, Inactive) |
+| `--status` | `-s` | Filter by status |
+| `--org` | `-o` | Filter by organization |
+| `--class` | `-c` | Filter by classification |
+| `--search` | | Search in names and descriptions |
+| `--wide` | `-w` | Show all columns |
+| `--format` | `-f` | Output format: table, json |
 
 ## Configuration
 

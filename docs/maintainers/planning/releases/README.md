@@ -10,9 +10,13 @@
 
 ### In Progress
 
-- **[v0.2.0](v0.2.0/README.md)** - Template Generation Extension (🟢 Ready)
+- **[v0.3.0](v0.3.0/README.md)** - Project Type Support (🟡 Ready for Release)
 
 ### Current Release
+
+- **[v0.2.0](v0.2.0/README.md)** - Template Generation Extension (✅ Released 2026-01-07)
+
+### Previous Releases
 
 - **[v0.1.0](v0.1.0/README.md)** - Initial Release (✅ Released 2025-12-18)
 
@@ -26,7 +30,8 @@
 
 | Version | Status | Date | Type | Description |
 |---------|--------|------|------|-------------|
-| v0.2.0 | 🟢 Ready | 2026-01-07 | Minor | Template Generation Extension |
+| v0.3.0 | 🟡 Ready | 2026-01-07 | Minor | Project Type Support |
+| v0.2.0 | ✅ Released | 2026-01-07 | Minor | Template Generation Extension |
 | v0.1.0 | ✅ Released | 2025-12-18 | Initial | Full CLI tool with project and inventory commands |
 
 ---
@@ -52,7 +57,7 @@
 
 ## 📊 Version History
 
-### v0.2.0 - Template Generation Extension (2026-01-07) 🟢 Ready
+### v0.2.0 - Template Generation Extension (2026-01-07) ✅ Released
 
 **Key Features:**
 - Template Generation: `proj create --template standard-project`

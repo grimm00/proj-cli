@@ -2,11 +2,14 @@
 
 **Feature:** Add `project_type` parameter support
 **Phase:** 2 of 2
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete
+**Completed:** 2026-01-07
+**Merged:** Direct to develop (docs-only phase)
 **Estimated Effort:** ~1 hour
 **Created:** 2025-12-23
-**Last Updated:** 2025-12-23
-**Dependencies:** Phase 1 complete
+**Last Updated:** 2026-01-07
+**Dependencies:** ✅ Phase 1 complete (PR #21, 2026-01-07)
+**Pre-Phase Review:** ✅ Complete ([phase-2-review.md](phase-2-review.md))
 
 ---
 
@@ -20,11 +23,11 @@ Verify proj-cli integration with work-prod API for `project_type` filtering.
 
 ## 🎯 Phase Goals
 
-- [ ] Test against running work-prod instance
-- [ ] Verify all type filters work
-- [ ] Verify combined filters work
-- [ ] Verify error handling
-- [ ] Update documentation
+- [x] Test against running work-prod instance
+- [x] Verify all type filters work
+- [x] Verify combined filters work
+- [x] Verify error handling
+- [x] Update documentation
 
 ---
 
@@ -50,8 +53,8 @@ curl "http://localhost:5000/api/projects?project_type=Work"
 ```
 
 **Acceptance Criteria:**
-- [ ] work-prod server running
-- [ ] API responds to project_type parameter
+- [x] work-prod server running
+- [x] API responds to project_type parameter
 
 ---
 
@@ -82,10 +85,10 @@ proj list --type Work --format json | jq '.[].project_type' | sort | uniq
 ```
 
 **Acceptance Criteria:**
-- [ ] `--type Work` returns only Work projects
-- [ ] `--type Personal` returns only Personal projects
-- [ ] `--type Learning` returns only Learning projects
-- [ ] `--type Inactive` returns only Inactive projects
+- [x] `--type Work` returns only Work projects (empty - no Work projects in DB)
+- [x] `--type Personal` returns only Personal projects (31 projects verified)
+- [x] `--type Learning` returns only Learning projects (empty - no Learning projects in DB)
+- [x] `--type Inactive` returns only Inactive projects (empty - no Inactive projects in DB)
 
 ---
 
@@ -95,25 +98,27 @@ proj list --type Work --format json | jq '.[].project_type' | sort | uniq
 
 ```bash
 # Combine type with classification
-proj list --type Work --classification primary
-proj list --type Learning --classification secondary
+proj list --type Work --class primary
+proj list --type Learning --class secondary
 
 # Combine type with search
 proj list --type Work --search "api"
 proj list --type Personal --search "python"
 
-# Combine all filters
-proj list --type Work --classification primary --search "test" --limit 10
+# Combine multiple filters
+proj list --type Work --class primary --search "test"
 ```
+
+> **Note:** Use `--class` (short form). Full `--classification` also works, but `--class` is consistent with other short options.
 
 **Expected Behavior:**
 - Filters should be additive (AND logic)
 - Should return projects matching ALL criteria
 
 **Acceptance Criteria:**
-- [ ] Type + classification works
-- [ ] Type + search works
-- [ ] Multiple filters combined work
+- [x] Type + classification works (empty results - no projects have classification set)
+- [x] Type + search works (7 "proj" matches, 5 "poke" matches)
+- [x] Multiple filters combined work (6 "dev" + Personal verified)
 
 ---
 
@@ -126,20 +131,22 @@ proj list --type Work --classification primary --search "test" --limit 10
 proj list --type Invalid
 # Expected: Error message about valid types
 
-# Mixed case (should this work?)
+# Case sensitivity tests
 proj list --type work
 proj list --type WORK
-# Document behavior
+# Expected: Fails - types are case-sensitive
+# Valid values: Work, Personal, Learning, Inactive
 ```
 
 **Expected Behavior:**
 - Invalid type shows clear error message
-- Error message lists valid values
+- Error message lists valid values (Work, Personal, Learning, Inactive)
+- Types are case-sensitive (lowercase/uppercase fails)
 
 **Acceptance Criteria:**
-- [ ] Invalid type shows error
-- [ ] Error message is helpful
-- [ ] Case sensitivity documented
+- [x] Invalid type shows error (exit code 1)
+- [x] Error message is helpful (lists valid options: Work, Personal, Learning, Inactive)
+- [x] Case sensitivity behavior documented (lowercase 'work' fails as expected)
 
 ---
 
@@ -171,18 +178,18 @@ proj list --type Learning --search "python"
 ```
 
 **Acceptance Criteria:**
-- [ ] CLI help is accurate
-- [ ] README includes type filter examples
+- [x] CLI help is accurate (shows `--type` with valid options)
+- [x] README includes type filter examples (added Filtering Projects section)
 
 ---
 
 ## ✅ Phase Completion Criteria
 
-- [ ] All type filters tested and working
-- [ ] Combined filters tested and working
-- [ ] Error handling tested
-- [ ] Documentation updated
-- [ ] Ready for PR
+- [x] All type filters tested and working
+- [x] Combined filters tested and working
+- [x] Error handling tested
+- [x] Documentation updated
+- [x] Ready for PR
 
 ---
 
@@ -204,5 +211,5 @@ After Phase 2 completion:
 
 ---
 
-**Last Updated:** 2025-12-23
+**Last Updated:** 2026-01-07
 

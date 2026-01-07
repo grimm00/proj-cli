@@ -9,6 +9,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _Changes not yet released_
 
+## [0.3.0] - 2026-01-07
+
+### Added
+
+- **Project Type Filtering:** Filter projects by type using `proj list --type` (PR #21)
+  - `--type Work` - Show only Work projects
+  - `--type Personal` - Show only Personal projects
+  - `--type Learning` - Show only Learning projects
+  - `--type Inactive` - Show only Inactive projects
+
+- **Combined Filters:** Type filtering works with other filters (PR #21)
+  - Type + classification: `proj list --type Work --class primary`
+  - Type + search: `proj list --type Personal --search "python"`
+
+- **Type Column:** Project type shown in table output (PR #21)
+
+- **Documentation:** Added "Filtering Projects" section to README
+
+### Changed
+
+- **Error Messages:** Invalid type values show clear error with list of valid options
+
 ## [0.2.0] - 2026-01-07
 
 ### Added
@@ -131,7 +153,8 @@ _Changes not yet released_
 
 ---
 
-[Unreleased]: https://github.com/grimm00/proj-cli/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/grimm00/proj-cli/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/grimm00/proj-cli/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/grimm00/proj-cli/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/grimm00/proj-cli/releases/tag/v0.1.0
 
