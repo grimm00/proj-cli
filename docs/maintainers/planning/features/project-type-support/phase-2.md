@@ -83,10 +83,10 @@ proj list --type Work --format json | jq '.[].project_type' | sort | uniq
 ```
 
 **Acceptance Criteria:**
-- [ ] `--type Work` returns only Work projects
-- [ ] `--type Personal` returns only Personal projects
-- [ ] `--type Learning` returns only Learning projects
-- [ ] `--type Inactive` returns only Inactive projects
+- [x] `--type Work` returns only Work projects (empty - no Work projects in DB)
+- [x] `--type Personal` returns only Personal projects (31 projects verified)
+- [x] `--type Learning` returns only Learning projects (empty - no Learning projects in DB)
+- [x] `--type Inactive` returns only Inactive projects (empty - no Inactive projects in DB)
 
 ---
 
