@@ -2,7 +2,7 @@
 
 **Feature:** Add `project_type` parameter support
 **Phase:** 2 of 2
-**Status:** 🟡 Ready to Start
+**Status:** 🟠 In Progress
 **Estimated Effort:** ~1 hour
 **Created:** 2025-12-23
 **Last Updated:** 2026-01-07
