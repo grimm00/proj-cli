@@ -1,7 +1,7 @@
 # Release Notes - v0.2.0
 
 **Release Date:** 2026-01-07  
-**Status:** 🔴 Draft  
+**Status:** ✅ Final  
 **Type:** Minor Release
 
 ---

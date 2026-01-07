@@ -1,7 +1,7 @@
 # CHANGELOG Draft - v0.2.0
 
 **Draft Created:** 2026-01-07  
-**Status:** 🔴 Draft - Needs Review
+**Status:** ✅ Merged to CHANGELOG.md
 
 ---
 
@@ -72,13 +72,13 @@
 
 ## Review Checklist
 
-- [ ] All PRs listed
-- [ ] Categorization correct (Added/Changed/Fixed)
-- [ ] PR numbers accurate
-- [ ] Descriptions clear and user-facing
-- [ ] Ready to merge into CHANGELOG.md
+- [x] All PRs listed
+- [x] Categorization correct (Added/Changed/Fixed)
+- [x] PR numbers accurate
+- [x] Descriptions clear and user-facing
+- [x] Ready to merge into CHANGELOG.md
 
 ---
 
-**Ready for merge:** [ ] Yes / [x] No - Needs review
+**Ready for merge:** [x] Yes - Merged 2026-01-07
 
