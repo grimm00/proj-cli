@@ -76,6 +76,7 @@ proj --version
 ```
 
 **Why pipx?**
+
 - Installs in isolated virtual environment (no dependency conflicts)
 - Automatically adds `proj` command to PATH
 - Easy upgrades and clean uninstalls
@@ -182,12 +183,12 @@ proj init
 
 You'll be prompted for:
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| **API URL** | work-prod API endpoint | `http://localhost:5000` |
-| **GitHub username** | For inventory scanning (optional) | skip |
-| **Local scan directories** | Directories to scan for projects | `~/Projects` |
-| **Templates source** | Path to dev-infra templates | `~/Projects/dev-infra/templates` |
+| Setting                    | Description                       | Default                          |
+| -------------------------- | --------------------------------- | -------------------------------- |
+| **API URL**                | work-prod API endpoint            | `http://localhost:5000`          |
+| **GitHub username**        | For inventory scanning (optional) | skip                             |
+| **Local scan directories** | Directories to scan for projects  | `~/Projects`                     |
+| **Templates source**       | Path to dev-infra templates       | `~/Projects/dev-infra/templates` |
 
 Configuration is saved to `~/.config/proj/config.yaml`.
 
@@ -195,15 +196,15 @@ Configuration is saved to `~/.config/proj/config.yaml`.
 
 You can also configure proj-cli via environment variables (these override config file settings):
 
-| Variable | Description |
-|----------|-------------|
-| `PROJ_API_URL` | work-prod API URL |
-| `PROJ_API_ENABLED` | Enable/disable API (`true`/`false`) |
-| `PROJ_GITHUB_TOKEN` | GitHub personal access token |
-| `PROJ_GITHUB_USERNAME` | GitHub username |
-| `PROJ_TEMPLATES__SOURCE` | Path to templates directory |
-| `PROJ_REGISTRY__PATH` | Path to local registry file |
-| `PROJ_DEFAULT_PROJECT_DIR` | Default directory for new projects |
+| Variable                   | Description                         |
+| -------------------------- | ----------------------------------- |
+| `PROJ_API_URL`             | work-prod API URL                   |
+| `PROJ_API_ENABLED`         | Enable/disable API (`true`/`false`) |
+| `PROJ_GITHUB_TOKEN`        | GitHub personal access token        |
+| `PROJ_GITHUB_USERNAME`     | GitHub username                     |
+| `PROJ_TEMPLATES__SOURCE`   | Path to templates directory         |
+| `PROJ_REGISTRY__PATH`      | Path to local registry file         |
+| `PROJ_DEFAULT_PROJECT_DIR` | Default directory for new projects  |
 
 ---
 
@@ -260,10 +261,10 @@ rm -rf ~/.local/venvs/proj-cli
 
 proj-cli stores configuration and data in these locations:
 
-| Path | Contents |
-|------|----------|
-| `~/.config/proj/` | Configuration file (`config.yaml`) |
-| `~/.local/share/proj/` | Local registry and data |
+| Path                   | Contents                           |
+| ---------------------- | ---------------------------------- |
+| `~/.config/proj/`      | Configuration file (`config.yaml`) |
+| `~/.local/share/proj/` | Local registry and data            |
 
 To remove all proj-cli data:
 
@@ -339,10 +340,11 @@ proj init --force
 
 1. **If using work-prod locally:** Ensure the backend is running
 2. **If not using an API:** Disable API integration:
+
    ```bash
    # In config.yaml, set:
    api_enabled: false
-   
+
    # Or use environment variable:
    export PROJ_API_ENABLED=false
    ```

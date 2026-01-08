@@ -486,7 +486,7 @@ def export_json(
                 "name": item.get("name", ""),
                 "description": item.get("description", ""),
                 "remote_url": item.get("remote_url", ""),
-                "local_path": item.get("local_path", ""),
+                "path": item.get("local_path", ""),  # work-prod API expects "path"
                 "status": "active",
             }
             if item.get("languages"):
@@ -560,7 +560,7 @@ def export_api(
             "name": item.get("name", ""),
             "description": item.get("description", ""),
             "remote_url": item.get("remote_url", ""),
-            "local_path": item.get("local_path", ""),
+            "path": item.get("local_path", ""),  # work-prod API expects "path"
             "status": "active",
         }
         projects.append(project)

@@ -118,6 +118,57 @@ This document lists research topics and questions that need investigation before
 
 ---
 
+### Research Topic 7: Project Creation Date Semantics
+
+**Question:** How should we track when a project actually began vs when we recorded it?
+
+**Why:** Current `created_at` field only tracks when the record was created in our system (inventory scan, API creation), not when the project itself was started. This limits usefulness for project timeline analysis.
+
+**Sub-questions:**
+- Should we distinguish `created_at` (record creation) from `started_at` (project inception)?
+- How can we obtain actual project start dates?
+  - Git repos: First commit timestamp (`git log --reverse --format=%aI | head -1`)
+  - Local directories: File/directory creation time (varies by OS)
+  - GitHub API: `created_at` field for repos
+- Should this be captured at scan time or on-demand?
+- Should work-prod API schema be extended with `started_at` field?
+- How should we handle projects where start date is unknown?
+
+**Priority:** Medium
+
+**Status:** 🔴 Not Started
+
+---
+
+### Research Topic 8: Field Name Consistency
+
+**Question:** How should we standardize field names between proj-cli and work-prod?
+
+**Why:** **BUG DISCOVERED:** Inventory export uses `local_path` but API expects `path`. This causes all path data to be lost during API import.
+
+**Sub-questions:**
+- Should we standardize on `path` or `local_path`?
+- What other field inconsistencies exist?
+- Should inventory JSON schema match work-prod API schema exactly?
+- How do we handle fields that exist in inventory but not API (e.g., `languages`, `marker`)?
+
+**Priority:** HIGH (includes immediate bug fix)
+
+**Status:** 🟡 Partially Complete
+
+**Immediate Bug:** ✅ **FIXED** (2026-01-08)
+- **Location:** `proj-cli/src/proj/commands/inventory.py` lines 489, 563
+- **Issue:** Export sends `local_path` but work-prod API expects `path`
+- **Fix:** Changed `"local_path"` to `"path"` in both export_json and export_api functions
+- **Commit:** `49fae4f fix(inventory): use 'path' field name to match work-prod API (BUG-001)`
+
+**Remaining Research:**
+- Should we standardize on `path` or `local_path` internally?
+- What other field inconsistencies exist?
+- Should inventory JSON schema match work-prod API schema exactly?
+
+---
+
 ## 🎯 Research Workflow
 
 1. Use `/research work-prod-integration` to conduct research on each topic

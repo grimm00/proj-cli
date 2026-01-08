@@ -1,117 +1,27 @@
-"""Project management commands."""
+"""Project creation with multiple modes."""
 
 import json
-import logging
-import subprocess
 from pathlib import Path
 from typing import Optional
 
 import click
 import typer
 from rich.console import Console
-from rich.prompt import Prompt
-from rich.table import Table
 
-from proj.api_client import APIClient
-from proj.config import Config
-from proj.constants import PROJECT_TYPE_HELP
 from proj.error_handler import (
     handle_error,
     APIError,
     BackendConnectionError,
-    InvalidProjectTypeError,
     TimeoutError,
 )
-from proj.registry import add_project, update_project_work_prod_id
-from proj.templates import (
-    create_from_template,
-    get_templates_source,
-    list_templates,
-    TemplateError,
-)
 
-console = Console()
-logger = logging.getLogger(__name__)
+from .helpers import sync_to_api, get_package_imports
 
-# Status emoji mapping (shared constant)
-STATUS_EMOJI = {
-    "active": "🟢",
-    "inactive": "⚪",
-    "archived": "📦",
-    "completed": "✅",
-}
+# Use console from helpers to avoid duplicate instance
+from .helpers import console
 
 
-def get_client() -> APIClient:
-    """Get configured API client."""
-    return APIClient(Config.load())
-
-
-def sync_to_api(
-    client: APIClient,
-    name: str,
-    path: Path,
-    template: str,
-    description: Optional[str] = None,
-    console: Optional[Console] = None,
-) -> Optional[int]:
-    """Sync project to work-prod API.
-
-    Args:
-        client: APIClient instance
-        name: Project name
-        path: Local project path
-        template: Template type used
-        description: Optional project description
-        console: Console for output (optional)
-
-    Returns:
-        work_prod_id if successful, None if failed
-    """
-    try:
-        project_data = {
-            "name": name,
-            "path": str(path),
-            "description": description or f"Created from {template} template",
-            "status": "active",
-        }
-        result = client.create_project(project_data)
-        return result.get("id")
-    except (APIError, BackendConnectionError, TimeoutError) as e:
-        # Log full exception for debugging
-        logger.debug(f"API sync failed: {e}", exc_info=True)
-
-        if console:
-            # Show user-friendly message without internal details
-            console.print(
-                "[yellow]⚠ Could not sync to API. "
-                "Project created locally.[/yellow]"
-            )
-        return None
-
-
-def init_git(project_path: Path) -> bool:
-    """Initialize git repository in project.
-
-    Args:
-        project_path: Path to project directory.
-
-    Returns:
-        True if successful, False otherwise.
-    """
-    try:
-        result = subprocess.run(
-            ["git", "init"],
-            cwd=project_path,
-            capture_output=True,
-            text=True,
-        )
-        return result.returncode == 0
-    except Exception:
-        return False
-
-
-def prompt_for_create_options(config: Config) -> dict:
+def prompt_for_create_options(config) -> dict:
     """Prompt user for create options interactively.
 
     Args:
@@ -123,11 +33,13 @@ def prompt_for_create_options(config: Config) -> dict:
     Raises:
         KeyboardInterrupt: If user cancels (Ctrl+C).
     """
-    name = Prompt.ask("Project name")
+    pkg = get_package_imports()
+    
+    name = pkg.Prompt.ask("Project name")
 
     # List available templates
-    templates_source = get_templates_source(config)
-    available = list_templates(templates_source)
+    templates_source = pkg.get_templates_source(config)
+    available = pkg.list_templates(templates_source)
 
     if not available:
         console.print("[red]Error:[/red] No templates available.")
@@ -138,7 +50,7 @@ def prompt_for_create_options(config: Config) -> dict:
         config.templates.default if hasattr(config, 'templates') and
         hasattr(config.templates, 'default') else None
     )
-    template = Prompt.ask(
+    template = pkg.Prompt.ask(
         "Template type",
         choices=available,
         default=default_template or available[0] if available else None,
@@ -149,13 +61,13 @@ def prompt_for_create_options(config: Config) -> dict:
         if config.default_project_dir
         else str(Path.home() / "Projects")
     )
-    target_dir_str = Prompt.ask(
+    target_dir_str = pkg.Prompt.ask(
         "Target directory",
         default=default_target,
     )
     target_dir = Path(target_dir_str).expanduser().resolve()
 
-    description = Prompt.ask("Description (optional)", default="")
+    description = pkg.Prompt.ask("Description (optional)", default="")
 
     return {
         "name": name,
@@ -193,6 +105,8 @@ def _create_project_via_api(
         BackendConnectionError: If backend is unreachable.
         TimeoutError: If request times out.
     """
+    pkg = get_package_imports()
+    
     data = {"name": name, "status": status}
     if description:
         data["description"] = description
@@ -205,7 +119,8 @@ def _create_project_via_api(
     if remote_url:
         data["remote_url"] = remote_url
 
-    client = get_client()
+    # Use package-level get_client for test patching compatibility
+    client = pkg.get_client()
     return client.create_project(data)
 
 
@@ -238,147 +153,7 @@ def detect_create_mode(
         return "local-only"
     if template:
         return "template"
-
-    # Default: interactive
     return "interactive"
-
-
-def list_projects(
-    status: Optional[str] = typer.Option(
-        None, "--status", "-s", help="Filter by status"
-    ),
-    organization: Optional[str] = typer.Option(
-        None, "--org", "-o", help="Filter by organization"
-    ),
-    classification: Optional[str] = typer.Option(
-        None, "--class", "-c", help="Filter by classification"
-    ),
-    project_type: Optional[str] = typer.Option(
-        None, "--type", "-t",
-        help=PROJECT_TYPE_HELP
-    ),
-    search: Optional[str] = typer.Option(
-        None, "--search", help="Search in names and descriptions"
-    ),
-    wide: bool = typer.Option(
-        False, "--wide", "-w", help="Show all columns"
-    ),
-    format: str = typer.Option(
-        "table", "--format", "-f",
-        help="Output format: table, json",
-        click_type=click.Choice(["table", "json"], case_sensitive=False),
-    ),
-):
-    """List all projects with optional filters."""
-    try:
-        client = get_client()
-        projects = client.list_projects(
-            status=status,
-            organization=organization,
-            classification=classification,
-            project_type=project_type,
-            search=search,
-        )
-
-        if format == "json":
-            console.print_json(json.dumps(projects, indent=2))
-        else:
-            if not projects:
-                console.print("[yellow]No projects found.[/yellow]")
-                return
-
-            table = Table(
-                title=f"Projects ({len(projects)})",
-                show_header=True,
-                header_style="bold magenta",
-                border_style="blue",
-            )
-            table.add_column("ID", style="cyan", justify="right")
-            table.add_column("Name", style="green")
-
-            if wide or status:
-                table.add_column("Status", style="yellow")
-            if wide or organization:
-                table.add_column("Org", style="blue")
-            if wide or classification:
-                table.add_column("Classification", style="magenta")
-            if wide or project_type:
-                table.add_column("Type", style="cyan")
-
-            table.add_column("Path", style="blue")
-
-            if wide or search:
-                table.add_column("Description", style="dim")
-
-            table.add_column("Created", style="magenta")
-
-            for p in projects:
-                row = [str(p.get("id", "")), p.get("name", "")]
-                if wide or status:
-                    status_val = p.get("status", "")
-                    emoji = STATUS_EMOJI.get(status_val, "")
-                    if emoji:
-                        row.append(f"{emoji} {status_val}")
-                    else:
-                        row.append(status_val)
-                if wide or organization:
-                    row.append(p.get("organization", ""))
-                if wide or classification:
-                    row.append(p.get("classification", ""))
-                if wide or project_type:
-                    row.append(p.get("project_type", "-"))
-                row.append(p.get("path", "") or "")
-                if wide or search:
-                    row.append(p.get("description", "") or "")
-                row.append(
-                    p.get("created_at", "")[:10] if p.get("created_at") else ""
-                )
-                table.add_row(*row)
-
-            console.print(table)
-    except InvalidProjectTypeError as e:
-        console.print(f"[red]Error:[/red] {e}")
-        raise typer.Exit(1)
-    except (APIError, BackendConnectionError, TimeoutError) as e:
-        handle_error(e, console)
-        raise typer.Exit(1)
-
-
-def get_project(
-    project_id: int = typer.Argument(..., help="Project ID"),
-    format: str = typer.Option(
-        "table", "--format", "-f",
-        help="Output format: table, json",
-        click_type=click.Choice(["table", "json"], case_sensitive=False),
-    ),
-):
-    """Get a project by ID."""
-    try:
-        client = get_client()
-        project = client.get_project(project_id)
-
-        if format == "json":
-            console.print_json(json.dumps(project, indent=2))
-        else:
-            table = Table(
-                title=f"Project {project_id}",
-                show_header=True,
-                header_style="bold magenta",
-                border_style="blue",
-            )
-            table.add_column("Field", style="cyan")
-            table.add_column("Value", style="green")
-
-            for key, value in project.items():
-                display_value = str(value) if value else ""
-                if key == "status" and value in STATUS_EMOJI:
-                    display_value = f"{STATUS_EMOJI[value]} {display_value}"
-                table.add_row(key, display_value)
-
-            console.print(table)
-    except (APIError, BackendConnectionError, TimeoutError) as e:
-        handle_error(e, console)
-        raise typer.Exit(1)
 
 
 def create_project(
@@ -442,9 +217,11 @@ def create_project(
     - API-only: Original behavior (backward compatible)
     - Local-only: Template creation without API
     """
+    pkg = get_package_imports()
+    
     try:
         # Load config for mode detection
-        config = Config.load()
+        config = pkg.Config.load()
 
         # Handle dry-run mode (preview without side effects)
         if dry_run:
@@ -461,7 +238,7 @@ def create_project(
 
             if template:
                 # Template mode preview
-                templates_source = get_templates_source(config)
+                templates_source = pkg.get_templates_source(config)
                 if target_dir:
                     target = Path(target_dir).expanduser().resolve()
                 else:
@@ -605,7 +382,7 @@ def create_project(
                 raise typer.Exit(1)
 
             # Get templates source
-            templates_source = get_templates_source(config)
+            templates_source = pkg.get_templates_source(config)
 
             # Determine target directory
             if target_dir:
@@ -619,7 +396,7 @@ def create_project(
 
             # Create project from template
             try:
-                project_path = create_from_template(
+                project_path = pkg.create_from_template(
                     project_name=name,
                     template_type=template,
                     target_dir=target,
@@ -629,7 +406,7 @@ def create_project(
 
                 # Initialize git (unless --no-git)
                 if not no_git:
-                    if init_git(project_path):
+                    if pkg.init_git(project_path):
                         console.print(
                             "[dim]✓ Initialized git repository[/dim]"
                         )
@@ -642,7 +419,7 @@ def create_project(
                 # Register project (unless --no-register)
                 if register:
                     try:
-                        add_project(
+                        pkg.add_project(
                             path=project_path,
                             template=template,
                             # TODO: Get from dev-infra
@@ -657,7 +434,7 @@ def create_project(
 
                 # Sync to API (unless --local-only or api_enabled=False)
                 if not local_only and config.api_enabled:
-                    client = APIClient(config)
+                    client = pkg.APIClient(config)
                     work_prod_id = sync_to_api(
                         client=client,
                         name=name,
@@ -667,7 +444,7 @@ def create_project(
                         console=console,
                     )
                     if work_prod_id:
-                        update_project_work_prod_id(project_path, work_prod_id)
+                        pkg.update_project_work_prod_id(project_path, work_prod_id)
                         console.print(
                             f"[dim]✓ Synced to API (ID: {work_prod_id})[/dim]"
                         )
@@ -687,7 +464,7 @@ def create_project(
                 )
                 return
 
-            except TemplateError as e:
+            except pkg.TemplateError as e:
                 console.print(f"[red]Error: {e}[/red]")
                 raise typer.Exit(1)
 
@@ -717,226 +494,6 @@ def create_project(
             )
             raise typer.Exit(1)
 
-    except (APIError, BackendConnectionError, TimeoutError) as e:
-        handle_error(e, console)
-        raise typer.Exit(1)
-
-
-def update_project(
-    project_id: int = typer.Argument(..., help="Project ID"),
-    name: Optional[str] = typer.Option(
-        None, "--name", "-n", help="New name"
-    ),
-    description: Optional[str] = typer.Option(
-        None, "--desc", "-d", help="New description"
-    ),
-    status: Optional[str] = typer.Option(
-        None, "--status", "-s", help="New status"
-    ),
-    organization: Optional[str] = typer.Option(
-        None, "--org", "-o", help="New organization"
-    ),
-    classification: Optional[str] = typer.Option(
-        None, "--class", "-c", help="New classification"
-    ),
-    path: Optional[str] = typer.Option(
-        None, "--path", "-p", help="New local path"
-    ),
-    remote_url: Optional[str] = typer.Option(
-        None, "--url", "-u", help="New remote URL"
-    ),
-):
-    """Update a project."""
-    try:
-        data = {}
-        if name:
-            data["name"] = name
-        if description:
-            data["description"] = description
-        if status:
-            data["status"] = status
-        if organization:
-            data["organization"] = organization
-        if classification:
-            data["classification"] = classification
-        if path:
-            data["path"] = path
-        if remote_url:
-            data["remote_url"] = remote_url
-
-        if not data:
-            console.print("[yellow]No updates provided.[/yellow]")
-            raise typer.Exit(1)
-
-        client = get_client()
-        client.update_project(project_id, data)
-
-        console.print(f"[green]✓ Updated project {project_id}[/green]")
-    except (APIError, BackendConnectionError, TimeoutError) as e:
-        handle_error(e, console)
-        raise typer.Exit(1)
-
-
-def delete_project(
-    project_id: int = typer.Argument(..., help="Project ID"),
-    force: bool = typer.Option(
-        False, "--force", "-f", help="Skip confirmation"
-    ),
-):
-    """Delete a project permanently."""
-    try:
-        if not force:
-            confirm = typer.confirm(f"Delete project {project_id}?")
-            if not confirm:
-                raise typer.Abort()
-
-        client = get_client()
-        client.delete_project(project_id)
-
-        console.print(f"[green]✓ Deleted project {project_id}[/green]")
-    except (APIError, BackendConnectionError, TimeoutError) as e:
-        handle_error(e, console)
-        raise typer.Exit(1)
-
-
-def search_projects(
-    query: str = typer.Argument(..., help="Search query"),
-    wide: bool = typer.Option(
-        False, "--wide", "-w", help="Show all columns"
-    ),
-    format: str = typer.Option(
-        "table", "--format", "-f",
-        help="Output format: table, json",
-        click_type=click.Choice(["table", "json"], case_sensitive=False),
-    ),
-):
-    """Search projects by name or description."""
-    try:
-        client = get_client()
-        projects = client.search_projects(query)
-
-        if format == "json":
-            console.print_json(json.dumps(projects, indent=2))
-        else:
-            if not projects:
-                msg = f"[yellow]No projects found for '{query}'.[/yellow]"
-                console.print(msg)
-                return
-
-            table = Table(
-                title=f"Search Results: {query}",
-                show_header=True,
-                header_style="bold magenta",
-                border_style="blue",
-            )
-            table.add_column("ID", style="cyan", justify="right")
-            table.add_column("Name", style="green")
-            table.add_column("Status", style="yellow")
-
-            if wide:
-                table.add_column("Org", style="blue")
-                table.add_column("Classification", style="magenta")
-                table.add_column("Path", style="blue")
-
-            table.add_column("Description", style="dim")
-
-            if wide:
-                table.add_column("Created", style="magenta")
-
-            for p in projects:
-                status_val = p.get("status", "")
-                emoji = STATUS_EMOJI.get(status_val, "")
-                if emoji:
-                    status_display = f"{emoji} {status_val}"
-                else:
-                    status_display = status_val
-
-                row = [
-                    str(p.get("id", "")),
-                    p.get("name", ""),
-                    status_display,
-                ]
-                if wide:
-                    row.append(p.get("organization", "") or "")
-                    row.append(p.get("classification", "") or "")
-                    row.append(p.get("path", "") or "")
-                row.append((p.get("description", "") or "")[:50])
-                if wide:
-                    created = p.get("created_at", "")
-                    row.append(created[:10] if created else "")
-                table.add_row(*row)
-
-            console.print(table)
-    except (APIError, BackendConnectionError, TimeoutError) as e:
-        handle_error(e, console)
-        raise typer.Exit(1)
-
-
-def import_json(
-    file: Path = typer.Argument(
-        ..., help="JSON file to import", exists=True
-    ),
-):
-    """Import projects from JSON file."""
-    try:
-        with open(file, encoding="utf-8") as f:
-            data = json.load(f)
-
-        if isinstance(data, list):
-            projects = data
-        elif isinstance(data, dict) and "projects" in data:
-            projects = data["projects"]
-        else:
-            msg = (
-                "[red]Error: Invalid JSON format. "
-                "Expected list or {projects: [...]}[/red]"
-            )
-            console.print(msg)
-            raise typer.Exit(1)
-
-        client = get_client()
-        result = client.import_projects(projects)
-
-        imported = result.get('imported', 0)
-        skipped = result.get('skipped', 0)
-        console.print(f"[green]✓ Imported: {imported}[/green]")
-        console.print(f"[yellow]  Skipped: {skipped}[/yellow]")
-        if result.get("errors"):
-            console.print(
-                f"[red]  Errors: {len(result.get('errors', []))}[/red]"
-            )
-    except json.JSONDecodeError as e:
-        console.print(f"[red]Error: Invalid JSON: {e}[/red]")
-        raise typer.Exit(1)
-    except (APIError, BackendConnectionError, TimeoutError) as e:
-        handle_error(e, console)
-        raise typer.Exit(1)
-
-
-def archive_project(
-    project_id: int = typer.Argument(..., help="Project ID"),
-    force: bool = typer.Option(
-        False, "--force", "-f", help="Skip confirmation"
-    ),
-):
-    """Archive a project.
-
-    Sets status to completed, classification to archive.
-    """
-    try:
-        if not force:
-            confirm = typer.confirm(f"Archive project {project_id}?")
-            if not confirm:
-                raise typer.Abort()
-
-        client = get_client()
-        project = client.archive_project(project_id)
-
-        project_name = project.get('name')
-        console.print(
-            f"[green]✓ Archived project {project_id}: "
-            f"{project_name}[/green]"
-        )
     except (APIError, BackendConnectionError, TimeoutError) as e:
         handle_error(e, console)
         raise typer.Exit(1)

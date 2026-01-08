@@ -9,6 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _Changes not yet released_
 
+## [0.3.2] - 2026-01-08
+
+### Fixed
+
+- **Inventory Export:** Fixed blank "path" field in inventory export by using correct field name to match work-prod API schema (BUG-001)
+
+### Changed
+
+- **Code Structure:** Refactored `projects.py` (943 lines) into focused package with 5 modules: `helpers.py`, `list.py`, `crud.py`, `create.py`, `import_export.py` (PR #25)
+- **Test Structure:** Reorganized tests into hierarchical structure: `unit/`, `integration/`, `commands/`, `create/` (PR #26)
+- **Test Helper:** Created `assert_command_exists()` helper function, refactored 16 command-existence tests (PR #29)
+
+### Removed
+
+- **Dead Code:** Removed unused `_get_client()` function from `create.py` (PR #28)
+
 ## [0.3.1] - 2026-01-07
 
 ### Changed
@@ -161,7 +177,8 @@ _Changes not yet released_
 
 ---
 
-[Unreleased]: https://github.com/grimm00/proj-cli/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/grimm00/proj-cli/compare/v0.3.2...HEAD
+[0.3.2]: https://github.com/grimm00/proj-cli/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/grimm00/proj-cli/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/grimm00/proj-cli/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/grimm00/proj-cli/compare/v0.1.0...v0.2.0

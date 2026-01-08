@@ -1,7 +1,7 @@
 # Release Checklist - v0.3.1
 
 **Version:** v0.3.1
-**Status:** 🟡 Ready for Release
+**Status:** ✅ Released
 **Created:** 2026-01-07
 **Type:** Patch Release
 
@@ -37,10 +37,10 @@
 
 ### Version Management
 
-- [ ] Version tagged in git (`git tag v0.3.1`)
-- [ ] Tag pushed to remote (`git push origin v0.3.1`)
-- [ ] Version number updated in `src/proj/__init__.py`
-- [ ] Version number updated in `pyproject.toml`
+- [x] Version tagged in git (`git tag v0.3.1`) ✅
+- [x] Tag pushed to remote (`git push origin v0.3.1`) ✅
+- [x] Version number updated in `src/proj/__init__.py` ✅
+- [x] Version number updated in `pyproject.toml` ✅
 
 ### Release Documentation
 
@@ -50,8 +50,8 @@
 
 ### Release Artifacts
 
-- [ ] GitHub release created
-- [ ] Release notes published
+- [x] GitHub release created ✅
+- [x] Release notes published ✅
 
 ---
 
@@ -59,13 +59,13 @@
 
 ### Git Cleanup
 
-- [ ] Main merged to develop
-- [ ] Release branch deleted (local)
-- [ ] Release branch deleted (remote)
+- [x] Main merged to develop ✅
+- [x] Release branch deleted (local) ✅
+- [x] Release branch deleted (remote) ✅
 
 ### Follow-up
 
-- [ ] Post-release verification complete
+- [x] Post-release verification complete ✅
 - [ ] Next release planned
 
 ---
@@ -73,8 +73,8 @@
 ## Release Summary
 
 **Version:** v0.3.1 - Code Quality Improvements
-**Release Date:** TBD
-**Status:** 🔴 Draft
+**Release Date:** 2026-01-07
+**Status:** ✅ Released
 
 **Key Improvements:**
 

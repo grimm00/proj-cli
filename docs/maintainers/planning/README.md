@@ -2,7 +2,7 @@
 
 **Purpose:** Central coordination for project planning and roadmap management
 **Status:** ✅ Active
-**Last Updated:** [Date]
+**Last Updated:** 2026-01-07
 
 ---
 
@@ -11,7 +11,8 @@
 ### Core Planning
 
 - **[Features](features/README.md)** - Feature-based planning and tracking
-- **[Explorations](explorations/README.md)** - Early-stage explorations and proof of concepts
+- **[Refactor](refactor/README.md)** - Code quality and restructuring (NEW)
+- **[Explorations](../explorations/README.md)** - Early-stage explorations and proof of concepts
 - **[Releases](releases/README.md)** - Release management and versioning
 - **[Phases](phases/README.md)** - Development phase tracking
 - **[Notes](notes/README.md)** - Planning insights and decisions
@@ -99,18 +100,18 @@ planning/
 
 ### ✅ Active Planning
 
-- [Active feature 1]
-- [Active release 1]
+- **[Code Structure Refactoring](refactor/code-structure-refactoring/)** - Split large modules and organize tests (🔴 Scaffolding)
+- **[Work-Prod Integration](../explorations/work-prod-integration/)** - API integration patterns (🔴 Exploration)
 
 ### 🟡 Planned Items
 
-- [Planned feature 1]
-- [Planned release 1]
+- v0.4.0 - Code quality improvements (refactoring)
+- v0.5.0 - Work-prod integration features
 
 ### 📈 Planning Metrics
 
-- [Planning metric 1]
-- [Planning metric 2]
+- **Features Completed:** 3 (proj-cli, template-generation, project-type-support)
+- **Current Version:** v0.3.1
 
 ---
 
@@ -154,6 +155,6 @@ planning/
 
 ---
 
-**Last Updated:** [Date]
+**Last Updated:** 2026-01-07
 **Status:** ✅ Active
-**Next:** [Next planning task]
+**Next:** Begin code structure refactoring (v0.4.0)

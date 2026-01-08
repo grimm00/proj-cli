@@ -23,6 +23,11 @@
   - ✅ quick-wins-01: 7 issues (PR #4)
   - ✅ quick-wins-02: 9 issues (PR #6)
 
+### Bug Fixes
+
+- **[Bug Fixes](bugs/README.md)** - Bugs discovered through manual testing and usage
+  - ✅ BUG-001: local_path field mismatch (🟠 HIGH, 🟢 LOW) - Fixed 2026-01-08
+
 ---
 
 ## 📁 Directory Structure
