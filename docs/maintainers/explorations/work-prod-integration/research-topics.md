@@ -154,12 +154,18 @@ This document lists research topics and questions that need investigation before
 
 **Priority:** HIGH (includes immediate bug fix)
 
-**Status:** 🔴 Not Started
+**Status:** 🟡 Partially Complete
 
-**Immediate Bug:**
-- **Location:** `proj-cli/src/proj/commands/inventory.py` lines 559-563
+**Immediate Bug:** ✅ **FIXED** (2026-01-08)
+- **Location:** `proj-cli/src/proj/commands/inventory.py` lines 489, 563
 - **Issue:** Export sends `local_path` but work-prod API expects `path`
-- **Fix:** Change `"local_path"` to `"path"` in export_api function
+- **Fix:** Changed `"local_path"` to `"path"` in both export_json and export_api functions
+- **Commit:** `49fae4f fix(inventory): use 'path' field name to match work-prod API (BUG-001)`
+
+**Remaining Research:**
+- Should we standardize on `path` or `local_path` internally?
+- What other field inconsistencies exist?
+- Should inventory JSON schema match work-prod API schema exactly?
 
 ---
 
