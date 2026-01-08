@@ -10,7 +10,7 @@
 
 ### Active Research
 
-- **[work-prod-integration](work-prod-integration/README.md)** - API integration patterns (🔴 Research - 0/8 Complete)
+- **[work-prod-integration](work-prod-integration/README.md)** - API integration patterns (🟠 Research - 1/8 Complete)
 - **[proj-cli-architecture](proj-cli-architecture/README.md)** - Extend proj-cli with template generation (🟠 5/6 Complete)
 
 ---

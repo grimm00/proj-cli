@@ -29,9 +29,45 @@ This document captures requirements discovered during research on how proj-cli s
 
 ---
 
-### FR-2: [Pending - Source of Truth]
+### FR-SOT-1: API Source of Truth
 
-**Description:** [TBD after research]
+**Description:** API shall remain the source of truth for all project metadata (name, description, status, organization, classification, etc.)
+
+**Source:** [research-source-of-truth.md](research-source-of-truth.md)
+
+**Priority:** High
+
+**Status:** ✅ Confirmed (already implemented)
+
+---
+
+### FR-SOT-2: Registry as Sync Overlay
+
+**Description:** Registry shall only track sync state (path, template, template_version, work_prod_id) - not duplicate API data
+
+**Source:** [research-source-of-truth.md](research-source-of-truth.md)
+
+**Priority:** High
+
+**Status:** ✅ Confirmed (already implemented)
+
+---
+
+### FR-SOT-3: CRUD Consistency
+
+**Description:** All operations that modify API state shall also update registry accordingly (create, update, delete)
+
+**Source:** [research-source-of-truth.md](research-source-of-truth.md)
+
+**Priority:** High
+
+**Status:** 🟠 Partial (create works, delete has gap)
+
+---
+
+### FR-SOT-4: Inconsistency Detection
+
+**Description:** CLI shall provide commands to detect and resolve registry/API inconsistencies (orphaned entries, missing links)
 
 **Source:** [research-source-of-truth.md](research-source-of-truth.md)
 
@@ -43,7 +79,7 @@ This document captures requirements discovered during research on how proj-cli s
 
 ### FR-3: [Pending - Delete Architecture]
 
-**Description:** [TBD after research]
+**Description:** [TBD after research - will refine delete requirements]
 
 **Source:** [research-delete-architecture.md](research-delete-architecture.md)
 
@@ -79,6 +115,42 @@ This document captures requirements discovered during research on how proj-cli s
 
 ## 🎯 Non-Functional Requirements
 
+### NFR-SOT-1: Offline Local Operations
+
+**Description:** CLI shall work offline for local operations (create --local-only, registry list)
+
+**Source:** [research-source-of-truth.md](research-source-of-truth.md)
+
+**Priority:** High
+
+**Status:** ✅ Confirmed (already implemented)
+
+---
+
+### NFR-SOT-2: Graceful API Degradation
+
+**Description:** CLI shall fail gracefully when API is unavailable, allowing local operations to continue
+
+**Source:** [research-source-of-truth.md](research-source-of-truth.md)
+
+**Priority:** High
+
+**Status:** ✅ Confirmed (already implemented)
+
+---
+
+### NFR-SOT-3: Registry Recoverability
+
+**Description:** Sync state shall be recoverable - registry can be rebuilt from API if needed
+
+**Source:** [research-source-of-truth.md](research-source-of-truth.md)
+
+**Priority:** Medium
+
+**Status:** 🔴 Pending (no rebuild command exists)
+
+---
+
 ### NFR-1: Offline Capability
 
 **Description:** CLI commands should degrade gracefully when API is unavailable
@@ -87,7 +159,7 @@ This document captures requirements discovered during research on how proj-cli s
 
 **Priority:** Medium
 
-**Status:** 🔴 Pending
+**Status:** 🔴 Pending (detailed research)
 
 ---
 
