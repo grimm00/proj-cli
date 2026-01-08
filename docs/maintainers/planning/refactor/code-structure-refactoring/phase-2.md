@@ -35,7 +35,7 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
 | Task 4: Move Command Tests     | ✅ Complete    |       |
 | Task 5: Move Create Tests      | ✅ Complete    |       |
 | Task 6: Split Projects Tests   | ✅ Complete    |       |
-| Task 7: Fix Deferred Items     | 🔴 Not Started |       |
+| Task 7: Fix Deferred Items     | ✅ Complete    |       |
 | Task 8: Update Configuration   | 🔴 Not Started |       |
 
 ---
@@ -404,10 +404,10 @@ from .helpers import console  # Use shared instance
 
 **Checklist:**
 
-- [ ] `list.py` updated to use shared console
-- [ ] `crud.py` updated to use shared console
-- [ ] `import_export.py` updated to use shared console
-- [ ] All affected tests pass
+- [x] `list.py` updated to use shared console
+- [x] `crud.py` updated to use shared console
+- [x] `import_export.py` updated to use shared console
+- [x] All affected tests pass (26 passed)
 
 ---
 
@@ -463,11 +463,11 @@ from .helpers import console  # Use shared instance
 
 **Checklist:**
 
-- [ ] `get_package_imports()` added to `helpers.py`
-- [ ] Exported from `__init__.py`
-- [ ] `create.py` updated to use shared helper
-- [ ] `list.py` updated to use shared helper
-- [ ] All affected tests pass
+- [x] `get_package_imports()` added to `helpers.py`
+- [x] Exported from `__init__.py`
+- [x] `create.py` updated to use shared helper (4 uses replaced)
+- [x] `list.py` updated to use shared helper (2 uses replaced)
+- [x] All affected tests pass (95 passed, 1 pre-existing failure)
 
 ---
 
