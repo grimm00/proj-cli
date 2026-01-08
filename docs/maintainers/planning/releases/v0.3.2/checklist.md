@@ -1,7 +1,7 @@
 # Release Checklist - v0.3.2
 
 **Version:** v0.3.2  
-**Status:** 🟡 Ready for Release  
+**Status:** ✅ Released  
 **Created:** 2026-01-08  
 **Type:** Patch Release
 
@@ -36,16 +36,16 @@
 
 ### Version Management
 
-- [x] Version bumped in `pyproject.toml` (0.3.1 → 0.3.2)
-- [x] Version bumped in `src/proj/__init__.py` (0.3.1 → 0.3.2)
-- [ ] Version tagged in git (`git tag v0.3.2`)
-- [ ] Tag pushed to remote (`git push origin v0.3.2`)
+- [x] Version bumped in `pyproject.toml` (0.3.1 → 0.3.2) ✅
+- [x] Version bumped in `src/proj/__init__.py` (0.3.1 → 0.3.2) ✅
+- [x] Version tagged in git (`git tag v0.3.2`) ✅
+- [x] Tag pushed to remote (`git push origin v0.3.2`) ✅
 
 ### Release Documentation
 
-- [x] Release notes finalized
-- [x] CHANGELOG.md updated
-- [ ] Release hub status updated to ✅ Released
+- [x] Release notes finalized ✅
+- [x] CHANGELOG.md updated ✅
+- [x] Release hub status updated to ✅ Released ✅
 
 ---
 
@@ -53,9 +53,9 @@
 
 ### Git Cleanup
 
-- [ ] Release branch merged to main (if used)
-- [ ] Main merged back to develop
-- [ ] Release branch deleted (if used)
+- [x] Release branch merged to main ✅
+- [x] Main merged back to develop ✅
+- [x] Release branch deleted ✅
 
 ### Follow-up
 
