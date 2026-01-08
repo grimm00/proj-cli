@@ -8,11 +8,13 @@
 
 ## 📋 Quick Links
 
+### In Progress
+
+- **[v0.3.2](v0.3.2/README.md)** - Code Structure Refactoring (🔴 Draft)
+
 ### Released
 
 - **[v0.3.1](v0.3.1/README.md)** - Code Quality Improvements (✅ Released 2026-01-07)
-
-### Released
 
 - **[v0.3.0](v0.3.0/README.md)** - Project Type Support (✅ Released 2026-01-07)
 - **[v0.2.0](v0.2.0/README.md)** - Template Generation Extension (✅ Released 2026-01-07)
@@ -31,6 +33,7 @@
 
 | Version | Status | Date | Type | Description |
 |---------|--------|------|------|-------------|
+| v0.3.2 | 🔴 Draft | 2026-01-08 | Patch | Code Structure Refactoring |
 | v0.3.1 | ✅ Released | 2026-01-07 | Patch | Code Quality Improvements |
 | v0.3.0 | ✅ Released | 2026-01-07 | Minor | Project Type Support |
 | v0.2.0 | ✅ Released | 2026-01-07 | Minor | Template Generation Extension |
@@ -103,5 +106,4 @@ releases/
 
 ---
 
-**Last Updated:** 2026-01-07
-
+**Last Updated:** 2026-01-08
