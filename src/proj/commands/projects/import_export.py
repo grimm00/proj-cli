@@ -4,7 +4,6 @@ import json
 from pathlib import Path
 
 import typer
-from rich.console import Console
 
 from proj.error_handler import (
     handle_error,
@@ -13,9 +12,7 @@ from proj.error_handler import (
     TimeoutError,
 )
 
-from .helpers import get_client
-
-console = Console()
+from .helpers import get_client, console
 
 
 def import_json(

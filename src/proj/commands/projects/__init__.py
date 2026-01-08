@@ -22,6 +22,7 @@ __all__ = [
     "init_git",
     "console",
     "logger",
+    "get_package_imports",
     # List
     "list_projects",
     "search_projects",
@@ -46,6 +47,7 @@ from .helpers import (
     init_git,
     console,
     logger,
+    get_package_imports,
 )
 
 # List - list and search operations

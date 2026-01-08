@@ -44,6 +44,19 @@ def get_client():
     return projects.APIClient(projects.Config.load())
 
 
+def get_package_imports():
+    """Get package-level imports for test patching compatibility.
+
+    This enables tests to patch proj.commands.projects.X and have
+    the patches work correctly in submodules.
+    
+    Returns:
+        The projects package module for late binding.
+    """
+    from proj.commands import projects
+    return projects
+
+
 def sync_to_api(
     client: APIClient,
     name: str,
