@@ -33,7 +33,7 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
 | Task 2: Move Unit Tests        | ✅ Complete    |       |
 | Task 3: Move Integration Tests | ✅ Complete    |       |
 | Task 4: Move Command Tests     | ✅ Complete    |       |
-| Task 5: Move Create Tests      | 🔴 Not Started |       |
+| Task 5: Move Create Tests      | ✅ Complete    |       |
 | Task 6: Split Projects Tests   | 🔴 Not Started |       |
 | Task 7: Fix Deferred Items     | 🔴 Not Started |       |
 | Task 8: Update Configuration   | 🔴 Not Started |       |
@@ -251,10 +251,10 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
 
 **Checklist:**
 
-- [ ] 9 files moved to `create/`
-- [ ] Files renamed (removed `_create` prefix)
-- [ ] All create tests pass
-- [ ] No import errors
+- [x] 9 files moved to `create/`
+- [x] Files renamed (removed `_create` prefix/infix)
+- [x] All create tests pass (53 passed)
+- [x] No import errors
 
 ---
 
