@@ -14,10 +14,23 @@ This directory tracks fixes and deferred issues for the Code Structure Refactori
 
 ## 📁 Active PRs
 
-| PR | Title | Status | Deferred Issues |
-|----|-------|--------|-----------------|
-| [PR #25](pr25/README.md) | Phase 1: Source Code Refactoring | ✅ Merged | 2 (fixed in Phase 2) |
-| [PR #26](pr26/README.md) | Phase 2: Test Structure Reorganization | ✅ Merged | 4 (all MEDIUM/LOW) |
+| PR | Title | Status | Deferred Issues | Batches |
+|----|-------|--------|-----------------|---------|
+| [PR #25](pr25/README.md) | Phase 1: Source Code Refactoring | ✅ Merged | 2 (fixed in Phase 2) | 0 |
+| [PR #26](pr26/README.md) | Phase 2: Test Structure Reorganization | 🟡 Planned | 4 (all MEDIUM/LOW) | 3 |
+
+---
+
+## 📊 Batch Summary
+
+**Total Batches:** 3  
+**Total Issues:** 4
+
+| Batch | Priority | Effort | Issues | Description |
+|-------|----------|--------|--------|-------------|
+| [PR26 batch-medium-low-01](pr26/batch-medium-low-01.md) | 🟡 MEDIUM | 🟢 LOW | 2 | Test regression coverage |
+| [PR26 batch-low-low-01](pr26/batch-low-low-01.md) | 🟢 LOW | 🟢 LOW | 1 | Code consolidation |
+| [PR26 batch-low-medium-01](pr26/batch-low-medium-01.md) | 🟢 LOW | 🟡 MEDIUM | 1 | Test parametrization |
 
 ---
 
@@ -29,7 +42,10 @@ fix/
 ├── pr25/               # PR #25 deferred issues
 │   └── README.md       # PR #25 hub
 └── pr26/               # PR #26 deferred issues
-    └── README.md       # PR #26 hub
+    ├── README.md       # PR #26 hub
+    ├── batch-medium-low-01.md
+    ├── batch-low-low-01.md
+    └── batch-low-medium-01.md
 ```
 
 ---

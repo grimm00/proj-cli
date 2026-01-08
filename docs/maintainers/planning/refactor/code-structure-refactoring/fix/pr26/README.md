@@ -1,9 +1,32 @@
 # Fix Tracking - PR #26
 
-**PR:** #26 - refactor: Test Structure Reorganization (Phase 2)
-**Phase:** Phase 2
-**Merged:** 2026-01-08
+**PR:** #26 - refactor: Test Structure Reorganization (Phase 2)  
+**Phase:** Phase 2  
+**Merged:** 2026-01-08  
+**Status:** 🟡 Planned  
 **Last Updated:** 2026-01-08
+
+---
+
+## 📋 Quick Links
+
+### Fix Batches
+
+- **[batch-medium-low-01.md](batch-medium-low-01.md)** - Test regression coverage (🟡 MEDIUM, 🟢 LOW, 2 issues)
+- **[batch-low-low-01.md](batch-low-low-01.md)** - Code consolidation (🟢 LOW, 🟢 LOW, 1 issue)
+- **[batch-low-medium-01.md](batch-low-medium-01.md)** - Test parametrization (🟢 LOW, 🟡 MEDIUM, 1 issue)
+
+---
+
+## 📊 Summary
+
+**Total Issues:** 4  
+**Batches:** 3  
+**Status:** 🟡 Planned
+
+**Priority Breakdown:**
+- 🟡 MEDIUM: 2 issues (1 batch)
+- 🟢 LOW: 2 issues (2 batches)
 
 ---
 
