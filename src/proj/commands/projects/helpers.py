@@ -7,8 +7,10 @@ from typing import Optional
 
 from rich.console import Console
 
-from proj.api_client import APIClient
-from proj.config import Config
+# Import these at module level so they can be patched in tests
+# Tests patch proj.commands.projects.APIClient which re-exports from here
+import proj.api_client
+import proj.config
 from proj.error_handler import (
     APIError,
     BackendConnectionError,
@@ -26,10 +28,20 @@ STATUS_EMOJI = {
     "completed": "✅",
 }
 
+# Re-export for backward compatibility with tests
+APIClient = proj.api_client.APIClient
+Config = proj.config.Config
 
-def get_client() -> APIClient:
-    """Get configured API client."""
-    return APIClient(Config.load())
+
+def get_client():
+    """Get configured API client.
+    
+    Note: Uses module-level APIClient and Config references
+    so tests can patch proj.commands.projects.APIClient.
+    """
+    # Import from package to use patched versions
+    from proj.commands import projects
+    return projects.APIClient(projects.Config.load())
 
 
 def sync_to_api(

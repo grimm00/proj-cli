@@ -7,31 +7,36 @@ from typing import Optional
 import click
 import typer
 from rich.console import Console
-from rich.prompt import Prompt
 
-from proj.api_client import APIClient
-from proj.config import Config
 from proj.error_handler import (
     handle_error,
     APIError,
     BackendConnectionError,
     TimeoutError,
 )
-from proj.registry import add_project, update_project_work_prod_id
-from proj.templates import (
-    create_from_template,
-    get_templates_source,
-    list_templates,
-    TemplateError,
-)
 
-from .helpers import get_client, sync_to_api, init_git
+from .helpers import sync_to_api
 
 # Use console from helpers to avoid duplicate instance
 from .helpers import console
 
 
-def prompt_for_create_options(config: Config) -> dict:
+def _get_package_imports():
+    """Get imports from package level for test patching compatibility.
+    
+    This allows tests to patch proj.commands.projects.Config, etc.
+    """
+    from proj.commands import projects
+    return projects
+
+
+def _get_client():
+    """Get API client using package-level import for patching."""
+    pkg = _get_package_imports()
+    return pkg.APIClient(pkg.Config.load())
+
+
+def prompt_for_create_options(config) -> dict:
     """Prompt user for create options interactively.
 
     Args:
@@ -43,11 +48,13 @@ def prompt_for_create_options(config: Config) -> dict:
     Raises:
         KeyboardInterrupt: If user cancels (Ctrl+C).
     """
-    name = Prompt.ask("Project name")
+    pkg = _get_package_imports()
+    
+    name = pkg.Prompt.ask("Project name")
 
     # List available templates
-    templates_source = get_templates_source(config)
-    available = list_templates(templates_source)
+    templates_source = pkg.get_templates_source(config)
+    available = pkg.list_templates(templates_source)
 
     if not available:
         console.print("[red]Error:[/red] No templates available.")
@@ -58,7 +65,7 @@ def prompt_for_create_options(config: Config) -> dict:
         config.templates.default if hasattr(config, 'templates') and
         hasattr(config.templates, 'default') else None
     )
-    template = Prompt.ask(
+    template = pkg.Prompt.ask(
         "Template type",
         choices=available,
         default=default_template or available[0] if available else None,
@@ -69,13 +76,13 @@ def prompt_for_create_options(config: Config) -> dict:
         if config.default_project_dir
         else str(Path.home() / "Projects")
     )
-    target_dir_str = Prompt.ask(
+    target_dir_str = pkg.Prompt.ask(
         "Target directory",
         default=default_target,
     )
     target_dir = Path(target_dir_str).expanduser().resolve()
 
-    description = Prompt.ask("Description (optional)", default="")
+    description = pkg.Prompt.ask("Description (optional)", default="")
 
     return {
         "name": name,
@@ -113,6 +120,8 @@ def _create_project_via_api(
         BackendConnectionError: If backend is unreachable.
         TimeoutError: If request times out.
     """
+    pkg = _get_package_imports()
+    
     data = {"name": name, "status": status}
     if description:
         data["description"] = description
@@ -125,7 +134,8 @@ def _create_project_via_api(
     if remote_url:
         data["remote_url"] = remote_url
 
-    client = get_client()
+    # Use package-level get_client for test patching compatibility
+    client = pkg.get_client()
     return client.create_project(data)
 
 
@@ -222,9 +232,11 @@ def create_project(
     - API-only: Original behavior (backward compatible)
     - Local-only: Template creation without API
     """
+    pkg = _get_package_imports()
+    
     try:
         # Load config for mode detection
-        config = Config.load()
+        config = pkg.Config.load()
 
         # Handle dry-run mode (preview without side effects)
         if dry_run:
@@ -241,7 +253,7 @@ def create_project(
 
             if template:
                 # Template mode preview
-                templates_source = get_templates_source(config)
+                templates_source = pkg.get_templates_source(config)
                 if target_dir:
                     target = Path(target_dir).expanduser().resolve()
                 else:
@@ -385,7 +397,7 @@ def create_project(
                 raise typer.Exit(1)
 
             # Get templates source
-            templates_source = get_templates_source(config)
+            templates_source = pkg.get_templates_source(config)
 
             # Determine target directory
             if target_dir:
@@ -399,7 +411,7 @@ def create_project(
 
             # Create project from template
             try:
-                project_path = create_from_template(
+                project_path = pkg.create_from_template(
                     project_name=name,
                     template_type=template,
                     target_dir=target,
@@ -409,7 +421,7 @@ def create_project(
 
                 # Initialize git (unless --no-git)
                 if not no_git:
-                    if init_git(project_path):
+                    if pkg.init_git(project_path):
                         console.print(
                             "[dim]✓ Initialized git repository[/dim]"
                         )
@@ -422,7 +434,7 @@ def create_project(
                 # Register project (unless --no-register)
                 if register:
                     try:
-                        add_project(
+                        pkg.add_project(
                             path=project_path,
                             template=template,
                             # TODO: Get from dev-infra
@@ -437,7 +449,7 @@ def create_project(
 
                 # Sync to API (unless --local-only or api_enabled=False)
                 if not local_only and config.api_enabled:
-                    client = APIClient(config)
+                    client = pkg.APIClient(config)
                     work_prod_id = sync_to_api(
                         client=client,
                         name=name,
@@ -447,7 +459,7 @@ def create_project(
                         console=console,
                     )
                     if work_prod_id:
-                        update_project_work_prod_id(project_path, work_prod_id)
+                        pkg.update_project_work_prod_id(project_path, work_prod_id)
                         console.print(
                             f"[dim]✓ Synced to API (ID: {work_prod_id})[/dim]"
                         )
@@ -467,7 +479,7 @@ def create_project(
                 )
                 return
 
-            except TemplateError as e:
+            except pkg.TemplateError as e:
                 console.print(f"[red]Error: {e}[/red]")
                 raise typer.Exit(1)
 

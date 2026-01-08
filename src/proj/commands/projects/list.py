@@ -17,9 +17,15 @@ from proj.error_handler import (
     TimeoutError,
 )
 
-from .helpers import get_client, STATUS_EMOJI
+from .helpers import STATUS_EMOJI
 
 console = Console()
+
+
+def _get_package_imports():
+    """Get imports from package level for test patching compatibility."""
+    from proj.commands import projects
+    return projects
 
 
 def list_projects(
@@ -49,8 +55,9 @@ def list_projects(
     ),
 ):
     """List all projects with optional filters."""
+    pkg = _get_package_imports()
     try:
-        client = get_client()
+        client = pkg.get_client()
         projects = client.list_projects(
             status=status,
             organization=organization,
@@ -135,8 +142,9 @@ def search_projects(
     ),
 ):
     """Search projects by name or description."""
+    pkg = _get_package_imports()
     try:
-        client = get_client()
+        client = pkg.get_client()
         projects = client.search_projects(query)
 
         if format == "json":

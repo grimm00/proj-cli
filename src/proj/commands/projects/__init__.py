@@ -68,3 +68,16 @@ from .create import (
 
 # Import/Export - JSON import functionality
 from .import_export import import_json
+
+# Re-export dependencies used in tests for patching compatibility
+# These allow tests to patch proj.commands.projects.Config, etc.
+from proj.api_client import APIClient
+from proj.config import Config
+from proj.registry import add_project, update_project_work_prod_id
+from proj.templates import (
+    create_from_template,
+    get_templates_source,
+    list_templates,
+    TemplateError,
+)
+from rich.prompt import Prompt
