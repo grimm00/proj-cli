@@ -2,7 +2,7 @@
 
 **Feature:** Code Structure Refactoring  
 **Status:** 🟠 In Progress  
-**Current Phase:** Phase 1 merged (PR #25), ready for Phase 2  
+**Current Phase:** Phase 2 expanded, ready for implementation  
 **Last Updated:** 2026-01-08
 
 ---
@@ -12,7 +12,7 @@
 | Phase | Focus | Effort | Status |
 |-------|-------|--------|--------|
 | 1 | Source Code Refactoring | ~2.5 hrs | ✅ Complete |
-| 2 | Test Structure Reorganization | ~2 hrs | 🔴 Scaffolding |
+| 2 | Test Structure Reorganization | ~2 hrs | ✅ Expanded |
 | **Total** | | **~4-5 hrs** | **50% impl** |
 
 ---
@@ -46,20 +46,18 @@
 
 ### Immediate
 
-1. **Expand Phase 2 scaffolding:**
-   ```
-   /transition-plan --expand --phase 2
-   ```
-
-2. **Implement Phase 2:**
+1. **Implement Phase 2 Task 1:**
    ```
    /task-phase 2 1
    ```
 
+2. **Continue through Phase 2 tasks (1-8)**
+
 ### After Phase 2
 
 1. Create PR for Phase 2
-2. Release as v0.4.0
+2. Run `/post-pr` for documentation updates
+3. Release as v0.4.0
 
 ---
 
@@ -67,6 +65,7 @@
 
 | Date | Update |
 |------|--------|
+| 2026-01-08 | **Phase 2 expanded** - 8 tasks ready for implementation |
 | 2026-01-08 | **PR #25 merged** - Phase 1 complete, ready for Phase 2 |
 | 2026-01-07 | Phase 1 complete - 943 lines split into 5 focused modules |
 | 2026-01-07 | Phase 1 expanded with detailed implementation tasks |
