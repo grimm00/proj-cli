@@ -29,7 +29,7 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
 
 | Task                           | Status         | Notes |
 | ------------------------------ | -------------- | ----- |
-| Task 1: Create Directories     | 🔴 Not Started |       |
+| Task 1: Create Directories     | ✅ Complete    |       |
 | Task 2: Move Unit Tests        | 🔴 Not Started |       |
 | Task 3: Move Integration Tests | 🔴 Not Started |       |
 | Task 4: Move Command Tests     | 🔴 Not Started |       |
@@ -74,13 +74,13 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
 
 **Checklist:**
 
-- [ ] `tests/unit/` created
-- [ ] `tests/integration/` created
-- [ ] `tests/commands/` created
-- [ ] `tests/commands/projects/` created
-- [ ] `tests/create/` created
-- [ ] All `__init__.py` files created
-- [ ] Run tests to verify no breakage: `python3 -m pytest tests/ -v 2>&1 | tail -10`
+- [x] `tests/unit/` created
+- [x] `tests/integration/` created
+- [x] `tests/commands/` created
+- [x] `tests/commands/projects/` created
+- [x] `tests/create/` created
+- [x] All `__init__.py` files created
+- [x] Run tests to verify no breakage: 238 passed, 4 pre-existing failures
 
 ---
 
