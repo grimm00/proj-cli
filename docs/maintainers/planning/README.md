@@ -2,7 +2,7 @@
 
 **Purpose:** Central coordination for project planning and roadmap management
 **Status:** ✅ Active
-**Last Updated:** [Date]
+**Last Updated:** 2026-01-07
 
 ---
 
@@ -99,18 +99,18 @@ planning/
 
 ### ✅ Active Planning
 
-- [Active feature 1]
-- [Active release 1]
+- **[Work-Prod Integration](../explorations/work-prod-integration/)** - API integration patterns exploration
+- **[Code Structure Refactoring](../explorations/code-structure-refactoring/)** - Split large modules and organize tests (🟡 Ready for Implementation)
 
 ### 🟡 Planned Items
 
-- [Planned feature 1]
-- [Planned release 1]
+- v0.4.0 - Code quality improvements (refactoring)
+- v0.5.0 - Work-prod integration features
 
 ### 📈 Planning Metrics
 
-- [Planning metric 1]
-- [Planning metric 2]
+- **Features Completed:** 3 (proj-cli, template-generation, project-type-support)
+- **Current Version:** v0.3.1
 
 ---
 
@@ -154,6 +154,6 @@ planning/
 
 ---
 
-**Last Updated:** [Date]
+**Last Updated:** 2026-01-07
 **Status:** ✅ Active
-**Next:** [Next planning task]
+**Next:** Begin code structure refactoring (v0.4.0)
