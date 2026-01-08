@@ -5,7 +5,6 @@ from typing import Optional
 
 import click
 import typer
-from rich.console import Console
 from rich.table import Table
 
 from proj.constants import PROJECT_TYPE_HELP
@@ -17,15 +16,7 @@ from proj.error_handler import (
     TimeoutError,
 )
 
-from .helpers import STATUS_EMOJI
-
-console = Console()
-
-
-def _get_package_imports():
-    """Get imports from package level for test patching compatibility."""
-    from proj.commands import projects
-    return projects
+from .helpers import STATUS_EMOJI, console, get_package_imports
 
 
 def list_projects(
@@ -55,7 +46,7 @@ def list_projects(
     ),
 ):
     """List all projects with optional filters."""
-    pkg = _get_package_imports()
+    pkg = get_package_imports()
     try:
         client = pkg.get_client()
         projects = client.list_projects(
@@ -142,7 +133,7 @@ def search_projects(
     ),
 ):
     """Search projects by name or description."""
-    pkg = _get_package_imports()
+    pkg = get_package_imports()
     try:
         client = pkg.get_client()
         projects = client.search_projects(query)

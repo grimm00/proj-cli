@@ -15,24 +15,15 @@ from proj.error_handler import (
     TimeoutError,
 )
 
-from .helpers import sync_to_api
+from .helpers import sync_to_api, get_package_imports
 
 # Use console from helpers to avoid duplicate instance
 from .helpers import console
 
 
-def _get_package_imports():
-    """Get imports from package level for test patching compatibility.
-    
-    This allows tests to patch proj.commands.projects.Config, etc.
-    """
-    from proj.commands import projects
-    return projects
-
-
 def _get_client():
     """Get API client using package-level import for patching."""
-    pkg = _get_package_imports()
+    pkg = get_package_imports()
     return pkg.APIClient(pkg.Config.load())
 
 
@@ -48,7 +39,7 @@ def prompt_for_create_options(config) -> dict:
     Raises:
         KeyboardInterrupt: If user cancels (Ctrl+C).
     """
-    pkg = _get_package_imports()
+    pkg = get_package_imports()
     
     name = pkg.Prompt.ask("Project name")
 
@@ -120,7 +111,7 @@ def _create_project_via_api(
         BackendConnectionError: If backend is unreachable.
         TimeoutError: If request times out.
     """
-    pkg = _get_package_imports()
+    pkg = get_package_imports()
     
     data = {"name": name, "status": status}
     if description:
@@ -232,7 +223,7 @@ def create_project(
     - API-only: Original behavior (backward compatible)
     - Local-only: Template creation without API
     """
-    pkg = _get_package_imports()
+    pkg = get_package_imports()
     
     try:
         # Load config for mode detection

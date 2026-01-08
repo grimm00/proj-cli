@@ -5,7 +5,6 @@ from typing import Optional
 
 import click
 import typer
-from rich.console import Console
 from rich.table import Table
 
 from proj.error_handler import (
@@ -15,9 +14,7 @@ from proj.error_handler import (
     TimeoutError,
 )
 
-from .helpers import get_client, STATUS_EMOJI
-
-console = Console()
+from .helpers import get_client, STATUS_EMOJI, console
 
 
 def get_project(
