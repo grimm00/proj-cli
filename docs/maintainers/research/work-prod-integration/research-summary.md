@@ -13,7 +13,7 @@ This research examines how `proj-cli` should integrate with the `work-prod` back
 
 **Research Topics:** 8 topics  
 **Research Documents:** 8 documents  
-**Status:** 🟠 Research (2/8 complete)
+**Status:** 🟠 Research (3/8 complete)
 
 **Source:** [Exploration - Work-Prod Integration](../../explorations/work-prod-integration/exploration.md)
 
@@ -67,6 +67,14 @@ Need `get_project_by_work_prod_id()` function to clean up registry when deleting
 
 ---
 
+### Finding 6: Field Mapping Complete - Only One Issue Found
+
+Comprehensive audit found only one field mismatch (`local_path` → `path`), which is already fixed. Both systems use snake_case consistently. Transformation on export is the correct pattern.
+
+**Source:** [research-field-consistency.md](research-field-consistency.md)
+
+---
+
 ## 💡 Key Insights
 
 - [x] Insight 1: Field naming mismatches cause silent data loss - must audit all fields
@@ -74,7 +82,8 @@ Need `get_project_by_work_prod_id()` function to clean up registry when deleting
 - [x] Insight 3: No complex sync needed - just complete the CRUD operations (delete cleanup)
 - [x] Insight 4: Automatic cascade is expected behavior (kubectl pattern)
 - [x] Insight 5: Filesystem deletion must be opt-in only (safety critical)
-- [ ] Insight 6: [Pending research on remaining topics]
+- [x] Insight 6: Transformation on export is correct pattern - don't change internal schema
+- [ ] Insight 7: [Pending research on remaining topics]
 
 ---
 
@@ -84,7 +93,7 @@ Need `get_project_by_work_prod_id()` function to clean up registry when deleting
 |---|-------|----------|--------|
 | 1 | Source of Truth | 🔴 High | ✅ Complete |
 | 2 | Delete Architecture | 🔴 High | ✅ Complete |
-| 8 | Field Consistency | 🔴 High | 🟡 Partial |
+| 8 | Field Consistency | 🔴 High | ✅ Complete |
 | 3 | Sync Strategy | 🟡 Medium | 🔴 Not Started |
 | 4 | Offline Mode | 🟡 Medium | 🔴 Not Started |
 | 5 | Registry Commands | 🟡 Medium | 🔴 Not Started |
@@ -109,6 +118,8 @@ Need `get_project_by_work_prod_id()` function to clean up registry when deleting
 - **FR-DEL-3:** Delete shall support `--dry-run` flag
 - **FR-DEL-4:** Delete shall support `--delete-files` flag (opt-in, extra confirmation)
 - **FR-DEL-7:** Registry shall provide `get_project_by_work_prod_id()` lookup
+- **FR-FC-1:** Inventory export must use `path` field name ✅ (Fixed)
+- **FR-FC-2:** Export transformation layer shall map internal fields to API schema
 
 ---
 

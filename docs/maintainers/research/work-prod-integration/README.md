@@ -1,7 +1,7 @@
 # Work-Prod Integration - Research Hub
 
 **Purpose:** Research for proj-cli integration with work-prod API  
-**Status:** 🟠 Research (2/8 complete)  
+**Status:** 🟠 Research (3/8 complete)  
 **Created:** 2026-01-08  
 **Last Updated:** 2026-01-08
 
@@ -14,16 +14,16 @@
 
 ### Research Documents (8 Topics)
 
-| # | Priority | Topic | Document | Status |
-|---|----------|-------|----------|--------|
-| 1 | 🔴 High | Source of Truth | [research-source-of-truth.md](research-source-of-truth.md) | ✅ Complete |
-| 2 | 🔴 High | Delete Architecture | [research-delete-architecture.md](research-delete-architecture.md) | ✅ Complete |
-| 8 | 🔴 High | Field Name Consistency | [research-field-consistency.md](research-field-consistency.md) | 🟡 Partial |
-| 3 | 🟡 Medium | Sync Strategy | [research-sync-strategy.md](research-sync-strategy.md) | 🔴 Not Started |
-| 4 | 🟡 Medium | Offline Mode | [research-offline-mode.md](research-offline-mode.md) | 🔴 Not Started |
-| 5 | 🟡 Medium | Registry Commands | [research-registry-commands.md](research-registry-commands.md) | 🔴 Not Started |
-| 7 | 🟡 Medium | Creation Date Semantics | [research-creation-date.md](research-creation-date.md) | 🔴 Not Started |
-| 6 | 🟢 Low | Inventory Integration | [research-inventory-integration.md](research-inventory-integration.md) | 🔴 Not Started |
+| #   | Priority  | Topic                   | Document                                                               | Status         |
+| --- | --------- | ----------------------- | ---------------------------------------------------------------------- | -------------- |
+| 1   | 🔴 High   | Source of Truth         | [research-source-of-truth.md](research-source-of-truth.md)             | ✅ Complete    |
+| 2   | 🔴 High   | Delete Architecture     | [research-delete-architecture.md](research-delete-architecture.md)     | ✅ Complete    |
+| 8   | 🔴 High   | Field Name Consistency  | [research-field-consistency.md](research-field-consistency.md)         | ✅ Complete    |
+| 3   | 🟡 Medium | Sync Strategy           | [research-sync-strategy.md](research-sync-strategy.md)                 | 🔴 Not Started |
+| 4   | 🟡 Medium | Offline Mode            | [research-offline-mode.md](research-offline-mode.md)                   | 🔴 Not Started |
+| 5   | 🟡 Medium | Registry Commands       | [research-registry-commands.md](research-registry-commands.md)         | 🔴 Not Started |
+| 7   | 🟡 Medium | Creation Date Semantics | [research-creation-date.md](research-creation-date.md)                 | 🔴 Not Started |
+| 6   | 🟢 Low    | Inventory Integration   | [research-inventory-integration.md](research-inventory-integration.md) | 🔴 Not Started |
 
 ---
 
@@ -44,24 +44,24 @@ This research examines how `proj-cli` should integrate with the `work-prod` back
 
 ## 🚨 Current Gaps Identified
 
-| Gap | Issue |
-|-----|-------|
-| `proj delete` | Removes from API but not from registry → orphaned entries |
-| No `proj registry` | No commands to manage/cleanup local registry |
-| Inconsistent patterns | Each feature implements API integration differently |
-| Field name mismatch | ✅ FIXED: `local_path` → `path` (BUG-001) |
+| Gap                   | Issue                                                     |
+| --------------------- | --------------------------------------------------------- |
+| `proj delete`         | Removes from API but not from registry → orphaned entries |
+| No `proj registry`    | No commands to manage/cleanup local registry              |
+| Inconsistent patterns | Each feature implements API integration differently       |
+| Field name mismatch   | ✅ FIXED: `local_path` → `path` (BUG-001)                 |
 
 ---
 
 ## 📊 Research Progress
 
-**Overall Status:** 🟠 Research (2/8 complete)
+**Overall Status:** 🟠 Research (3/8 complete)
 
 ### High Priority (Complete First)
 
 - [x] Research Topic 1: Source of Truth ✅
 - [x] Research Topic 2: Delete Architecture ✅
-- [ ] Research Topic 8: Field Name Consistency (partially complete - bug fixed)
+- [x] Research Topic 8: Field Name Consistency ✅
 
 ### Medium Priority
 

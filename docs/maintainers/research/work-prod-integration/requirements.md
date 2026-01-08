@@ -173,6 +173,54 @@ This document captures requirements discovered during research on how proj-cli s
 
 ---
 
+### FR-FC-1: Inventory Export Field Mapping
+
+**Description:** Inventory export must use `path` field name to match work-prod API schema
+
+**Source:** [research-field-consistency.md](research-field-consistency.md)
+
+**Priority:** High
+
+**Status:** ✅ Implemented (commit `49fae4f`)
+
+---
+
+### FR-FC-2: Export Transformation Layer
+
+**Description:** Export functions shall transform internal schema to API schema (e.g., `local_path` → `path`)
+
+**Source:** [research-field-consistency.md](research-field-consistency.md)
+
+**Priority:** High
+
+**Status:** ✅ Implemented
+
+---
+
+### FR-FC-3: Registry Path Alignment
+
+**Description:** Registry shall use `path` field (not `local_path`) for consistency with API
+
+**Source:** [research-field-consistency.md](research-field-consistency.md)
+
+**Priority:** High
+
+**Status:** ✅ Already Correct
+
+---
+
+### FR-FC-4: Export Status Flag (Enhancement)
+
+**Description:** Export commands should optionally accept `--status` flag to override default "active" status
+
+**Source:** [research-field-consistency.md](research-field-consistency.md)
+
+**Priority:** Low
+
+**Status:** 🔴 Pending (optional enhancement)
+
+---
+
 ### FR-4: [Pending - Sync Strategy]
 
 **Description:** [TBD after research]
