@@ -38,15 +38,19 @@ from .helpers import (
 # Import import_export (extracted)
 from .import_export import import_json
 
+# Import crud (extracted)
+from .crud import (
+    get_project,
+    update_project,
+    delete_project,
+    archive_project,
+)
+
 # Temporary: Import remaining functions from legacy module until we extract
 # This will be removed as we extract each module
 from proj.commands.projects._legacy import (  # type: ignore
     list_projects,
     search_projects,
-    get_project,
-    update_project,
-    delete_project,
-    archive_project,
     create_project,
     detect_create_mode,
     prompt_for_create_options,
