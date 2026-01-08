@@ -25,13 +25,19 @@ __all__ = [
     "import_json",
 ]
 
-# Temporary: Import from legacy module until we extract
-# This will be removed as we extract each module
-from proj.commands.projects._legacy import (  # type: ignore
+# Import helpers (extracted)
+from .helpers import (
     STATUS_EMOJI,
     get_client,
     sync_to_api,
     init_git,
+    console,
+    logger,
+)
+
+# Temporary: Import remaining functions from legacy module until we extract
+# This will be removed as we extract each module
+from proj.commands.projects._legacy import (  # type: ignore
     list_projects,
     search_projects,
     get_project,
