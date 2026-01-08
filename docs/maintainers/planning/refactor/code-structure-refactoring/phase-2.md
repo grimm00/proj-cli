@@ -32,7 +32,7 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
 | Task 1: Create Directories     | ✅ Complete    |       |
 | Task 2: Move Unit Tests        | ✅ Complete    |       |
 | Task 3: Move Integration Tests | ✅ Complete    |       |
-| Task 4: Move Command Tests     | 🔴 Not Started |       |
+| Task 4: Move Command Tests     | ✅ Complete    |       |
 | Task 5: Move Create Tests      | 🔴 Not Started |       |
 | Task 6: Split Projects Tests   | 🔴 Not Started |       |
 | Task 7: Fix Deferred Items     | 🔴 Not Started |       |
@@ -201,10 +201,10 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
 
 **Checklist:**
 
-- [ ] 2 files moved to `commands/`
-- [ ] Files renamed (removed `_commands` prefix)
-- [ ] All command tests pass
-- [ ] No import errors
+- [x] 2 files moved to `commands/`
+- [x] Files renamed (removed `_commands` prefix)
+- [x] All command tests pass (13 passed)
+- [x] No import errors
 
 ---
 
