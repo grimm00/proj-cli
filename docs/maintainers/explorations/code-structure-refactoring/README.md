@@ -43,7 +43,7 @@ This exploration examines how to improve code organization in proj-cli:
 
 **Next Step:** Expand phase scaffolding, then implement
 
-**Feature Planning:** [code-structure-refactoring](../../planning/features/code-structure-refactoring/)
+**Refactor Planning:** [code-structure-refactoring](../../planning/refactor/code-structure-refactoring/)
 
 ---
 

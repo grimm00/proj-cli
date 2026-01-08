@@ -80,7 +80,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
 - [Feature Hub](README.md)
 - [Feature Plan](feature-plan.md)
 - [Next Phase: Phase 2](phase-2.md)
-- [Exploration](../../explorations/code-structure-refactoring/)
+- [Exploration](../../../explorations/code-structure-refactoring/)
 
 ---
 

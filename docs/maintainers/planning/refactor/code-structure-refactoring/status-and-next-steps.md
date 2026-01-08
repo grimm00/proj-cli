@@ -72,7 +72,7 @@
 - [Transition Plan](transition-plan.md)
 - [Phase 1](phase-1.md)
 - [Phase 2](phase-2.md)
-- [Exploration](../../explorations/code-structure-refactoring/)
+- [Exploration](../../../explorations/code-structure-refactoring/)
 
 ---
 

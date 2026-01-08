@@ -89,7 +89,7 @@ tests/
 - [Feature Hub](README.md)
 - [Feature Plan](feature-plan.md)
 - [Previous Phase: Phase 1](phase-1.md)
-- [Exploration](../../explorations/code-structure-refactoring/)
+- [Exploration](../../../explorations/code-structure-refactoring/)
 
 ---
 

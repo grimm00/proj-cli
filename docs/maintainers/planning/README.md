@@ -11,7 +11,8 @@
 ### Core Planning
 
 - **[Features](features/README.md)** - Feature-based planning and tracking
-- **[Explorations](explorations/README.md)** - Early-stage explorations and proof of concepts
+- **[Refactor](refactor/README.md)** - Code quality and restructuring (NEW)
+- **[Explorations](../explorations/README.md)** - Early-stage explorations and proof of concepts
 - **[Releases](releases/README.md)** - Release management and versioning
 - **[Phases](phases/README.md)** - Development phase tracking
 - **[Notes](notes/README.md)** - Planning insights and decisions
@@ -99,8 +100,8 @@ planning/
 
 ### ✅ Active Planning
 
-- **[Work-Prod Integration](../explorations/work-prod-integration/)** - API integration patterns exploration
-- **[Code Structure Refactoring](../explorations/code-structure-refactoring/)** - Split large modules and organize tests (🟡 Ready for Implementation)
+- **[Code Structure Refactoring](refactor/code-structure-refactoring/)** - Split large modules and organize tests (🔴 Scaffolding)
+- **[Work-Prod Integration](../explorations/work-prod-integration/)** - API integration patterns (🔴 Exploration)
 
 ### 🟡 Planned Items
 

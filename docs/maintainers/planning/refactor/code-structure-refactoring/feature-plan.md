@@ -140,9 +140,9 @@ tests/
 
 ## 🔗 Related
 
-- **[Exploration](../../explorations/code-structure-refactoring/)** - Research and decisions
+- **[Exploration](../../../explorations/code-structure-refactoring/)** - Research and decisions
 - **[Work-Prod Integration](../../explorations/work-prod-integration/)** - Next feature
-- **[Original Proposal](../../../tmp/refactor-projects-module.md)** - Detailed analysis
+- **[Original Proposal](../../../../tmp/refactor-projects-module.md)** - Detailed analysis
 
 ---
 

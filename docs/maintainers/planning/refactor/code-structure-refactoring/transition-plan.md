@@ -3,7 +3,7 @@
 **Feature:** Code Structure Refactoring  
 **Status:** 🔴 Not Started  
 **Created:** 2026-01-07  
-**Source:** [Exploration](../../explorations/code-structure-refactoring/)  
+**Source:** [Exploration](../../../explorations/code-structure-refactoring/)  
 **Type:** Refactor
 
 ---

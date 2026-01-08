@@ -13,7 +13,10 @@
 - **[proj-cli](proj-cli/README.md)** - Unified CLI tool for project and inventory management (✅ Complete)
 - **[template-generation](template-generation/README.md)** - Extend proj create with dev-infra templates (✅ Complete)
 - **[project-type-support](project-type-support/README.md)** - Add project type filtering (✅ Complete)
-- **[code-structure-refactoring](code-structure-refactoring/README.md)** - Split large modules, organize tests (🔴 Scaffolding)
+
+### Refactoring (Moved)
+
+- **[code-structure-refactoring](../refactor/code-structure-refactoring/README.md)** - See `planning/refactor/`
 
 ### Feature Templates
 
@@ -104,7 +107,9 @@ features/
 
 | Feature | Current Phase | Progress | Next |
 |---------|---------------|----------|------|
-| code-structure-refactoring | Scaffolding | 0% | Expand Phase 1 |
+| (none) | - | - | - |
+
+> **Note:** `code-structure-refactoring` moved to `planning/refactor/`
 
 ### 🟡 Planned Features
 
@@ -235,4 +240,4 @@ features/
 
 **Last Updated:** 2026-01-07
 **Status:** ✅ Active
-**Next:** Expand code-structure-refactoring Phase 1 scaffolding
+**Next:** See `planning/refactor/` for code-structure-refactoring

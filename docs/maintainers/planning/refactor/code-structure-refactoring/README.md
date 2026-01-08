@@ -3,6 +3,7 @@
 **Feature:** Code Structure Refactoring  
 **Status:** 🔴 Not Started  
 **Type:** Refactor  
+**Category:** `planning/refactor/`  
 **Target Version:** v0.4.0  
 **Created:** 2026-01-07  
 **Last Updated:** 2026-01-07
@@ -25,7 +26,7 @@
 
 ### Source
 
-- **[Exploration](../../explorations/code-structure-refactoring/)** - Research and decision documentation
+- **[Exploration](../../../explorations/code-structure-refactoring/)** - Research and decision documentation
 
 ---
 
@@ -55,7 +56,7 @@ Split large `projects.py` module (943 lines) into focused submodules and reorgan
 ## 🔗 Related
 
 - **[Work-Prod Integration](../../explorations/work-prod-integration/)** - Will benefit from cleaner structure
-- **[Original Proposal](../../../tmp/refactor-projects-module.md)** - Detailed analysis
+- **[Original Proposal](../../../../tmp/refactor-projects-module.md)** - Detailed analysis
 
 ---
 
