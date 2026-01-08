@@ -26,15 +26,15 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
 
 ## 📊 Progress Tracking
 
-| Task | Status | Notes |
-|------|--------|-------|
-| Task 1: Package Structure | 🔴 Not Started | |
-| Task 2: Extract Helpers | 🔴 Not Started | |
-| Task 3: Extract Import/Export | 🔴 Not Started | |
-| Task 4: Extract CRUD | 🔴 Not Started | |
-| Task 5: Extract List | 🔴 Not Started | |
-| Task 6: Extract Create | 🔴 Not Started | |
-| Task 7: Cleanup & Verify | 🔴 Not Started | |
+| Task                          | Status         | Notes |
+| ----------------------------- | -------------- | ----- |
+| Task 1: Package Structure     | 🔴 Not Started |       |
+| Task 2: Extract Helpers       | 🔴 Not Started |       |
+| Task 3: Extract Import/Export | 🔴 Not Started |       |
+| Task 4: Extract CRUD          | 🔴 Not Started |       |
+| Task 5: Extract List          | 🔴 Not Started |       |
+| Task 6: Extract Create        | 🔴 Not Started |       |
+| Task 7: Cleanup & Verify      | 🔴 Not Started |       |
 
 ---
 
@@ -47,6 +47,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
 **Steps:**
 
 1. Create package directory:
+
    ```bash
    mkdir -p src/proj/commands/projects
    ```
@@ -54,6 +55,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
 2. Create `__init__.py` with re-exports:
 
    **File:** `src/proj/commands/projects/__init__.py`
+
    ```python
    """Project management commands."""
 
@@ -89,6 +91,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
    ```
 
 **Checklist:**
+
 - [ ] Directory created: `src/proj/commands/projects/`
 - [ ] `__init__.py` created with `__all__` list
 - [ ] Ready for module extraction
@@ -100,6 +103,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
 **Purpose:** Move shared utilities that other modules depend on.
 
 **Functions to extract:**
+
 - `STATUS_EMOJI` (constant, line 36-42)
 - `get_client()` (line 45-47)
 - `sync_to_api()` (line 50-90)
@@ -111,6 +115,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
 1. Create `helpers.py`:
 
    **File:** `src/proj/commands/projects/helpers.py`
+
    ```python
    """Shared helpers for project commands."""
 
@@ -166,6 +171,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
    ```
 
 2. Update `__init__.py` to import from helpers:
+
    ```python
    from .helpers import (
        STATUS_EMOJI,
@@ -183,6 +189,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
    ```
 
 **Checklist:**
+
 - [ ] `helpers.py` created (~100 lines)
 - [ ] All 4 functions + constants extracted
 - [ ] Imports in `__init__.py` added
@@ -195,6 +202,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
 **Purpose:** Move the `import_json` function (smallest, lowest risk).
 
 **Functions to extract:**
+
 - `import_json()` (line 875-908)
 
 **Steps:**
@@ -202,6 +210,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
 1. Create `import_export.py`:
 
    **File:** `src/proj/commands/projects/import_export.py`
+
    ```python
    """Project import/export commands."""
 
@@ -225,6 +234,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
    ```
 
 2. Update `__init__.py`:
+
    ```python
    from .import_export import import_json
    ```
@@ -235,6 +245,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
    ```
 
 **Checklist:**
+
 - [ ] `import_export.py` created (~50 lines)
 - [ ] `import_json` function extracted
 - [ ] Import added to `__init__.py`
@@ -247,6 +258,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
 **Purpose:** Move get, update, delete, archive operations.
 
 **Functions to extract:**
+
 - `get_project()` (line 347-376)
 - `update_project()` (line 725-772)
 - `delete_project()` (line 780-794)
@@ -257,6 +269,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
 1. Create `crud.py`:
 
    **File:** `src/proj/commands/projects/crud.py`
+
    ```python
    """Project CRUD operations (get, update, delete, archive)."""
 
@@ -309,6 +322,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
    ```
 
 2. Update `__init__.py`:
+
    ```python
    from .crud import (
        get_project,
@@ -324,6 +338,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
    ```
 
 **Checklist:**
+
 - [ ] `crud.py` created (~150 lines)
 - [ ] All 4 CRUD functions extracted
 - [ ] Imports added to `__init__.py`
@@ -336,6 +351,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
 **Purpose:** Move list and search operations.
 
 **Functions to extract:**
+
 - `list_projects()` (line 246-339)
 - `search_projects()` (line 802-867)
 
@@ -344,6 +360,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
 1. Create `list.py`:
 
    **File:** `src/proj/commands/projects/list.py`
+
    ```python
    """Project listing and search commands."""
 
@@ -384,6 +401,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
    ```
 
 2. Update `__init__.py`:
+
    ```python
    from .list import list_projects, search_projects
    ```
@@ -394,6 +412,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
    ```
 
 **Checklist:**
+
 - [ ] `list.py` created (~180 lines)
 - [ ] Both list functions extracted
 - [ ] Imports added to `__init__.py`
@@ -406,6 +425,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
 **Purpose:** Move the complex create_project command and related helpers.
 
 **Functions to extract:**
+
 - `prompt_for_create_options()` (line 114-160)
 - `_create_project_via_api()` (line 168-204)
 - `detect_create_mode()` (line 212-238)
@@ -416,6 +436,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
 1. Create `create.py`:
 
    **File:** `src/proj/commands/projects/create.py`
+
    ```python
    """Project creation with multiple modes."""
 
@@ -486,6 +507,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
    ```
 
 2. Update `__init__.py`:
+
    ```python
    from .create import (
        create_project,
@@ -501,6 +523,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
    ```
 
 **Checklist:**
+
 - [ ] `create.py` created (~350 lines)
 - [ ] All 4 create functions extracted
 - [ ] Imports added to `__init__.py`
@@ -515,6 +538,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
 **Steps:**
 
 1. Verify `__init__.py` has all re-exports:
+
    ```python
    """Project management commands."""
 
@@ -566,21 +590,25 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
    ```
 
 2. Delete original `projects.py`:
+
    ```bash
    rm src/proj/commands/projects.py
    ```
 
 3. Run full test suite:
+
    ```bash
    python -m pytest tests/ -v
    ```
 
 4. Check coverage:
+
    ```bash
    python -m pytest tests/ --cov=src/proj --cov-report=term-missing
    ```
 
 5. Run linting:
+
    ```bash
    flake8 src/proj/commands/projects/
    ```
@@ -593,6 +621,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
    ```
 
 **Checklist:**
+
 - [ ] Original `projects.py` deleted
 - [ ] All tests pass (should be same count as before)
 - [ ] Coverage at 97%
@@ -615,15 +644,15 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
 
 ## 📦 Deliverables
 
-| File | Lines | Contents |
-|------|-------|----------|
-| `projects/__init__.py` | ~40 | Re-exports, `__all__` |
-| `projects/helpers.py` | ~100 | STATUS_EMOJI, get_client, sync_to_api, init_git |
-| `projects/list.py` | ~180 | list_projects, search_projects |
-| `projects/crud.py` | ~150 | get, update, delete, archive |
-| `projects/create.py` | ~350 | create_project, detect_mode, prompts |
-| `projects/import_export.py` | ~50 | import_json |
-| **Total** | ~870 | (vs 943 original) |
+| File                        | Lines | Contents                                        |
+| --------------------------- | ----- | ----------------------------------------------- |
+| `projects/__init__.py`      | ~40   | Re-exports, `__all__`                           |
+| `projects/helpers.py`       | ~100  | STATUS_EMOJI, get_client, sync_to_api, init_git |
+| `projects/list.py`          | ~180  | list_projects, search_projects                  |
+| `projects/crud.py`          | ~150  | get, update, delete, archive                    |
+| `projects/create.py`        | ~350  | create_project, detect_mode, prompts            |
+| `projects/import_export.py` | ~50   | import_json                                     |
+| **Total**                   | ~870  | (vs 943 original)                               |
 
 ---
 
