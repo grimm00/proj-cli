@@ -1,7 +1,7 @@
 # Release Checklist - v0.3.2
 
 **Version:** v0.3.2  
-**Status:** 🔴 Not Started  
+**Status:** 🟡 Ready for Release  
 **Created:** 2026-01-08  
 **Type:** Patch Release
 
@@ -11,24 +11,24 @@
 
 ### Code Quality
 
-- [ ] All tests passing (238+ expected, 4 pre-existing failures)
-- [ ] Test coverage maintained (~92%)
-- [ ] 0 linting errors maintained
-- [ ] All Sourcery review issues addressed (PRs #27, #28, #29)
+- [x] All tests passing (238+ expected, 4 pre-existing failures)
+- [x] Test coverage maintained (~92%)
+- [x] 0 linting errors maintained
+- [x] All Sourcery review issues addressed (PRs #27, #28, #29)
 
 ### Documentation
 
-- [ ] README.md accurate
-- [ ] Test README updated with new structure
-- [ ] Release notes prepared
+- [x] README.md accurate
+- [x] Test README updated with new structure
+- [x] Release notes prepared
 
 ### Release Preparation
 
 - [x] Release directory structure created
 - [x] Release checklist complete (this file)
-- [ ] Release notes prepared
-- [ ] CHANGELOG draft prepared
-- [ ] Version number confirmed (v0.3.2)
+- [x] Release notes prepared
+- [x] CHANGELOG draft prepared
+- [x] Version number confirmed (v0.3.2)
 
 ---
 
@@ -36,15 +36,15 @@
 
 ### Version Management
 
-- [ ] Version bumped in `pyproject.toml` (0.3.1 → 0.3.2)
-- [ ] Version bumped in `src/proj/__init__.py` (0.3.1 → 0.3.2)
+- [x] Version bumped in `pyproject.toml` (0.3.1 → 0.3.2)
+- [x] Version bumped in `src/proj/__init__.py` (0.3.1 → 0.3.2)
 - [ ] Version tagged in git (`git tag v0.3.2`)
 - [ ] Tag pushed to remote (`git push origin v0.3.2`)
 
 ### Release Documentation
 
-- [ ] Release notes finalized
-- [ ] CHANGELOG.md updated
+- [x] Release notes finalized
+- [x] CHANGELOG.md updated
 - [ ] Release hub status updated to ✅ Released
 
 ---

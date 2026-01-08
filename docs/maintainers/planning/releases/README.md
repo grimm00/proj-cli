@@ -10,7 +10,7 @@
 
 ### In Progress
 
-- **[v0.3.2](v0.3.2/README.md)** - Code Structure Refactoring (🔴 Draft)
+- **[v0.3.2](v0.3.2/README.md)** - Code Structure Refactoring (🟡 Ready for Release)
 
 ### Released
 
@@ -33,7 +33,7 @@
 
 | Version | Status | Date | Type | Description |
 |---------|--------|------|------|-------------|
-| v0.3.2 | 🔴 Draft | 2026-01-08 | Patch | Code Structure Refactoring |
+| v0.3.2 | 🟡 Ready | 2026-01-08 | Patch | Code Structure Refactoring |
 | v0.3.1 | ✅ Released | 2026-01-07 | Patch | Code Quality Improvements |
 | v0.3.0 | ✅ Released | 2026-01-07 | Minor | Project Type Support |
 | v0.2.0 | ✅ Released | 2026-01-07 | Minor | Template Generation Extension |
