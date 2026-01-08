@@ -2,7 +2,7 @@
 
 **Purpose:** Active explorations and proof of concepts
 **Status:** ✅ Active
-**Last Updated:** 2025-12-31
+**Last Updated:** 2026-01-07
 
 ---
 
@@ -10,7 +10,12 @@
 
 ### Active Explorations
 
-- **[proj-cli-architecture](proj-cli-architecture/README.md)** - Extend `proj create` with template generation modes (🟠 Ready for ADR)
+- **[Code Structure Refactoring](code-structure-refactoring/README.md)** - Split large modules and organize tests (🟡 Ready for Implementation)
+- **[Work-Prod Integration](work-prod-integration/README.md)** - API integration patterns (🔴 Exploration)
+
+### Completed Explorations
+
+- **[proj-cli-architecture](proj-cli-architecture/README.md)** - Template generation modes (✅ Implemented as v0.2.0)
 
 ---
 
@@ -72,6 +77,6 @@ This creates:
 
 ---
 
-**Last Updated:** 2025-01-05
+**Last Updated:** 2026-01-07
 **Status:** ✅ Active
 
