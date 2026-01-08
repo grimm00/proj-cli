@@ -2,7 +2,7 @@
 
 **Purpose:** Research and analysis for architectural decisions
 **Status:** ✅ Active
-**Last Updated:** 2025-01-05
+**Last Updated:** 2026-01-08
 
 ---
 
@@ -10,6 +10,7 @@
 
 ### Active Research
 
+- **[work-prod-integration](work-prod-integration/README.md)** - API integration patterns (🔴 Research - 0/8 Complete)
 - **[proj-cli-architecture](proj-cli-architecture/README.md)** - Extend proj-cli with template generation (🟠 5/6 Complete)
 
 ---
@@ -147,6 +148,6 @@ cp docs/maintainers/research/requirements-template.md \
 
 ---
 
-**Last Updated:** 2025-01-05
+**Last Updated:** 2026-01-08
 **Status:** ✅ Active
 
