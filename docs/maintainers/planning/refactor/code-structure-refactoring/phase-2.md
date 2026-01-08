@@ -2,7 +2,7 @@
 
 **Phase:** 2 - Test Structure Reorganization  
 **Duration:** ~2 hours  
-**Status:** ✅ Expanded  
+**Status:** 🟠 In Progress  
 **Prerequisites:** Phase 1 complete  
 **Last Updated:** 2026-01-08
 
@@ -27,16 +27,16 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
 
 ## 📊 Progress Tracking
 
-| Task                             | Status         | Notes |
-| -------------------------------- | -------------- | ----- |
-| Task 1: Create Directories       | 🔴 Not Started |       |
-| Task 2: Move Unit Tests          | 🔴 Not Started |       |
-| Task 3: Move Integration Tests   | 🔴 Not Started |       |
-| Task 4: Move Command Tests       | 🔴 Not Started |       |
-| Task 5: Move Create Tests        | 🔴 Not Started |       |
-| Task 6: Split Projects Tests     | 🔴 Not Started |       |
-| Task 7: Fix Deferred Items       | 🔴 Not Started |       |
-| Task 8: Update Configuration     | 🔴 Not Started |       |
+| Task                           | Status         | Notes |
+| ------------------------------ | -------------- | ----- |
+| Task 1: Create Directories     | 🔴 Not Started |       |
+| Task 2: Move Unit Tests        | 🔴 Not Started |       |
+| Task 3: Move Integration Tests | 🔴 Not Started |       |
+| Task 4: Move Command Tests     | 🔴 Not Started |       |
+| Task 5: Move Create Tests      | 🔴 Not Started |       |
+| Task 6: Split Projects Tests   | 🔴 Not Started |       |
+| Task 7: Fix Deferred Items     | 🔴 Not Started |       |
+| Task 8: Update Configuration   | 🔴 Not Started |       |
 
 ---
 
@@ -49,6 +49,7 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
 **Steps:**
 
 1. Create the directory structure:
+
    ```bash
    mkdir -p tests/unit
    mkdir -p tests/integration
@@ -57,6 +58,7 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
    ```
 
 2. Create `__init__.py` files for pytest discovery:
+
    ```bash
    touch tests/unit/__init__.py
    touch tests/integration/__init__.py
@@ -71,6 +73,7 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
    ```
 
 **Checklist:**
+
 - [ ] `tests/unit/` created
 - [ ] `tests/integration/` created
 - [ ] `tests/commands/` created
@@ -87,19 +90,20 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
 
 **Files to move (7 files):**
 
-| Current Location          | New Location                   |
-| ------------------------- | ------------------------------ |
-| `test_api_client.py`      | `unit/test_api_client.py`      |
-| `test_config.py`          | `unit/test_config.py`          |
-| `test_error_handler.py`   | `unit/test_error_handler.py`   |
-| `test_package.py`         | `unit/test_package.py`         |
-| `test_cli.py`             | `unit/test_cli.py`             |
-| `test_registry.py`        | `unit/test_registry.py`        |
-| `test_templates.py`       | `unit/test_templates.py`       |
+| Current Location        | New Location                 |
+| ----------------------- | ---------------------------- |
+| `test_api_client.py`    | `unit/test_api_client.py`    |
+| `test_config.py`        | `unit/test_config.py`        |
+| `test_error_handler.py` | `unit/test_error_handler.py` |
+| `test_package.py`       | `unit/test_package.py`       |
+| `test_cli.py`           | `unit/test_cli.py`           |
+| `test_registry.py`      | `unit/test_registry.py`      |
+| `test_templates.py`     | `unit/test_templates.py`     |
 
 **Steps:**
 
 1. Move each file:
+
    ```bash
    git mv tests/test_api_client.py tests/unit/
    git mv tests/test_config.py tests/unit/
@@ -111,6 +115,7 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
    ```
 
 2. Run tests to verify:
+
    ```bash
    python3 -m pytest tests/unit/ -v 2>&1 | tail -20
    ```
@@ -121,6 +126,7 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
    ```
 
 **Checklist:**
+
 - [ ] 7 files moved to `unit/`
 - [ ] All unit tests pass
 - [ ] Test count unchanged
@@ -134,17 +140,18 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
 
 **Files to move (3 files):**
 
-| Current Location                | New Location                            |
-| ------------------------------- | --------------------------------------- |
-| `test_api_client_integration.py`| `integration/test_api_client.py`        |
-| `test_config_integration.py`    | `integration/test_config.py`            |
-| `test_cli_integration.py`       | `integration/test_cli.py`               |
+| Current Location                 | New Location                     |
+| -------------------------------- | -------------------------------- |
+| `test_api_client_integration.py` | `integration/test_api_client.py` |
+| `test_config_integration.py`     | `integration/test_config.py`     |
+| `test_cli_integration.py`        | `integration/test_cli.py`        |
 
 **Note:** Remove `_integration` suffix as directory already indicates type.
 
 **Steps:**
 
 1. Move and rename files:
+
    ```bash
    git mv tests/test_api_client_integration.py tests/integration/test_api_client.py
    git mv tests/test_config_integration.py tests/integration/test_config.py
@@ -157,6 +164,7 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
    ```
 
 **Checklist:**
+
 - [ ] 3 files moved to `integration/`
 - [ ] Files renamed (removed `_integration` suffix)
 - [ ] All integration tests pass (or expected failures for backend-dependent)
@@ -170,16 +178,17 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
 
 **Files to move (2 files):**
 
-| Current Location            | New Location                  |
-| --------------------------- | ----------------------------- |
-| `test_commands_init.py`     | `commands/test_init.py`       |
-| `test_commands_inventory.py`| `commands/test_inventory.py`  |
+| Current Location             | New Location                 |
+| ---------------------------- | ---------------------------- |
+| `test_commands_init.py`      | `commands/test_init.py`      |
+| `test_commands_inventory.py` | `commands/test_inventory.py` |
 
 **Note:** Remove `_commands` prefix as directory already indicates scope.
 
 **Steps:**
 
 1. Move and rename files:
+
    ```bash
    git mv tests/test_commands_init.py tests/commands/test_init.py
    git mv tests/test_commands_inventory.py tests/commands/test_inventory.py
@@ -191,6 +200,7 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
    ```
 
 **Checklist:**
+
 - [ ] 2 files moved to `commands/`
 - [ ] Files renamed (removed `_commands` prefix)
 - [ ] All command tests pass
@@ -204,23 +214,24 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
 
 **Files to move (9 files):**
 
-| Current Location              | New Location                    |
-| ----------------------------- | ------------------------------- |
-| `test_create_api_only.py`     | `create/test_api_only.py`       |
-| `test_create_api_sync.py`     | `create/test_api_sync.py`       |
-| `test_create_dry_run.py`      | `create/test_dry_run.py`        |
-| `test_create_git.py`          | `create/test_git.py`            |
-| `test_create_integration.py`  | `create/test_integration.py`    |
-| `test_create_interactive.py`  | `create/test_interactive.py`    |
-| `test_create_local_only.py`   | `create/test_local_only.py`     |
-| `test_create_template.py`     | `create/test_template.py`       |
-| `test_cli_create_flags.py`    | `create/test_cli_flags.py`      |
+| Current Location             | New Location                 |
+| ---------------------------- | ---------------------------- |
+| `test_create_api_only.py`    | `create/test_api_only.py`    |
+| `test_create_api_sync.py`    | `create/test_api_sync.py`    |
+| `test_create_dry_run.py`     | `create/test_dry_run.py`     |
+| `test_create_git.py`         | `create/test_git.py`         |
+| `test_create_integration.py` | `create/test_integration.py` |
+| `test_create_interactive.py` | `create/test_interactive.py` |
+| `test_create_local_only.py`  | `create/test_local_only.py`  |
+| `test_create_template.py`    | `create/test_template.py`    |
+| `test_cli_create_flags.py`   | `create/test_cli_flags.py`   |
 
 **Note:** Remove `_create` prefix/infix as directory already indicates scope.
 
 **Steps:**
 
 1. Move and rename files:
+
    ```bash
    git mv tests/test_create_api_only.py tests/create/test_api_only.py
    git mv tests/test_create_api_sync.py tests/create/test_api_sync.py
@@ -239,6 +250,7 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
    ```
 
 **Checklist:**
+
 - [ ] 9 files moved to `create/`
 - [ ] Files renamed (removed `_create` prefix)
 - [ ] All create tests pass
@@ -253,6 +265,7 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
 **Source:** `tests/test_commands_projects.py` (~8930 lines)
 
 **Target structure:**
+
 ```
 tests/commands/projects/
 ├── __init__.py
@@ -265,11 +278,13 @@ tests/commands/projects/
 **Steps:**
 
 1. **Analyze current test file:**
+
    ```bash
    grep -n "^def test_" tests/test_commands_projects.py | head -30
    ```
 
 2. **Categorize tests by function being tested:**
+
    - List tests: `test_list_*`, `test_search_*`
    - CRUD tests: `test_get_*`, `test_update_*`, `test_delete_*`, `test_archive_*`
    - Create tests: `test_create_*`, `test_prompt_*`
@@ -278,26 +293,32 @@ tests/commands/projects/
 3. **Create new test files with appropriate tests:**
 
    **test_list.py:**
+
    - Move all `test_list_*` and `test_search_*` tests
    - Add necessary imports from conftest
 
    **test_crud.py:**
+
    - Move all `test_get_*`, `test_update_*`, `test_delete_*`, `test_archive_*` tests
    - Add necessary imports
 
    **test_create.py:**
+
    - Move all `test_create_*` and `test_prompt_*` tests
    - Add necessary imports
 
    **test_import.py:**
+
    - Move all `test_import_*` tests
    - Add necessary imports
 
 4. **Update imports in each file:**
+
    - Each file needs standard imports
    - Reference `proj.commands.projects` for patching
 
 5. **Verify each file works:**
+
    ```bash
    python3 -m pytest tests/commands/projects/test_list.py -v
    python3 -m pytest tests/commands/projects/test_crud.py -v
@@ -311,6 +332,7 @@ tests/commands/projects/
    ```
 
 **Checklist:**
+
 - [ ] Tests categorized by function
 - [ ] `test_list.py` created with list/search tests
 - [ ] `test_crud.py` created with CRUD tests
@@ -333,11 +355,13 @@ tests/commands/projects/
 **Issue:** Multiple modules instantiate their own `Console()` instead of using shared instance.
 
 **Files to fix:**
+
 - `src/proj/commands/projects/list.py`
 - `src/proj/commands/projects/crud.py`
 - `src/proj/commands/projects/import_export.py`
 
 **Fix:**
+
 ```python
 # Before (in each file):
 from rich.console import Console
@@ -350,6 +374,7 @@ from .helpers import console  # Use shared instance
 **Steps:**
 
 1. Update `list.py`:
+
    ```python
    # Remove: from rich.console import Console
    # Remove: console = Console()
@@ -357,6 +382,7 @@ from .helpers import console  # Use shared instance
    ```
 
 2. Update `crud.py`:
+
    ```python
    # Remove: from rich.console import Console
    # Remove: console = Console()
@@ -364,6 +390,7 @@ from .helpers import console  # Use shared instance
    ```
 
 3. Update `import_export.py`:
+
    ```python
    # Remove: from rich.console import Console
    # Remove: console = Console()
@@ -376,6 +403,7 @@ from .helpers import console  # Use shared instance
    ```
 
 **Checklist:**
+
 - [ ] `list.py` updated to use shared console
 - [ ] `crud.py` updated to use shared console
 - [ ] `import_export.py` updated to use shared console
@@ -392,10 +420,11 @@ from .helpers import console  # Use shared instance
 **Steps:**
 
 1. Add to `helpers.py`:
+
    ```python
    def get_package_imports():
        """Get package-level imports for test patching compatibility.
-       
+
        This enables tests to patch proj.commands.projects.X and have
        the patches work correctly in submodules.
        """
@@ -404,11 +433,13 @@ from .helpers import console  # Use shared instance
    ```
 
 2. Update `__init__.py` to export:
+
    ```python
    from .helpers import get_package_imports
    ```
 
 3. Update `create.py`:
+
    ```python
    # Remove: def _get_package_imports(): ...
    # Add: from .helpers import get_package_imports
@@ -417,6 +448,7 @@ from .helpers import console  # Use shared instance
    ```
 
 4. Update `list.py`:
+
    ```python
    # Remove: def _get_package_imports(): ...
    # Add: from .helpers import get_package_imports
@@ -430,6 +462,7 @@ from .helpers import console  # Use shared instance
    ```
 
 **Checklist:**
+
 - [ ] `get_package_imports()` added to `helpers.py`
 - [ ] Exported from `__init__.py`
 - [ ] `create.py` updated to use shared helper
@@ -445,11 +478,13 @@ from .helpers import console  # Use shared instance
 **Steps:**
 
 1. **Check pytest.ini or pyproject.toml:**
+
    ```bash
    grep -A 10 "\[tool.pytest" pyproject.toml
    ```
 
 2. **Update testpaths if needed:**
+
    ```toml
    [tool.pytest.ini_options]
    testpaths = ["tests"]
@@ -459,16 +494,19 @@ from .helpers import console  # Use shared instance
    ```
 
 3. **Verify test discovery:**
+
    ```bash
    python3 -m pytest tests/ --collect-only 2>&1 | grep "test session starts" -A 5
    ```
 
 4. **Run full test suite:**
+
    ```bash
    python3 -m pytest tests/ -v 2>&1 | tail -40
    ```
 
 5. **Verify coverage:**
+
    ```bash
    python3 -m pytest tests/ --cov=src/proj --cov-report=term-missing 2>&1 | tail -20
    ```
@@ -479,6 +517,7 @@ from .helpers import console  # Use shared instance
    - Update any outdated references
 
 **Checklist:**
+
 - [ ] pytest configuration updated if needed
 - [ ] Test discovery works
 - [ ] All tests pass (same count as before)
@@ -546,6 +585,7 @@ tests/
 ```
 
 **File Count:**
+
 - Unit: 7 files
 - Integration: 3 files
 - Commands: 2 files + 4 split files = 6 files
