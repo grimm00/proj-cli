@@ -19,6 +19,21 @@
 
 ## ✅ Completed
 
+### PR #26 Fix Batches ✅ (2026-01-08)
+
+All deferred issues from PR #26 Sourcery review have been addressed:
+
+- ✅ **PR #27** - batch-medium-low-01: Test regression coverage (2 issues)
+  - Added assertions for helper interactions in prompt test
+  - Added regression test for `get_package_imports` patching
+- ✅ **PR #28** - batch-low-low-01: Code consolidation (1 issue)
+  - Removed unused `_get_client()` function from `create.py`
+- ✅ **PR #29** - batch-low-medium-01: Test parametrization (1 issue)
+  - Created `assert_command_exists()` helper in `conftest.py`
+  - Refactored 16 command-existence tests across 5 files
+
+**Total:** 4 issues resolved via 3 fix PRs
+
 ### Phase 2: Test Structure Reorganization ✅ (2026-01-08, PR #26)
 
 - ✅ Directory structure created (`unit/`, `integration/`, `commands/`, `create/`)
@@ -30,7 +45,7 @@
 - ✅ Deferred items from PR #25 fixed (Console consolidation, `get_package_imports()` centralization)
 - ✅ Tests README updated with new structure
 - ✅ 242 tests collected, 238 passed (4 pre-existing failures)
-- ✅ Sourcery review completed (2 individual + 2 overall comments, all deferred)
+- ✅ Sourcery review completed (2 individual + 2 overall comments, all fixed via PRs #27-29)
 - **Merged:** PR #26 (2026-01-08)
 
 ### Phase 1: Source Code Refactoring ✅ (2026-01-07, PR #25)
@@ -75,6 +90,7 @@
 
 | Date | Update |
 |------|--------|
+| 2026-01-08 | **Fix PRs complete** - PRs #27, #28, #29 all merged, all Sourcery issues resolved |
 | 2026-01-08 | **PR #26 merged** - Phase 2 complete, feature complete |
 | 2026-01-08 | **Phase 2 complete** - All 8 tasks implemented, PR ready |
 | 2026-01-08 | **Phase 2 expanded** - 8 tasks ready for implementation |

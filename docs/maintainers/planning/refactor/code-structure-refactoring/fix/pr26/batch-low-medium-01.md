@@ -7,7 +7,7 @@
 **Status:** ✅ Complete  
 **Created:** 2026-01-08  
 **Completed:** 2026-01-08  
-**PR:** Pending  
+**PR:** #29  
 **Issues:** 1 issue
 
 ---
@@ -152,8 +152,8 @@ def test_proj_get_exists():
 - [x] Repetition reduced across test files (16 tests refactored, ~72 lines removed)
 - [x] Easy to add new commands (just call assert_command_exists())
 - [x] All 238+ tests passing (4 pre-existing failures unrelated)
-- [ ] Code reviewed
-- [ ] Ready for PR
+- [x] Code reviewed
+- [x] Merged via PR #29
 
 ---
 
