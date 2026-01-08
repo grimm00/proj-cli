@@ -77,9 +77,93 @@ This document captures requirements discovered during research on how proj-cli s
 
 ---
 
-### FR-3: [Pending - Delete Architecture]
+### FR-DEL-1: Automatic Cascade Delete
 
-**Description:** [TBD after research - will refine delete requirements]
+**Description:** Delete shall automatically remove from both API and registry when both exist
+
+**Source:** [research-delete-architecture.md](research-delete-architecture.md)
+
+**Priority:** High
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-DEL-2: Dual Identifier Support
+
+**Description:** Delete shall accept both API ID (integer) and project path as identifier
+
+**Source:** [research-delete-architecture.md](research-delete-architecture.md)
+
+**Priority:** High
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-DEL-3: Dry-Run Support
+
+**Description:** Delete shall support `--dry-run` to preview deletion targets without executing
+
+**Source:** [research-delete-architecture.md](research-delete-architecture.md)
+
+**Priority:** Medium
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-DEL-4: Filesystem Deletion Opt-In
+
+**Description:** Delete shall support `--delete-files` for filesystem cleanup (off by default, requires extra confirmation)
+
+**Source:** [research-delete-architecture.md](research-delete-architecture.md)
+
+**Priority:** Medium
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-DEL-5: API-Only Scope Flag
+
+**Description:** Delete shall support `--api-only` to skip registry cleanup
+
+**Source:** [research-delete-architecture.md](research-delete-architecture.md)
+
+**Priority:** Low
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-DEL-6: Registry-Only Scope Flag
+
+**Description:** Delete shall support `--registry-only` to skip API deletion
+
+**Source:** [research-delete-architecture.md](research-delete-architecture.md)
+
+**Priority:** Low
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-DEL-7: Registry Work-Prod ID Lookup
+
+**Description:** Registry shall provide `get_project_by_work_prod_id()` function to find entries by API ID
+
+**Source:** [research-delete-architecture.md](research-delete-architecture.md)
+
+**Priority:** High
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-DEL-8: Handle All Project States
+
+**Description:** Delete shall handle all four project states: API-only, synced, local-only, and orphaned
 
 **Source:** [research-delete-architecture.md](research-delete-architecture.md)
 
@@ -148,6 +232,42 @@ This document captures requirements discovered during research on how proj-cli s
 **Priority:** Medium
 
 **Status:** 🔴 Pending (no rebuild command exists)
+
+---
+
+### NFR-DEL-1: Filesystem Deletion Safety
+
+**Description:** Filesystem deletion shall require explicit flag AND confirmation
+
+**Source:** [research-delete-architecture.md](research-delete-architecture.md)
+
+**Priority:** High
+
+**Status:** 🔴 Pending
+
+---
+
+### NFR-DEL-2: Delete Graceful Degradation
+
+**Description:** Delete shall fail gracefully if API is unavailable (registry-only cleanup still works)
+
+**Source:** [research-delete-architecture.md](research-delete-architecture.md)
+
+**Priority:** Medium
+
+**Status:** 🔴 Pending
+
+---
+
+### NFR-DEL-3: Delete Output Clarity
+
+**Description:** Delete output shall clearly indicate what was deleted from each target (API, registry, files)
+
+**Source:** [research-delete-architecture.md](research-delete-architecture.md)
+
+**Priority:** Medium
+
+**Status:** 🔴 Pending
 
 ---
 

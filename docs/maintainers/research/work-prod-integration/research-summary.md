@@ -13,7 +13,7 @@ This research examines how `proj-cli` should integrate with the `work-prod` back
 
 **Research Topics:** 8 topics  
 **Research Documents:** 8 documents  
-**Status:** 🟠 Research (1/8 complete)
+**Status:** 🟠 Research (2/8 complete)
 
 **Source:** [Exploration - Work-Prod Integration](../../explorations/work-prod-integration/exploration.md)
 
@@ -47,12 +47,34 @@ The issue isn't "which is source of truth?" - that's decided (API). The gap is *
 
 ---
 
+### Finding 4: Delete Architecture Design Complete
+
+Research identified comprehensive delete architecture:
+- **Automatic cascade** from API to registry (matches kubectl pattern)
+- **Path identifier support** for better UX
+- **Filesystem deletion opt-in only** with extra confirmation
+- **Dry-run support** for safe previewing
+
+**Source:** [research-delete-architecture.md](research-delete-architecture.md)
+
+---
+
+### Finding 5: Registry Infrastructure Gap
+
+Need `get_project_by_work_prod_id()` function to clean up registry when deleting by API ID.
+
+**Source:** [research-delete-architecture.md](research-delete-architecture.md)
+
+---
+
 ## 💡 Key Insights
 
 - [x] Insight 1: Field naming mismatches cause silent data loss - must audit all fields
 - [x] Insight 2: API is already the source of truth by design - registry is just sync tracking
 - [x] Insight 3: No complex sync needed - just complete the CRUD operations (delete cleanup)
-- [ ] Insight 4: [Pending research on remaining topics]
+- [x] Insight 4: Automatic cascade is expected behavior (kubectl pattern)
+- [x] Insight 5: Filesystem deletion must be opt-in only (safety critical)
+- [ ] Insight 6: [Pending research on remaining topics]
 
 ---
 
@@ -61,7 +83,7 @@ The issue isn't "which is source of truth?" - that's decided (API). The gap is *
 | # | Topic | Priority | Status |
 |---|-------|----------|--------|
 | 1 | Source of Truth | 🔴 High | ✅ Complete |
-| 2 | Delete Architecture | 🔴 High | 🔴 Not Started |
+| 2 | Delete Architecture | 🔴 High | ✅ Complete |
 | 8 | Field Consistency | 🔴 High | 🟡 Partial |
 | 3 | Sync Strategy | 🟡 Medium | 🔴 Not Started |
 | 4 | Offline Mode | 🟡 Medium | 🔴 Not Started |
@@ -82,6 +104,11 @@ The issue isn't "which is source of truth?" - that's decided (API). The gap is *
 - **FR-SOT-2:** Registry shall only track sync state (path, template, work_prod_id)
 - **FR-SOT-3:** All operations that modify API state shall also update registry accordingly
 - **FR-SOT-4:** CLI shall provide commands to detect and resolve registry/API inconsistencies
+- **FR-DEL-1:** Delete shall automatically cascade from API to registry
+- **FR-DEL-2:** Delete shall accept both API ID and project path
+- **FR-DEL-3:** Delete shall support `--dry-run` flag
+- **FR-DEL-4:** Delete shall support `--delete-files` flag (opt-in, extra confirmation)
+- **FR-DEL-7:** Registry shall provide `get_project_by_work_prod_id()` lookup
 
 ---
 
