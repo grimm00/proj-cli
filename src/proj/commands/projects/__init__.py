@@ -46,11 +46,12 @@ from .crud import (
     archive_project,
 )
 
+# Import list (extracted)
+from .list import list_projects, search_projects
+
 # Temporary: Import remaining functions from legacy module until we extract
 # This will be removed as we extract each module
 from proj.commands.projects._legacy import (  # type: ignore
-    list_projects,
-    search_projects,
     create_project,
     detect_create_mode,
     prompt_for_create_options,
