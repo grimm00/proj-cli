@@ -1,4 +1,6 @@
 """Test fixtures for proj-cli."""
+import subprocess
+import sys
 from unittest.mock import Mock, patch
 
 import pytest
@@ -60,3 +62,27 @@ def mock_api_client():
         client = Mock()
         mock.return_value = client
         yield client
+
+
+def assert_command_exists(args: list[str], expected_text: str | None = None):
+    """Helper to verify a command exists and shows help.
+
+    Args:
+        args: Command arguments (e.g., ["list"], ["inv", "scan", "github"])
+        expected_text: Optional text that should appear in help output
+
+    Returns:
+        subprocess.CompletedProcess: The completed process result
+
+    Raises:
+        AssertionError: If command fails or expected_text not found
+    """
+    result = subprocess.run(
+        [sys.executable, "-m", "proj"] + args + ["--help"],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0, f"Command {' '.join(args)} --help failed with exit code {result.returncode}"
+    if expected_text:
+        assert expected_text.lower() in result.stdout.lower(), f"Expected text '{expected_text}' not found in help output"
+    return result

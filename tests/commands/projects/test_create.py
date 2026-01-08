@@ -1,6 +1,4 @@
 """Tests for create project command and related functions."""
-import subprocess
-import sys
 from io import StringIO
 
 import pytest
@@ -13,16 +11,12 @@ from proj.commands.projects import (
     detect_create_mode,
     prompt_for_create_options,
 )
+from tests.conftest import assert_command_exists
 
 
 def test_create_command_exists():
     """Test that create command exists."""
-    result = subprocess.run(
-        [sys.executable, "-m", "proj", "create", "--help"],
-        capture_output=True,
-        text=True,
-    )
-    assert result.returncode == 0
+    assert_command_exists(["create"])
 
 
 # Tests for detect_create_mode function (Phase 4, Task 1)
