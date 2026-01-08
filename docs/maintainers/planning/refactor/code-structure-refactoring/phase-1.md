@@ -32,7 +32,7 @@ Split `projects.py` (943 lines, 14 functions) into a `projects/` package with fo
 | Task 1: Package Structure     | ✅ Complete    |       |
 | Task 2: Extract Helpers       | ✅ Complete    |       |
 | Task 3: Extract Import/Export | ✅ Complete    |       |
-| Task 4: Extract CRUD          | 🔴 Not Started |       |
+| Task 4: Extract CRUD          | ✅ Complete    |       |
 | Task 5: Extract List          | 🔴 Not Started |       |
 | Task 6: Extract Create        | 🔴 Not Started |       |
 | Task 7: Cleanup & Verify      | 🔴 Not Started |       |
