@@ -54,12 +54,13 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
 ## 📦 Deliverables
 
 **Directory Structure:**
+
 ```
 tests/
 ├── conftest.py
 ├── unit/                    # 6 files
 ├── integration/             # 3 files
-├── commands/               
+├── commands/
 │   ├── test_init.py
 │   ├── test_inventory.py
 │   └── projects/            # Split from test_commands_projects.py

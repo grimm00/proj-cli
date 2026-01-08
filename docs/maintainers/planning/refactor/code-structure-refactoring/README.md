@@ -21,7 +21,7 @@
 
 | Phase | Name | Status | Effort |
 |-------|------|--------|--------|
-| [Phase 1](phase-1.md) | Source Code Refactoring | 🔴 Scaffolding | ~2.5 hrs |
+| [Phase 1](phase-1.md) | Source Code Refactoring | ✅ Expanded | ~2.5 hrs |
 | [Phase 2](phase-2.md) | Test Structure Reorganization | 🔴 Scaffolding | ~2 hrs |
 
 ### Source
