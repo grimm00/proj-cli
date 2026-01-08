@@ -36,11 +36,14 @@ This exploration examines how to improve code organization in proj-cli:
 | Phase | Status |
 |-------|--------|
 | Exploration | ✅ Complete |
-| Research | 🟡 Partial (enough to proceed) |
-| Decision | ✅ Option B selected (subdirectories) |
+| Research | ✅ Sufficient (7/9 topics) |
+| Decision | ✅ Option B selected |
+| Feature Planning | ✅ Complete |
 | Implementation | 🔴 Not Started |
 
-**Next Step:** Begin implementation with PR #1 (create `projects/` package)
+**Next Step:** Expand phase scaffolding, then implement
+
+**Feature Planning:** [code-structure-refactoring](../../planning/features/code-structure-refactoring/)
 
 ---
 

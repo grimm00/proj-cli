@@ -2,7 +2,7 @@
 
 **Purpose:** Feature-based planning and tracking using hub-and-spoke documentation
 **Status:** ✅ Active
-**Last Updated:** 2025-12-16
+**Last Updated:** 2026-01-07
 
 ---
 
@@ -11,7 +11,9 @@
 ### Active Features
 
 - **[proj-cli](proj-cli/README.md)** - Unified CLI tool for project and inventory management (✅ Complete)
-- **[template-generation](template-generation/README.md)** - Extend proj create with dev-infra templates (🔴 Scaffolding)
+- **[template-generation](template-generation/README.md)** - Extend proj create with dev-infra templates (✅ Complete)
+- **[project-type-support](project-type-support/README.md)** - Add project type filtering (✅ Complete)
+- **[code-structure-refactoring](code-structure-refactoring/README.md)** - Split large modules, organize tests (🔴 Scaffolding)
 
 ### Feature Templates
 
@@ -95,18 +97,20 @@ features/
 | Feature | Status | Duration | Result |
 |---------|--------|----------|--------|
 | proj-cli | ✅ Complete | ~16 hrs | Unified CLI (Phases 1-4) |
+| template-generation | ✅ Complete | ~15 hrs | Template generation (Phases 1-6) |
+| project-type-support | ✅ Complete | ~3 hrs | Type filtering (Phases 1-2) |
 
 ### 🟠 In Progress Features
 
 | Feature | Current Phase | Progress | Next |
 |---------|---------------|----------|------|
-| template-generation | Scaffolding | 0% | Expand Phase 1 |
+| code-structure-refactoring | Scaffolding | 0% | Expand Phase 1 |
 
 ### 🟡 Planned Features
 
 | Feature | Priority | Estimated | Dependencies |
 |---------|----------|-----------|--------------|
-| - | - | - | - |
+| work-prod-integration | Medium | ~6-8 hrs | code-structure-refactoring |
 
 ---
 
@@ -229,6 +233,6 @@ features/
 
 ---
 
-**Last Updated:** 2025-01-05
+**Last Updated:** 2026-01-07
 **Status:** ✅ Active
-**Next:** Expand template-generation Phase 1 scaffolding
+**Next:** Expand code-structure-refactoring Phase 1 scaffolding
