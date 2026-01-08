@@ -17,7 +17,7 @@ This directory tracks fixes and deferred issues for the Code Structure Refactori
 | PR | Title | Status | Deferred Issues | Batches |
 |----|-------|--------|-----------------|---------|
 | [PR #25](pr25/README.md) | Phase 1: Source Code Refactoring | ✅ Merged | 2 (fixed in Phase 2) | 0 |
-| [PR #26](pr26/README.md) | Phase 2: Test Structure Reorganization | 🟡 Planned | 4 (all MEDIUM/LOW) | 3 |
+| [PR #26](pr26/README.md) | Phase 2: Test Structure Reorganization | 🟡 In Progress | 4 (all MEDIUM/LOW) | 3 (1 complete) |
 
 ---
 

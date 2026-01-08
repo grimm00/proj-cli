@@ -12,7 +12,7 @@
 
 ### Fix Batches
 
-- **[batch-medium-low-01.md](batch-medium-low-01.md)** - Test regression coverage (🟡 MEDIUM, 🟢 LOW, 2 issues)
+- **[batch-medium-low-01.md](batch-medium-low-01.md)** - Test regression coverage (🟡 MEDIUM, 🟢 LOW, 2 issues) - ✅ Complete (PR #27)
 - **[batch-low-low-01.md](batch-low-low-01.md)** - Code consolidation (🟢 LOW, 🟢 LOW, 1 issue)
 - **[batch-low-medium-01.md](batch-low-medium-01.md)** - Test parametrization (🟢 LOW, 🟡 MEDIUM, 1 issue)
 
@@ -22,11 +22,19 @@
 
 **Total Issues:** 4  
 **Batches:** 3  
-**Status:** 🟡 Planned
+**Status:** 🟡 In Progress (1/3 batches complete)
 
 **Priority Breakdown:**
-- 🟡 MEDIUM: 2 issues (1 batch)
-- 🟢 LOW: 2 issues (2 batches)
+- 🟡 MEDIUM: 2 issues (1 batch) - ✅ Complete
+- 🟢 LOW: 2 issues (2 batches) - 🔴 Not Started
+
+**Batch Status:**
+
+| Batch               | Priority  | Effort | Issues | Status      | PR   |
+| ------------------- | --------- | ------ | ------ | ----------- | ---- |
+| batch-medium-low-01 | 🟡 MEDIUM | 🟢 LOW | 2      | ✅ Complete | #27  |
+| batch-low-low-01    | 🟢 LOW    | 🟢 LOW | 1      | 🔴 Not Started | -    |
+| batch-low-medium-01 | 🟢 LOW    | 🟡 MEDIUM | 1      | 🔴 Not Started | -    |
 
 ---
 
