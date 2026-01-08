@@ -1,46 +1,28 @@
 """Tests for list and search project commands."""
-import subprocess
-import sys
-
 import pytest
 from typer.testing import CliRunner
 from unittest.mock import MagicMock, patch
 
 from proj.cli import app
 from proj.error_handler import InvalidProjectTypeError
+from tests.conftest import assert_command_exists
 
 runner = CliRunner()
 
 
 def test_list_command_exists():
     """Test that list command exists."""
-    result = subprocess.run(
-        [sys.executable, "-m", "proj", "list", "--help"],
-        capture_output=True,
-        text=True,
-    )
-    assert result.returncode == 0
-    assert "List" in result.stdout or "list" in result.stdout.lower()
+    assert_command_exists(["list"], expected_text="list")
 
 
 def test_search_command_exists():
     """Test that search command exists."""
-    result = subprocess.run(
-        [sys.executable, "-m", "proj", "search", "--help"],
-        capture_output=True,
-        text=True,
-    )
-    assert result.returncode == 0
+    assert_command_exists(["search"])
 
 
 def test_search_command_has_wide_option():
     """Test that search command has --wide option."""
-    result = subprocess.run(
-        [sys.executable, "-m", "proj", "search", "--help"],
-        capture_output=True,
-        text=True,
-    )
-    assert result.returncode == 0
+    result = assert_command_exists(["search"])
     assert "--wide" in result.stdout or "-w" in result.stdout
 
 

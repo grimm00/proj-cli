@@ -1,13 +1,7 @@
 """Tests for import project command."""
-import subprocess
-import sys
+from tests.conftest import assert_command_exists
 
 
 def test_import_command_exists():
     """Test that import command exists."""
-    result = subprocess.run(
-        [sys.executable, "-m", "proj", "import-json", "--help"],
-        capture_output=True,
-        text=True,
-    )
-    assert result.returncode == 0
+    assert_command_exists(["import-json"])
