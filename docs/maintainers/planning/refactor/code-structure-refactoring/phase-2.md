@@ -73,6 +73,17 @@ tests/
 
 ---
 
+## 🔧 Deferred from Phase 1 (PR #25 Sourcery Review)
+
+These items were identified during Phase 1 PR review and deferred to Phase 2:
+
+- [ ] **Console Consolidation** - Reuse shared `console` from helpers instead of instantiating new Console in each module (list.py, crud.py, import_export.py)
+- [ ] **Centralize `_get_package_imports()`** - Move the late-binding helper from create.py and list.py to helpers.py to reduce duplication
+
+**Reference:** [PR #25 Sourcery Review](../../../feedback/sourcery/pr25.md)
+
+---
+
 ## 🔗 Dependencies
 
 ### Prerequisites
