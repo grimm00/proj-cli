@@ -4,8 +4,10 @@
 **Batch:** medium-low-01  
 **Priority:** 🟡 MEDIUM  
 **Effort:** 🟢 LOW  
-**Status:** 🔴 Not Started  
+**Status:** ✅ Complete  
 **Created:** 2026-01-08  
+**Completed:** 2026-01-08  
+**PR:** Pending  
 **Issues:** 2 issues
 
 ---
@@ -126,9 +128,9 @@ def test_list_projects_uses_patched_get_client_via_package_imports(mock_get_clie
 
 ## Definition of Done
 
-- [ ] PR26-#1 assertions added
-- [ ] PR26-#2 regression test added
-- [ ] All 242+ tests passing
+- [x] PR26-#1 assertions added
+- [x] PR26-#2 regression test added
+- [x] All 242+ tests passing (240 passed, 3 pre-existing failures)
 - [ ] Code reviewed
 - [ ] Ready for PR
 
