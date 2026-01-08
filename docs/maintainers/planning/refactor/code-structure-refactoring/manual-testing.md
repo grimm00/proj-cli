@@ -20,6 +20,9 @@ This guide provides step-by-step instructions for manually verifying that the co
 - `proj-cli` installed in development mode (`pip install -e .`)
 - Virtual environment activated
 - Terminal access
+- (Optional) Backend running for full integration tests
+
+**Note:** Replace `$PROJECT_DIR` with your actual proj-cli directory path.
 
 ---
 
@@ -39,7 +42,7 @@ This guide provides step-by-step instructions for manually verifying that the co
 
 ```bash
 # Activate virtual environment
-cd /Users/cdwilson/Projects/proj-cli
+cd $PROJECT_DIR  # e.g., ~/Projects/proj-cli
 source venv/bin/activate
 
 # Test top-level help
@@ -141,11 +144,11 @@ True
 **CLI Test:**
 
 ```bash
-cd /Users/cdwilson/Projects/proj-cli
+cd $PROJECT_DIR  # e.g., ~/Projects/proj-cli
 source venv/bin/activate
 
 # Run all tests
-python3 -m pytest tests/ -v --tb=short 2>&1 | tail -20
+python3 -m pytest tests/ -v --tb=short 2>&1 | tail -30
 
 # Expected: 234 passed (with 8 pre-existing failures)
 # The 8 failures are pre-existing and not related to this refactoring
@@ -182,6 +185,69 @@ ls -la src/proj/commands/projects/
 
 ---
 
+### Scenario 1.6: Submodule Imports - Verify Direct Module Access
+
+**Objective:** Verify that submodules can be imported directly (for advanced users/tests).
+
+**Steps:**
+
+1. Open Python REPL
+2. Import directly from submodules
+3. Verify functions are accessible
+
+**Python Test:**
+
+```python
+# Start Python REPL
+python3
+
+# Verify submodule imports work
+>>> from proj.commands.projects.helpers import get_client, STATUS_EMOJI
+>>> from proj.commands.projects.list import list_projects, search_projects
+>>> from proj.commands.projects.crud import get_project, update_project
+>>> from proj.commands.projects.create import create_project
+>>> from proj.commands.projects.import_export import import_json
+
+# All imports should work without errors
+>>> print("All submodule imports successful!")
+All submodule imports successful!
+
+# Exit Python
+>>> exit()
+```
+
+**Expected Result:** ✅ All submodule imports work correctly - PASSED
+
+---
+
+### Scenario 1.7: Test Patching Compatibility (Advanced)
+
+**Objective:** Verify that test mocking/patching still works with the refactored code.
+
+**Note:** This scenario requires understanding of the test patching approach used in tests.
+
+**Steps:**
+
+1. Run a specific test that uses patching
+2. Verify the patch is applied correctly
+
+**CLI Test:**
+
+```bash
+cd $PROJECT_DIR
+source venv/bin/activate
+
+# Run tests that use patching (e.g., list command tests)
+python3 -m pytest tests/test_commands_projects.py -k "list" -v
+
+# Expected: All list tests pass (patches applied correctly)
+# Look for: "5 passed" or similar
+```
+
+**Expected Result:** ✅ Patched tests pass without AttributeError - PASSED (5 list tests)
+
+---
+
 ## ✅ Acceptance Criteria Checklist
 
 - [x] Scenario 1.1 passes - CLI help displays correctly ✅
@@ -189,6 +255,8 @@ ls -la src/proj/commands/projects/
 - [x] Scenario 1.3 passes - Module imports work ✅
 - [x] Scenario 1.4 passes - Test suite passes (no new failures) ✅
 - [x] Scenario 1.5 passes - Package structure correct ✅
+- [x] Scenario 1.6 passes - Submodule imports work ✅
+- [x] Scenario 1.7 passes - Test patching works ✅
 
 ---
 
@@ -196,14 +264,26 @@ ls -la src/proj/commands/projects/
 
 **Pre-existing Test Failures (8 tests):**
 These failures existed before the refactoring and are NOT related to this PR:
-- `test_version_matches_metadata` - Version mismatch between `pyproject.toml` and `__init__.py`
-- `test_cli_no_args_shows_help` - Typer returns exit code 2 instead of 0
-- `test_prompt_for_create_options_*` - Test patching issues with console instance
+
+| Count | Test | Reason |
+|-------|------|--------|
+| 5 | `test_*_integration` | Backend not running (Connection refused to localhost:5000) |
+| 1 | `test_version_matches_metadata` | Version mismatch between `pyproject.toml` (0.3.0) and `__init__.py` (0.3.1) |
+| 1 | `test_cli_no_args_shows_help` | Typer returns exit code 2 instead of expected 0 |
+| 1 | `test_prompt_for_create_options_no_templates_available` | Test patching issue with console instance |
+
+**Note:** The 5 integration test failures can be resolved by running the work-prod backend (`cd ../work-prod/backend && python run.py`).
 
 **What Changed:**
 - `projects.py` (943 lines) → `projects/` package with 5 focused modules
 - No functionality changes, only code organization
 - Test patching compatibility maintained via re-exports in `__init__.py`
+
+**Test Patching Approach:**
+The refactoring required special handling for test mocking:
+1. `__init__.py` re-exports all dependencies (APIClient, Config, etc.)
+2. Submodules use `_get_package_imports()` for late binding
+3. Tests can patch at `proj.commands.projects.X` level
 
 ---
 
