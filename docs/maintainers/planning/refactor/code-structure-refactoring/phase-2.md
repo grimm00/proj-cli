@@ -34,7 +34,7 @@ Reorganize flat test directory (24 files, 4312 lines) into structured subdirecto
 | Task 3: Move Integration Tests | ✅ Complete    |       |
 | Task 4: Move Command Tests     | ✅ Complete    |       |
 | Task 5: Move Create Tests      | ✅ Complete    |       |
-| Task 6: Split Projects Tests   | 🔴 Not Started |       |
+| Task 6: Split Projects Tests   | ✅ Complete    |       |
 | Task 7: Fix Deferred Items     | 🔴 Not Started |       |
 | Task 8: Update Configuration   | 🔴 Not Started |       |
 
@@ -333,14 +333,14 @@ tests/commands/projects/
 
 **Checklist:**
 
-- [ ] Tests categorized by function
-- [ ] `test_list.py` created with list/search tests
-- [ ] `test_crud.py` created with CRUD tests
-- [ ] `test_create.py` created with create/prompt tests
-- [ ] `test_import.py` created with import tests
-- [ ] All split tests pass individually
-- [ ] Original file removed
-- [ ] Total test count unchanged
+- [x] Tests categorized by function
+- [x] `test_list.py` created with list/search tests (7 tests)
+- [x] `test_crud.py` created with CRUD tests (4 tests)
+- [x] `test_create.py` created with create/prompt tests (9 tests)
+- [x] `test_import.py` created with import tests (1 test)
+- [x] All split tests pass individually (1 pre-existing failure)
+- [x] Original file removed
+- [x] Total test count unchanged (242 tests)
 
 ---
 
