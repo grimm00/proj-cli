@@ -16,7 +16,8 @@ This directory tracks fixes and deferred issues for the Code Structure Refactori
 
 | PR | Title | Status | Deferred Issues |
 |----|-------|--------|-----------------|
-| [PR #25](pr25/README.md) | Phase 1: Source Code Refactoring | ✅ Merged | 2 (deferred to Phase 2) |
+| [PR #25](pr25/README.md) | Phase 1: Source Code Refactoring | ✅ Merged | 2 (fixed in Phase 2) |
+| [PR #26](pr26/README.md) | Phase 2: Test Structure Reorganization | ✅ Merged | 4 (all MEDIUM/LOW) |
 
 ---
 
@@ -25,8 +26,10 @@ This directory tracks fixes and deferred issues for the Code Structure Refactori
 ```
 fix/
 ├── README.md           # This file - Fix tracking hub
-└── pr25/               # PR #25 deferred issues
-    └── README.md       # PR #25 hub
+├── pr25/               # PR #25 deferred issues
+│   └── README.md       # PR #25 hub
+└── pr26/               # PR #26 deferred issues
+    └── README.md       # PR #26 hub
 ```
 
 ---
@@ -34,8 +37,10 @@ fix/
 ## 🔗 Related Documents
 
 - [Feature Hub](../README.md)
-- [Phase 2](../phase-2.md) - Contains deferred items from PR #25
-- [Sourcery Review](../../../../feedback/sourcery/pr25.md)
+- [Phase 1](../phase-1.md)
+- [Phase 2](../phase-2.md)
+- [Sourcery Review PR #25](../../../../feedback/sourcery/pr25.md)
+- [Sourcery Review PR #26](../../../../feedback/sourcery/pr26.md)
 
 ---
 
