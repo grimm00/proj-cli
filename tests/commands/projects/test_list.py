@@ -118,3 +118,25 @@ def test_list_projects_with_type_and_classification(mock_get_client):
         project_type="Work",
         search=None,
     )
+
+
+@patch('proj.commands.projects.get_client')
+def test_list_projects_uses_patched_get_client_via_package_imports(mock_get_client):
+    """Regression test: patching proj.commands.projects.get_client affects submodules using get_package_imports.
+    
+    This test explicitly verifies that patching at the package level (proj.commands.projects.get_client)
+    correctly affects submodules that use get_package_imports() for late binding. This documents the
+    patching pattern and protects against regressions if the late-binding implementation changes.
+    """
+    mock_client = MagicMock()
+    mock_client.list_projects.return_value = []
+
+    # When get_client is patched at package level, commands that use get_package_imports
+    # (such as `list`) should still see the patched version.
+    mock_get_client.return_value = mock_client
+
+    result = runner.invoke(app, ["list"])
+
+    assert result.exit_code == 0
+    mock_get_client.assert_called_once()
+    mock_client.list_projects.assert_called_once()
