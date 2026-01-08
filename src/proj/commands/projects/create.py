@@ -21,12 +21,6 @@ from .helpers import sync_to_api, get_package_imports
 from .helpers import console
 
 
-def _get_client():
-    """Get API client using package-level import for patching."""
-    pkg = get_package_imports()
-    return pkg.APIClient(pkg.Config.load())
-
-
 def prompt_for_create_options(config) -> dict:
     """Prompt user for create options interactively.
 
