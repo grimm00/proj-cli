@@ -30,6 +30,7 @@ How should `proj delete` handle API, registry, and filesystem cleanup?
 ## 📚 Research Methodology
 
 **Sources:**
+
 - [x] Web search: CLI delete command patterns and best practices
 - [x] Codebase analysis: Current `proj delete` implementation
 - [x] Case studies: Docker, kubectl, npm, git (multi-target delete commands)
@@ -64,6 +65,7 @@ def delete_project(
 ```
 
 **Issues:**
+
 - Only accepts integer API ID (not path)
 - Only deletes from API
 - Registry entries become orphaned
@@ -98,15 +100,16 @@ def get_project_by_path(path: Path) -> Optional[RegistryProject]:
 
 ### Finding 3: CLI Tool Patterns Analysis
 
-| Tool | Identifier | Cascade | Confirmation | Flags |
-|------|------------|---------|--------------|-------|
-| `docker rm` | Container ID/name | Container only | No (unless running) | `--force`, `--volumes` |
-| `kubectl delete` | Type/name or file | Cascades by default | No | `--force`, `--dry-run`, `--cascade` |
-| `git rm` | File path | Index + filesystem | No | `--force`, `--cached` |
-| `npm uninstall` | Package name | Dependencies | No | `--save-dev` |
-| `rm` (unix) | File path | Single target | No | `-f`, `-r`, `-i` |
+| Tool             | Identifier        | Cascade             | Confirmation        | Flags                               |
+| ---------------- | ----------------- | ------------------- | ------------------- | ----------------------------------- |
+| `docker rm`      | Container ID/name | Container only      | No (unless running) | `--force`, `--volumes`              |
+| `kubectl delete` | Type/name or file | Cascades by default | No                  | `--force`, `--dry-run`, `--cascade` |
+| `git rm`         | File path         | Index + filesystem  | No                  | `--force`, `--cached`               |
+| `npm uninstall`  | Package name      | Dependencies        | No                  | `--save-dev`                        |
+| `rm` (unix)      | File path         | Single target       | No                  | `-f`, `-r`, `-i`                    |
 
 **Key Patterns:**
+
 - **Most CLIs cascade by default** - `kubectl delete` removes pod + service + etc.
 - **Flags limit scope** - `--cached` in git rm means "only index, not filesystem"
 - **Force skips confirmation** - Universal pattern
@@ -122,12 +125,12 @@ def get_project_by_path(path: Path) -> Optional[RegistryProject]:
 
 Analysis of possible project states reveals four scenarios:
 
-| State | API | Registry | Filesystem | Delete Behavior |
-|-------|-----|----------|------------|-----------------|
-| **API-only** | ✅ | ❌ | ❌ | Delete from API only |
-| **Template (synced)** | ✅ | ✅ | ✅ | Delete from API, cleanup registry |
-| **Template (local-only)** | ❌ | ✅ | ✅ | Delete from registry only |
-| **Orphaned** | ❌ | ✅ | ❌ | Registry cleanup only |
+| State                     | API | Registry | Filesystem | Delete Behavior                   |
+| ------------------------- | --- | -------- | ---------- | --------------------------------- |
+| **API-only**              | ✅  | ❌       | ❌         | Delete from API only              |
+| **Template (synced)**     | ✅  | ✅       | ✅         | Delete from API, cleanup registry |
+| **Template (local-only)** | ❌  | ✅       | ✅         | Delete from registry only         |
+| **Orphaned**              | ❌  | ✅       | ❌         | Registry cleanup only             |
 
 **Source:** Architectural analysis based on Topic 1 findings
 
@@ -138,6 +141,7 @@ Analysis of possible project states reveals four scenarios:
 ### Finding 5: Identifier Resolution Strategy
 
 Users may want to delete by:
+
 1. **API ID** - `proj delete 42` (current behavior)
 2. **Project path** - `proj delete ~/Projects/my-app`
 3. **Project name** - `proj delete --name my-app`
@@ -145,31 +149,49 @@ Users may want to delete by:
 **Usability Consideration:** While name-based deletion can be ambiguous, lack of usability is itself a security/bug risk. Users are more likely to remember project names than IDs, and typing full paths is cumbersome.
 
 **Resolution Order (proposed):**
-1. If `--name` flag provided → search by name with disambiguation
+
+1. If `--name` flag provided → force name search (skip path/ID detection)
 2. If argument is numeric → treat as API ID
-3. If argument is a path (contains `/` or exists) → look up in registry
-4. If neither matches → error with helpful message
+3. If argument contains `/` or path exists on filesystem → Path lookup
+4. **Otherwise → Automatic name search** (with disambiguation if needed)
+
+**Automatic Name Resolution:**
+
+When the identifier doesn't look like an ID or path, we automatically try name search:
+- `proj delete my-app` → searches for projects named "my-app"
+- `proj delete 42` → deletes API ID 42 (numeric = ID)
+- `proj delete ./my-app` → deletes by path (contains `/`)
+- `proj delete ~/Projects/foo` → deletes by path (exists on disk)
 
 **Name-Based Deletion Safety:**
+
 - Use existing search/filter API to find projects by name
 - If exactly 1 match → proceed with confirmation
 - If multiple matches → show list and require user to pick (interactive) or use ID/path
 - If no matches → error with suggestions
 
+**`--name` Flag Purpose:**
+
+The `--name` flag is optional but useful for:
+- Forcing name interpretation when name looks like a path (e.g., `proj delete --name path/like-name`)
+- Explicitness when desired
+
 **Source:** UX analysis + usability consideration
 
-**Relevance:** All three identifier types improve usability for different scenarios.
+**Relevance:** Automatic name fallback provides intuitive UX without sacrificing safety.
 
 ---
 
 ### Finding 6: Filesystem Deletion is Dangerous
 
 Filesystem deletion should be:
+
 - **Opt-in only** - Never delete files automatically
 - **Explicit flag required** - `--delete-files` or `--rm-local`
 - **Separate confirmation** - Extra warning for filesystem deletion
 
 **Pattern from other tools:**
+
 - `kubectl delete` never touches local files
 - `git rm` only affects tracked files, not the directory
 - `docker rm` only removes container, not volumes (unless `--volumes`)
@@ -200,57 +222,64 @@ proj delete <identifier>
 
 ### Flag Design
 
-| Flag | Purpose | Default |
-|------|---------|---------|
-| `--force` / `-f` | Skip confirmation | Off |
-| `--dry-run` | Preview what would be deleted | Off |
-| `--name` / `-n` | Treat argument as project name (search-based) | Off |
-| `--api-only` | Only delete from API (don't touch registry) | Off |
-| `--registry-only` | Only delete from registry (don't touch API) | Off |
-| `--delete-files` | Also delete local filesystem | Off |
+| Flag              | Purpose                                          | Default |
+| ----------------- | ------------------------------------------------ | ------- |
+| `--force` / `-f`  | Skip confirmation                                | Off     |
+| `--dry-run`       | Preview what would be deleted                    | Off     |
+| `--name` / `-n`   | Force name search (skip ID/path auto-detection)  | Off     |
+| `--api-only`      | Only delete from API (don't touch registry)      | Off     |
+| `--registry-only` | Only delete from registry (don't touch API)      | Off     |
+| `--delete-files`  | Also delete local filesystem                     | Off     |
 
 ### Identifier Resolution
 
 ```python
-def resolve_identifier(identifier: str, by_name: bool = False) -> DeleteTarget:
-    # 1. If --name flag, search by name
-    if by_name:
-        matches = client.list_projects(search=identifier)
-        # Filter to exact name matches
-        exact = [p for p in matches if p["name"].lower() == identifier.lower()]
-        
-        if len(exact) == 0:
-            raise NotFoundError(f"No project found with name: {identifier}")
-        elif len(exact) == 1:
-            project = exact[0]
-            return DeleteTarget(
-                api_id=project["id"],
-                path=Path(project["path"]) if project.get("path") else None,
-                name=project["name"],
-            )
-        else:
-            # Multiple matches - require disambiguation
-            raise AmbiguousNameError(
-                f"Multiple projects match '{identifier}':",
-                matches=exact
-            )
-    
+def resolve_identifier(identifier: str, force_name: bool = False) -> DeleteTarget:
+    # 1. If --name flag, force name search (skip other detection)
+    if force_name:
+        return _search_by_name(identifier)
+
     # 2. Check if numeric (API ID)
     if identifier.isdigit():
         return DeleteTarget(api_id=int(identifier))
-    
-    # 3. Check if it's a path
-    path = Path(identifier).resolve()
-    registry_entry = get_project_by_path(path)
-    
-    if registry_entry:
+
+    # 3. Check if it looks like a path (contains / or exists on disk)
+    if "/" in identifier or Path(identifier).exists():
+        path = Path(identifier).resolve()
+        registry_entry = get_project_by_path(path)
+        if registry_entry:
+            return DeleteTarget(
+                path=path,
+                api_id=registry_entry.work_prod_id,  # May be None
+            )
+        # Path specified but not in registry
+        raise NotFoundError(f"No project registered at: {path}")
+
+    # 4. Automatic name fallback - try searching by name
+    return _search_by_name(identifier)
+
+
+def _search_by_name(name: str) -> DeleteTarget:
+    """Search for project by name with disambiguation."""
+    matches = client.list_projects(search=name)
+    # Filter to exact name matches (case-insensitive)
+    exact = [p for p in matches if p["name"].lower() == name.lower()]
+
+    if len(exact) == 0:
+        raise NotFoundError(f"No project found with name: {name}")
+    elif len(exact) == 1:
+        project = exact[0]
         return DeleteTarget(
-            path=path,
-            api_id=registry_entry.work_prod_id,  # May be None
+            api_id=project["id"],
+            path=Path(project["path"]) if project.get("path") else None,
+            name=project["name"],
         )
-    
-    # 4. Not found
-    raise NotFoundError(f"No project found for: {identifier}")
+    else:
+        # Multiple matches - require disambiguation
+        raise AmbiguousNameError(
+            f"Multiple projects match '{name}':",
+            matches=exact
+        )
 ```
 
 ### Missing Infrastructure
@@ -275,11 +304,12 @@ def remove_project_by_work_prod_id(work_prod_id: int) -> bool:
 ```
 
 **Key Insights:**
+
 - [x] Insight 1: Automatic cascade to registry is expected behavior (matches kubectl pattern)
 - [x] Insight 2: Filesystem deletion must be opt-in only (safety critical)
 - [x] Insight 3: Path-based identifier would improve UX for template projects
 - [x] Insight 4: Need `get_project_by_work_prod_id()` function in registry
-- [x] Insight 5: Name-based deletion improves usability; disambiguation handles safety
+- [x] Insight 5: Automatic name fallback improves usability; disambiguation handles safety
 
 ---
 
@@ -336,31 +366,39 @@ def remove_project_by_work_prod_id(work_prod_id: int) -> bool:
 
 ```python
 def delete_project(
-    identifier: str = typer.Argument(..., help="Project ID, path, or name (with --name)"),
+    identifier: str = typer.Argument(..., help="Project ID, path, or name"),
     force: bool = typer.Option(False, "--force", "-f", help="Skip confirmation"),
     dry_run: bool = typer.Option(False, "--dry-run", help="Preview deletion"),
-    by_name: bool = typer.Option(False, "--name", "-n", help="Treat identifier as project name"),
+    force_name: bool = typer.Option(False, "--name", "-n", help="Force name search"),
     api_only: bool = typer.Option(False, "--api-only", help="Only delete from API"),
     registry_only: bool = typer.Option(False, "--registry-only", help="Only delete from registry"),
     delete_files: bool = typer.Option(False, "--delete-files", help="Also delete local files"),
 ):
-    """Delete a project from API and/or registry."""
+    """Delete a project from API and/or registry.
     
-    # 1. Resolve identifier (handles name disambiguation)
+    Identifier resolution:
+    - Numeric → API ID (e.g., 42)
+    - Contains / or exists → Path (e.g., ~/Projects/foo)
+    - Otherwise → Name search (e.g., my-app)
+    
+    Use --name to force name search when identifier looks like a path.
+    """
+
+    # 1. Resolve identifier (auto-detects ID, path, or name)
     try:
-        target = resolve_identifier(identifier, by_name=by_name)
+        target = resolve_identifier(identifier, force_name=force_name)
     except AmbiguousNameError as e:
         console.print(f"[yellow]{e.message}[/yellow]")
         for p in e.matches:
             console.print(f"  • ID {p['id']}: {p['name']} ({p.get('path', 'no path')})")
         console.print("\n[dim]Use ID or path to specify which project to delete.[/dim]")
         raise typer.Exit(1)
-    
+
     # 2. Determine what to delete
     will_delete_api = target.api_id and not registry_only
     will_delete_registry = target.path and not api_only
     will_delete_files = delete_files and target.path
-    
+
     # 3. Dry run output
     if dry_run:
         console.print("[bold]Would delete:[/bold]")
@@ -371,28 +409,28 @@ def delete_project(
         if will_delete_files:
             console.print(f"  • Files: {target.path}")
         return
-    
+
     # 4. Confirmation
     if not force:
         confirm = typer.confirm("Proceed with deletion?")
         if not confirm:
             raise typer.Abort()
-    
+
     # 5. Extra confirmation for filesystem
     if will_delete_files and not force:
         confirm = typer.confirm("⚠️  Also delete local files? This cannot be undone!")
         if not confirm:
             will_delete_files = False
-    
+
     # 6. Execute deletions
     if will_delete_api:
         client.delete_project(target.api_id)
         console.print(f"[green]✓ Deleted from API: {target.api_id}[/green]")
-    
+
     if will_delete_registry:
         remove_project(target.path)
         console.print(f"[green]✓ Removed from registry: {target.path}[/green]")
-    
+
     if will_delete_files:
         shutil.rmtree(target.path)
         console.print(f"[green]✓ Deleted files: {target.path}[/green]")
