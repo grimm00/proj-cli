@@ -132,3 +132,6 @@ secrets/
 !docs/
 .coverage
 tmp/
+
+# Local worktrees directory (for manual worktree creation)
+worktrees/
