@@ -13,7 +13,7 @@ This research examines how `proj-cli` should integrate with the `work-prod` back
 
 **Research Topics:** 8 topics  
 **Research Documents:** 8 documents  
-**Status:** 🟠 Research (4/8 complete)
+**Status:** 🟠 Research (5/8 complete)
 
 **Source:** [Exploration - Work-Prod Integration](../../explorations/work-prod-integration/exploration.md)
 
@@ -101,6 +101,22 @@ Registry is 100% local with no API dependencies. proj-cli should adopt a local-f
 
 ---
 
+### Finding 9: Hybrid Sync Strategy
+
+Research confirms hybrid approach is best: auto-sync on create (current behavior) + explicit `proj sync` command for recovery and batch operations. Bidirectional sync not needed - push only.
+
+**Source:** [research-sync-strategy.md](research-sync-strategy.md)
+
+---
+
+### Finding 10: Simple Conflict Resolution
+
+Since API is authoritative, conflicts are rare. Only need to detect stale `work_prod_id` (when API record deleted) and offer re-push or remove from registry.
+
+**Source:** [research-sync-strategy.md](research-sync-strategy.md)
+
+---
+
 ## 💡 Key Insights
 
 - [x] Insight 1: Field naming mismatches cause silent data loss - must audit all fields
@@ -112,6 +128,9 @@ Registry is 100% local with no API dependencies. proj-cli should adopt a local-f
 - [x] Insight 7: Registry provides 100% local foundation - needs commands to expose it
 - [x] Insight 8: Git's local-first model is the right pattern for proj-cli
 - [x] Insight 9: Development should sequence: Local complete → Sync layer → API enhancement
+- [x] Insight 10: Hybrid sync is best - auto-sync on create + explicit sync command
+- [x] Insight 11: Bidirectional sync not needed - push only, API is authoritative
+- [x] Insight 12: Conflicts are rare/simple - just detect stale work_prod_id
 
 ---
 
@@ -123,7 +142,7 @@ Registry is 100% local with no API dependencies. proj-cli should adopt a local-f
 | 2 | Delete Architecture | 🔴 High | ✅ Complete |
 | 8 | Field Consistency | 🔴 High | ✅ Complete |
 | 4 | Offline Mode (Local-First) | 🟡 Medium | ✅ Complete |
-| 3 | Sync Strategy | 🟡 Medium | 🔴 Not Started |
+| 3 | Sync Strategy | 🟡 Medium | ✅ Complete |
 | 5 | Registry Commands | 🟡 Medium | 🔴 Not Started |
 | 7 | Creation Date | 🟡 Medium | 🔴 Not Started |
 | 6 | Inventory Integration | 🟢 Low | 🔴 Not Started |
@@ -152,6 +171,10 @@ Registry is 100% local with no API dependencies. proj-cli should adopt a local-f
 - **FR-OFF-2:** CLI shall provide `proj registry list` command
 - **FR-OFF-4:** CLI shall provide `proj sync` command
 - **FR-OFF-5:** Registry operations shall work without network ✅ (Already works)
+- **FR-SYNC-1:** CLI shall provide `proj sync` to push unsynced projects
+- **FR-SYNC-2:** CLI shall provide `proj sync --status` for visibility
+- **FR-SYNC-5:** Auto-sync on create shall remain default ✅ (Already works)
+- **C-SYNC-1:** Sync shall be one-way only (push) ✅ (Architecture)
 
 ---
 
@@ -162,7 +185,9 @@ Registry is 100% local with no API dependencies. proj-cli should adopt a local-f
 - [x] Recommendation 3: **Add --local flag** - Allow list/get to show local data only
 - [x] Recommendation 4: **Add sync command** - Explicit push of local projects to API
 - [x] Recommendation 5: **Implement delete cascade** - Auto-clean registry on API delete (Topic 2)
-- [ ] Recommendation 6: [Pending remaining topics]
+- [x] Recommendation 6: **Hybrid sync strategy** - Keep auto-sync + add explicit sync command
+- [x] Recommendation 7: **Simple conflict handling** - Detect stale IDs, offer re-push or remove
+- [ ] Recommendation 8: [Pending remaining topics]
 
 ---
 
@@ -170,9 +195,10 @@ Registry is 100% local with no API dependencies. proj-cli should adopt a local-f
 
 1. ✅ Complete high-priority topics (1, 2, 8)
 2. ✅ Complete offline mode research (Topic 4)
-3. Continue with remaining medium-priority topics (3, 5, 7)
-4. Review requirements in `requirements.md`
-5. Use `/decision work-prod-integration --from-research` when complete
+3. ✅ Complete sync strategy research (Topic 3)
+4. Continue with remaining topics (5, 7, 6)
+5. Review requirements in `requirements.md`
+6. Use `/decision work-prod-integration --from-research` when complete
 
 ---
 

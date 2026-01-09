@@ -439,6 +439,102 @@ This document captures requirements discovered during research on how proj-cli s
 
 ---
 
+### FR-SYNC-1: Sync Command
+
+**Description:** CLI shall provide `proj sync` command to push unsynced projects to API
+
+**Source:** [research-sync-strategy.md](research-sync-strategy.md)
+
+**Priority:** High
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-SYNC-2: Sync Status
+
+**Description:** CLI shall provide `proj sync --status` to show sync state of all projects
+
+**Source:** [research-sync-strategy.md](research-sync-strategy.md)
+
+**Priority:** High
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-SYNC-3: Sync Dry-Run
+
+**Description:** `proj sync` shall support `--dry-run` to preview operations
+
+**Source:** [research-sync-strategy.md](research-sync-strategy.md)
+
+**Priority:** Medium
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-SYNC-4: Sync Project Targeting
+
+**Description:** `proj sync` shall support targeting specific project by path
+
+**Source:** [research-sync-strategy.md](research-sync-strategy.md)
+
+**Priority:** Medium
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-SYNC-5: Auto-Sync Default
+
+**Description:** Auto-sync on create shall remain as default behavior
+
+**Source:** [research-sync-strategy.md](research-sync-strategy.md)
+
+**Priority:** High
+
+**Status:** ✅ Already Implemented
+
+---
+
+### FR-SYNC-6: Stale ID Detection
+
+**Description:** Sync shall detect stale work_prod_id (API record deleted)
+
+**Source:** [research-sync-strategy.md](research-sync-strategy.md)
+
+**Priority:** Medium
+
+**Status:** 🔴 Pending
+
+---
+
+### NFR-SYNC-1: Sync Feedback
+
+**Description:** Sync shall provide clear feedback for each project synced
+
+**Source:** [research-sync-strategy.md](research-sync-strategy.md)
+
+**Priority:** Medium
+
+**Status:** 🔴 Pending
+
+---
+
+### C-SYNC-1: One-Way Sync Only
+
+**Description:** Sync shall be one-way only (local → API push), no bidirectional sync
+
+**Source:** [research-sync-strategy.md](research-sync-strategy.md)
+
+**Priority:** High
+
+**Status:** ✅ Confirmed (architecture decision)
+
+---
+
 ### NFR-2: Consistent API Integration
 
 **Description:** All commands should follow consistent patterns for API integration
