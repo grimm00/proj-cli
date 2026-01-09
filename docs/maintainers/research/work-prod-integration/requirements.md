@@ -731,6 +731,82 @@ This document captures requirements discovered during research on how proj-cli s
 
 ---
 
+### FR-INV-1: Inventory Scan Isolation
+
+**Description:** Inventory scan shall NOT update registry (registry is template-only)
+
+**Source:** [research-inventory-integration.md](research-inventory-integration.md)
+
+**Priority:** High
+
+**Status:** ✅ Already Correct (by design)
+
+---
+
+### FR-INV-2: Registry Status Indicator
+
+**Description:** Inventory list may optionally show registry status indicator
+
+**Source:** [research-inventory-integration.md](research-inventory-integration.md)
+
+**Priority:** Low
+
+**Status:** 🔴 Pending (optional enhancement)
+
+---
+
+### FR-INV-3: Path Linkage Key
+
+**Description:** Inventory and registry shall both use `path` as linkage key
+
+**Source:** [research-inventory-integration.md](research-inventory-integration.md)
+
+**Priority:** High
+
+**Status:** ✅ Already Correct
+
+---
+
+### NFR-INV-1: Architectural Separation
+
+**Description:** Registry and inventory systems shall remain architecturally separate
+
+**Source:** [research-inventory-integration.md](research-inventory-integration.md)
+
+**Priority:** High
+
+**Status:** ✅ Already Correct (by design)
+
+---
+
+### NFR-INV-2: Documentation Clarity
+
+**Description:** Documentation shall clarify registry vs inventory purpose
+
+**Source:** [research-inventory-integration.md](research-inventory-integration.md)
+
+**Priority:** Medium
+
+**Status:** 🔴 Pending
+
+---
+
+### C-INV-1: Registry Template Scope
+
+**Description:** Registry only tracks template-created projects
+
+**Source:** [research-inventory-integration.md](research-inventory-integration.md)
+
+---
+
+### C-INV-2: Inventory Universal Scope
+
+**Description:** Inventory catalogs all projects regardless of origin
+
+**Source:** [research-inventory-integration.md](research-inventory-integration.md)
+
+---
+
 ## ⚠️ Constraints
 
 ### C-1: Work-Prod API Compatibility
