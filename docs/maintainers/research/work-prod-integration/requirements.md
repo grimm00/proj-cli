@@ -619,6 +619,106 @@ This document captures requirements discovered during research on how proj-cli s
 
 ---
 
+### FR-DATE-1: Add started_at Field
+
+**Description:** Add `started_at` field to work-prod API Project model for project inception date
+
+**Source:** [research-creation-date.md](research-creation-date.md)
+
+**Priority:** High
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-DATE-2: Scan First Commit Date
+
+**Description:** Extract first commit date during `proj inv scan` for git repositories
+
+**Source:** [research-creation-date.md](research-creation-date.md)
+
+**Priority:** Medium
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-DATE-3: Set started_at on Create
+
+**Description:** Set `started_at` to current time during `proj create`
+
+**Source:** [research-creation-date.md](research-creation-date.md)
+
+**Priority:** High
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-DATE-4: Manual started_at Override
+
+**Description:** Allow manual `started_at` override via update command
+
+**Source:** [research-creation-date.md](research-creation-date.md)
+
+**Priority:** Low
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-DATE-5: Preserve created_at Semantics
+
+**Description:** `created_at` field semantics must not change (record creation only)
+
+**Source:** [research-creation-date.md](research-creation-date.md)
+
+**Priority:** High
+
+**Status:** ✅ Confirmed (constraint)
+
+---
+
+### NFR-DATE-1: First Commit Extraction Performance
+
+**Description:** Git first-commit extraction should add <100ms to scan per repo
+
+**Source:** [research-creation-date.md](research-creation-date.md)
+
+**Priority:** Medium
+
+**Status:** 🔴 Pending
+
+---
+
+### NFR-DATE-2: Nullable started_at
+
+**Description:** Allow null `started_at` - don't force inaccurate data for unknown dates
+
+**Source:** [research-creation-date.md](research-creation-date.md)
+
+**Priority:** High
+
+**Status:** 🔴 Pending (constraint)
+
+---
+
+### C-DATE-1: started_at Nullable
+
+**Description:** `started_at` must be nullable (unknown dates are valid)
+
+**Source:** [research-creation-date.md](research-creation-date.md)
+
+---
+
+### C-DATE-2: created_at Immutable
+
+**Description:** `created_at` semantics must not change (backward compatible)
+
+**Source:** [research-creation-date.md](research-creation-date.md)
+
+---
+
 ### NFR-2: Consistent API Integration
 
 **Description:** All commands should follow consistent patterns for API integration
@@ -683,4 +783,4 @@ This document captures requirements discovered during research on how proj-cli s
 
 ---
 
-**Last Updated:** 2026-01-08
+**Last Updated:** 2026-01-09
