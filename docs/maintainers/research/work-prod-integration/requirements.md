@@ -535,6 +535,90 @@ This document captures requirements discovered during research on how proj-cli s
 
 ---
 
+### FR-REG-1: Registry List Command
+
+**Description:** CLI shall provide `proj registry list` to show all registered projects
+
+**Source:** [research-registry-commands.md](research-registry-commands.md)
+
+**Priority:** High
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-REG-2: Registry Get Command
+
+**Description:** CLI shall provide `proj registry get <path>` to show project details
+
+**Source:** [research-registry-commands.md](research-registry-commands.md)
+
+**Priority:** Medium
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-REG-3: Registry Remove Command
+
+**Description:** CLI shall provide `proj registry remove <path>` to remove from registry only (not API)
+
+**Source:** [research-registry-commands.md](research-registry-commands.md)
+
+**Priority:** Medium
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-REG-4: Registry Template Filter
+
+**Description:** `proj registry list` shall support `--template <type>` filter
+
+**Source:** [research-registry-commands.md](research-registry-commands.md)
+
+**Priority:** Low
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-REG-5: Registry Unsynced Filter
+
+**Description:** `proj registry list` shall support `--unsynced` filter
+
+**Source:** [research-registry-commands.md](research-registry-commands.md)
+
+**Priority:** Medium
+
+**Status:** 🔴 Pending
+
+---
+
+### NFR-REG-1: Registry Local Only
+
+**Description:** Registry commands shall not make API calls (local-only operations)
+
+**Source:** [research-registry-commands.md](research-registry-commands.md)
+
+**Priority:** High
+
+**Status:** 🔴 Pending
+
+---
+
+### C-REG-1: Registry Remove Scope
+
+**Description:** `proj registry remove` shall NOT delete from API (use `proj delete` for full deletion)
+
+**Source:** [research-registry-commands.md](research-registry-commands.md)
+
+**Priority:** High
+
+**Status:** 🔴 Pending (constraint to enforce)
+
+---
+
 ### NFR-2: Consistent API Integration
 
 **Description:** All commands should follow consistent patterns for API integration

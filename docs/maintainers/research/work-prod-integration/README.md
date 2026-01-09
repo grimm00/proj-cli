@@ -1,7 +1,7 @@
 # Work-Prod Integration - Research Hub
 
 **Purpose:** Research for proj-cli integration with work-prod API  
-**Status:** 🟠 Research (5/8 complete)  
+**Status:** 🟠 Research (6/8 complete)  
 **Created:** 2026-01-08  
 **Last Updated:** 2026-01-09
 
@@ -21,7 +21,7 @@
 | 8   | 🔴 High   | Field Name Consistency     | [research-field-consistency.md](research-field-consistency.md)         | ✅ Complete    |
 | 4   | 🟡 Medium | Offline Mode (Local-First) | [research-offline-mode.md](research-offline-mode.md)                   | ✅ Complete    |
 | 3   | 🟡 Medium | Sync Strategy              | [research-sync-strategy.md](research-sync-strategy.md)                 | ✅ Complete    |
-| 5   | 🟡 Medium | Registry Commands          | [research-registry-commands.md](research-registry-commands.md)         | 🔴 Not Started |
+| 5   | 🟡 Medium | Registry Commands          | [research-registry-commands.md](research-registry-commands.md)         | ✅ Complete    |
 | 7   | 🟡 Medium | Creation Date Semantics    | [research-creation-date.md](research-creation-date.md)                 | 🔴 Not Started |
 | 6   | 🟢 Low    | Inventory Integration      | [research-inventory-integration.md](research-inventory-integration.md) | 🔴 Not Started |
 
@@ -55,7 +55,7 @@ This research examines how `proj-cli` should integrate with the `work-prod` back
 
 ## 📊 Research Progress
 
-**Overall Status:** 🟠 Research (5/8 complete)
+**Overall Status:** 🟠 Research (6/8 complete)
 
 ### High Priority (Complete First)
 
@@ -67,7 +67,7 @@ This research examines how `proj-cli` should integrate with the `work-prod` back
 
 - [x] Research Topic 4: Offline Mode (Local-First Development) ✅
 - [x] Research Topic 3: Sync Strategy ✅
-- [ ] Research Topic 5: Registry Commands
+- [x] Research Topic 5: Registry Commands ✅
 - [ ] Research Topic 7: Creation Date Semantics
 
 ### Low Priority
@@ -81,8 +81,9 @@ This research examines how `proj-cli` should integrate with the `work-prod` back
 1. ✅ High-priority topics complete (1, 2, 8)
 2. ✅ Offline Mode research complete (Topic 4)
 3. ✅ Sync Strategy research complete (Topic 3)
-4. Continue with remaining topics (5, 7, 6)
-5. After all research complete, use `/decision work-prod-integration --from-research`
+4. ✅ Registry Commands research complete (Topic 5)
+5. Continue with remaining topics (7, 6)
+6. After all research complete, use `/decision work-prod-integration --from-research`
 
 ---
 

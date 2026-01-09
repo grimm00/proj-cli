@@ -13,7 +13,7 @@ This research examines how `proj-cli` should integrate with the `work-prod` back
 
 **Research Topics:** 8 topics  
 **Research Documents:** 8 documents  
-**Status:** 🟠 Research (5/8 complete)
+**Status:** 🟠 Research (6/8 complete)
 
 **Source:** [Exploration - Work-Prod Integration](../../explorations/work-prod-integration/exploration.md)
 
@@ -117,6 +117,22 @@ Since API is authoritative, conflicts are rare. Only need to detect stale `work_
 
 ---
 
+### Finding 11: Registry Commands Are Thin Wrappers
+
+All needed registry functions already exist in `registry.py`. CLI commands are thin wrappers. Three essential commands: `list`, `get`, `remove`.
+
+**Source:** [research-registry-commands.md](research-registry-commands.md)
+
+---
+
+### Finding 12: Registry Commands Should Be Local-Only
+
+Registry commands should NOT make API calls. Clear separation: `proj registry *` = local only, `proj sync` = API push, `proj delete` = full cascade.
+
+**Source:** [research-registry-commands.md](research-registry-commands.md)
+
+---
+
 ## 💡 Key Insights
 
 - [x] Insight 1: Field naming mismatches cause silent data loss - must audit all fields
@@ -131,6 +147,9 @@ Since API is authoritative, conflicts are rare. Only need to detect stale `work_
 - [x] Insight 10: Hybrid sync is best - auto-sync on create + explicit sync command
 - [x] Insight 11: Bidirectional sync not needed - push only, API is authoritative
 - [x] Insight 12: Conflicts are rare/simple - just detect stale work_prod_id
+- [x] Insight 13: Registry functions already exist - commands are thin wrappers
+- [x] Insight 14: Keep registry commands local-only (no API calls)
+- [x] Insight 15: Three essential registry commands: list, get, remove
 
 ---
 
@@ -143,7 +162,7 @@ Since API is authoritative, conflicts are rare. Only need to detect stale `work_
 | 8 | Field Consistency | 🔴 High | ✅ Complete |
 | 4 | Offline Mode (Local-First) | 🟡 Medium | ✅ Complete |
 | 3 | Sync Strategy | 🟡 Medium | ✅ Complete |
-| 5 | Registry Commands | 🟡 Medium | 🔴 Not Started |
+| 5 | Registry Commands | 🟡 Medium | ✅ Complete |
 | 7 | Creation Date | 🟡 Medium | 🔴 Not Started |
 | 6 | Inventory Integration | 🟢 Low | 🔴 Not Started |
 
@@ -175,6 +194,10 @@ Since API is authoritative, conflicts are rare. Only need to detect stale `work_
 - **FR-SYNC-2:** CLI shall provide `proj sync --status` for visibility
 - **FR-SYNC-5:** Auto-sync on create shall remain default ✅ (Already works)
 - **C-SYNC-1:** Sync shall be one-way only (push) ✅ (Architecture)
+- **FR-REG-1:** CLI shall provide `proj registry list`
+- **FR-REG-2:** CLI shall provide `proj registry get`
+- **FR-REG-3:** CLI shall provide `proj registry remove` (local only)
+- **NFR-REG-1:** Registry commands shall not make API calls
 
 ---
 
@@ -187,7 +210,9 @@ Since API is authoritative, conflicts are rare. Only need to detect stale `work_
 - [x] Recommendation 5: **Implement delete cascade** - Auto-clean registry on API delete (Topic 2)
 - [x] Recommendation 6: **Hybrid sync strategy** - Keep auto-sync + add explicit sync command
 - [x] Recommendation 7: **Simple conflict handling** - Detect stale IDs, offer re-push or remove
-- [ ] Recommendation 8: [Pending remaining topics]
+- [x] Recommendation 8: **Create registry subcommand group** - `proj registry list/get/remove`
+- [x] Recommendation 9: **Keep registry local-only** - No API calls in registry commands
+- [ ] Recommendation 10: [Pending remaining topics]
 
 ---
 
@@ -196,9 +221,10 @@ Since API is authoritative, conflicts are rare. Only need to detect stale `work_
 1. ✅ Complete high-priority topics (1, 2, 8)
 2. ✅ Complete offline mode research (Topic 4)
 3. ✅ Complete sync strategy research (Topic 3)
-4. Continue with remaining topics (5, 7, 6)
-5. Review requirements in `requirements.md`
-6. Use `/decision work-prod-integration --from-research` when complete
+4. ✅ Complete registry commands research (Topic 5)
+5. Continue with remaining topics (7, 6)
+6. Review requirements in `requirements.md`
+7. Use `/decision work-prod-integration --from-research` when complete
 
 ---
 
