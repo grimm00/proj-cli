@@ -158,6 +158,7 @@ Users may want to delete by:
 **Automatic Name Resolution:**
 
 When the identifier doesn't look like an ID or path, we automatically try name search:
+
 - `proj delete my-app` → searches for projects named "my-app"
 - `proj delete 42` → deletes API ID 42 (numeric = ID)
 - `proj delete ./my-app` → deletes by path (contains `/`)
@@ -173,6 +174,7 @@ When the identifier doesn't look like an ID or path, we automatically try name s
 **`--name` Flag Purpose:**
 
 The `--name` flag is optional but useful for:
+
 - Forcing name interpretation when name looks like a path (e.g., `proj delete --name path/like-name`)
 - Explicitness when desired
 
@@ -222,14 +224,14 @@ proj delete <identifier>
 
 ### Flag Design
 
-| Flag              | Purpose                                          | Default |
-| ----------------- | ------------------------------------------------ | ------- |
-| `--force` / `-f`  | Skip confirmation                                | Off     |
-| `--dry-run`       | Preview what would be deleted                    | Off     |
-| `--name` / `-n`   | Force name search (skip ID/path auto-detection)  | Off     |
-| `--api-only`      | Only delete from API (don't touch registry)      | Off     |
-| `--registry-only` | Only delete from registry (don't touch API)      | Off     |
-| `--delete-files`  | Also delete local filesystem                     | Off     |
+| Flag              | Purpose                                         | Default |
+| ----------------- | ----------------------------------------------- | ------- |
+| `--force` / `-f`  | Skip confirmation                               | Off     |
+| `--dry-run`       | Preview what would be deleted                   | Off     |
+| `--name` / `-n`   | Force name search (skip ID/path auto-detection) | Off     |
+| `--api-only`      | Only delete from API (don't touch registry)     | Off     |
+| `--registry-only` | Only delete from registry (don't touch API)     | Off     |
+| `--delete-files`  | Also delete local filesystem                    | Off     |
 
 ### Identifier Resolution
 
@@ -342,7 +344,7 @@ def remove_project_by_work_prod_id(work_prod_id: int) -> bool:
 ### Non-Functional Requirements
 
 - [x] **NFR-DEL-1:** Filesystem deletion shall require explicit flag AND confirmation
-- [x] **NFR-DEL-2:** Delete shall fail gracefully if API is unavailable (registry-only cleanup still works)
+- [x] **NFR-DEL-2:** Delete shall fail gracefully if API is unavailable. Path-based deletion with `--registry-only` works offline. Name-based deletion requires API for search.
 - [x] **NFR-DEL-3:** Delete output shall clearly indicate what was deleted from each target
 
 ### Constraints
@@ -375,12 +377,12 @@ def delete_project(
     delete_files: bool = typer.Option(False, "--delete-files", help="Also delete local files"),
 ):
     """Delete a project from API and/or registry.
-    
+
     Identifier resolution:
     - Numeric → API ID (e.g., 42)
     - Contains / or exists → Path (e.g., ~/Projects/foo)
     - Otherwise → Name search (e.g., my-app)
-    
+
     Use --name to force name search when identifier looks like a path.
     """
 

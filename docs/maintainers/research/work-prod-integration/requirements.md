@@ -89,9 +89,9 @@ This document captures requirements discovered during research on how proj-cli s
 
 ---
 
-### FR-DEL-2: Dual Identifier Support
+### FR-DEL-2: Multiple Identifier Support
 
-**Description:** Delete shall accept both API ID (integer) and project path as identifier
+**Description:** Delete shall accept API ID (integer), project path, or project name as identifier. Name resolution is automatic (no flag required) with disambiguation for multiple matches.
 
 **Source:** [research-delete-architecture.md](research-delete-architecture.md)
 
@@ -164,6 +164,18 @@ This document captures requirements discovered during research on how proj-cli s
 ### FR-DEL-8: Handle All Project States
 
 **Description:** Delete shall handle all four project states: API-only, synced, local-only, and orphaned
+
+**Source:** [research-delete-architecture.md](research-delete-architecture.md)
+
+**Priority:** High
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-DEL-9: Name Disambiguation
+
+**Description:** When deleting by name matches multiple projects, CLI shall list matches and require explicit selection (by ID or path)
 
 **Source:** [research-delete-architecture.md](research-delete-architecture.md)
 
@@ -297,7 +309,7 @@ This document captures requirements discovered during research on how proj-cli s
 
 ### NFR-DEL-2: Delete Graceful Degradation
 
-**Description:** Delete shall fail gracefully if API is unavailable (registry-only cleanup still works)
+**Description:** Delete shall fail gracefully if API is unavailable. Path-based deletion with `--registry-only` works offline. Name-based deletion requires API connectivity for search.
 
 **Source:** [research-delete-architecture.md](research-delete-architecture.md)
 
