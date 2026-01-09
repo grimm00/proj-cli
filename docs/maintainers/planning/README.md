@@ -12,7 +12,7 @@
 
 - **[Features](features/README.md)** - Feature-based planning and tracking
 - **[Refactor](refactor/README.md)** - Code quality and restructuring (NEW)
-- **[Explorations](../explorations/README.md)** - Early-stage explorations and proof of concepts
+- **[Explorations](explorations/README.md)** - Early-stage explorations and proof of concepts
 - **[Releases](releases/README.md)** - Release management and versioning
 - **[Phases](phases/README.md)** - Development phase tracking
 - **[Notes](notes/README.md)** - Planning insights and decisions
@@ -101,7 +101,7 @@ planning/
 ### ✅ Active Planning
 
 - **[Code Structure Refactoring](refactor/code-structure-refactoring/)** - Split large modules and organize tests (🔴 Scaffolding)
-- **[Work-Prod Integration](../explorations/work-prod-integration/)** - API integration patterns (🔴 Exploration)
+- **[Field Enrichment](explorations/field-enrichment/)** - How to populate and manage project fields (🔴 Exploration)
 
 ### 🟡 Planned Items
 
@@ -155,6 +155,6 @@ planning/
 
 ---
 
-**Last Updated:** 2026-01-07
+**Last Updated:** 2026-01-09
 **Status:** ✅ Active
-**Next:** Begin code structure refactoring (v0.4.0)
+**Next:** Research field enrichment, begin code structure refactoring
