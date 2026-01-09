@@ -331,15 +331,111 @@ This document captures requirements discovered during research on how proj-cli s
 
 ---
 
-### NFR-1: Offline Capability
+### FR-OFF-1: Local List Flag
 
-**Description:** CLI commands should degrade gracefully when API is unavailable
+**Description:** CLI shall provide `--local` flag on list/get commands to show registry data only
+
+**Source:** [research-offline-mode.md](research-offline-mode.md)
+
+**Priority:** High
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-OFF-2: Registry List Command
+
+**Description:** CLI shall provide `proj registry list` to show all registered projects
+
+**Source:** [research-offline-mode.md](research-offline-mode.md)
+
+**Priority:** High
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-OFF-3: API Unavailability Detection
+
+**Description:** CLI shall detect API unavailability and suggest local alternatives
 
 **Source:** [research-offline-mode.md](research-offline-mode.md)
 
 **Priority:** Medium
 
-**Status:** 🔴 Pending (detailed research)
+**Status:** 🔴 Pending
+
+---
+
+### FR-OFF-4: Sync Command
+
+**Description:** CLI shall provide `proj sync` command to push local projects to API
+
+**Source:** [research-offline-mode.md](research-offline-mode.md)
+
+**Priority:** Medium
+
+**Status:** 🔴 Pending
+
+---
+
+### FR-OFF-5: Offline Registry Operations
+
+**Description:** Registry operations shall work without any network access
+
+**Source:** [research-offline-mode.md](research-offline-mode.md)
+
+**Priority:** High
+
+**Status:** ✅ Already Implemented
+
+---
+
+### NFR-OFF-1: Local Operation Latency
+
+**Description:** Local operations shall complete without network latency
+
+**Source:** [research-offline-mode.md](research-offline-mode.md)
+
+**Priority:** Medium
+
+**Status:** ✅ Already Implemented
+
+---
+
+### NFR-OFF-2: Graceful API Failure
+
+**Description:** CLI shall fail gracefully with clear message when API unavailable
+
+**Source:** [research-offline-mode.md](research-offline-mode.md)
+
+**Priority:** High
+
+**Status:** 🔴 Pending
+
+---
+
+### NFR-OFF-3: Offline Mode Configuration
+
+**Description:** Offline mode shall be configurable via `api_enabled` config setting
+
+**Source:** [research-offline-mode.md](research-offline-mode.md)
+
+**Priority:** Medium
+
+**Status:** ✅ Already Implemented
+
+---
+
+### NFR-OFF-4: Per-Command Override
+
+**Description:** Per-command flags (`--local`, `--api`) shall override config setting
+
+**Source:** [research-offline-mode.md](research-offline-mode.md)
+
+**Priority:** Medium
+
+**Status:** 🔴 Pending
 
 ---
 

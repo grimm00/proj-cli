@@ -13,7 +13,7 @@ This research examines how `proj-cli` should integrate with the `work-prod` back
 
 **Research Topics:** 8 topics  
 **Research Documents:** 8 documents  
-**Status:** 🟠 Research (3/8 complete)
+**Status:** 🟠 Research (4/8 complete)
 
 **Source:** [Exploration - Work-Prod Integration](../../explorations/work-prod-integration/exploration.md)
 
@@ -75,6 +75,32 @@ Comprehensive audit found only one field mismatch (`local_path` → `path`), whi
 
 ---
 
+### Finding 7: Local-First Development Approach
+
+Registry is 100% local with no API dependencies. proj-cli should adopt a local-first development strategy:
+1. **Phase 1:** Complete local operations (registry CRUD, inventory, template create)
+2. **Phase 2:** Add sync layer (`proj sync` command)
+3. **Phase 3:** API-first commands as enhancement (current behavior)
+
+**Source:** [research-offline-mode.md](research-offline-mode.md)
+
+---
+
+### Finding 8: Command API Dependency Audit
+
+| Works Locally | Requires API |
+|---------------|--------------|
+| `proj create --local-only` | `proj list` |
+| `proj inv scan local` | `proj get` |
+| `proj inv analyze` | `proj update` |
+| `proj inv dedupe` | `proj delete` |
+| `proj inv export json` | `proj archive` |
+| All registry operations | `proj inv export api` |
+
+**Source:** [research-offline-mode.md](research-offline-mode.md)
+
+---
+
 ## 💡 Key Insights
 
 - [x] Insight 1: Field naming mismatches cause silent data loss - must audit all fields
@@ -83,7 +109,9 @@ Comprehensive audit found only one field mismatch (`local_path` → `path`), whi
 - [x] Insight 4: Automatic cascade is expected behavior (kubectl pattern)
 - [x] Insight 5: Filesystem deletion must be opt-in only (safety critical)
 - [x] Insight 6: Transformation on export is correct pattern - don't change internal schema
-- [ ] Insight 7: [Pending research on remaining topics]
+- [x] Insight 7: Registry provides 100% local foundation - needs commands to expose it
+- [x] Insight 8: Git's local-first model is the right pattern for proj-cli
+- [x] Insight 9: Development should sequence: Local complete → Sync layer → API enhancement
 
 ---
 
@@ -94,8 +122,8 @@ Comprehensive audit found only one field mismatch (`local_path` → `path`), whi
 | 1 | Source of Truth | 🔴 High | ✅ Complete |
 | 2 | Delete Architecture | 🔴 High | ✅ Complete |
 | 8 | Field Consistency | 🔴 High | ✅ Complete |
+| 4 | Offline Mode (Local-First) | 🟡 Medium | ✅ Complete |
 | 3 | Sync Strategy | 🟡 Medium | 🔴 Not Started |
-| 4 | Offline Mode | 🟡 Medium | 🔴 Not Started |
 | 5 | Registry Commands | 🟡 Medium | 🔴 Not Started |
 | 7 | Creation Date | 🟡 Medium | 🔴 Not Started |
 | 6 | Inventory Integration | 🟢 Low | 🔴 Not Started |
@@ -120,24 +148,31 @@ Comprehensive audit found only one field mismatch (`local_path` → `path`), whi
 - **FR-DEL-7:** Registry shall provide `get_project_by_work_prod_id()` lookup
 - **FR-FC-1:** Inventory export must use `path` field name ✅ (Fixed)
 - **FR-FC-2:** Export transformation layer shall map internal fields to API schema
+- **FR-OFF-1:** CLI shall provide `--local` flag on list/get commands
+- **FR-OFF-2:** CLI shall provide `proj registry list` command
+- **FR-OFF-4:** CLI shall provide `proj sync` command
+- **FR-OFF-5:** Registry operations shall work without network ✅ (Already works)
 
 ---
 
 ## 🎯 Recommendations
 
-[To be completed after research]
-
-- [ ] Recommendation 1: [Pending]
-- [ ] Recommendation 2: [Pending]
+- [x] Recommendation 1: **Adopt local-first development approach** - Complete local CRUD before API features
+- [x] Recommendation 2: **Add registry list command** - Expose local registry via CLI
+- [x] Recommendation 3: **Add --local flag** - Allow list/get to show local data only
+- [x] Recommendation 4: **Add sync command** - Explicit push of local projects to API
+- [x] Recommendation 5: **Implement delete cascade** - Auto-clean registry on API delete (Topic 2)
+- [ ] Recommendation 6: [Pending remaining topics]
 
 ---
 
 ## 🚀 Next Steps
 
-1. Conduct research on high-priority topics (1, 2, 8)
-2. Continue with medium-priority topics
-3. Review requirements in `requirements.md`
-4. Use `/decision work-prod-integration --from-research` when complete
+1. ✅ Complete high-priority topics (1, 2, 8)
+2. ✅ Complete offline mode research (Topic 4)
+3. Continue with remaining medium-priority topics (3, 5, 7)
+4. Review requirements in `requirements.md`
+5. Use `/decision work-prod-integration --from-research` when complete
 
 ---
 
