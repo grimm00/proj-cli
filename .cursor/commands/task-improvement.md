@@ -98,7 +98,7 @@ This command supports CI/CD improvement phase organization:
 
 - `--improvement [name]` - Specify improvement name (overrides auto-detection)
 
-**Important:**
+**Important:** 
 - This command handles **one task group at a time** (typically related process/documentation tasks)
 - After completing a task group, stop and wait for user to invoke again for next group
 - Do NOT continue to next task group automatically
@@ -210,38 +210,49 @@ This command supports CI/CD improvement phase organization:
 
 ### 3. Commit Strategy
 
-**Commit after each logical unit:**
+**IMPORTANT:** Always commit work before stopping or moving to next task group.
 
-**Small commits are better:**
+**Reference:** [Commit Workflow](../../docs/COMMIT-WORKFLOW.md) - Central commit workflow documentation
 
-- One commit per documentation section updated
-- One commit per process improvement
-- One commit per workflow integration
+**For code/workflow changes (scripts, integrations, automation):**
 
-**Commit message format:**
+Use `/review` to review changes before committing. This forces a deliberate pause to verify agentic changes.
 
 ```
-type(scope): brief description
-
-Longer explanation if needed
-
-Related: CI Improvement [name], Phase N, Task M
+[AI implements improvement]
+    ↓
+/review [task-description]   ← Review in a separate prompt
+    ↓ human review
+/commit                      ← Commit reviewed changes
 ```
 
-**Types:**
+**For documentation-only changes (process docs, checklists, templates):**
 
-- `docs` - Documentation only
-- `feat` - New process/improvement
-- `refactor` - Process improvement
-- `chore` - Maintenance
-
-**Examples:**
+Direct commit is fine -- no review pause needed.
 
 ```bash
 git commit -m "docs(ci/status-tracking-automation): add status update reminders to task-phase command"
-git commit -m "feat(ci/status-tracking-automation): integrate status checks into PR workflow"
+```
+
+**Commit Message Format:**
+- Follow standard format: `type(scope): brief description`
+- Include "Related:" line for context
+- See [Commit Workflow](../../docs/COMMIT-WORKFLOW.md#commit-message-format) for complete format
+
+**Examples:**
+```bash
+# Code/workflow changes -- use /review + /commit
+# feat(ci/status-tracking-automation): integrate status checks into PR workflow
+
+# Doc changes -- direct commit is fine
 git commit -m "docs(ci/documentation-validation): create validation checklist template"
 ```
+
+**Before Stopping:**
+- [ ] Check `git status` for uncommitted changes
+- [ ] Use `/review` for code/workflow changes, direct commit for docs-only
+- [ ] Push to remote if on feature branch
+- [ ] Verify no uncommitted changes remain
 
 ---
 
@@ -278,6 +289,7 @@ git commit -m "docs(ci/documentation-validation): create validation checklist te
 - [ ] **STOP - Do NOT proceed to next task group**
 - [ ] Present completion summary to user
 - [ ] Indicate which tasks were completed (e.g., "Tasks 1-2 complete: Documentation updates")
+- [ ] Remind user: "Use `/review` to review code/workflow changes before committing"
 - [ ] Wait for user to invoke command again for next task group
 
 **Important:** This command handles ONE task group at a time (typically related process/documentation tasks). The user will invoke the command again with the next task number when ready to continue.
@@ -549,7 +561,7 @@ Tasks are typically numbered in phase documents:
 
 ---
 
-**Last Updated:** 2025-12-07
-**Status:** ✅ Active
+**Last Updated:** 2025-12-07  
+**Status:** ✅ Active  
 **Next:** Use to implement CI/CD improvement phase tasks following process/documentation workflow
 

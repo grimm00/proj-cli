@@ -75,16 +75,19 @@ This command supports dev-infra's opportunity structure:
 **New project discovery (`--new-project`):**
 
 1. **Check if directory exists:**
+
    - Look for `admin/planning/opportunities/internal/[project]/`
    - If exists, project is known
 
 2. **Search for project information:**
+
    - Check Projects API: `./proj list --search "[project-name]"` (if available)
    - Check GitHub: Search for repository with project name
    - Check local filesystem: Look for project directories in `~/Projects/` or `~/Learning/`
    - Check if project is mentioned in documentation
 
 3. **Gather project context:**
+
    - Project type (application, tool, library, template)
    - Technology stack (if known)
    - Purpose/description
@@ -128,10 +131,10 @@ admin/planning/opportunities/internal/[project-name]/
 ```markdown
 # [Project Name] Opportunities
 
-**Purpose:** [Project description]
-**Type:** [Application/Tool/Library/Template]
-**Status:** ✅ Active
-**Created:** YYYY-MM-DD
+**Purpose:** [Project description]  
+**Type:** [Application/Tool/Library/Template]  
+**Status:** ✅ Active  
+**Created:** YYYY-MM-DD  
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -153,6 +156,7 @@ admin/planning/opportunities/internal/[project-name]/
 [Project description and purpose]
 
 **Project Context:**
+
 - **Type:** [Application/Tool/Library/Template]
 - **Technology Stack:** [If known]
 - **Purpose:** [What this project does]
@@ -162,8 +166,8 @@ admin/planning/opportunities/internal/[project-name]/
 
 ## 📊 Summary
 
-**Learnings Documents:** [N]
-**Improvement Documents:** [M]
+**Learnings Documents:** [N]  
+**Improvement Documents:** [M]  
 **Status:** ✅ Active
 
 ---
@@ -178,9 +182,9 @@ admin/planning/opportunities/internal/[project-name]/
 ```markdown
 # [Project Name] Learnings
 
-**Purpose:** Learnings from [project name] implementation
-**Target:** Inform dev-infra template and other projects
-**Status:** ✅ Active
+**Purpose:** Learnings from [project name] implementation  
+**Target:** Inform dev-infra template and other projects  
+**Status:** ✅ Active  
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -214,8 +218,8 @@ This directory contains learnings from [project name] that can inform:
 
 ## 📊 Summary
 
-**Total Learning Documents:** [N]
-**Feature-Specific Learnings:** [M] features
+**Total Learning Documents:** [N]  
+**Feature-Specific Learnings:** [M] features  
 **Status:** ✅ Active
 
 ---
@@ -230,9 +234,9 @@ This directory contains learnings from [project name] that can inform:
 ```markdown
 # [Feature Name] Learnings
 
-**Purpose:** Phase learnings from [feature name] implementation
-**Target:** Inform dev-infra template and other projects
-**Status:** ✅ Active
+**Purpose:** Phase learnings from [feature name] implementation  
+**Target:** Inform dev-infra template and other projects  
+**Status:** ✅ Active  
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -255,7 +259,7 @@ This directory contains phase-specific learnings from [feature name] implementat
 
 ## 📊 Summary
 
-**Total Phase Learnings:** [N]
+**Total Phase Learnings:** [N]  
 **Status:** ✅ Active
 
 ---
@@ -270,9 +274,9 @@ This directory contains phase-specific learnings from [feature name] implementat
 ```markdown
 # [Project Name] Improvements
 
-**Purpose:** Actionable improvements based on [project name] learnings
-**Target:** Dev-infra template and other projects
-**Status:** ✅ Active
+**Purpose:** Actionable improvements based on [project name] learnings  
+**Target:** Dev-infra template and other projects  
+**Status:** ✅ Active  
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -293,7 +297,7 @@ This directory contains actionable improvement checklists based on learnings fro
 
 ## 📊 Summary
 
-**Total Improvement Documents:** [N]
+**Total Improvement Documents:** [N]  
 **Status:** ✅ Active
 
 ---
@@ -350,12 +354,14 @@ This directory contains actionable improvement checklists based on learnings fro
 **Types:**
 
 1. **Learnings** (default):
+
    - What worked well
    - What needs improvement
    - Unexpected discoveries
    - Time investment analysis
 
 2. **Improvements** (for dev-infra):
+
    - Actionable checklists
    - Template updates needed
    - Pattern documentation
@@ -403,10 +409,10 @@ This directory contains actionable improvement checklists based on learnings fro
 ```markdown
 # [Project Name] Learnings - [Topic]
 
-**Project:** [Project Name]
-**Topic:** [Topic/Phase Name]
-**Date:** YYYY-MM-DD
-**Status:** ✅ Complete
+**Project:** [Project Name]  
+**Topic:** [Topic/Phase Name]  
+**Date:** YYYY-MM-DD  
+**Status:** ✅ Complete  
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -434,6 +440,7 @@ This directory contains actionable improvement checklists based on learnings fro
 [Code/documentation examples]
 
 **Benefits:**
+
 - Benefit 1
 - Benefit 2
 
@@ -478,16 +485,20 @@ This directory contains actionable improvement checklists based on learnings fro
 ## ⏱️ Time Investment Analysis
 
 **Breakdown:**
+
 - [Activity]: [Time]
 - [Activity]: [Time]
 
 **What took longer:**
+
 - [Activity]: [Reason]
 
 **What was faster:**
+
 - [Activity]: [Reason]
 
 **Estimation lessons:**
+
 - Lesson 1
 - Lesson 2
 
@@ -496,15 +507,18 @@ This directory contains actionable improvement checklists based on learnings fro
 ## 📊 Metrics & Impact
 
 **Code metrics:**
+
 - Lines of code: [N]
 - Test coverage: [X]% (if applicable)
 - Files created/modified: [N]
 
 **Quality metrics:**
+
 - Bugs found/fixed: [N]
 - External review feedback: [Summary]
 
 **Developer experience:**
+
 - Improvement 1
 - Improvement 2
 
@@ -520,6 +534,7 @@ This directory contains actionable improvement checklists based on learnings fro
 **Location:** `admin/planning/opportunities/internal/[project]/improvements/`
 
 **File naming:**
+
 - Format: `[project]-improvements-[topic].md` (e.g., `dev-infra-improvements-phaseN.md`)
 
 **Improvements Template:**
@@ -527,10 +542,10 @@ This directory contains actionable improvement checklists based on learnings fro
 ```markdown
 # [Project Name] Improvements - [Topic]
 
-**Source:** [Project Name] - [Topic/Phase]
-**Target:** Dev-infra template
-**Status:** ✅ Complete
-**Created:** YYYY-MM-DD
+**Source:** [Project Name] - [Topic/Phase]  
+**Target:** Dev-infra template  
+**Status:** ✅ Complete  
+**Created:** YYYY-MM-DD  
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -566,6 +581,7 @@ This directory contains actionable improvement checklists based on learnings fro
 **Location:** `admin/planning/opportunities/internal/dev-infra/command-adaptations/`
 
 **File naming:**
+
 - Format: `[command-name]-adaptation.md` (e.g., `int-opp-adaptation.md`, `reflect-adaptation.md`)
 
 **Command Adaptation Template:**
@@ -573,10 +589,10 @@ This directory contains actionable improvement checklists based on learnings fro
 ```markdown
 # Command Adaptation: [Command Name] for Dev-Infra
 
-**Source Command:** [Command name from source project]
-**Target:** Dev-infra template
-**Status:** 🔴 Not Started
-**Created:** YYYY-MM-DD
+**Source Command:** [Command name from source project]  
+**Target:** Dev-infra template  
+**Status:** 🔴 Not Started  
+**Created:** YYYY-MM-DD  
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -589,11 +605,12 @@ This directory contains actionable improvement checklists based on learnings fro
 
 ## 🎯 Original Command
 
-**Command:** `/[command-name]`
-**Purpose:** [Original purpose]
+**Command:** `/[command-name]`  
+**Purpose:** [Original purpose]  
 **Location:** `.cursor/commands/[command-name].md`
 
 **Key Features:**
+
 - Feature 1
 - Feature 2
 
@@ -603,8 +620,8 @@ This directory contains actionable improvement checklists based on learnings fro
 
 ### [Adaptation Category]
 
-**Change:** [What needs to change]
-**Reason:** [Why this change is needed]
+**Change:** [What needs to change]  
+**Reason:** [Why this change is needed]  
 **Impact:** [How this affects dev-infra usage]
 
 **Original:**
@@ -614,6 +631,7 @@ This directory contains actionable improvement checklists based on learnings fro
 [Adapted code/pattern]
 
 **Files to modify:**
+
 - `[file1]` - [reason]
 - `[file2]` - [reason]
 
@@ -622,6 +640,7 @@ This directory contains actionable improvement checklists based on learnings fro
 ## 📝 Implementation Steps
 
 1. **Step 1: [Name]**
+
    - [ ] Task 1
    - [ ] Task 2
 
@@ -693,11 +712,11 @@ This directory contains actionable improvement checklists based on learnings fro
 **Update completion tracking:**
 
 ```markdown
-| Project | Learnings | Improvements | Status |
-|---------|-----------|--------------|--------|
-| work-prod | [N] | [M] | ✅ Active |
-| dev-infra | [N] | [M] | ✅ Active |
-| [project] | [N] | [M] | ✅ Active |
+| Project   | Learnings | Improvements | Status    |
+| --------- | --------- | ------------ | --------- |
+| work-prod | [N]       | [M]          | ✅ Active |
+| dev-infra | [N]       | [M]          | ✅ Active |
+| [project] | [N]       | [M]          | ✅ Active |
 ```
 
 **Checklist:**
@@ -836,16 +855,19 @@ Related: Fix Management Workflow"
 **Search locations:**
 
 1. **Projects API:**
+
    ```bash
    ./proj list --search "[project-name]"  # If available
    ```
 
 2. **GitHub:**
+
    ```bash
    gh repo list --search "[project-name]"
    ```
 
 3. **Local filesystem:**
+
    ```bash
    find ~/Projects ~/Learning -type d -name "*[project-name]*" 2>/dev/null
    ```
@@ -954,11 +976,13 @@ Related: Fix Management Workflow"
 **For each command:**
 
 1. **Read command documentation:**
+
    - Understand original purpose
    - Identify key features
    - Note project-specific assumptions
 
 2. **Identify adaptations needed:**
+
    - What's project-specific?
    - What should be generic?
    - What paths need to change?
@@ -982,6 +1006,7 @@ Related: Fix Management Workflow"
 **Location:** `admin/planning/opportunities/internal/dev-infra/command-adaptations/`
 
 **File naming:**
+
 - Format: `[command-name]-adaptation.md`
 
 **Template:** See "Command Adaptation Template" above
@@ -1038,6 +1063,7 @@ Related: Fix Management Workflow"
 **Command:** `/int-opp inventory-tools --new-project`
 
 **Process:**
+
 1. Search for inventory-tools project
 2. Gather project information
 3. Ask for clarification if needed
@@ -1051,6 +1077,7 @@ Related: Fix Management Workflow"
 **Command:** `/int-opp dev-infra --command-adaptation`
 
 **Process:**
+
 1. Identify commands to adapt
 2. Analyze each command
 3. Create adaptation documents
@@ -1101,25 +1128,6 @@ Related: Fix Management Workflow"
 
 ---
 
-## 📊 Log Usage (Final Step)
-
-**After successful command completion, update the usage tracker:**
-
-1. **Update:** `admin/planning/commands/usage-tracker.md`
-2. **Add entry to "Recent Usage" table:**
-   ```markdown
-   | YYYY-MM-DD | `/int-opp` | [Context] | ✅ Success | [Evidence] |
-   ```
-3. **Increment usage count** in summary table
-4. **Commit with message:**
-   ```
-   docs(commands): update usage tracker - /int-opp
-   ```
-
-**Why:** Tracks command maturity for graduation decisions per [ADR-004](../admin/decisions/dev-infra-identity-and-focus/adr-004-graduation-process.md).
-
----
-
-**Last Updated:** 2025-12-17
-**Status:** ✅ Active
-**Next:** Use to capture learnings, create project directories, or document command adaptations (supports any project with automatic discovery, feature-grouped phase learnings)
+**Last Updated:** 2026-02-21  
+**Status:** ✅ Active  
+**Next:** Use to capture learnings, create project directories, or document command adaptations (supports any project with automatic discovery)

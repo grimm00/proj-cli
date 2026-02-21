@@ -20,7 +20,7 @@ This command supports multiple project organization patterns:
 
 **Version Detection:**
 
-- Extract version from current branch (e.g., `release/v1.0.0`)
+- Extract version from current branch (e.g., `release/v0.1.0`)
 - Or use `--version` option to specify version
 - Or auto-detect from release directory structure
 
@@ -40,6 +40,7 @@ This command supports multiple project organization patterns:
 - All features already merged to develop via PRs
 - Release is bundling accumulated changes (no new implementation)
 - `transition-plan.md` doesn't exist or has no implementation tasks
+- Example: v0.6.0 (all work done in PRs #47-52)
 
 **Key principle:** Implement release tasks with TDD discipline, ensuring each task is tested and documented before moving to the next. **Always run readiness check before starting tasks.**
 
@@ -54,14 +55,14 @@ This command supports multiple project organization patterns:
 **Examples:**
 
 - `/task-release 1` - Implement release task 1
-- `/task-release 2 --version v1.0.0` - Implement task 2 for specific version
+- `/task-release 2 --version v0.1.0` - Implement task 2 for specific version
 - `/task-release 3 --checklist-only` - Only update checklist, don't implement
 - `/task-release 1 --dry-run` - Show what would be done without implementing
 
 **Options:**
 
 - `--task NUMBER` - Task number to implement (required)
-- `--version VERSION` - Specify version (e.g., v1.0.0)
+- `--version VERSION` - Specify version (e.g., v0.1.0)
 - `--checklist-only` - Only update checklist, don't implement
 - `--dry-run` - Show implementation plan without executing
 
@@ -73,7 +74,7 @@ This command supports multiple project organization patterns:
 
 **Detect version:**
 
-- Extract from current branch: `release/v1.0.0` → `v1.0.0`
+- Extract from current branch: `release/v0.1.0` → `v0.1.0`
 - Or use `--version` option
 - Or find latest release directory: `docs/maintainers/planning/releases/v*/`
 
@@ -109,11 +110,11 @@ ls docs/maintainers/planning/releases/[version]/checklist.md
 **Run readiness check:**
 
 ```bash
-# Run the readiness check script (if available)
+# Run the readiness check script
 ./scripts/check-release-readiness.sh [version]
 
 # Example:
-./scripts/check-release-readiness.sh v1.0.0
+./scripts/check-release-readiness.sh v0.4.0
 ```
 
 **Review output:**
@@ -140,7 +141,7 @@ The script will report:
 
 ```bash
 # Generate full assessment document
-./scripts/check-release-readiness.sh [version] --generate > docs/maintainers/planning/releases/[version]/RELEASE-READINESS.md
+./scripts/check-release-readiness.sh [version] --generate > admin/planning/releases/[version]/RELEASE-READINESS.md
 ```
 
 **Checklist:**
@@ -274,11 +275,33 @@ The script will report:
 
 **IMPORTANT:** Always commit work before stopping or moving to next task.
 
-**Commit strategy:**
+**Reference:** [Commit Workflow](../../docs/COMMIT-WORKFLOW.md) - Central commit workflow documentation
 
-- Commit test first: `test(release): add test for [task description]`
-- Commit implementation: `feat(release): implement [task description]`
-- Commit checklist update: `docs(release): update checklist for [task description]`
+**For code changes (tests, implementation, scripts):**
+
+Use `/review` to review changes before committing. This forces a deliberate pause to verify agentic code changes.
+
+```
+[AI implements release task]
+    ↓
+/review [task-description]   ← Review in a separate prompt
+    ↓ human review
+/commit                      ← Commit reviewed changes
+```
+
+**For documentation-only changes (checklist updates, release notes):**
+
+Direct commit is fine -- no review pause needed.
+
+```bash
+git commit -m "docs(release): update checklist for [task description]"
+```
+
+**Commit message examples:**
+
+- Code: `test(release): add test for [task description]` (via `/review` + `/commit`)
+- Code: `feat(release): implement [task description]` (via `/review` + `/commit`)
+- Docs: `docs(release): update checklist for [task description]` (direct commit)
 
 **Branch:**
 
@@ -287,14 +310,13 @@ The script will report:
 
 **Before Stopping:**
 - [ ] Check `git status` for uncommitted changes
-- [ ] Stage all changes (`git add`)
-- [ ] Commit with proper message
+- [ ] Use `/review` for code changes, direct commit for docs-only
 - [ ] Push to remote
 - [ ] Verify no uncommitted changes remain
 
 **Checklist:**
 
-- [ ] Changes committed
+- [ ] Code changes reviewed with `/review`
 - [ ] Commit messages descriptive
 - [ ] Commits follow project conventions
 - [ ] Branch is correct
@@ -312,9 +334,10 @@ The script will report:
 - [ ] **STOP - Do NOT proceed to next task**
 - [ ] Present completion summary to user
 - [ ] Indicate which task was completed
+- [ ] Remind user: "Use `/review` to review code changes before committing"
 - [ ] Wait for user to invoke command again for next task
 
-**Important:** This command handles ONE task at a time. The user will invoke the command again with the next task number when ready to continue.
+**Important:** This command handles ONE task at a time. The user will invoke `/review` to review and commit code changes, then invoke this command again with the next task number when ready to continue.
 
 ---
 
@@ -462,7 +485,28 @@ chore: Release [version]
 
 ---
 
-**Last Updated:** 2025-12-07
-**Status:** ✅ Active
-**Next:** Use to implement release preparation tasks following TDD workflow
+## 📊 Log Usage (Final Step)
+
+**After successful command completion, update the usage tracker:**
+
+1. **Update:** `admin/planning/commands/usage-tracker.md`
+2. **Add entry to "Recent Usage" table:**
+   ```markdown
+   | YYYY-MM-DD | `/task-release` | [Context] | ✅ Success | [Evidence] |
+   ```
+3. **Increment usage count** in summary table
+4. **Commit with message:**
+   ```
+   docs(commands): update usage tracker - /task-release
+   ```
+
+**Why:** Tracks command maturity for graduation decisions per [ADR-004](../admin/decisions/dev-infra-identity-and-focus/adr-004-graduation-process.md).
+
+**Note:** This command needs ≥3 uses before graduation consideration. Current uses: 2.
+
+---
+
+**Last Updated:** 2025-12-16  
+**Status:** ✅ Active  
+**Next:** Use to implement release preparation tasks following TDD workflow (includes readiness check integration)
 

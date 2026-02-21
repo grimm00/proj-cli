@@ -1,8 +1,10 @@
 # Research Command
 
-Conduct structured research following standardized workflow. Has two modes:
+Conduct structured research following standardized workflow. Has four modes:
 1. **Setup Mode** (default) - Creates research documents for each research topic/question
 2. **Conduct Mode** (`--conduct`) - Actually performs research, fills in findings, and extracts requirements
+3. **Add Topic Mode** (`--add-topic`) - Scaffolds a late-arriving topic into existing research
+4. **Consolidate Mode** (`--consolidate`) - Reviews accumulated requirements for redundancies, gaps, and staleness before decision phase
 
 ---
 
@@ -12,15 +14,20 @@ Conduct structured research following standardized workflow. Has two modes:
 
 This command supports multiple project organization patterns:
 
-1. **Template Structure (for generated projects):**
-   - Research: `docs/maintainers/research/[topic]/`
-   - Requirements: `docs/maintainers/research/[topic]/requirements.md`
-   - Explorations: `docs/maintainers/exploration/[topic]/`
+1. **Dev-Infra Structure (default):**
+   - Research: `admin/research/[topic]/`
+   - Requirements: `admin/research/[topic]/requirements.md`
+   - Explorations: `admin/explorations/[topic]/`
 
-2. **Project-Wide Structure:**
+2. **Template Structure (for generated projects):**
    - Research: `docs/maintainers/research/[topic]/`
    - Requirements: `docs/maintainers/research/[topic]/requirements.md`
-   - Explorations: `docs/maintainers/exploration/[topic]/`
+   - Explorations: `docs/maintainers/planning/explorations/[topic]/`
+
+3. **Project-Wide Structure:**
+   - Research: `docs/maintainers/research/[topic]/`
+   - Requirements: `docs/maintainers/research/[topic]/requirements.md`
+   - Explorations: `docs/maintainers/planning/explorations/[topic]/`
 
 **Topic Detection:**
 - Use `--topic` option if provided
@@ -37,9 +44,9 @@ This command supports multiple project organization patterns:
 - When reflect artifacts identify opportunities needing research
 - To conduct structured research on a specific topic
 
-**Key principle:** Follow standardized research workflow, create documents for each research topic, extract requirements discovered during research.
+**Key principle:** Follow standardized research workflow, create documents for each research topic, extract requirements discovered during research, then consolidate before decisions.
 
-**Two Modes:**
+**Four Modes:**
 
 ### Setup Mode (Default)
 ```
@@ -64,6 +71,43 @@ This command supports multiple project organization patterns:
   → Commits changes
 ```
 
+### Add Topic Mode (`--add-topic`)
+```
+/research [topic] --add-topic N
+  → Reads Topic N from research-topics.md
+  → Scaffolds topic-N-[name].md using research document template
+  → Updates research hub README.md with new topic link
+  → Updates research-summary.md with placeholder entry
+  → Outputs: New topic scaffolded, ready for --conduct
+```
+
+**When to use Add Topic Mode:**
+
+- After `/explore --amend` added a new theme and research topic
+- When research surfaces a question that warrants its own topic
+- Any time a new topic appears in `research-topics.md` after initial scaffolding
+
+### Consolidate Mode (`--consolidate`)
+```
+/research [topic] --consolidate
+  → Validates all topics are complete
+  → Reads all requirements (FRs, NFRs, Constraints, Assumptions)
+  → Cross-references against research findings and recommendations
+  → Identifies: redundancies, superseded items, gaps, stale descriptions
+  → Presents analysis for human review (STOP and wait)
+  → After approval: merges, removes, adds, modifies, renumbers
+  → Updates research summary counts
+  → Updates requirements.md status from Draft to Final
+  → Commits changes
+```
+
+**When to use Consolidate Mode:**
+
+- After all research topics are complete, before the decision phase
+- When research topics were conducted over multiple sessions (drift accumulates)
+- When later topics superseded or refined findings from earlier topics
+- When `/explore --amend` added topics that overlap with original requirements
+
 ---
 
 ## Usage
@@ -83,12 +127,24 @@ This command supports multiple project organization patterns:
 - `/research experimental-template --conduct --topic-num 1` - Conduct research for topic #1 only
 - `/research experimental-template --conduct --topic-name user-demand` - Conduct specific topic by name
 
+**Add Topic Mode Examples:**
+
+- `/research workflow-simplification --add-topic 6` - Scaffold Topic 6 from research-topics.md
+- `/research auth-system --add-topic 3 --force` - Re-scaffold Topic 3 (overwrite existing)
+
+**Consolidate Mode Examples:**
+
+- `/research workflow-simplification --consolidate` - Review and clean up all requirements
+- `/research auth-system --consolidate --dry-run` - Show proposed changes without applying
+
 **Options:**
 
 - `--from-explore [explore-topic]` - Read research topics from exploration document (Setup Mode)
 - `--from-reflect [reflection-file]` - Read opportunities from reflection artifacts (Setup Mode)
 - `--topic [topic]` - Direct topic specification (Setup Mode)
 - `--conduct` - Actually perform research (Conduct Mode)
+- `--add-topic [N]` - Scaffold a single new topic from research-topics.md (requires existing research structure)
+- `--consolidate` - Review and clean up accumulated requirements before decision phase
 - `--topic-num [N]` - Research specific topic by number (with --conduct)
 - `--topic-name [name]` - Research specific topic by name (with --conduct)
 - `--dry-run` - Show what would be done without making changes
@@ -102,7 +158,8 @@ This command supports multiple project organization patterns:
 **Determine input source:**
 
 1. **From Exploration (`--from-explore`):**
-   - Read `docs/maintainers/exploration/[explore-topic]/research-topics.md`
+   - **Dev-Infra:** Read `admin/explorations/[explore-topic]/research-topics.md`
+   - **Template Structure:** Read `docs/maintainers/planning/explorations/[explore-topic]/research-topics.md`
    - Extract research topics/questions
    - Use explore-topic as research topic name (or use --topic to override)
 
@@ -128,10 +185,12 @@ This command supports multiple project organization patterns:
 
 **Location Detection:**
 
+- **Dev-Infra:** `admin/research/[topic]/`
 - **Template Structure:** `docs/maintainers/research/[topic]/`
 - **Project-Wide:** `docs/maintainers/research/[topic]/`
 
 **Auto-detection:**
+- Check if `admin/research/` exists → use dev-infra structure
 - Check if `docs/maintainers/research/` exists → use template structure
 - Otherwise → use project-wide structure
 
@@ -153,9 +212,9 @@ research/[topic]/
 ```markdown
 # [Topic Name] - Research Hub
 
-**Purpose:** Research for [topic description]
-**Status:** 🔴 Research
-**Created:** YYYY-MM-DD
+**Purpose:** Research for [topic description]  
+**Status:** 🔴 Research  
+**Created:** YYYY-MM-DD  
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -177,7 +236,7 @@ research/[topic]/
 
 [Brief description of research goals]
 
-**Research Topics:** [N] topics
+**Research Topics:** [N] topics  
 **Status:** 🔴 Research
 
 ---
@@ -219,10 +278,10 @@ research/[topic]/
 ```markdown
 # Research: [Question Name]
 
-**Research Topic:** [Topic Name]
-**Question:** [Specific research question]
-**Status:** 🔴 Research
-**Created:** YYYY-MM-DD
+**Research Topic:** [Topic Name]  
+**Question:** [Specific research question]  
+**Status:** 🔴 Research  
+**Created:** YYYY-MM-DD  
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -328,9 +387,9 @@ research/[topic]/
 ```markdown
 # Research Summary - [Topic Name]
 
-**Purpose:** Summary of all research findings
-**Status:** 🔴 Research
-**Created:** YYYY-MM-DD
+**Purpose:** Summary of all research findings  
+**Status:** 🔴 Research  
+**Created:** YYYY-MM-DD  
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -339,8 +398,8 @@ research/[topic]/
 
 [Brief summary of research conducted]
 
-**Research Topics:** [N] topics
-**Research Documents:** [N] documents
+**Research Topics:** [N] topics  
+**Research Documents:** [N] documents  
 **Status:** 🔴 Research
 
 ---
@@ -411,9 +470,9 @@ research/[topic]/
 ```markdown
 # Requirements - [Topic Name]
 
-**Source:** Research on [topic]
-**Status:** [Draft | Final]
-**Created:** YYYY-MM-DD
+**Source:** Research on [topic]  
+**Status:** [Draft | Final]  
+**Created:** YYYY-MM-DD  
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -529,14 +588,15 @@ This document captures requirements discovered during research on [topic].
 **Update research hub:**
 
 **File location (auto-detected):**
+- **Dev-Infra:** `admin/research/README.md`
 - **Template Structure:** `docs/maintainers/research/README.md`
 - **Project-Wide:** `docs/maintainers/research/README.md`
 
 ```markdown
 # Research Hub
 
-**Purpose:** Research documents and analysis
-**Status:** ✅ Active
+**Purpose:** Research documents and analysis  
+**Status:** ✅ Active  
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -576,6 +636,8 @@ This directory contains research documents supporting exploration and decision-m
 
 **IMPORTANT:** Always commit work before completing command.
 
+**Reference:** [Commit Workflow](../../docs/COMMIT-WORKFLOW.md) - Central commit workflow documentation, especially [Documentation/Chore Branches](../../docs/COMMIT-WORKFLOW.md#documentationchore-branches) section
+
 **Since research is documentation-only, use docs-only workflow:**
 
 **Branch naming:**
@@ -599,7 +661,7 @@ This directory contains research documents supporting exploration and decision-m
 3. **Stage all changes:**
 
    ```bash
-   git add docs/maintainers/research/[topic]/
+   git add admin/research/[topic]/  # or docs/maintainers/research/[topic]/
    ```
 
 4. **Commit with proper message:**
@@ -644,9 +706,83 @@ This directory contains research documents supporting exploration and decision-m
 
 ---
 
+## Add Topic Mode Workflow (`--add-topic`)
+
+**When to use:** After `/explore --amend` adds a new theme and topic to an already-scaffolded research, use Add Topic Mode to scaffold the new topic document into the existing research structure.
+
+### 1. Validate Existing Research Structure
+
+**Checks:**
+
+1. Research directory exists for topic (e.g., `admin/research/[topic]/`)
+2. If not, error: "No research structure found for [topic]. Run `/research [topic] --from-explore` first."
+3. Read `research-topics.md` from exploration directory
+4. Validate topic number N exists in `research-topics.md`
+5. Check `topic-N-[name].md` doesn't already exist (error if it does, unless `--force`)
+
+**Error Messages:**
+
+| Situation | Message |
+|-----------|---------|
+| No research structure | "No research structure found for [topic]. Run `/research [topic] --from-explore` first." |
+| Topic N not in research-topics.md | "Topic N not found in research-topics.md. Check topic number." |
+| Topic document already exists | "Topic N already scaffolded. Use `--force` to re-scaffold." |
+| `--add-topic` + `--conduct` | "Error: --add-topic and --conduct are mutually exclusive. Scaffold first, then conduct." |
+| `--add-topic` + `--from-explore` | "Error: --add-topic and --from-explore are mutually exclusive. Use --from-explore for initial setup." |
+
+---
+
+### 2. Scaffold New Topic Document
+
+1. Read Topic N from `research-topics.md` (Question, Context, Priority, Rationale, Suggested Approach)
+2. Create `topic-N-[name].md` using the standard research document template (same template as Setup Mode Step 3)
+3. Populate template with topic metadata from `research-topics.md`:
+   - Research Question from the topic's Question field
+   - Research Goals derived from the topic's Context and Suggested Approach
+   - Research Methodology from the topic's Suggested Approach
+   - Status set to `🔴 Research`
+
+---
+
+### 3. Update Research Hub
+
+1. Read existing `README.md` in the research directory
+2. Add new topic to the research status table with `🔴 Not Started` status
+3. Add link to new topic document in the Quick Links section
+
+---
+
+### 4. Update Research Summary
+
+1. Read existing `research-summary.md`
+2. Add placeholder entry for Topic N:
+
+```markdown
+### Topic N: [Topic Name] (🔴 Not Started)
+
+*Findings to be added after research is conducted.*
+```
+
+---
+
+### 5. Commit
+
+```bash
+git add research/[topic]/
+git commit -m "docs(research): scaffold topic N ([topic-name]) for [topic]"
+```
+
+**After scaffolding, conduct the new topic:**
+
+```bash
+/research [topic] --conduct --topic-num N
+```
+
+---
+
 ## Conduct Mode Workflow (`--conduct`)
 
-**When to use:** After research structure has been created (Setup Mode), use Conduct Mode to actually perform the research.
+**When to use:** After research structure has been created (Setup Mode or Add Topic Mode), use Conduct Mode to actually perform the research.
 
 ### 1. Identify Research to Conduct
 
@@ -870,7 +1006,7 @@ Add any new requirements discovered during research:
 **Commit with clear message:**
 
 ```bash
-git add docs/maintainers/research/[topic]/
+git add admin/research/[topic]/
 git commit -m "docs(research): conduct [topic-name] research
 
 Completed research for [topic]:
@@ -903,7 +1039,199 @@ git push origin develop
 7. ✅ Hub status updated
 8. ✅ Changes committed
 
-**Next step:** Use `/decision [topic] --from-research` when all research is complete.
+**Next step:** Use `/research [topic] --consolidate` when all research is complete, then `/decision [topic] --from-research`.
+
+---
+
+## Consolidate Mode Workflow (`--consolidate`)
+
+**When to use:** After all research topics are complete, before the decision phase. Requirements accumulate incrementally across topics and sessions -- later topics often refine, supersede, or duplicate earlier ones. Consolidation is the quality gate between research and decisions.
+
+**Why this matters:** Requirements extracted from Topic 1 might be stated vaguely because the answer wasn't yet known. By Topic 6, the same concept may be captured with precision. Without consolidation, the decision phase inherits noise: duplicates, contradictions, and gaps that force the decision-maker to do cleanup work that belongs in research.
+
+### 1. Validate Pre-Conditions
+
+**Checks:**
+
+1. Research directory exists for topic
+2. All topics in research hub are marked `✅ Complete`
+3. If any topic is incomplete, warn: "Topic N is not complete. Consolidation works best after all topics are finished. Continue anyway? (y/n)"
+4. `requirements.md` exists and has content
+
+**Error Messages:**
+
+| Situation | Message |
+|-----------|---------|
+| No research structure | "No research structure found for [topic]. Nothing to consolidate." |
+| No requirements.md | "No requirements document found. Run `--conduct` to extract requirements first." |
+| `--consolidate` + `--conduct` | "Error: --consolidate and --conduct are mutually exclusive." |
+| `--consolidate` + `--add-topic` | "Error: --consolidate and --add-topic are mutually exclusive." |
+
+---
+
+### 2. Read All Artifacts
+
+Read the following documents in full:
+
+1. **`requirements.md`** -- all FRs, NFRs, Constraints, Assumptions
+2. **`research-summary.md`** -- findings, insights, recommendations
+3. **All topic documents** (`topic-*.md`) -- for cross-referencing sources and finding coverage gaps
+
+Build a mental model of:
+- Which topics produced which requirements
+- Which requirements reference the same underlying concept
+- Which findings led to recommendations that are NOT yet captured as requirements
+
+---
+
+### 3. Analyze Requirements
+
+For each requirement, assess against these categories:
+
+#### 3a. Redundancies (same concept stated multiple times)
+
+Look for:
+- Two FRs describing the same artifact or behavior from different angles
+- An early-topic FR stated vaguely + a later-topic FR stated precisely (the later one supersedes)
+- FRs that were "confirmed" by a later topic but also had a new FR added that says the same thing
+
+**Action:** Merge into the more specific/complete version. Note which FR IDs were absorbed.
+
+#### 3b. Superseded Items (later findings replaced earlier ones)
+
+Look for:
+- FRs whose descriptions use language from early topics that was refined by later topics
+- FRs marked "AMENDED" or "REVISED" where the original is still present separately
+- FRs that were extracted before a design decision was made, and the decision changed the requirement's scope
+
+**Action:** Update or remove the superseded version. Keep the current understanding.
+
+#### 3c. Gaps (research findings or recommendations not captured as requirements)
+
+Look for:
+- Recommendations in `research-summary.md` that have no corresponding FR
+- Constraints or assumptions that imply requirements but none exist
+- Template, doc-gen, or command changes identified in findings that lack an FR
+
+**Action:** Add new FRs with clear source attribution.
+
+#### 3d. Stale Descriptions (wording doesn't reflect current understanding)
+
+Look for:
+- FRs that reference "single document" when the tiered model was adopted later
+- FRs with counts or specifics that changed (e.g., "9 commands" when the breakdown was refined)
+- FRs that still reference concepts that were decided differently
+
+**Action:** Update descriptions to reflect the current state of research.
+
+#### 3e. Priority Adjustments
+
+Look for:
+- FRs marked Medium that are actually blocking (should be High)
+- FRs marked High that are actually cleanup/polish (should be Medium or Low)
+- FRs whose priority should change based on dependency ordering
+
+**Action:** Adjust priorities with brief justification.
+
+---
+
+### 4. Present Analysis for Review
+
+**CRITICAL: STOP and wait for human approval.**
+
+Present the proposed changes in a structured summary:
+
+```markdown
+## Consolidation Proposal
+
+### Merges (N items → M items)
+| Action | Items | Kept | Rationale |
+|--------|-------|------|-----------|
+| Merge  | FR-X + FR-Y | FR-X (expanded) | FR-Y is a subset of FR-X |
+
+### Removals (N items)
+| Item | Rationale |
+|------|-----------|
+| FR-Z | Superseded by FR-W (later topic, more specific) |
+
+### Additions (N new items)
+| New ID | Name | Source | Rationale |
+|--------|------|--------|-----------|
+| FR-NN  | ... | Topic N finding | Gap: recommendation not captured |
+
+### Modifications (N items)
+| Item | Change | Rationale |
+|------|--------|-----------|
+| FR-A | Updated description | Reflects tiered model from Topic 3 |
+
+### Priority Changes (N items)
+| Item | Old | New | Rationale |
+|------|-----|-----|-----------|
+| FR-B | Medium | High | Blocking for template work |
+
+### Counts: Before → After
+- Functional Requirements: X → Y
+- Non-Functional Requirements: X → Y
+- Constraints: X → Y
+- Assumptions: X → Y
+```
+
+**Wait for user to review and approve, modify, or reject changes.**
+
+---
+
+### 5. Apply Changes
+
+After human approval:
+
+1. **Apply merges:** Update the kept FR with expanded description; add "Absorbs FR-X" note to source
+2. **Apply removals:** Remove the FR entry entirely (don't leave stubs)
+3. **Apply additions:** Add new FRs at the end of the appropriate section with next available ID
+4. **Apply modifications:** Update descriptions, priorities, sources
+5. **Renumber if needed:** If removals create gaps, renumber to maintain sequential IDs. Update all cross-references in research documents that reference old FR numbers.
+6. **Update `requirements.md` status:** Change from `Draft` to `Final`
+7. **Update header counts:** Ensure the overview section reflects accurate counts
+
+---
+
+### 6. Update Research Summary
+
+1. Update `research-summary.md` Requirements Summary section with new counts
+2. Fix any stale checkboxes in Key Insights (e.g., items resolved by later topics still showing unchecked)
+3. Update the Next Steps to indicate consolidation is complete
+
+---
+
+### 7. Commit
+
+```bash
+git add admin/research/[topic]/
+git commit -m "docs(research): consolidate [topic] requirements
+
+Reviewed N requirements across M categories:
+- Merged: [list merged FRs]
+- Removed: [list removed FRs]
+- Added: [list new FRs]
+- Modified: [list modified FRs]
+- Final counts: X FRs, Y NFRs, Z Constraints, W Assumptions
+
+Requirements status: Draft → Final"
+```
+
+---
+
+### Consolidate Mode Output
+
+**After consolidation, you should have:**
+
+1. ✅ All requirements reviewed for redundancy, gaps, and staleness
+2. ✅ Human-approved changes applied
+3. ✅ requirements.md status changed to Final
+4. ✅ Research summary counts updated
+5. ✅ Stale insights/checkboxes fixed
+6. ✅ Changes committed
+
+**Next step:** Use `/decision [topic] --from-research` -- the decision phase now receives clean, non-redundant requirements.
 
 ---
 
@@ -911,9 +1239,33 @@ git push origin develop
 
 ### Research → Decision → Planning Flow
 
-1. **`/research [topic] --from-explore [topic]`** - Conduct research
+```
+/explore [topic]                        ← Setup: scaffolding
+    ↓ human review
+/explore [topic] --conduct              ← Conduct: full exploration
+    ↓
+/research [topic] --from-explore        ← Setup: scaffold all topics
+    ↓
+/research [topic] --conduct --topic-num N  ← Conduct: research topics
+    ↓ (new question from research?)
+/explore [topic] --amend                ← Feedback: add theme + research topic
+    ↓
+/research [topic] --add-topic N         ← Add Topic: scaffold new topic
+    ↓
+/research [topic] --conduct --topic-num N  ← Conduct: research new topic
+    ↓ (all topics complete)
+/research [topic] --consolidate         ← Consolidate: review + clean requirements
+    ↓ human review
+/decision [topic] --from-research       ← Decisions: create ADRs
+    ↓
+/transition-plan --from-adr             ← Planning: create implementation plan
+```
+
+**Command Details:**
+
+1. **`/research [topic] --from-explore [topic]`** - Setup research structure
    - Reads research topics from exploration
-   - Creates research documents
+   - Creates research documents for all topics
    - Outputs: Research documents + `requirements.md`
 
 2. **`/research [topic] --from-reflect [reflection-file]`** - Research from reflection
@@ -921,13 +1273,19 @@ git push origin develop
    - Creates research documents
    - Outputs: Research documents + `requirements.md`
 
-3. **`/decision [topic] --from-research`** - Make decisions
+3. **`/research [topic] --add-topic N`** - Scaffold late-arriving topic
+   - Reads Topic N from `research-topics.md` (added by `/explore --amend`)
+   - Scaffolds single topic document into existing research structure
+   - Updates hub and summary
+   - Outputs: New topic ready for `--conduct`
+
+4. **`/decision [topic] --from-research`** - Make decisions
    - Reads research documents
    - Reads requirements document
    - Creates ADR documents
    - Outputs: ADR documents
 
-4. **`/transition-plan --from-adr`** - Transition to planning
+5. **`/transition-plan --from-adr`** - Transition to planning
    - Reads ADR documents
    - Automatically reads requirements if they exist
    - Creates feature plan and phase documents
@@ -1010,6 +1368,55 @@ git push origin develop
 
 ---
 
+### Scenario 5: Add Topic from Exploration Amendment
+
+**Situation:** During research on workflow-simplification, a new question emerged about code ownership boundaries. `/explore --amend` was used to add Theme 5 and Topic 6 to the exploration. Now the research needs a scaffolded document for Topic 6.
+
+**Action:**
+
+```bash
+/research workflow-simplification --add-topic 6
+```
+
+**Output:**
+- `topic-6-dev-infra-code-boundary.md` scaffolded with template
+- Research hub updated with new topic link
+- Research summary updated with placeholder entry
+- Ready for `--conduct --topic-num 6`
+
+**Follow-up:**
+
+```bash
+/research workflow-simplification --conduct --topic-num 6
+```
+
+---
+
+### Scenario 6: Consolidate Before Decisions
+
+**Situation:** All 6 research topics are complete. Requirements were extracted incrementally across topics and sessions. Later topics (Topic 6) revised earlier requirements (from Topic 3). Some FRs are redundant, some descriptions are stale.
+
+**Action:**
+
+```bash
+/research workflow-simplification --consolidate
+```
+
+**Output:**
+- Analysis of all 30 FRs, 10 NFRs, 10 Constraints, 9 Assumptions
+- Proposed merges (e.g., FR-22 + FR-30 → single FR), removals (e.g., FR-5 superseded), additions (e.g., missing rules file update FR), modifications (e.g., FR-1 updated for tiered model)
+- Human reviews and approves changes
+- Requirements renumbered, status changed to Final
+- Ready for `/decision --from-research` with clean input
+
+**Follow-up:**
+
+```bash
+/decision workflow-simplification --from-research
+```
+
+---
+
 ## Tips
 
 ### When to Use Each Mode
@@ -1024,6 +1431,17 @@ git push origin develop
 - When ready to actually investigate topics
 - When you have time for web searches and analysis
 
+**Add Topic Mode:**
+- After `/explore --amend` added a new research topic
+- When a new question surfaced during research that warrants its own topic
+- When the exploration was amended and research-topics.md has un-scaffolded topics
+
+**Consolidate Mode:**
+- After all research topics are complete, before `/decision`
+- When research spanned multiple sessions (drift is likely)
+- When later topics revised or superseded earlier topics
+- When you want a clean, non-redundant requirements set for the decision phase
+
 ### Best Practices
 
 - **Setup first, conduct later** - Create structure when planning, conduct when ready
@@ -1032,6 +1450,7 @@ git push origin develop
 - **Extract requirements** - Capture requirements as you research
 - **Update summary** - Keep research summary current after each topic
 - **Incremental progress** - Use `--topic-num` to research one topic at a time
+- **Consolidate before deciding** - Run `--consolidate` after all topics are complete; accumulated requirements always have redundancies and gaps
 
 ---
 
@@ -1039,6 +1458,7 @@ git push origin develop
 
 **Research Structure:**
 
+- **Dev-Infra:** `admin/research/[topic]/`
 - **Template Structure:** `docs/maintainers/research/[topic]/`
 - **Project-Wide:** `docs/maintainers/research/[topic]/`
 - Requirements: `[research-path]/[topic]/requirements.md`
@@ -1051,6 +1471,7 @@ git push origin develop
 
 ---
 
-**Last Updated:** 2025-12-16
-**Status:** ✅ Active
-**Next:** Use Setup Mode to create structure, Conduct Mode to actually research
+**Last Updated:** 2026-02-14  
+**Status:** ✅ Active  
+**Next:** Use Setup Mode to create structure, Conduct Mode to research, Consolidate Mode to clean up before decisions
+

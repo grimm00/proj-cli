@@ -156,9 +156,9 @@ decisions/[topic]/
 ```markdown
 # [Topic Name] - Decisions Hub
 
-**Purpose:** Decisions for [topic description]
-**Status:** 🔴 Pending
-**Created:** YYYY-MM-DD
+**Purpose:** Decisions for [topic description]  
+**Status:** 🔴 Pending  
+**Created:** YYYY-MM-DD  
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -180,7 +180,7 @@ decisions/[topic]/
 
 [Brief description of decisions to be made]
 
-**Decision Points:** [N] decisions
+**Decision Points:** [N] decisions  
 **Status:** 🔴 Pending
 
 ---
@@ -215,6 +215,13 @@ decisions/[topic]/
 
 ### 4. Create ADR Documents
 
+**Multiple ADRs:**
+
+One ADR per decision point. A single topic may result in multiple ADRs:
+- `adr-001-database-choice.md` - Primary database decision
+- `adr-002-caching-strategy.md` - Related caching decision
+- etc.
+
 **For each decision point:**
 
 **File:** `docs/maintainers/decisions/[topic]/adr-[number]-[decision-name].md`
@@ -222,8 +229,8 @@ decisions/[topic]/
 ```markdown
 # ADR-[Number]: [Decision Name]
 
-**Status:** [Proposed | Accepted | Deprecated | Superseded]
-**Created:** YYYY-MM-DD
+**Status:** [Proposed | Accepted | Deprecated | Superseded]  
+**Created:** YYYY-MM-DD  
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -351,9 +358,9 @@ decisions/[topic]/
 ```markdown
 # Decisions Summary - [Topic Name]
 
-**Purpose:** Summary of all decisions made
-**Status:** 🔴 Pending
-**Created:** YYYY-MM-DD
+**Purpose:** Summary of all decisions made  
+**Status:** 🔴 Pending  
+**Created:** YYYY-MM-DD  
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -362,7 +369,7 @@ decisions/[topic]/
 
 [Brief summary of decisions made]
 
-**Decision Points:** [N] decisions
+**Decision Points:** [N] decisions  
 **Status:** 🔴 Pending
 
 ---
@@ -428,8 +435,8 @@ decisions/[topic]/
 ```markdown
 # Decisions Hub
 
-**Purpose:** Architecture Decision Records (ADRs)
-**Status:** ✅ Active
+**Purpose:** Architecture Decision Records (ADRs)  
+**Status:** ✅ Active  
 **Last Updated:** YYYY-MM-DD
 
 ---
@@ -469,11 +476,13 @@ This directory contains Architecture Decision Records (ADRs) documenting key dec
 
 **IMPORTANT:** Always commit work before completing command.
 
+**Reference:** [Commit Workflow](../../docs/COMMIT-WORKFLOW.md) - Central commit workflow documentation, especially [Documentation/Chore Branches](../../docs/COMMIT-WORKFLOW.md#documentationchore-branches) section
+
 **Since decisions are documentation-only, use docs-only workflow:**
 
 **Branch naming:**
 
-- Format: `docs/decision-[topic]` (e.g., `docs/decision-auth-system`)
+- Format: `docs/decision-[topic]` (e.g., `docs/decision-template-generation-testing-automation`)
 
 **Steps:**
 
@@ -492,7 +501,7 @@ This directory contains Architecture Decision Records (ADRs) documenting key dec
 3. **Stage all changes:**
 
    ```bash
-   git add docs/maintainers/decisions/[topic]/
+   git add admin/decisions/[topic]/  # or docs/maintainers/decisions/[topic]/
    ```
 
 4. **Commit with proper message:**
@@ -619,12 +628,13 @@ This directory contains Architecture Decision Records (ADRs) documenting key dec
 
 **Related Commands:**
 
+- `/explore` - Start exploration and identify research topics
 - `/research` - Conduct research before making decisions
 - `/transition-plan` - Transition to feature planning after decisions
 
 ---
 
-**Last Updated:** 2025-12-07
-**Status:** ✅ Active
+**Last Updated:** 2025-12-07  
+**Status:** ✅ Active  
 **Next:** Use to make decisions based on research findings, creating one ADR per decision point
 

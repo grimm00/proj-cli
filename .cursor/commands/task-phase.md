@@ -63,7 +63,7 @@ This command supports multiple phase organization patterns:
    ```bash
    git branch --show-current
    ```
-
+   
 2. **Expected Pattern:** `feat/[feature-name]-phase-N-*` or `feat/phase-N-*`
 
 3. **Validation Logic:**
@@ -76,7 +76,7 @@ This command supports multiple phase organization patterns:
 **Wrong Branch Error:**
 ```
 ❌ BLOCKING: Currently on 'develop', expected 'feat/[feature]-phase-N-*'
-
+   
    Resolution:
    1. Check out the correct feature branch: git checkout feat/[feature]-phase-N-[desc]
    2. If branch exists in worktree, work from that worktree instead
@@ -86,7 +86,7 @@ This command supports multiple phase organization patterns:
 **Worktree Conflict Error:**
 ```
 ❌ BLOCKING: Branch 'feat/...' is checked out in worktree at '/path/to/worktree'
-
+   
    Resolution:
    1. Work from the worktree: cd /path/to/worktree
    2. Or delete the worktree: git worktree remove /path/to/worktree
@@ -255,6 +255,8 @@ This keeps planning/documentation updates separate from implementation.
 
 **Status Update (Start of Phase):**
 
+**Note:** For authoritative status update requirements, see [PR Status Update Requirements](../../docs/PR-STATUS-UPDATE-REQUIREMENTS.md). Examples below use placeholder dates (e.g., `2025-12-07`) and phase numbers (e.g., `Phase 3`) for illustration.
+
 **Auto-Update Phase Status:**
 
 When starting a phase (first task of the phase), automatically update status:
@@ -373,30 +375,49 @@ When starting a phase (first task of the phase), automatically update status:
 
 **IMPORTANT:** Always commit work before stopping or moving to next task group.
 
-**Commit Pattern:**
+**Reference:** [Commit Workflow](../../docs/COMMIT-WORKFLOW.md) - Central commit workflow documentation
 
-- Commit after each logical unit (test file, implementation, migration, CLI command)
-- Small commits are better than large commits
-- Always commit before stopping (even if work incomplete)
+**For code changes (tests, implementation, refactoring):**
+
+Use `/review` to review changes before committing. This forces a deliberate pause to verify agentic code changes.
+
+```
+[AI implements task]
+    ↓
+/review [task-description]   ← Review in a separate prompt
+    ↓ human review
+/commit                      ← Commit reviewed changes
+```
+
+**For documentation-only changes (status updates, phase markers):**
+
+Direct commit is fine -- no review pause needed.
+
+```bash
+git commit -m "docs(phase-N): mark Task M complete"
+```
 
 **Commit Message Format:**
 
 - Follow standard format: `type(scope): brief description`
 - Include "Related:" line for context
+- See [Commit Workflow](../../docs/COMMIT-WORKFLOW.md#commit-message-format) for complete format
 
 **Examples:**
 
 ```bash
-git commit -m "test(phase-3): add DELETE endpoint tests"
-git commit -m "feat(phase-3): implement DELETE endpoint"
-git commit -m "feat(phase-3): add proj delete CLI command"
+# Code changes -- use /review + /commit
+# test(phase-3): add DELETE endpoint tests
+# feat(phase-3): implement DELETE endpoint
+
+# Doc changes -- direct commit is fine
+git commit -m "docs(phase-3): update status checkboxes"
 ```
 
 **Before Stopping:**
 
 - [ ] Check `git status` for uncommitted changes
-- [ ] Stage all changes (`git add`)
-- [ ] Commit with proper message
+- [ ] Use `/review` for code changes, direct commit for docs-only
 - [ ] Push to remote if on feature branch
 - [ ] Verify no uncommitted changes remain
 
@@ -463,9 +484,10 @@ After task implementation is complete, AUTOMATICALLY:
 - [ ] **STOP - Do NOT proceed to next task group**
 - [ ] Present completion summary to user
 - [ ] Indicate which tasks were completed (e.g., "Tasks 1-2 complete: Filter tests + implementation")
+- [ ] Remind user: "Use `/review` to review code changes before committing"
 - [ ] Wait for user to invoke command again for next task group
 
-**Important:** This command handles ONE task group at a time (typically RED+GREEN pair). The user will invoke the command again with the next task number when ready to continue.
+**Important:** This command handles ONE task group at a time (typically RED+GREEN pair). The user will invoke `/review` to review and commit, then invoke this command again with the next task number when ready to continue.
 
 ---
 
@@ -873,7 +895,7 @@ Tasks are typically numbered in phase documents:
 - Project-wide: `docs/maintainers/planning/phases/phase-N.md`
 - Alternative structures: `milestone-N.md`, `sprint-N.md` (if configured)
 
-**Note:** For CI/CD improvements, use `/task-improvement` command which reads from `docs/maintainers/planning/infrastructure/[improvement-name]/phase-N.md`.
+**Note:** For CI/CD improvements, use `/task-improvement` command which reads from `docs/maintainers/planning/ci/[improvement-name]/phase-N.md`.
 
 **Feature Planning:**
 
@@ -899,6 +921,6 @@ Tasks are typically numbered in phase documents:
 
 ---
 
-**Last Updated:** 2025-12-16
-**Status:** ✅ Active
+**Last Updated:** 2025-12-10  
+**Status:** ✅ Active  
 **Next:** Use to implement phase tasks following TDD workflow (supports feature-specific and project-wide phases, now with pre-phase review integration)

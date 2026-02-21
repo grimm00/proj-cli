@@ -103,7 +103,7 @@ This command supports multiple project organization patterns, matching `/task-ph
 
 **For Release PRs (`--release [version]`):**
 - Expected pattern: `release/[version]`
-- Example: `release/v1.4.0`
+- Example: `release/v0.4.0`
 
 #### 2. Check Current Branch
 
@@ -123,10 +123,10 @@ git branch --show-current
 2. **If worktree exists:**
    ```
    ⚠️ BRANCH MISMATCH: Currently on 'develop', expected 'feat/[feature]-phase-N-*'
-
+   
    Found worktree with expected branch:
    → /path/to/worktree [feat/feature-phase-3-name]
-
+   
    Resolution:
    1. Switch to worktree: cd /path/to/worktree
    2. Then re-run: /pr --phase N --feature [feature]
@@ -140,7 +140,7 @@ git branch --show-current
 4. **If branch doesn't exist:**
    ```
    ❌ BLOCKING: Expected branch not found
-
+   
    Resolution:
    1. Create branch from develop: git checkout -b feat/[feature]-phase-N-[desc]
    2. Ensure phase work is committed to this branch
@@ -228,6 +228,8 @@ git branch --show-current
 
 #### Status Validation
 
+**Note:** For authoritative status update requirements, see [PR Status Update Requirements](../../docs/PR-STATUS-UPDATE-REQUIREMENTS.md). Examples below use placeholder dates (e.g., `2025-12-07`) and phase numbers (e.g., `Phase 3`) for illustration.
+
 **Before PR creation, verify status documents are current:**
 
 - [ ] Phase document status updated to "✅ Complete"
@@ -304,7 +306,7 @@ git branch --show-current
 
 ### 1a. Add Manual Testing Scenarios
 
-**File:**
+**File:** 
 - Feature-specific: `docs/maintainers/planning/features/[feature-name]/manual-testing.md`
 - Project-wide: `docs/maintainers/planning/manual-testing.md`
 
@@ -444,7 +446,7 @@ curl [endpoint] [options]
 ```markdown
 ## Phase [N]: [Phase Name]
 
-**Status:** ✅ Complete
+**Status:** ✅ Complete  
 **Completed:** YYYY-MM-DD
 
 ---
@@ -950,11 +952,11 @@ gh pr create --title "fix: [Batch Description] ([batch-name])" \
 **Run readiness check:**
 
 ```bash
-# Run the readiness check script (if exists)
+# Run the readiness check script
 ./scripts/check-release-readiness.sh [version]
 
 # Example:
-./scripts/check-release-readiness.sh v1.4.0
+./scripts/check-release-readiness.sh v0.4.0
 ```
 
 **Evaluate results:**
@@ -1213,6 +1215,7 @@ git branch --show-current
 - **After Merge:** Status automatically updated by `/post-pr` command
 
 **See Also:**
+- [PR Status Update Requirements](../../docs/PR-STATUS-UPDATE-REQUIREMENTS.md) - Complete PR status update guide
 - [Status Update Workflow](../../docs/STATUS-UPDATE-WORKFLOW.md) - Complete status update guide
 - [Status Update Checklist](../../docs/STATUS-UPDATE-CHECKLIST.md) - Checklist for status updates
 
@@ -1319,22 +1322,6 @@ git branch --show-current
 - Custom titles
 - Special formatting
 - Consistency requirements
-
----
-
-### `--force`
-
-**Behavior:**
-
-- (Release mode only) Override blocking readiness checks
-- Requires justification documented in PR description
-- Use with caution
-
-**Use case:**
-
-- Urgent releases with minor blocking issues
-- Known issues that don't affect release quality
-- Time-sensitive deployments
 
 ---
 
@@ -1455,6 +1442,7 @@ git branch --show-current
 
 ---
 
-**Last Updated:** 2025-12-16
-**Status:** ✅ Active
+**Last Updated:** 2025-12-10  
+**Status:** ✅ Active  
 **Next:** Use to create PRs for phases, fixes, and releases (includes readiness validation for release PRs)
+

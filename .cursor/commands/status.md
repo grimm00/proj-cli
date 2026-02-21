@@ -1,11 +1,5 @@
 # Status Command
 
-**Status:** 🟠 Evolving
-**Stability:** Experimental - may change without notice
-**Feedback:** [Provide feedback](../../.github/ISSUE_TEMPLATE/experimental-feedback.yml)
-
-> ⚠️ **Experimental Command**: This command is under active development and may change significantly between releases. Use in production with caution and please [provide feedback](../../.github/ISSUE_TEMPLATE/experimental-feedback.yml)!
-
 Use this command to view, update, and sync project status tracking across features and phases.
 
 ---
@@ -37,10 +31,6 @@ Centralized status management that:
 3. **CI/CD Improvements:**
    - Phase docs: `docs/maintainers/planning/ci/[improvement-name]/phase-N.md`
    - No status-and-next-steps.md (CI improvements use different tracking)
-
-4. **Legacy/Alternative (dev-infra specific):**
-   - Phase docs: `admin/planning/features/[feature-name]/phase-N.md`
-   - Status doc: `admin/planning/features/[feature-name]/status-and-next-steps.md`
 
 **Feature Detection:**
 - Auto-detect from current branch name (e.g., `feat/release-readiness-phase-3`)
@@ -500,7 +490,5 @@ Changes:
 
 ---
 
-**Last Updated:** 2025-12-09
-**Status:** ✅ Active
-**Next:** Integrate with other commands for decoupled status tracking
+**Last Updated:** 2025-12-17
 

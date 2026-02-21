@@ -11,6 +11,7 @@ Analyze project state, recent work, and patterns to provide actionable suggestio
 This command supports multiple project organization patterns:
 
 1. **Feature-Specific Structure (default):**
+
    - Status: `docs/maintainers/planning/features/[feature-name]/status-and-next-steps.md`
    - Reflections: `docs/maintainers/planning/features/[feature-name]/reflections/reflection-*.md`
    - Fix tracking: `docs/maintainers/planning/features/[feature-name]/fix/README.md`
@@ -85,16 +86,19 @@ This command supports multiple project organization patterns:
 **Gather context:**
 
 1. **Recent commits:**
+
    ```bash
    git log --since="7 days ago" --oneline --all
    ```
 
 2. **Recent PRs:**
+
    ```bash
    gh pr list --state merged --limit 10
    ```
 
 3. **Current phase/feature status:**
+
    - Feature-specific: Read `docs/maintainers/planning/features/[feature-name]/status-and-next-steps.md`
    - Project-wide: Read `docs/maintainers/planning/status-and-next-steps.md` (if exists)
    - Check current phase completion
@@ -116,8 +120,8 @@ This command supports multiple project organization patterns:
 
 2. **Find all phase learnings:**
 
-   - Check `docs/maintainers/planning/features/[feature-name]/learnings/` (feature-grouped)
-   - Check `docs/maintainers/planning/notes/learnings/` for `[feature-name]-phase-*-learnings.md` (legacy)
+   - Check `docs/maintainers/planning/opportunities/internal/[project]/learnings/[feature-name]/` (feature-grouped)
+   - Check `docs/maintainers/planning/opportunities/internal/[project]/learnings/` for `[feature-name]-phase-*-learnings.md` (legacy)
    - Read all phase learnings documents
 
 3. **Identify common patterns:**
@@ -142,18 +146,21 @@ This command supports multiple project organization patterns:
 **Identify patterns:**
 
 1. **Development patterns:**
+
    - TDD adoption
    - Code review practices
    - Testing coverage trends
    - Documentation updates
 
 2. **Workflow patterns:**
+
    - PR creation frequency
    - Fix batch implementation
    - Documentation updates
    - Command usage
 
 3. **Code patterns:**
+
    - Repeated code structures
    - Common issues in reviews
    - Architecture consistency
@@ -179,18 +186,21 @@ This command supports multiple project organization patterns:
 **Look for:**
 
 1. **Quick wins:**
+
    - Low-hanging fruit
    - Easy improvements
    - Accumulated small issues
    - Documentation gaps
 
 2. **Efficiency improvements:**
+
    - Workflow bottlenecks
    - Repeated manual steps
    - Missing automation
    - Process improvements
 
 3. **Quality improvements:**
+
    - Test coverage gaps
    - Code quality issues
    - Documentation gaps
@@ -216,18 +226,21 @@ This command supports multiple project organization patterns:
 **Look for:**
 
 1. **Risks:**
+
    - Technical debt accumulation
    - Documentation drift
    - Process inconsistencies
    - Missing tests
 
 2. **Bottlenecks:**
+
    - Workflow friction
    - Repeated issues
    - Manual processes
    - Knowledge gaps
 
 3. **Inconsistencies:**
+
    - Code style variations
    - Process deviations
    - Documentation gaps
@@ -253,11 +266,13 @@ This command supports multiple project organization patterns:
 **Organize suggestions by:**
 
 1. **Priority:**
+
    - 🔴 **High Priority** - Address soon
    - 🟡 **Medium Priority** - Consider soon
    - 🟢 **Low Priority** - Nice to have
 
 2. **Category:**
+
    - **Workflow** - Process improvements
    - **Code Quality** - Code improvements
    - **Documentation** - Documentation updates
@@ -275,8 +290,8 @@ This command supports multiple project organization patterns:
 ```markdown
 ### [Category]: [Suggestion Title]
 
-**Priority:** [Priority Level]
-**Effort:** [Effort Level]
+**Priority:** [Priority Level]  
+**Effort:** [Effort Level]  
 **Impact:** [Impact Description]
 
 **Context:**
@@ -286,14 +301,17 @@ This command supports multiple project organization patterns:
 [Specific actionable suggestion]
 
 **Benefits:**
+
 - Benefit 1
 - Benefit 2
 
 **Next Steps:**
+
 1. Step 1
 2. Step 2
 
 **Related:**
+
 - [Related documentation]
 - [Related issues/PRs]
 ```
@@ -318,6 +336,7 @@ This command supports multiple project organization patterns:
 - **Alternative:** `docs/maintainers/planning/reflections/reflection-[scope]-[date].md`
 
 **Examples:**
+
 - Feature reflection: `docs/maintainers/planning/features/my-feature/reflections/reflection-phase6-2025-12-06.md`
 - Full project: `docs/maintainers/planning/notes/reflections/reflection-2025-12-06.md`
 - Workflow: `docs/maintainers/planning/notes/reflections/reflection-workflow-2025-12-06.md`
@@ -327,8 +346,8 @@ This command supports multiple project organization patterns:
 ```markdown
 # Project Reflection - [Date]
 
-**Scope:** [Full Project / Recent Work / Phase / etc.]
-**Period:** [Time period analyzed]
+**Scope:** [Full Project / Recent Work / Phase / etc.]  
+**Period:** [Time period analyzed]  
 **Generated:** [Date]
 
 ---
@@ -402,22 +421,25 @@ This command supports multiple project organization patterns:
 
 #### [Suggestion Title]
 
-**Category:** [Category]
-**Priority:** 🔴 High
+**Category:** [Category]  
+**Priority:** 🔴 High  
 **Effort:** [Effort]
 
 **Suggestion:**
 [Detailed suggestion]
 
 **Benefits:**
+
 - Benefit 1
 - Benefit 2
 
 **Next Steps:**
+
 1. [Action 1]
 2. [Action 2]
 
 **Related:**
+
 - [Related items]
 
 ---
@@ -437,10 +459,12 @@ This command supports multiple project organization patterns:
 ## 🎯 Recommended Next Steps
 
 1. **Immediate (This Week):**
+
    - [Action 1]
    - [Action 2]
 
 2. **Short-term (Next 2 Weeks):**
+
    - [Action 1]
    - [Action 2]
 
@@ -469,7 +493,78 @@ This command supports multiple project organization patterns:
 
 ---
 
-**Last Updated:** [Date]
+## 🔍 Cross-Phase Learnings (if --include-learnings all)
+
+**When `--include-learnings all` is used, include this section:**
+
+### Recurring Successes
+
+**Patterns that worked well across multiple phases:**
+
+#### [Pattern Name]
+
+**Phases:** Phase 1, Phase 2, Phase 4  
+**Frequency:** 3/5 phases
+
+**Observation:**
+[Common observation across phases]
+
+**Why it's valuable:**
+[Why this pattern is important]
+
+**Recommendation:**
+[How to leverage this pattern]
+
+---
+
+### Persistent Issues
+
+**Issues mentioned in multiple phases:**
+
+#### [Issue Name]
+
+**Phases:** Phase 2, Phase 4, Phase 5  
+**Frequency:** 3/5 phases  
+**Priority:** 🔴 High (recurring issue)
+
+**Issue:**
+[Common issue description]
+
+**Impact:**
+[How this affects development]
+
+**Suggested Solution:**
+[How to address this recurring issue]
+
+**Related Phases:**
+
+- Phase 2: [Brief note]
+- Phase 4: [Brief note]
+- Phase 5: [Brief note]
+
+---
+
+### Emerging Patterns
+
+**Patterns that become clearer across phases:**
+
+#### [Pattern Name]
+
+**Evolution:**
+
+- Phase 1: [Initial observation]
+- Phase 3: [Refinement]
+- Phase 5: [Clear pattern]
+
+**Insight:**
+[What this pattern reveals]
+
+**Action:**
+[What to do with this insight]
+
+---
+
+**Last Updated:** [Date]  
 **Next Reflection:** [Suggested date]
 ```
 
@@ -493,6 +588,80 @@ This command supports multiple project organization patterns:
 
 ---
 
+### 8. Commit and Push Changes
+
+**IMPORTANT:** Always commit work before completing command.
+
+**Reference:** [Commit Workflow](../../docs/COMMIT-WORKFLOW.md) - Central commit workflow documentation, especially [Documentation/Chore Branches](../../docs/COMMIT-WORKFLOW.md#documentationchore-branches) section
+
+**Since reflections are documentation-only, use docs-only workflow:**
+
+**Branch naming:**
+
+- Format: `docs/reflect-[feature]-[date]` or `docs/reflect-[scope]-[date]` (e.g., `docs/reflect-templates-enhancement-2025-12-08`)
+
+**Steps:**
+
+1. **Check current branch:**
+
+   ```bash
+   git branch --show-current
+   ```
+
+2. **Create docs branch (if not already on one):**
+
+   ```bash
+   git checkout -b docs/reflect-[feature]-[date]
+   ```
+
+3. **Stage all changes:**
+
+   ```bash
+   git add docs/maintainers/planning/notes/reflections/  # or feature-specific path
+   ```
+
+4. **Commit with proper message:**
+
+   ```bash
+   git commit -m "docs(reflection): create [feature] reflection
+
+   Created reflection document:
+   - Analyzed [scope/period]
+   - Identified patterns and opportunities
+   - Provided actionable suggestions
+
+   Related: [Feature or context]"
+   ```
+
+5. **Push branch:**
+
+   ```bash
+   git push origin docs/reflect-[feature]-[date]
+   ```
+
+6. **Merge directly to develop (docs-only, no PR needed):**
+
+   ```bash
+   git checkout develop
+   git pull origin develop
+   git merge docs/reflect-[feature]-[date] --no-edit
+   git push origin develop
+   ```
+
+7. **Clean up branch:**
+
+   ```bash
+   git branch -d docs/reflect-[feature]-[date]
+   git push origin --delete docs/reflect-[feature]-[date]
+   ```
+
+8. **Verify no uncommitted changes:**
+   ```bash
+   git status --short
+   ```
+
+---
+
 ## Common Scenarios
 
 ### Scenario 1: Post-Phase Reflection
@@ -500,11 +669,13 @@ This command supports multiple project organization patterns:
 **Situation:** Just completed Phase 4, want to reflect on progress
 
 **Action:**
+
 ```bash
 /reflect --phase --include-learnings
 ```
 
 **Output:**
+
 - Phase completion analysis
 - What worked well
 - What could improve
@@ -513,16 +684,38 @@ This command supports multiple project organization patterns:
 
 ---
 
+### Scenario 1b: Cross-Phase Reflection
+
+**Situation:** Completed multiple phases, want to identify common patterns
+
+**Action:**
+
+```bash
+/reflect --feature templates-enhancement --include-learnings all
+```
+
+**Output:**
+
+- Analysis of all phases
+- Common patterns identified
+- Recurring successes highlighted
+- Persistent issues prioritized
+- Cross-phase insights documented
+
+---
+
 ### Scenario 2: Workflow Efficiency Review
 
 **Situation:** Want to improve development workflow
 
 **Action:**
+
 ```bash
 /reflect --workflow --recent 14
 ```
 
 **Output:**
+
 - Workflow bottlenecks identified
 - Process improvements suggested
 - Automation opportunities
@@ -535,11 +728,13 @@ This command supports multiple project organization patterns:
 **Situation:** Want to identify and address technical debt
 
 **Action:**
+
 ```bash
 /reflect --technical-debt --include-fixes
 ```
 
 **Output:**
+
 - Technical debt identified
 - Deferred fixes reviewed (if applicable)
 - Prioritization suggestions
@@ -552,11 +747,13 @@ This command supports multiple project organization patterns:
 **Situation:** Want comprehensive project analysis
 
 **Action:**
+
 ```bash
 /reflect
 ```
 
 **Output:**
+
 - Complete project state analysis
 - All categories reviewed
 - Comprehensive suggestions
@@ -607,6 +804,8 @@ This command supports multiple project organization patterns:
 - Feature-specific: `docs/maintainers/planning/features/[feature-name]/learnings/` (if exists)
 - Project-wide: `docs/maintainers/planning/notes/learnings/` (if exists)
 - Opportunities: `docs/maintainers/planning/opportunities/internal/` (if exists)
+- Feature-grouped phase learnings: `docs/maintainers/planning/opportunities/internal/[project]/learnings/[feature-name]/phase-N-learnings.md` (new format)
+- Legacy phase learnings: `docs/maintainers/planning/opportunities/internal/[project]/learnings/[feature-name]-phase-N-learnings.md` (legacy format)
 
 **Related Commands:**
 
@@ -616,7 +815,6 @@ This command supports multiple project organization patterns:
 
 ---
 
-**Last Updated:** 2025-12-07
-**Status:** ✅ Active
+**Last Updated:** 2025-12-07  
+**Status:** ✅ Active  
 **Next:** Use after development cycles for fresh perspective and actionable suggestions (supports feature-specific and project-wide structures)
-

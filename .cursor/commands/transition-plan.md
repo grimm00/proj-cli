@@ -42,10 +42,70 @@ This command supports multiple project organization patterns:
 **When to use:**
 
 - After creating reflection artifacts with `/reflection-artifacts`
+- After creating ADRs with `/decision` command
 - To plan transition to next stage (feature, release, infrastructure)
 - When ready to move from reflection to implementation planning
 
+**Workflow:** Setup → Human Review → Expand → Implement
+
 **Key principle:** Transform reflection artifacts into actionable transition plans ready for implementation, following established planning patterns. For feature transitions, also create detailed phase documents (`phase-#.md`) following work-prod's comprehensive phase structure.
+
+**Two Modes:**
+
+### Setup Mode (Default)
+
+Creates scaffolding documents (~60-80 lines per phase) with structure but not detail.
+
+**When to use:**
+
+- First run on a new transition
+- After creating ADRs with `/decision`
+- To review phase breakdown before adding detail
+
+**Output:**
+
+- `transition-plan.md` - Transition overview
+- `phase-N.md` files - Phase scaffolding (goals, criteria, dependencies)
+
+**Status Indicator:** Phase documents show `🔴 Scaffolding (needs expansion)`
+
+```
+/transition-plan --from-adr decisions/[topic]/
+  → Reads ADR and requirements documents
+  → Creates transition-plan.md
+  → Creates phase scaffolding documents
+  → Outputs: Scaffolding ready for human review
+```
+
+### Expand Mode (`--expand`)
+
+Fills scaffolding with detailed TDD tasks, code examples, and implementation notes.
+
+**When to use:**
+
+- After reviewing scaffolding structure
+- When ready to add implementation detail
+- Before starting `/task-phase` implementation
+
+**Flags:**
+
+- `--phase N` - Expand specific phase only
+- `--all` - Expand all phases at once
+
+**Output:**
+
+- Updated `phase-N.md` files (~200-300 lines with TDD detail)
+
+**Status Indicator:** Phase documents show `✅ Expanded`
+
+```
+/transition-plan [topic] --expand --phase N
+  → Reads existing phase scaffolding
+  → Fills in TDD tasks (RED → GREEN → REFACTOR)
+  → Adds code examples and implementation notes
+  → Updates phase status to Expanded
+  → Commits changes
+```
 
 ---
 
@@ -53,18 +113,23 @@ This command supports multiple project organization patterns:
 
 **Command:** `/transition-plan [--from-artifacts|--from-reflection|--from-adr] [options]`
 
-**Examples:**
+**Setup Mode Examples (default):**
 
-- `/transition-plan --from-reflection reflection-2025-12-07-mvp-complete.md` - Create transition plan from reflection (auto-generates artifacts first)
-- `/transition-plan --from-artifacts releases/v0.1.0/checklist.md` - Create transition plan from specific artifact
-- `/transition-plan --from-adr decisions/auth-system/adr-001-auth-system.md` - Create transition plan from ADR document
-- `/transition-plan --from-adr decisions/auth-system/adr-001-auth-system.md --requirements research/auth-system/requirements.md` - Include requirements explicitly
+- `/transition-plan --from-adr decisions/auth-system/` - Create scaffolding from ADRs
+- `/transition-plan --from-artifacts releases/v0.1.0/checklist.md` - Create scaffolding from artifact
+- `/transition-plan --from-reflection reflection-2025-12-07-mvp-complete.md` - Create scaffolding from reflection (auto-generates artifacts first)
+- `/transition-plan --dry-run` - Preview scaffolding without creating files
 - `/transition-plan --type release` - Force release transition type
 - `/transition-plan --type feature` - Force feature transition type
 - `/transition-plan --feature my-feature` - Specify feature name
-- `/transition-plan --dry-run` - Show transition plan without creating files
 
-**Options:**
+**Expand Mode Examples:**
+
+- `/transition-plan auth-system --expand --phase 1` - Expand specific phase with TDD detail
+- `/transition-plan auth-system --expand --phase 2` - Expand phase 2
+- `/transition-plan auth-system --expand --all` - Expand all phases at once
+
+**Setup Mode Options:**
 
 - `--from-reflection FILE` - Use reflection file (auto-generates artifacts first, then creates plans)
 - `--from-artifacts PATH` - Use specific artifact file (e.g., `releases/v0.1.0/checklist.md`)
@@ -74,33 +139,39 @@ This command supports multiple project organization patterns:
 - `--type TYPE` - Force transition type (`feature`, `release`, `ci-cd`, `infrastructure`, `auto`)
 - `--dry-run` - Show transition plan without creating files
 
+**Expand Mode Options:**
+
+- `--expand` - Enter expand mode (fill scaffolding with detail)
+- `--phase N` - Expand specific phase number (use with `--expand`)
+- `--all` - Expand all scaffolding phases (use with `--expand`)
+
 ---
 
-## Step-by-Step Process
+## Setup Mode Workflow
+
+Creates scaffolding documents. For detailed expansion, use `--expand` flag (see Expand Mode Workflow).
 
 ### Mode Selection
 
-**Three modes of operation:**
+**Input sources (all produce scaffolding in Setup Mode):**
 
-1. **Artifact Mode (default):** Create plans from existing artifacts
+1. **Artifact Mode:** `/transition-plan --from-artifacts [path]`
+   - Reads artifact files created by `/reflection-artifacts`
+   - Creates scaffolding documents
 
-   - Use: `/transition-plan --from-artifacts [path]`
-   - Reads: Artifact files created by `/reflection-artifacts`
-   - Creates: Transition planning documents
-
-2. **Reflection Mode:** Create plans from reflection (auto-generates artifacts first)
-   - Use: `/transition-plan --from-reflection [file]`
-   - Reads: Reflection document
+2. **Reflection Mode:** `/transition-plan --from-reflection [file]`
+   - Reads reflection document
    - Internally calls `/reflection-artifacts` first
-   - Then creates transition plans from artifacts
+   - Then creates scaffolding from artifacts
 
-3. **ADR Mode:** Create plans from ADR documents
-   - Use: `/transition-plan --from-adr [path]`
-   - Reads: ADR document from `/decision` command
+3. **ADR Mode:** `/transition-plan --from-adr [path]`
+   - Reads ADR document from `/decision` command
    - Automatically reads requirements if they exist in research directory
-   - Creates: Transition planning documents
+   - Creates scaffolding documents
 
-**If `--from-reflection` is specified, skip to "From Reflection Mode" section below.**
+**All modes create scaffolding documents. Use `--expand` to add detail.**
+
+**If `--from-reflection` is specified, skip to "From Reflection Mode" section below.**  
 **If `--from-adr` is specified, skip to "From ADR Mode" section below.**
 
 ---
@@ -245,6 +316,10 @@ ls docs/maintainers/planning/releases/v0.1.0/checklist.md
 
 ### 4. Create Transition Planning Documents
 
+Creates the main `transition-plan.md` file with phase summaries.
+
+**Note:** Phase details are in separate `phase-N.md` scaffolding files. See "5. Create Phase Scaffolding Documents" below.
+
 **For Release Transition:**
 
 **Location:** `docs/maintainers/planning/releases/vX.Y.Z/`
@@ -259,10 +334,10 @@ ls docs/maintainers/planning/releases/v0.1.0/checklist.md
 ```markdown
 # Release Transition Plan - vX.Y.Z
 
-**Version:** vX.Y.Z
-**Status:** 🔴 Not Started
-**Created:** YYYY-MM-DD
-**Source:** [artifact-file]
+**Version:** vX.Y.Z  
+**Status:** 🔴 Not Started  
+**Created:** YYYY-MM-DD  
+**Source:** [artifact-file]  
 **Type:** Release
 
 ---
@@ -339,10 +414,10 @@ ls docs/maintainers/planning/releases/v0.1.0/checklist.md
 ```markdown
 # Feature Transition Plan - [Feature Name]
 
-**Feature:** [Feature Name]
-**Status:** 🔴 Not Started
-**Created:** YYYY-MM-DD
-**Source:** [artifact-file]
+**Feature:** [Feature Name]  
+**Status:** 🔴 Not Started  
+**Created:** YYYY-MM-DD  
+**Source:** [artifact-file]  
 **Type:** Feature
 
 ---
@@ -489,10 +564,10 @@ ls docs/maintainers/planning/releases/v0.1.0/checklist.md
 ```markdown
 # CI/CD Transition Plan - [Improvement Name]
 
-**Improvement:** [Improvement Name]
-**Status:** 🔴 Not Started
-**Created:** YYYY-MM-DD
-**Source:** [artifact-file]
+**Improvement:** [Improvement Name]  
+**Status:** 🔴 Not Started  
+**Created:** YYYY-MM-DD  
+**Source:** [artifact-file]  
 **Type:** CI/CD
 
 ---
@@ -554,42 +629,107 @@ ls docs/maintainers/planning/releases/v0.1.0/checklist.md
 
 ---
 
-### 5. Create Phase Documents (Feature and CI/CD Transitions)
+### 5. Create Phase Scaffolding Documents
+
+**Purpose:** Create minimal phase documents (~60-80 lines) for human review.
+
+**Note:** Detailed TDD tasks, code examples, and implementation notes are added in Expand Mode. See "Expand Mode Workflow (`--expand`)" section.
 
 **When to create:**
 
-- For feature transitions with phases (always)
-- For CI/CD transitions with steps (treat steps as phases, use `/task-improvement` command)
+- For feature transitions (always)
+- For CI/CD transitions (treat steps as phases)
 
 **Process:**
 
-1. **Extract phases/steps from transition plan:**
+1. **Extract phases from source:**
+   - Parse transition-plan.md for phase sections
+   - Extract: phase number, name, goal, deliverables, prerequisites, effort
 
-   - **For Feature Transitions:** Parse `transition-plan.md` for phase sections (Phase 1, Phase 2, etc.)
-   - **For CI/CD Transitions:** Parse `transition-plan.md` for step sections (Step 1, Step 2, etc.) and treat as phases
-   - Extract phase/step number, name, goal, tasks, deliverables, prerequisites, effort
-   - Identify all phases/steps (Phase/Step 1, Phase/Step 2, Phase/Step 3, etc.)
+2. **For each phase, create scaffolding `phase-N.md`:**
+   - Use scaffolding template (below)
+   - Extract content from source (goals, criteria, dependencies)
+   - Do NOT add detailed TDD tasks (that's for Expand Mode)
+   - Add status indicator and placeholder message
 
-2. **For each phase/step, create `phase-#.md` file:**
+**Scaffolding Template (~60-80 lines):**
 
-   - Use phase document template (see `docs/PHASE-DOCUMENT-TEMPLATE.md`)
-   - Populate with extracted phase/step information
-   - **For Feature Transitions:** Expand tasks with TDD flow structure (RED → GREEN → REFACTOR)
-   - **For CI/CD Transitions:** Expand tasks with process/documentation workflow (may not need TDD)
-   - Add project-specific implementation notes
+```markdown
+# [Feature] - Phase [N]: [Name]
 
-3. **Phase document structure:**
-   - Header: Phase number, name, duration, status, prerequisites
-   - Overview: What phase delivers, success definition
-   - Goals: Numbered list of phase goals
-   - Tasks: Detailed TDD flow with sub-tasks
-   - Completion Criteria: Checklist of completion requirements
-   - Deliverables: What gets created/delivered
-   - Dependencies: Prerequisites, external dependencies, blocks
-   - Risks: Risk assessment with mitigation (if applicable)
-   - Progress Tracking: Status tracking by category
-   - Implementation Notes: TDD workflow, patterns, examples
-   - Related Documents: Links to related docs
+**Phase:** [N] - [Name]  
+**Duration:** [Estimate]  
+**Status:** 🔴 Scaffolding (needs expansion)  
+**Prerequisites:** [From source]
+
+---
+
+## 📋 Overview
+
+[1-2 sentences from ADR/source]
+
+**Success Definition:** [From source criteria]
+
+---
+
+## 🎯 Goals
+
+1. **[Goal 1]** - [From source]
+2. **[Goal 2]** - [From source]
+
+---
+
+## 📝 Tasks
+
+> ⚠️ **Scaffolding:** Run `/transition-plan [topic] --expand --phase [N]` to add detailed TDD tasks.
+
+### Task Categories
+
+- [ ] **[Category 1]** - [Brief description]
+- [ ] **[Category 2]** - [Brief description]
+
+---
+
+## ✅ Completion Criteria
+
+- [ ] [Criterion 1 from source]
+- [ ] [Criterion 2 from source]
+
+---
+
+## 📦 Deliverables
+
+- [Deliverable 1 from source]
+- [Deliverable 2 from source]
+
+---
+
+## 🔗 Dependencies
+
+### Prerequisites
+
+- [Previous phase or requirement]
+
+### Blocks
+
+- [Next phase]
+
+---
+
+## 🔗 Related Documents
+
+- [Feature Hub](README.md)
+- [Previous Phase: Phase N-1](phase-N-1.md)
+- [Next Phase: Phase N+1](phase-N+1.md)
+
+---
+
+**Last Updated:** YYYY-MM-DD  
+**Status:** 🔴 Scaffolding  
+**Next:** Expand with `/transition-plan [topic] --expand --phase [N]`
+```
+
+**Target:** ~60-80 lines per phase document
 
 **File locations:**
 
@@ -597,103 +737,49 @@ ls docs/maintainers/planning/releases/v0.1.0/checklist.md
 - Project-wide: `docs/maintainers/planning/phases/phase-N.md`
 - CI/CD improvements: `docs/maintainers/planning/ci/[improvement-name]/phase-N.md`
 
-**Phase document template:**
-
-Reference: `docs/PHASE-DOCUMENT-TEMPLATE.md`
-
-**Key sections to populate:**
-
-- **Header:** Extract from transition plan phase header
-- **Overview:** Expand phase goal into detailed overview with success definition
-- **Goals:** Extract and expand phase goals
-- **Tasks:** Expand transition plan tasks into detailed TDD flow with proper ordering:
-  - **TDD Task Ordering (IMPORTANT):** Order tasks following RED → GREEN → REFACTOR:
-    1. **Tests first (RED):** Write tests before implementation code
-    2. **Implementation second (GREEN):** Write minimum code to pass tests
-    3. **Refactor/documentation last:** Clean up and document
-  - Group tasks into RED/GREEN pairs where applicable
-  - Add detailed sub-tasks with checkboxes
-  - Include code examples where applicable
-  - Add testing commands and manual testing steps
-  - **Example TDD Task Order:**
-    - Task 1: Write tests for feature X (RED)
-    - Task 2: Implement feature X (GREEN)
-    - Task 3: Write tests for feature Y (RED)
-    - Task 4: Implement feature Y (GREEN)
-    - Task 5: Documentation and cleanup
-- **Completion Criteria:** Extract from transition plan "Definition of Done"
-- **Deliverables:** Extract from transition plan deliverables
-- **Dependencies:** Extract prerequisites, add external dependencies if known
-- **Risks:** Add risk assessment if applicable
-- **Progress Tracking:** Add status tracking sections
-- **Implementation Notes:** Add TDD workflow guidance, patterns, examples
-- **Related Documents:** Link to previous/next phases, feature plan, hub
-
 **Checklist:**
 
-- [ ] All phases/steps extracted from transition plan
-- [ ] Phase documents created (`phase-1.md`, `phase-2.md`, etc.)
-- [ ] Phase documents follow template structure
-- [ ] Tasks expanded with appropriate workflow (TDD for features, process workflow for CI/CD)
-- [ ] Implementation notes added
-- [ ] Related documents linked
-- [ ] Phase documents are detailed (~200-300+ lines)
-
-**Task Ordering Patterns:**
-
-Depending on the phase type, use the appropriate task ordering pattern:
-
-| Phase Type | Task Order | Example |
-|------------|------------|---------|
-| **Code + Tests (TDD)** | Tests → Implementation → Docs | Write tests, implement code, document |
-| **Scripts (TDD)** | Tests → Script → Integration | Write bats tests, create script, integrate |
-| **Documentation Only** | Create → Link → Verify | Create docs, add links, verify links work |
-| **Configuration** | Plan → Implement → Validate | Define config, apply changes, verify |
-
-**When ordering tasks, ask:** "What needs to exist first for TDD to work?"
-
-- **If tests can be written:** Put test tasks BEFORE implementation tasks
-- **If no tests apply:** Put validation/verification tasks LAST
-- **If documentation phase:** Put doc creation before linking/integration
-
-**Note:**
-
-- **Feature transitions:** Phase documents should be comprehensive and actionable, following work-prod's phase document structure with TDD flow. **Tasks should be ordered with tests before implementation.** They serve as the primary implementation guide for each phase. Use `/task-phase` command to implement.
-- **CI/CD transitions:** Phase documents should be comprehensive and actionable, following the phase document template structure. Tasks may focus on documentation, process improvements, and workflow integration rather than TDD. They serve as the primary implementation guide for each improvement step. Use `/task-improvement` command to implement (not `/task-phase`).
-- **Documentation phases:** For phases that are primarily documentation (like creating markdown files), order tasks so that: (1) content is created first, (2) linking/integration is done second, (3) verification is done last.
+- [ ] Phase scaffolding created for each phase
+- [ ] Status indicator: `🔴 Scaffolding (needs expansion)`
+- [ ] Placeholder message guides to expansion command
+- [ ] Goals, criteria, dependencies extracted from source
+- [ ] NO detailed TDD tasks (reserved for Expand Mode)
 
 ---
 
 ### 6. Update Planning Hubs
 
-**Update relevant hub files:**
+**Update hub files with scaffolding links:**
 
-1. **Release Hub:**
+1. **Feature Hub:**
+   - File: `docs/maintainers/planning/features/[feature-name]/README.md`
+   - Add phase scaffolding links with `🔴 Scaffolding` status
+   - Add transition plan link
 
+2. **Release Hub:**
    - File: `docs/maintainers/planning/releases/README.md`
    - Update release status
    - Add transition plan link
 
-2. **Feature Hub:**
-
-   - File: `docs/maintainers/planning/features/README.md` (if exists)
-   - Update feature status
-   - Add transition plan link
-   - Add phase document links (if created)
-
 3. **CI/CD Hub:**
    - File: `docs/maintainers/planning/ci/README.md` (if exists)
-   - Update improvement status
-   - Add transition plan link
-   - Add phase document links (if created)
+   - Add phase links with scaffolding status
+
+**Example hub entry:**
+
+```markdown
+| Phase | Name | Status |
+|-------|------|--------|
+| [Phase 1](phase-1.md) | Foundation | 🔴 Scaffolding |
+| [Phase 2](phase-2.md) | Implementation | 🔴 Scaffolding |
+```
 
 **Checklist:**
 
+- [ ] Feature hub updated with scaffolding links
 - [ ] Release hub updated (if release transition)
-- [ ] Feature hub updated (if feature transition)
-- [ ] Phase document links added to feature hub (if phase documents created)
 - [ ] CI/CD hub updated (if CI/CD transition)
-- [ ] Phase document links added to CI/CD hub (if phase documents created)
+- [ ] Phase status shows `🔴 Scaffolding`
 - [ ] Hub links verified
 
 ---
@@ -703,36 +789,456 @@ Depending on the phase type, use the appropriate task ordering pattern:
 **Present to user:**
 
 ```markdown
-## Transition Plan Complete
+## Setup Mode Complete - Scaffolding Ready
 
-**Source:** [artifact-file or reflection-file]
-**Type:** [Release/Feature/CI/CD/Infrastructure]
+**Source:** [artifact-file or ADR]
+**Type:** [Release/Feature/CI/CD]
 
-### Transition Planning Documents Created
+### Documents Created
 
-- `transition-plan.md` - Detailed transition plan
-- `phase-1.md`, `phase-2.md`, `phase-3.md`, etc. - Detailed phase documents (for feature transitions)
-- Updated artifact files with transition details
+- `transition-plan.md` - Transition overview
+- `phase-1.md`, `phase-2.md`, etc. - Phase scaffolding (~60-80 lines each)
 
-### Transition Steps
+### Scaffolding Summary
 
-- [N] steps/phases identified
-- Estimated effort: [X] hours
-- Estimated duration: [Y] days
-
-### Phase Documents (Feature Transitions)
-
-- [N] phase documents created
-- Each phase document includes: Overview, Goals, Tasks (TDD flow), Completion Criteria, Deliverables, Dependencies, Implementation Notes
-- Phase documents follow work-prod structure (~300+ lines each)
+- [N] phases created
+- Status: 🔴 Scaffolding (needs expansion)
+- Estimated effort: [X] hours (total)
 
 ### Next Steps
 
-1. Review transition plan
-2. Review phase documents (if created)
-3. Begin implementation when ready
-4. Use `/task-phase` to implement phases (reads `phase-#.md` files)
-5. Use `/task-release` or `/pr` commands for releases
+1. **Review scaffolding** - Verify phase breakdown is correct
+2. **Expand phases** - Run `/transition-plan [topic] --expand --phase N` for each phase
+3. **Implement** - Use `/task-phase` to implement expanded phases
+
+### Quick Commands
+
+- Expand Phase 1: `/transition-plan [topic] --expand --phase 1`
+- Expand all phases: `/transition-plan [topic] --expand --all`
+```
+
+---
+
+## Expand Mode Workflow (`--expand`)
+
+**When to use:** After scaffolding has been created (Setup Mode), use Expand Mode to fill in detailed TDD tasks.
+
+**Prerequisite:** Phase scaffolding documents must exist with status `🔴 Scaffolding`.
+
+---
+
+### 1. Identify Phase(s) to Expand
+
+**Determine scope:**
+
+1. **Specific Phase** (`--phase N`):
+   - Expand only the specified phase
+   - Useful for incremental progress
+   - Example: `/transition-plan [topic] --expand --phase 1`
+
+2. **All Phases** (`--all`):
+   - Expand all scaffolding phases at once
+   - Useful after reviewing all scaffolding
+   - Example: `/transition-plan [topic] --expand --all`
+
+3. **Interactive** (no flag):
+   - List phases with status
+   - Prompt user to select phase
+   - Show which phases need expansion (`🔴 Scaffolding`)
+
+**Read phase scaffolding document:**
+
+```bash
+# Find phase documents
+ls docs/maintainers/planning/features/[feature]/phase-*.md
+
+# Check scaffolding status
+grep "Status:" docs/maintainers/planning/features/[feature]/phase-1.md
+```
+
+**Checklist:**
+
+- [ ] Phase(s) to expand identified
+- [ ] Phase document exists
+- [ ] Phase status is `🔴 Scaffolding`
+
+---
+
+### 2. Read Phase Scaffolding
+
+**Extract from scaffolding:**
+
+- Phase number and name
+- Goals (list of objectives)
+- Task categories (high-level groupings)
+- Completion criteria (success measures)
+- Deliverables (expected outputs)
+- Dependencies (prerequisites and blocks)
+
+**Identify expansion needs:**
+
+- Which task categories need TDD breakdown?
+- What code examples are needed?
+- What implementation notes would help?
+
+**Example scaffolding extraction:**
+
+```markdown
+# From phase-1.md scaffolding:
+Goals:
+1. Add Setup Mode subsection
+2. Add Expand Mode subsection
+3. Document mode selection
+
+Task Categories:
+- Setup Mode Documentation
+- Expand Mode Documentation
+- Flag Documentation
+
+Deliverables:
+- Updated Workflow Overview section
+```
+
+**Checklist:**
+
+- [ ] Phase scaffolding read
+- [ ] Goals extracted
+- [ ] Task categories identified
+- [ ] Deliverables understood
+
+---
+
+### 3. Determine TDD vs Non-TDD
+
+**TDD Ordering applies when:**
+
+- Phase involves code implementation
+- Phase involves script creation
+- Phase involves testable functionality
+
+**Non-TDD Ordering for:**
+
+- Documentation-only phases
+- Configuration phases
+- Planning phases
+
+**Task Ordering Patterns:**
+
+| Phase Type | Task Order | Example |
+|------------|------------|---------|
+| **Code + Tests (TDD)** | Tests → Implementation → Docs | Write tests, implement code, document |
+| **Scripts (TDD)** | Tests → Script → Integration | Write bats tests, create script, integrate |
+| **Documentation Only** | Create → Link → Verify | Create docs, add links, verify links work |
+| **Configuration** | Plan → Implement → Validate | Define config, apply changes, verify |
+
+**Decision Logic:**
+
+```
+IF phase creates code or scripts:
+  → Use TDD ordering (RED → GREEN → REFACTOR)
+ELSE IF phase creates documentation:
+  → Use Create → Link → Verify ordering
+ELSE:
+  → Use logical dependency ordering
+```
+
+**Checklist:**
+
+- [ ] Phase type determined (code/script/docs/config)
+- [ ] Task ordering pattern selected
+- [ ] TDD applicability decided
+
+---
+
+### 4. Expand Tasks with Detail
+
+**This is the core expansion step.** Transform task categories into detailed, actionable tasks.
+
+**For TDD phases (code/scripts):**
+
+**TDD Task Structure:**
+
+```markdown
+### Task N: [Task Name]
+
+**Purpose:** [Why this task exists]
+
+**TDD Flow:**
+
+1. **RED - Write failing test:**
+   - [ ] Create test file: `tests/test_[feature].py`
+   - [ ] Write test for [specific behavior]
+   - [ ] Verify test fails (no implementation yet)
+
+   **Test code:**
+   ```python
+   def test_feature_behavior():
+       # Arrange
+       ...
+       # Act
+       result = feature_function()
+       # Assert
+       assert result == expected
+   ```
+
+2. **GREEN - Implement minimum code:**
+   - [ ] Create implementation file: `src/[feature].py`
+   - [ ] Write minimum code to pass test
+   - [ ] Run test, verify it passes
+
+   **Implementation:**
+   ```python
+   def feature_function():
+       # Minimum implementation
+       return expected
+   ```
+
+3. **REFACTOR - Clean up:**
+   - [ ] Review code for improvements
+   - [ ] Extract helper functions if needed
+   - [ ] Ensure tests still pass
+
+**Checklist:**
+- [ ] Test written and failing
+- [ ] Implementation passes test
+- [ ] Code refactored and clean
+```
+
+**For Documentation phases:**
+
+```markdown
+### Task N: [Task Name]
+
+**Purpose:** [Why this task exists]
+
+- [ ] Read existing content to understand current state
+- [ ] Create new content as specified
+- [ ] Verify content is complete and accurate
+- [ ] Update any cross-references
+
+**Content to Add:**
+```markdown
+[Specific markdown content to add]
+```
+
+**Checklist:**
+- [ ] Content created
+- [ ] Links verified
+- [ ] Cross-references updated
+```
+
+**Expansion adds:**
+
+| Section | Scaffolding | After Expansion |
+|---------|-------------|-----------------|
+| Tasks | Categories only | Full TDD breakdown |
+| Code Examples | None | Language-specific samples |
+| Testing Commands | None | Specific commands to run |
+| Implementation Notes | None | Patterns, tips, examples |
+| Progress Tracking | None | Task status table |
+
+**Target expansion:**
+
+- Scaffolding: ~60-80 lines
+- Expanded: ~200-300 lines
+- Added: ~150-200 lines of detail
+
+**Checklist:**
+
+- [ ] Task categories expanded to full tasks
+- [ ] TDD flow added where applicable
+- [ ] Code examples included
+- [ ] Testing commands documented
+- [ ] Implementation notes added
+
+---
+
+### 5. Update Phase Status
+
+**Update status in phase document:**
+
+**Header:**
+```markdown
+# Before:
+**Status:** 🔴 Scaffolding (needs expansion)
+
+# After:
+**Status:** ✅ Expanded
+```
+
+**Footer:**
+```markdown
+# Before:
+**Status:** 🔴 Scaffolding  
+**Next:** Expand with `/transition-plan [topic] --expand --phase [N]`
+
+# After:
+**Status:** ✅ Expanded  
+**Next:** Begin implementation with Task 1
+```
+
+**Remove placeholder message:**
+
+```markdown
+# Remove this from Tasks section:
+> ⚠️ **Scaffolding:** Run `/transition-plan [topic] --expand --phase [N]` to add detailed TDD tasks.
+```
+
+**Add progress tracking table:**
+
+```markdown
+## 📊 Progress Tracking
+
+| Task | Status | Notes |
+|------|--------|-------|
+| Task 1: [Name] | 🔴 Not Started | |
+| Task 2: [Name] | 🔴 Not Started | |
+```
+
+**Checklist:**
+
+- [ ] Header status updated to `✅ Expanded`
+- [ ] Footer status updated
+- [ ] Placeholder message removed
+- [ ] Progress tracking table added
+
+---
+
+### 6. Update Hub Status
+
+**Update feature hub (README.md):**
+
+```markdown
+# Before:
+| [Phase 1](phase-1.md) | Workflow Overview | 🔴 Scaffolding |
+
+# After:
+| [Phase 1](phase-1.md) | Workflow Overview | ✅ Expanded |
+```
+
+**Update status-and-next-steps.md:**
+
+```markdown
+# Before:
+| Phase 1: Workflow Overview | 🔴 Scaffolding | 0% | Needs expansion |
+
+# After:
+| Phase 1: Workflow Overview | ✅ Expanded | 0% impl | Ready for implementation |
+```
+
+**Checklist:**
+
+- [ ] Feature hub updated
+- [ ] Status document updated
+- [ ] Phase listed as ready for implementation
+
+---
+
+### 7. Commit Changes
+
+**Commit expanded phase:**
+
+**Since expansion is documentation-only, use docs workflow:**
+
+```bash
+# Stage expanded phase
+git add docs/maintainers/planning/features/[feature]/phase-N.md
+git add docs/maintainers/planning/features/[feature]/README.md
+git add docs/maintainers/planning/features/[feature]/status-and-next-steps.md
+
+# Commit with descriptive message
+git commit -m "docs(planning): expand Phase N scaffolding with detailed tasks
+
+Expand Phase N ([Name]) from ~[X] lines scaffolding to ~[Y] lines
+with detailed implementation tasks:
+
+- Task 1: [Name]
+- Task 2: [Name]
+- ...
+
+Includes [TDD breakdown / documentation steps / etc.]"
+
+# Push to develop (docs can push directly)
+git push origin develop
+```
+
+**Checklist:**
+
+- [ ] Changes committed
+- [ ] Commit message descriptive
+- [ ] Pushed to develop
+
+---
+
+### Flag Handling
+
+**`--phase N` Flag:**
+
+```
+/transition-plan [topic] --expand --phase N
+
+Validation:
+- Check phase-N.md exists
+- Check status is 🔴 Scaffolding
+- Error if phase already expanded
+
+Processing:
+- Expand single phase
+- Update phase status
+- Update hub
+- Commit changes
+```
+
+**`--all` Flag:**
+
+```
+/transition-plan [topic] --expand --all
+
+Processing:
+- Find all phase-*.md files with 🔴 Scaffolding status
+- Expand each phase in order (1, 2, 3, ...)
+- Update each phase status
+- Update hub once at end
+- Single commit for all expansions
+```
+
+**Error Handling:**
+
+| Error | Message | Action |
+|-------|---------|--------|
+| Phase not found | "Phase N does not exist" | List available phases |
+| Already expanded | "Phase N already expanded" | Skip or use --force |
+| No scaffolding | "No scaffolding phases found" | Run setup mode first |
+
+---
+
+### Summary Report
+
+**Present to user after expansion:**
+
+```markdown
+## Expand Mode Complete
+
+**Phase:** Phase [N] - [Name]
+**Status:** 🔴 Scaffolding → ✅ Expanded
+
+### Expansion Summary
+
+- Lines: ~[X] → ~[Y] (+[Z] lines)
+- Tasks: [N] detailed tasks added
+- TDD: [Yes/No] - [TDD flow / documentation flow]
+
+### Tasks Added
+
+1. Task 1: [Name]
+2. Task 2: [Name]
+...
+
+### Next Steps
+
+1. Review expanded phase document
+2. Begin implementation: `/task-phase [N] 1`
+3. Or expand next phase: `/transition-plan [topic] --expand --phase [N+1]`
 ```
 
 ---
@@ -1030,13 +1536,100 @@ Depending on the phase type, use the appropriate task ordering pattern:
 
 ---
 
+### Issue: Phase Already Expanded
+
+**Symptom:** Error when trying to expand a phase that's already expanded.
+
+**Solution:**
+
+- Check phase status: `grep "Status:" phase-N.md`
+- If `✅ Expanded`, phase is already done
+- Use `--force` to re-expand (overwrites existing content)
+- Or edit phase document directly
+
+---
+
+### Issue: No Scaffolding Found
+
+**Symptom:** `--expand` fails because no scaffolding exists.
+
+**Solution:**
+
+- Run setup mode first: `/transition-plan --from-adr [path]`
+- Check phase files exist: `ls docs/maintainers/planning/features/[feature]/phase-*.md`
+- Verify status is `🔴 Scaffolding`
+
+---
+
+### Issue: Scaffolding Structure Incorrect
+
+**Symptom:** After setup, phase breakdown doesn't match expectations.
+
+**Solution:**
+
+- Edit scaffolding files directly before expanding
+- Adjust phase boundaries in `transition-plan.md`
+- Re-run setup with different source if needed
+- Scaffolding is meant for human review - modify as needed
+
+---
+
+### Issue: TDD Ordering Wrong After Expand
+
+**Symptom:** Tasks not in test-first order after expansion.
+
+**Solution:**
+
+- Edit phase document to reorder tasks
+- Ensure test tasks come before implementation tasks
+- Check "Determine TDD vs Non-TDD" logic in expansion
+- For documentation phases, TDD ordering may not apply
+
+---
+
 ## Tips
+
+### When to Use Each Mode
+
+**Setup Mode (default):**
+
+- First time creating transition plan from new source
+- When you want to review phase structure before detail
+- When working with unfamiliar ADRs or artifacts
+- When multiple stakeholders need to approve structure
+
+**Expand Mode (`--expand`):**
+
+- After scaffolding has been reviewed and approved
+- When ready to add implementation detail
+- Before starting `/task-phase` implementation
+- When TDD task ordering is needed
+
+**Incremental vs Batch:**
+
+| Approach | Flag | When to Use |
+|----------|------|-------------|
+| **Incremental** | `--phase N` | Complex phases, want to review each |
+| **Batch** | `--all` | Simple phases, already reviewed scaffolding |
+
+**Rule of Thumb:**
+
+- If unsure → Use Setup Mode first, review, then expand
+- If familiar with source → Can use `--expand --all` directly
+
+---
 
 ### Before Running
 
-- Ensure artifacts exist (or use `--from-reflection`)
-- Review artifact content for completeness
-- Determine desired transition type
+- **For Setup Mode:**
+  - Ensure source exists (ADRs, artifacts, or reflection)
+  - Review source content for completeness
+  - Determine desired transition type
+
+- **For Expand Mode:**
+  - Ensure scaffolding exists (run setup first)
+  - Review scaffolding for correct phase breakdown
+  - Decide on incremental (`--phase N`) vs batch (`--all`)
 
 ### During Planning
 
@@ -1049,6 +1642,95 @@ Depending on the phase type, use the appropriate task ordering pattern:
 - Review transition plan for completeness
 - Update plan with additional context if needed
 - Begin implementation when ready
+
+---
+
+## Common Scenarios
+
+### Scenario 1: Setup Scaffolding Only
+
+**Use case:** Create scaffolding for human review before expanding.
+
+```bash
+# From ADRs
+/transition-plan --from-adr decisions/auth-system/
+
+# Output:
+# - transition-plan.md
+# - phase-1.md (🔴 Scaffolding)
+# - phase-2.md (🔴 Scaffolding)
+# - phase-3.md (🔴 Scaffolding)
+```
+
+**Next:** Review scaffolding, then use `--expand` when ready.
+
+---
+
+### Scenario 2: Expand Single Phase
+
+**Use case:** Incrementally expand one phase at a time.
+
+```bash
+# Review scaffolding first
+cat docs/maintainers/planning/features/auth-system/phase-1.md
+
+# Expand Phase 1 only
+/transition-plan auth-system --expand --phase 1
+
+# Output:
+# - phase-1.md updated (✅ Expanded, ~200-300 lines)
+```
+
+**Next:** Implement Phase 1 with `/task-phase`, then expand Phase 2.
+
+---
+
+### Scenario 3: Expand All Phases
+
+**Use case:** Expand all scaffolding at once after review.
+
+```bash
+# After reviewing all scaffolding
+/transition-plan auth-system --expand --all
+
+# Output:
+# - phase-1.md (✅ Expanded)
+# - phase-2.md (✅ Expanded)
+# - phase-3.md (✅ Expanded)
+```
+
+**Next:** Begin implementation with `/task-phase phase-1`.
+
+---
+
+### Scenario 4: Full Workflow (End-to-End)
+
+**Use case:** Complete workflow from ADRs to expanded phases.
+
+```bash
+# Step 1: Create scaffolding
+/transition-plan --from-adr decisions/auth-system/
+
+# Step 2: Review scaffolding (human review)
+# - Check phase breakdown
+# - Verify goals and criteria
+# - Confirm dependencies
+
+# Step 3: Expand all phases
+/transition-plan auth-system --expand --all
+
+# Step 4: Implement
+/task-phase phase-1
+/task-phase phase-2
+...
+```
+
+**Timeline:**
+
+- Setup: ~5-10 min
+- Human review: Variable
+- Expand: ~5-10 min per phase
+- Implement: Per phase estimate
 
 ---
 
@@ -1090,6 +1772,6 @@ Depending on the phase type, use the appropriate task ordering pattern:
 
 ---
 
-**Last Updated:** 2025-12-07
-**Status:** ✅ Active
-**Next:** Use after `/decision` to transition from ADRs to planning, or use `--from-reflection` or `--from-artifacts` for other workflows (supports feature-specific and project-wide structures)
+**Last Updated:** 2025-12-15  
+**Status:** ✅ Active  
+**Next:** Use after `/decision` to transition from ADRs to planning, or use `--from-reflection` or `--from-artifacts` for other workflows (supports feature-specific and project-wide structures, enforces TDD task ordering)
