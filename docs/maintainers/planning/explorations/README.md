@@ -2,7 +2,7 @@
 
 **Purpose:** Active explorations and proof of concepts  
 **Status:** ✅ Active  
-**Last Updated:** 2026-01-09
+**Last Updated:** 2026-02-21
 
 ---
 
@@ -10,6 +10,7 @@
 
 ### Active Explorations
 
+- **[Codebase Ownership Recovery](codebase-ownership-recovery/README.md)** - How to develop genuine technical understanding of AI-assisted code (🔴 Scaffolding)
 - **[Field Enrichment](field-enrichment/README.md)** - Explore how to populate and manage project fields across creation, scanning, and ongoing use (🔴 Exploration)
 
 ---
@@ -27,4 +28,4 @@ This directory contains active explorations, proof of concepts, and abstract ide
 
 ---
 
-**Last Updated:** 2026-01-09
+**Last Updated:** 2026-02-21
