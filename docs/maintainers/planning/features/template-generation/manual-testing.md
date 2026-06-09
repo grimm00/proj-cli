@@ -1,8 +1,8 @@
 # Manual Testing Guide - Template Generation Extension
 
 **Feature:** Template Generation Extension  
-**Phases Covered:** 1-6  
-**Last Updated:** 2026-01-06  
+**Phases Covered:** 1-6, Expected Skills Validation (PR #31)  
+**Last Updated:** 2026-06-09  
 **Status:** ✅ Active
 
 ---
@@ -1088,6 +1088,123 @@ rm -rf /tmp/proj-test/api-disabled-test
 
 ---
 
+## 🧪 Expected Skills Validation (ADR-001 / PR #31)
+
+After template creation, `proj create` checks `.dev-infra.yml` for `expected_skills` and warns (never errors) when any are missing from global skill roots.
+
+**Prerequisites:**
+
+- `proj-cli` installed in development mode (`pip install -e .`)
+- dev-infra templates with `expected_skills` in `.dev-infra.yml` available
+- Terminal access
+
+---
+
+### Scenario 5.1: Missing Skills Show Warning Without Blocking
+
+**Objective:** Verify that missing expected skills produce a warning but project creation still succeeds (exit code 0).
+
+**Steps:**
+
+1. Ensure no skills are installed under `~/.cursor/skills/` or `~/.claude/skills/` for the identifiers listed in the template's `.dev-infra.yml`:
+   ```bash
+   # Check what skills the template expects
+   cat ~/Projects/dev-infra/templates/standard-project/.dev-infra.yml | grep -A 20 expected_skills
+   ```
+
+2. Create a project using the template:
+   ```bash
+   proj create test-skills-warn --template standard-project --local-only --no-register --target-dir /tmp/proj-test
+   ```
+
+3. Observe output.
+
+**Expected Result:** ✅
+
+- Exit code is 0 (creation succeeds)
+- Output includes `⚠ Missing expected workflow skills (N of M)`
+- Each missing skill is listed with a `•` bullet
+- Install guidance mentioning ADR-002 is shown in dim text
+- The `✓ Created project from template:` success message still appears
+
+---
+
+### Scenario 5.2: All Skills Present — No Warning
+
+**Objective:** Verify that when all expected skills are installed, no warning is emitted.
+
+**Steps:**
+
+1. Check which skills the template expects:
+   ```bash
+   cat ~/Projects/dev-infra/templates/standard-project/.dev-infra.yml | grep -A 20 expected_skills
+   ```
+
+2. Create placeholder directories for each expected skill:
+   ```bash
+   # Example (adjust names to match template):
+   mkdir -p ~/.cursor/skills/explore
+   mkdir -p ~/.cursor/skills/research
+   ```
+
+3. Create a project:
+   ```bash
+   proj create test-skills-ok --template standard-project --local-only --no-register --target-dir /tmp/proj-test
+   ```
+
+4. Observe output.
+
+**Expected Result:** ✅
+
+- Exit code is 0
+- No `⚠ Missing expected workflow skills` warning appears
+- The `✓ Created project from template:` success message appears normally
+
+5. Clean up placeholder skill directories:
+   ```bash
+   # Remove only if you created them for testing
+   rmdir ~/.cursor/skills/explore ~/.cursor/skills/research 2>/dev/null
+   ```
+
+---
+
+### Scenario 5.3: Template Without expected_skills — Silent
+
+**Objective:** Verify that templates without an `expected_skills` manifest produce no warning.
+
+**Steps:**
+
+1. Create a minimal template without `expected_skills`:
+   ```bash
+   mkdir -p /tmp/proj-test/templates/bare-project
+   echo "# [Project Name]" > /tmp/proj-test/templates/bare-project/README.md
+   ```
+
+2. Create a project (with custom templates source, or use a template that lacks `expected_skills`):
+   ```bash
+   proj create test-no-manifest --template learning-project --local-only --no-register --target-dir /tmp/proj-test
+   ```
+
+3. Observe output.
+
+**Expected Result:** ✅
+
+- Exit code is 0
+- No skills-related output at all
+- Normal creation flow completes
+
+---
+
+## ✅ Acceptance Criteria — Expected Skills Validation (PR #31)
+
+**Warn-Not-Error Contract:**
+
+- [ ] Scenario 5.1: Missing skills warn without blocking creation
+- [ ] Scenario 5.2: All skills present — no warning
+- [ ] Scenario 5.3: No `expected_skills` manifest — silent
+
+---
+
 ## 🧹 Cleanup After Testing
 
 ```bash
@@ -1134,4 +1251,4 @@ rm -rf /tmp/proj-test
 
 ---
 
-**Last Updated:** 2026-01-07
+**Last Updated:** 2026-06-09
