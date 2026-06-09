@@ -26,8 +26,11 @@ def load_expected_skills(project_path: Path) -> list[str]:
     if not meta_path.is_file():
         return []
 
-    with meta_path.open(encoding="utf-8") as handle:
-        data = yaml.safe_load(handle) or {}
+    try:
+        with meta_path.open(encoding="utf-8") as handle:
+            data = yaml.safe_load(handle) or {}
+    except yaml.YAMLError:
+        return []
 
     skills = data.get("expected_skills") or []
     if not isinstance(skills, list):
@@ -41,7 +44,7 @@ def is_skill_installed(
     skill_roots: Optional[tuple[Path, ...]] = None,
 ) -> bool:
     """Return True when a skill directory exists under any global skills root."""
-    roots = skill_roots or DEFAULT_SKILL_ROOTS
+    roots = DEFAULT_SKILL_ROOTS if skill_roots is None else skill_roots
     for root in roots:
         if (root / skill_name).is_dir():
             return True

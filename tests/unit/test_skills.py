@@ -32,6 +32,19 @@ def test_load_expected_skills_missing_file_returns_empty(tmp_path):
     assert load_expected_skills(tmp_path) == []
 
 
+def test_load_expected_skills_malformed_yaml_returns_empty(tmp_path):
+    (tmp_path / ".dev-infra.yml").write_text(
+        "expected_skills:\n  - explore\n  bad: [unbalanced",
+        encoding="utf-8",
+    )
+    assert load_expected_skills(tmp_path) == []
+
+
+def test_is_skill_installed_empty_roots_returns_false(tmp_path):
+    """An explicitly empty skill_roots tuple should not fall back to defaults."""
+    assert is_skill_installed("anything", skill_roots=()) is False
+
+
 def test_is_skill_installed_checks_cursor_and_claude_roots(tmp_path):
     cursor_root = tmp_path / ".cursor" / "skills"
     claude_root = tmp_path / ".claude" / "skills"
