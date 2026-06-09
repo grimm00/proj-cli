@@ -82,4 +82,5 @@ from proj.templates import (
     list_templates,
     TemplateError,
 )
+from proj.skills import warn_missing_expected_skills
 from rich.prompt import Prompt

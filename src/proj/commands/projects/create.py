@@ -15,6 +15,8 @@ from proj.error_handler import (
     TimeoutError,
 )
 
+from proj.skills import warn_missing_expected_skills
+
 from .helpers import sync_to_api, get_package_imports
 
 # Use console from helpers to avoid duplicate instance
@@ -415,6 +417,9 @@ def create_project(
                             "[yellow]⚠ Failed to initialize git "
                             "repository[/yellow]"
                         )
+
+                # Warn on missing expected skills (never block — FR-BNDL-3)
+                warn_missing_expected_skills(project_path, console)
 
                 # Register project (unless --no-register)
                 if register:
