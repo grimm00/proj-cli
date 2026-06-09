@@ -97,17 +97,19 @@ fix/
 - [PR #12 Fix Tracking](pr12/README.md) - 8 issues (7 Sourcery + 1 manual testing)
 - [PR #13 Fix Tracking](pr13/README.md) - 2 batches (req reconciliation, placeholder refactor)
 - [PR #14 Fix Tracking](pr14/README.md) - 6 issues (1 HIGH security, 2 MEDIUM, 3 LOW)
+- [PR #31 Fix Tracking](pr31/README.md) - 3 issues (2 fixed in-line, 1 LOW deferred)
 - [Sourcery Review PR #8](../../../feedback/sourcery/pr8.md)
 - [Sourcery Review PR #9](../../../feedback/sourcery/pr9.md)
 - [Sourcery Review PR #10](../../../feedback/sourcery/pr10.md)
 - [Sourcery Review PR #11](../../../feedback/sourcery/pr11.md)
 - [Sourcery Review PR #12](../../../feedback/sourcery/pr12.md)
 - [Sourcery Review PR #13](../../../feedback/sourcery/pr13.md)
+- [Sourcery Review PR #31](../../../feedback/sourcery/pr31.md)
 - [Deferred Tasks Collection](../../../feedback/deferred-tasks.md)
 
 ---
 
-**Last Updated:** 2026-01-07  
+**Last Updated:** 2026-06-09  
 **Status:** ✅ Active  
 **Next:** Use `/fix-implement` to implement remaining LOW priority batches (4 batches remaining, all HIGH, MEDIUM priority complete, 3 LOW batches complete)
 

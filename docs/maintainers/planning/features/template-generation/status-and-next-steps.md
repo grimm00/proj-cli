@@ -1,7 +1,7 @@
 # Template Generation Extension - Status & Next Steps
 
 **Feature:** Template Generation Extension  
-**Last Updated:** 2026-01-07  
+**Last Updated:** 2026-06-09  
 **Overall Status:** ✅ Feature Complete - Ready for v0.2.0 Release
 
 ---
@@ -51,6 +51,7 @@ Template creation now:
 - ✅ Initializes git repository
 - ✅ Registers in local registry
 - ✅ Syncs to work-prod API (when enabled)
+- ✅ Warns on missing expected skills (never blocks — ADR-001 FR-BNDL-3, PR #31)
 
 **Next action:** v0.2.0 release prep.
 
@@ -161,6 +162,17 @@ Deferred to future releases:
 ---
 
 ## 🔄 Recent Updates
+
+### 2026-06-09
+
+- ✅ **expected_skills Validation — MERGED** (PR #31)
+  - Companion to dev-infra ADR-001 skill-template-separation (Group 5)
+  - `src/proj/skills.py` — reads `expected_skills` from `.dev-infra.yml`
+  - Warn-not-error: missing skills emit warning, never block creation
+  - Checks `~/.cursor/skills/<name>/` and `~/.claude/skills/<name>/`
+  - Sourcery review: 2 issues fixed in-line (YAMLError + empty roots), 1 LOW deferred
+  - 10 new tests (unit + CLI integration)
+  - Manual testing scenarios 5.1-5.3 added to testing guide
 
 ### 2026-01-07
 
@@ -282,7 +294,7 @@ Deferred to future releases:
 
 ---
 
-**Last Updated:** 2026-01-07  
+**Last Updated:** 2026-06-09  
 **Status:** ✅ Feature Complete  
 **Next:** v0.2.0 release prep
 

@@ -11,8 +11,8 @@
 | Priority | Count |
 |----------|-------|
 | 🟡 MEDIUM | 1 |
-| 🟢 LOW | 1 |
-| **Total** | **2** |
+| 🟢 LOW | 2 |
+| **Total** | **3** |
 
 ---
 
@@ -46,6 +46,16 @@
 - **Description:** Extract a shared fixture (e.g., `isolated_config_home`) to replace duplicated `monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path))` setup across tests.
 - **Status:** ⏸️ Deferred
 
+#### Task 3: Avoid double-read of `.dev-infra.yml` in skills validation
+
+- **Source:** PR #31 - Sourcery Overall Comment #2
+- **Location:** `src/proj/skills.py` - `warn_missing_expected_skills` function
+- **Priority:** 🟢 LOW
+- **Impact:** 🟢 LOW
+- **Effort:** 🟢 LOW
+- **Description:** `warn_missing_expected_skills` calls `load_expected_skills` directly and then `find_missing_skills` which calls it again internally. Refactor to pass the already-loaded list or inline the logic to avoid parsing the manifest twice.
+- **Status:** ⏸️ Deferred
+
 ---
 
 ## PR Additions Log
@@ -55,7 +65,11 @@
 - Task 1: Add XDG isolation to env override tests (MEDIUM priority, LOW effort)
 - Task 2: Extract shared XDG isolation fixture (LOW priority, LOW effort)
 
+### PR #31 Additions (2026-06-09)
+
+- Task 3: Avoid double-read of `.dev-infra.yml` in skills validation (LOW priority, LOW effort)
+
 ---
 
-**Last Updated:** 2025-01-05
+**Last Updated:** 2026-06-09
 
